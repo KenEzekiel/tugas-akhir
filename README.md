@@ -1,6 +1,8 @@
-Template LaTeX Tesis & Paper Informatika ITB
+LaTeX Tesis Informatika ITB
 ===================================
+Tugas Akhir Kenneth Ezekiel Suprantoni - 13521089
 
+# Template Credits
 oleh:
 
 - Petra Novandi <me@petrabarus.net>
@@ -15,6 +17,7 @@ original repo:
 - Thesis <https://github.com/petrabarus/if-itb-latex/>  
 - Thesis <https://github.com/darkGrimoire/ta1-latex-itb>
 - Latex <https://github.com/alvinwilta/ieee-conference-latex>
+- Template <https://github.com/IloveNooodles/ta-paper-latex-itb>
 
 Dokumen ini merupakan templat LaTeX yang ditujukan untuk laporan
 tesis dan paper di program studi Teknik Informatika ITB. Template ini penulis
