@@ -1,0 +1,61 @@
+\section{Blockchain}
+
+\textit{Blockchain} adalah sekuens dari blok yang menyimpan daftar transaksi lengkap seperti \textit{public ledger} konvensional, dimana setiap \textit{ledger} disimpan pada \textit{node} yang tersebar seperti pada \textit{Distributed Ledger Technology} \parencite{zheng2018blockchain}. Setiap transaksi yang masuk ke dalam sebuah blok akan divalidasi sesuai dengan metrik yang digunakan oleh sistem \textit{blockchain}, dan blok yang memiliki daftar transaksi yang lengkap, ditambah \textit{timestamp} pembuatan blok, nilai \textit{hash} dari blok sebelumnya ("\textit{parent}"), dan sebuah \textit{nonce}, yang adalah sebuah angka acak yang digunakan untuk mekanisme verifikasi \textit{hash}. Konsep ini memastikan integritas dari \textit{blockchain} dimulai dari blok pertama ("\textit{genesis block}") sampai ke blok terakhir, yang terus ditambahkan, karena setiap perubahan data akan membuat nilai \textit{hash} dari sebuah blok berubah, yang harus dipropagasikan ke setiap blok setelahnya. Sebelum ditambahkan ke dalam \textit{blockchain}, setiap blok dan transaksi di dalamnya harus divalidasi oleh mayoritas \textit{node}, menggunakan sebuah mekanisme \textit{consensus} \parencite{nofer2017blockchain}. Mekanisme \textit{consensus} adalah proses dimana mayoritas dari \textit{network validator} menyetujui atau menolak sebuah \textit{state} dari \textit{ledger}. Proses \textit{consensus} mengikuti sebuah kumpulan aturan dan prosedur untuk mempertahankan himpunan fakta yang koheren diantara beberapa \textit{participating nodes}. Terdapat banyak mekanisme \textit{consensus} yang berbeda yang digunakan dalam \textit{blockchain network} yang berbeda. Dalam kasus \textit{Bitcoin}, \textit{ledger} yang dianggap \textit{ledger} yang \textit{valid} adalah \textit{ledger} dengan \textit{chain} terpanjang (\textit{longest chain}) \parencite{swanson2015consensus}.
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=1\textwidth]{resources/chapter-2/struktur-blockchain.png}
+	\caption{Struktur blok di dalam \textit{blockchain} \parencite{zheng2018blockchain}}
+	\label{image:struktur-blockchain}
+\end{figure}
+
+\break
+
+Struktur dari sebuah blok terdiri dari \textit{block header} dan \textit{block body} seperti pada gambar \ref{image:struktur-blok}. Secara spesifik, \textit{block header} terdiri dari:
+
+\begin{enumerate}
+	\item \textit{Block Version}: mengindikasikan set dari aturan validasi yang diikuti.
+	\item \textit{Parent Block Hash}: 256-bit \textit{hash} dari blok sebelumnya.
+	\item \textit{Merkle Tree Root}: hasil \textit{hash} dari seluruh transaksi pada blok menggunakan mekanisme \textit{Merkle Tree}.
+	\item \textit{Timestamp}: \textit{timestamp} saat ini dalam detik sejak 1970-01-01T00:00 UTC.
+	\item \textit{nBits}: target \textit{hash} saat ini dalam format \textit{compact}.
+	\item \textit{nonce}: \textit{number used only once}, sebuah angka yang digunakan untuk menambahkan tingkat keacakan dari nilai \textit{hash}.
+\end{enumerate}
+
+\begin{figure}
+	\centering
+	\includegraphics[width=0.7\textwidth]{resources/chapter-2/struktur-block.png}
+	\caption{Struktur blok \parencite{zheng2018blockchain}}
+	\label{image:struktur-blok}
+\end{figure}
+
+
+
+% \subsection{Contoh Subsubbab}
+% \label{subsec:contoh-subsec}
+
+
+
+% \subsubsection{Subsubsubbab}
+% \blindtext
+
+% \subsubsubsection{sub sub sub sub bab}
+% \blindtext
+
+% \begin{table}[h]
+% 	\caption{Tabel random}
+% 	\vspace{0.25cm}
+% 	\begin{center}
+% 		\begin{tabular}{|c|c|c|c|}
+% 			\hline
+% 			Title1 & Title2 & Title3 & Title4  \tabularnewline
+% 			\hline
+% 			1647   & 1.97   & 0.68   & 1.90 \tabularnewline
+% 			2301   & 2.92   & 1.06   & 2.75 \tabularnewline
+% 			2969   & 3.23   & 1.16   & 3.78 \tabularnewline
+% 			3791   & 4.39   & 1.40   & 4.14 \tabularnewline
+% 			4625   & 6.72   & 1.87   & 5.59 \tabularnewline
+% 			\hline
+% 		\end{tabular}
+% 	\end{center}
+% \end{table}
