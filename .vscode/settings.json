@@ -25,9 +25,9 @@
         "-file-line-error",
         "-pdf",
         "-bibtex",
-        "-outdir=../build",
+        "-outdir=..\\build",
         "-cd",
-        "./thesis.tex"
+        "%DIR_W32%\\thesis.tex"
       ],
       "env": {}
     },
@@ -40,9 +40,9 @@
         "-file-line-error",
         "-pdf",
         "-bibtex",
-        "-outdir=../build",
+        "-outdir=..\\build",
         "-cd",
-        "./yudisium.tex"
+        "%DIR_W32%\\yudisium.tex"
       ],
       "env": {}
     },
@@ -55,33 +55,36 @@
         "-file-line-error",
         "-pdf",
         "-bibtex",
-        "-outdir=../build",
+        "-outdir=..\\build",
         "-cd",
-        "./paper.tex"
+        "%DIR_W32%\\paper.tex"
       ],
       "env": {}
     },
     {
       "name": "latex_itb_move_thesis",
-      "command": "cp",
-      "args": ["-f", "%OUTDIR%/thesis.pdf", "%DIR%/../output/thesis.pdf"],
+      "command": "copy",
+      "args": ["%OUTDIR_W32%\\thesis.pdf", "%DIR_W32%\\..\\output\\thesis.pdf"],
       "env": {}
     },
     {
       "name": "latex_itb_move_yudisium",
-      "command": "cp",
-      "args": ["-f", "%OUTDIR%/yudisium.pdf", "%DIR%/../output/yudisium.pdf"],
+      "command": "copy",
+      "args": [
+        "%OUTDIR_W32%\\yudisium.pdf",
+        "%DIR_W32%\\..\\output\\yudisium.pdf"
+      ],
       "env": {}
     },
     {
       "name": "latex_itb_move_paper",
-      "command": "cp",
-      "args": ["-f", "%OUTDIR%/paper.pdf", "%DIR%/../output/paper.pdf"],
+      "command": "copy",
+      "args": ["%OUTDIR_W32%\\paper.pdf", "%DIR_W32%\\..\\output\\paper.pdf"],
       "env": {}
     }
   ],
   "latex-workshop.synctex.afterBuild.enabled": true,
-  "latex-workshop.latex.outDir": "%DIR%/../build",
+  "latex-workshop.latex.outDir": "%DIR_W32%\\..\\build",
   "latex-workshop.latex.autoBuild.run": "onSave",
   "editor.formatOnSave": true
 }
