@@ -30,28 +30,23 @@ Struktur dari sebuah blok terdiri dari \textit{block header} dan \textit{block b
 	\label{image:struktur-blok}
 \end{figure}
 
-\subsection{Smart Contracts}
-\label{subsec:smart-contracts}
+\subsection{Blockchain Properties}
+\label{subsec:blockchain-properties}
 
-\textit{Smart contracts} adalah sebuah protokol transaksi elektronik yang mengeksekusi kesepakatan dari sebuah kontrak. Klausa kesepakatan yang dimasukkan ke dalam sebuah \textit{smart contract} akan diberlakukan secara otomatis saat kondisi yang sesuai sudah tercapai. Sehingga, suatu pihak yang melanggar kontrak akan dihukum secara otomatis. \textit{Smart contract} adalah sebuah cara untuk meminimalisir kepercayaan kepada perantara pihak ketiga sebagai \textit{enforcer} dari sebuah kontrak \parencite{szabo1997formalizing}.
+Implementasi dari \textit{blockchain} memunculkan karakteristik dari \textit{blockchain} itu sendiri. Karakteristik ini dapat muncul secara inheren dari sistem dasar dimana \textit{blockchain} di bangun, ataupun muncul karena implementasi spesifik \textit{blockchain}. Beberapa karakteristik penting \textit{blockchain} \parencite{aimar2023extraction}:
 
-\textit{Smart contracts} adalah salah satu teknologi yang dimungkinkan oleh teknologi \textit{Blockchain}. Seluruh klausa kontraktual dalam sebuah \textit{smart contract} akan dikonversi menjadi sebuah bentuk \textit{executable computer programs}. Seluruh eksekusi dari setiap \textit{contract statement} direkam dan dimasukkan ke dalam transaksi yang \textit{immutable}, yang disimpan di dalam \textit{blockchain}. \textit{Smart contracts} juga dapat menjamin \textit{access control} yang tepat dan \textit{contract enforcement} yang deterministik, karena dijamin dalam seluruh \textit{logic} yang terdapat di dalam \textit{smart contract} tersebut \parencite{zheng2020overview}.
+\begin{itemize}
+	\item \textit{Decentralized}: Tidak ada sebuah entitas terpusat yang mengontrol \textit{network}. Seluruh \textit{participants} mengikuti protokol yang berlaku dan memiliki kontrol yang sama.
+	\item \textit{Distributed}: Komputasi dilakukan pada sejumlah \textit{node} atau komputer yang berbeda, yang tersebar dan saling berinteraksi melalui sebuah \textit{p2p network}. Kegagalan sebuah mesin seharusnya tidak mengganggu jalannya protokol.
+	\item \textit{Immutable}: Tidak memungkinkan untuk mengubah \textit{history} apapun yang sudah tertulis di dalam \textit{blockchain}. Setelah sebuah blok divalidasi dan dimasukkan ke dalam \textit{blockchain}, tidak dapat dimodifikasi.
+	\item \textit{Permissionless}: Semua orang dapat secara aktif berpartisipasi di dalam semua \textit{role} di dalam \textit{network} tanpa perlu meminta \textit{permission}.
+	\item \textit{Permissioned}: Mewajibkan seluruh aktor di dalam \textit{network} mendapatkan \textit{authorization} secara eksplisit.
+	\item \textit{Transparent}: Semua orang dapat secara independen melihat dan mengunduh data dari \textit{blockchain}.
+	\item \textit{Pseudoanonymous}: \textit{Participants} dalam sebuah \textit{blockchain network} tidak perlu membuktikan identitas asli mereka. Seluruh aktivitas di dalam \textit{network} akan disambungkan ke sebuah \textit{address}, bukan identitas asli seseorang.
+	\item \textit{Account-based}: \textit{Data} disimpan berdasarkan akun, dan setiap akun memiliki \textit{balance} yang dapat digunakan. Kepemilikan sebuah akun dibuktikan dengan kepemilikan \textit{private key} untuk akun tersebut.
+	\item \textit{UTXO-based}: Selain \textit{account-based}, model \textit{UTXO} hanya memiliki konsep dari transaksi. \textit{User} harus membuktikan bahwa mereka memiliki \textit{private key} untuk membuka kunci dari sebuah hasil transaksi untuk menggunakan \textit{balance} yang dimiliki. \textit{Balance} dari seorang \textit{user} adalah penjumlahan seluruh nilai dari hasil transaksi yang dapat dibuka dan digunakan.
+\end{itemize}
 
-\textit{Life cycle} dari sebuah \textit{smart contract} terdiri dari empat fase seperti pada ilustrasi di Gambar \ref{image:sc-lifecycle}:
-
-\begin{enumerate}
-	\item \textit{Creation}: negosiasi antar pihak untuk menyepakati ketentuan dari kontrak dalam \textit{natural language}, dan translasi menjadi \textit{smart contracts}.
-	\item \textit{Deployment}: kontrak yang sudah divalidasi dapat disimpan ke dalam \textit{blockchain}, menjadikannya tidak bisa dimodifikasi.
-	\item \textit{Execution}: Setelah \textit{deployment}, klausa kontraktual akan dimonitor, dan saat kondisi yang sesuai dengan yang terdefinisi dalam \textit{smart contract}, maka prosedur kontrak akan dieksekusi secara otomatis.
-	\item \textit{Completion}: Setelah eksekusi, \textit{state} baru dari semua pihak akan diperbarui sesuai dengan hasil dari transaksi yang terjadi dan disimpan ke dalam \textit{blockchain}. 
-\end{enumerate}
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.7\textwidth]{resources/chapter-2/sc-lifecycle.png}
-	\caption{\textit{Life cycle} dari \textit{smart contract} \parencite{zheng2020overview}}
-	\label{image:sc-lifecycle}
-\end{figure}
 
 % \subsection{Contoh Subsubbab}
 % \label{subsec:contoh-subsec}
