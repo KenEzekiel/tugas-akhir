@@ -11,10 +11,22 @@ RapidChain merupakan protokol blockchain publik berbasis \textit{sharding} perta
 RapidChain memberikan kebaruan sebagai berikut:
 
 \begin{itemize}
-  \item \textit{Sublinear Communication}: RapidChain adalah protokol blockchain berbasis \textit{sharding} pertama yang hanya memerlukan jumlah bit komunikasi sublinear (yaitu, $o(n)$) yang dipertukarkan di jaringan untuk setiap transaksi.
-  \item \textit{Higher Resiliency}: RapidChain adalah protokol sharding berbasis blockchain pertama yang mampu mentoleransi hingga sepertiga (kurang dari $\frac{1}{3}$) dari total node yang mungkin mengalami kerusakan atau korupsi, sementara protokol sebelumnya hanya mampu mentoleransi hingga seperempat ($\frac{1}{4}$) node yang rusak.
-  \item \textit{Rapid Committee Consensus}: RapidChain berhasil mengurangi overhead komunikasi dan latensi dalam konsensus antar node pada blok besar yang disebarkan di setiap komite hingga sekitar 3-10 kali dibandingkan solusi sebelumnya.
-  \item \textit{Secure Reconfiguration}: RapidChain menggunakan aturan Cuckoo untuk melindungi jaringan dari serangan \textit{Byzantine} yang adaptif secara perlahan. RapidChain juga memungkinkan node baru untuk bergabung ke dalam protokol tanpa gangguan atau penundaan dalam proses eksekusi protokol, sehingga menjaga kontinuitas jaringan.
-  \item \textit{Fast Cross-Shard Verification}: RapidChain memperkenalkan teknik baru dalam membagi blockchain, sehingga setiap node hanya perlu menyimpan $\frac{1}{k}$ dari keseluruhan blockchain. Untuk memverifikasi transaksi lintas \textit{shard}, komite-komite dalam RapidChain saling menemukan melalui mekanisme \textit{routing} yang efisien, terinspirasi dari Kademlia. Proses ini hanya memerlukan latensi dan penyimpanan yang bersifat logaritmik terhadap jumlah komite.
-  \item \textit{Decentralized Bootstrapping}: RapidChain beroperasi dalam lingkungan \textit{permissionless} yang memungkinkan keanggotaan terbuka, namun protokol ini tidak mengasumsikan adanya \textit{common randomness} awal, yang biasanya berupa blok \textit{genesis} umum. RapidChain dapat melakukan inisiasi (\textit{bootstrapping}) hanya dengan $O(n \sqrt{n})$ pesan tanpa asumsi adanya \textit{randomness} awal.
+  \item \textit{Sublinear Communication}
+  \item \textit{Higher Resiliency}
+  \item \textit{Rapid Committee Consensus}
+  \item \textit{Secure Reconfiguration}
+  \item \textit{Fast Cross-Shard Verification}
+  \item \textit{Decentralized Bootstrapping}
 \end{itemize}
+
+RapidChain terdiri dari tiga komponen utama, yaitu \textit{Bootstrap}, \textit{Consensus}, dan \textit{Reconfiguration}. Protokol akan dimulai dengan fase \textit{Bootstrap}, dan dilanjutkan dengan menggunakan iterasi \textit{epoch}, dimana setiap \textit{epoch} akan terdiri dari beberapa iterasi dari \textit{Consensus} yang diikuti dengan fase \textit{Reconfiguration}.
+
+Berikut merupakan penjelasan dari setiap fase:
+
+\begin{enumerate}
+  \item \textit{Bootstrapping}: Dalam fase ini, sebuah kelompok \textit{node} (\textit{root group}) menetapkan \textit{reference committee} dengan membangkitkan bit acak. \textit{Reference Committee} akan mengorganisasikan seluruh \textit{nodes} menjadi banyak \textit{committee} untuk pemrosesan transaksi secara paralel.
+  \item \textit{Consensus in Committee}: Setiap \textit{committee} akan mengeksekusi protokol konsensus dua tahap. Tahap \textit{Gossiping Protocol (IDA-Gossip)}, yang membagikan \textit{message} besar menjadi bagian-bagian dan mendistribusikannya secara efisien antar \textit{node} menggunakan \textit{Merkle tree proofs}. Tahap kedua adalah tahap \textit{Synchrononous Consensus}, untuk memastikan resiliensi yang lebih tinggi dengan memperbolehkan \textit{committee} untuk berfungsi dengan jumlah \textit{honest node} (diatas 50\%), untuk meningkatkan resiliensi sistem keseluruhan menjadi $\frac{1}{3}$ \textit{faulty node}. 
+  \item \textit{Cross-Shard Transactions}
+  \item \textit{Inter-Committee Routing}
+  \item \textit{Reconfiguration}
+\end{enumerate}
