@@ -1,0 +1,20 @@
+\section{Penelitian dan Riset Terkait}
+\label{sec:penelitian-riset-terkait}
+
+Berikut merupakan riset dan penelitian yang selaras dan juga menjadi komponen pendukung bagi tugas akhir ini.
+
+\subsection{RapidChain - Scaling Blockchain via Full Sharding}
+\label{subsec:rapidchain}
+
+RapidChain merupakan protokol blockchain publik berbasis \textit{sharding} pertama yang mampu mentoleransi \textit{Byzantine faults} sampai $\frac{1}{3}$ dari total partisipan, dan menggapai \textit{sharding} dari komunikasi, komputasi, dan \textit{overhead} penyimpanan secara menyeluruh. RapidChain menggunakan algoritma konsensus \textit{intra-committe} yang optimal sehingga dapat menggapai \textit{throughput} yang sangat tinggi menggunakan \textit{block pipelining}, \textit{novel gossiping protocol} untuk blok besar, dan mekanisme rekonfigurasi yang sudah terbukti aman untuk menjamin ketahanan. Untuk menghindari \textit{gossiping transactions} ke seluruh jaringan, RapidChain menggunakan teknik verifikasi transaksi \textit{cross-sharding} yang efisien.
+
+RapidChain memberikan kebaruan sebagai berikut:
+
+\begin{itemize}
+  \item \textit{Sublinear Communication}: RapidChain adalah protokol blockchain berbasis \textit{sharding} pertama yang hanya memerlukan jumlah bit komunikasi sublinear (yaitu, $o(n)$) yang dipertukarkan di jaringan untuk setiap transaksi.
+  \item \textit{Higher Resiliency}: RapidChain adalah protokol sharding berbasis blockchain pertama yang mampu mentoleransi hingga sepertiga (kurang dari $\frac{1}{3}$) dari total node yang mungkin mengalami kerusakan atau korupsi, sementara protokol sebelumnya hanya mampu mentoleransi hingga seperempat ($\frac{1}{4}$) node yang rusak.
+  \item \textit{Rapid Committee Consensus}: RapidChain berhasil mengurangi overhead komunikasi dan latensi dalam konsensus antar node pada blok besar yang disebarkan di setiap komite hingga sekitar 3-10 kali dibandingkan solusi sebelumnya.
+  \item \textit{Secure Reconfiguration}: RapidChain menggunakan aturan Cuckoo untuk melindungi jaringan dari serangan \textit{Byzantine} yang adaptif secara perlahan. RapidChain juga memungkinkan node baru untuk bergabung ke dalam protokol tanpa gangguan atau penundaan dalam proses eksekusi protokol, sehingga menjaga kontinuitas jaringan.
+  \item \textit{Fast Cross-Shard Verification}: RapidChain memperkenalkan teknik baru dalam membagi blockchain, sehingga setiap node hanya perlu menyimpan $\frac{1}{k}$ dari keseluruhan blockchain. Untuk memverifikasi transaksi lintas \textit{shard}, komite-komite dalam RapidChain saling menemukan melalui mekanisme \textit{routing} yang efisien, terinspirasi dari Kademlia. Proses ini hanya memerlukan latensi dan penyimpanan yang bersifat logaritmik terhadap jumlah komite.
+  \item \textit{Decentralized Bootstrapping}
+\end{itemize}
