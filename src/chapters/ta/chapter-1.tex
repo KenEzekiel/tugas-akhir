@@ -2,12 +2,29 @@
 
 % Bab Pendahuluan secara umum yang dijadikan landasan kerja dan arah kerja penulis tugas akhir, berfungsi mengantar pembaca untuk membaca laporan tugas akhir secara keseluruhan.
 
-% \section{Latar Belakang}
-% \label{sec:latarbelakang}
+Bab ini berisikan gambaran umum dan masalah yang akan diselesaikan oleh tugas akhir ini. Bab ini dimulai dari penjelasan latar belakang, yaitu kondisi aktual dari permasalahan yang akan diselesaikan, perumusan masalah yang didapatkan, dan dilanjutkan oleh tujuan yang ingin dicapai oleh tugas akhir dengan batasan masalah yang diangkat, dan juga metodologi dan jadwal pelaksanaan yang akan digunakan pada tugas akhir ini. 
+
+\section{Latar Belakang}
+\label{sec:latarbelakang}
 
 % Latar Belakang berisi dasar pemikiran, kebutuhan atau alasan yang menjadi ide dari topik tugas akhir. Tujuan utamanya adalah untuk memberikan informasi secukupnya kepada pembaca agar memahami topik yang akan dibahas.  Saat menuliskan bagian ini, posisikan anda sebagai pembaca – apakah anda tertarik untuk terus membaca?
+% ide dan kondisi aktual dari landscapenya sekarang
+Konsep dasar blockchain berakar pada karya \cite{haber1991time} yang memperkenalkan sebuah metode untuk mencatat dokumen dengan cap waktu yang tidak dapat diubah. Konsep dasar tersebut kemudian dikembangkan oleh \cite{nakamoto2008bitcoin}, dalam karyanya, Bitcoin Whitepaper, sebuah dokumen yang memperkenalkan konsep Bitcoin kepada dunia yang menggabungkan konsep \textit{digital timestamping} yang diperkenalkan oleh \cite{haber1991time} dengan konsep Kriptografi \parencite{hellman1976new} \parencite{standard1995secure}, Merkle Tree \parencite{merkle1987digital}, Konsensus \textit{Proof-of-Work} \parencite{dwork1992pricing}, dan \textit{Smart Contracts} \parencite{szabo1997formalizing}. Setelah perilisan Bitcoin pada tahun 2009, terdapat peningkatan eksponensial terhadap adopsi dan penelitian terkait blockchain dan cryptocurrency. Secara pasar finansial, dunia blockchain dan cryptocurrency sudah mencapai USD 26,91 miliar pada tahun 2024 \parencite{rosencrance2024top}, dan diprediksi untuk bertumbuh sampai USD 825,93 miliar pada tahun 2032. Pertumbuhan tersebut menandakan investasi yang tinggi pada teknologi blockchain, diiringi dengan perkembangan teknologi dan juga peluang yang bertumbuh pada teknologi blockchain. 
 
-% \section{Rumusan Masalah}
+Dengan diperkenalkannya Ethereum oleh \cite{buterin2013ethereum}, teknologi blockchain memperbolehkan \textit{smart contract} yang pertama diusulkan oleh \cite{szabo1997formalizing} untuk direalisasikan. Realisasi dari \textit{smart contract} membuka jalan yang luas dengan mereduksi resiko, biaya administrasi, meningkatkan efisiensi dari proses bisnis, dan mendukung banyak spektrum dari pengembangan aplikasi \parencite{zheng2020overview}. Meskipun \textit{smart contracts} memiliki potensi yang sangat besar untuk mengubah cara kerja proses bisnis konvensional dan mengefisiensikan sistem, masih terdapat banyak tantangan yang perlu dijawab, seperti masalah terkait \textit{privacy}, \textit{security}, \textit{interoperability}, dan lainnya.
+
+Penelitian ini berfokus untuk menjawab tantangan di dalam \textit{smart contract discovery}, yang akan berefek pada berbagai faktor seperti interoperabilitas, integritas, aksesibilitas, dan \textit{compliance}. Sebagai hasil dari penelitian ini, akan dibangun sebuah sistem yang memanfaatkan indeks data di dalam blockchain, dan menggunakan sebuah ekstensi dari \textit{semantic smart contract language} untuk mempermudah pencarian \textit{smart contract} bernama X. Perangkat lunak ini diharapkan dapat memperbolehkan pencarian \textit{smart contract} berdasarkan semantik, sebagai langkah pertama untuk mencapai interoperabilitas dan integrasi dari sistem pengembangan \textit{smart contract}.
+
+% dengan pembuatan sc discovery juga bisa dimanfaatkan untuk bikin package manager buat smart contract itu, tapi itu udah different topic, tapi harus dipikirin format yang jadi si sistem inituh bisa dipakai oleh banyak aplikasi dengan mudah, either dia json or something
+
+% (abis ini ngomongin, banyak juga riset paper yang rilis, sekitar X jumlahnya, yang menandakan bahwa teknologinya terus berkembang) Dengan diperkenalkannya Ethereum oleh  (nah ethereum memperkenalkan smart contract, dan disitu jadi muncul banyak isu buat optimasi seperti skalabilitas, security, privacy, dan salah satunya adalah interoperabilitas, nah si discovery ini bukan cuma interoperabilitas, tetapi juga (nah pikirin benefit apa yang muncul dengan si smart contract discovery inituh??))
+
+
+
+% setelah ini ngomongin terkait tren nya sekarang dan kenapa makin lama makin shift ke smart contract, kaya kenapa smart contract dipakai dan kenapa butuh, terus jadi ke gimana smart contract discovery itu akan dibutuhkan
+
+\section{Rumusan Masalah}
+\label{sec:rumusan-masalah}
 
 % Rumusan Masalah berisi masalah utama yang dibahas dalam tugas akhir. Rumusan masalah yang baik memiliki struktur sebagai berikut:
 
@@ -20,17 +37,23 @@
 
 % Penting untuk diperhatikan bahwa persoalan yang dideskripsikan pada subbab ini akan dipertanggungjawabkan di bab Evaluasi apakah terselesaikan atau tidak.
 
-% \section{Tujuan}
+\section{Tujuan}
+\label{sec:tujuan}
 
 % Tuliskan tujuan utama dan/atau tujuan detil yang akan dicapai dalam pelaksanaan tugas akhir. Fokuskan pada hasil akhir yang ingin diperoleh setelah tugas akhir diselesaikan, terkait dengan penyelesaian persoalan pada rumusan masalah. Penting untuk diperhatikan bahwa tujuan yang dideskripsikan pada subbab ini akan dipertanggungjawabkan di akhir pelaksanaan tugas akhir apakah tercapai atau tidak.
 
-% \section{Batasan Masalah}
+\section{Batasan Masalah}
+\label{sec:batasan-masalah}
 
 % Tuliskan batasan-batasan yang diambil dalam pelaksanaan tugas akhir. Batasan ini dapat dihindari (tidak perlu ada) jika topik/judul tugas akhir dibuat cukup spesifik.
 
-% \section{Metodologi}
+\section{Metodologi}
+\label{sec:metodologi}
 
 % Tuliskan semua tahapan yang akan dilalui selama pelaksanaan tugas akhir. Tahapan ini spesifik untuk menyelesaikan persoalan tugas akhir. Tahapan studi literatur tidak perlu dituliskan karena ini adalah pekerjaan yang harus Anda lakukan selama proses pelaksanaan tugas akhir.
+
+\section{Sistematika Pembahasan}
+\label{sec:sistematika-pembahasan}
 
 % \section{Jadwal Pelaksanaan Tugas Akhir}
 
