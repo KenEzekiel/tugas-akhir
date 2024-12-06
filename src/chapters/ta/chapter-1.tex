@@ -9,49 +9,56 @@ Bab ini berisikan gambaran umum dan masalah yang akan diselesaikan oleh tugas ak
 
 % Latar Belakang berisi dasar pemikiran, kebutuhan atau alasan yang menjadi ide dari topik tugas akhir. Tujuan utamanya adalah untuk memberikan informasi secukupnya kepada pembaca agar memahami topik yang akan dibahas.  Saat menuliskan bagian ini, posisikan anda sebagai pembaca – apakah anda tertarik untuk terus membaca?
 % ide dan kondisi aktual dari landscapenya sekarang
-Konsep dasar blockchain berakar pada karya \cite{haber1991time} yang memperkenalkan sebuah metode untuk mencatat dokumen dengan cap waktu yang tidak dapat diubah. Konsep dasar tersebut kemudian dikembangkan oleh \cite{nakamoto2008bitcoin}, dalam karyanya, Bitcoin Whitepaper, sebuah dokumen yang memperkenalkan konsep Bitcoin kepada dunia yang menggabungkan konsep \textit{digital timestamping} yang diperkenalkan oleh \cite{haber1991time} dengan konsep Kriptografi \parencite{hellman1976new} \parencite{standard1995secure}, Merkle Tree \parencite{merkle1987digital}, Konsensus Proof-of-Work \parencite{dwork1992pricing}, dan Smart Contracts \parencite{szabo1997formalizing}. Setelah perilisan Bitcoin pada tahun 2009, terdapat peningkatan eksponensial terhadap adopsi dan penelitian terkait blockchain dan cryptocurrency. Secara pasar finansial, dunia blockchain dan cryptocurrency sudah mencapai USD 26,91 miliar pada tahun 2024 \parencite{rosencrance2024top}, dan diprediksi untuk bertumbuh sampai USD 825,93 miliar pada tahun 2032. Pertumbuhan tersebut menandakan investasi yang tinggi pada teknologi blockchain, diiringi dengan perkembangan teknologi dan juga peluang yang bertumbuh pada teknologi blockchain. 
+Konsep dasar Blockchain berakar pada karya \cite{haber1991time} yang memperkenalkan sebuah metode untuk mencatat dokumen dengan cap waktu yang tidak dapat diubah. Konsep dasar tersebut kemudian dikembangkan oleh \cite{nakamoto2008bitcoin}, dalam karyanya, Bitcoin Whitepaper, sebuah dokumen yang memperkenalkan konsep Bitcoin kepada dunia yang menggabungkan konsep \textit{digital timestamping} yang diperkenalkan oleh \cite{haber1991time} dengan konsep Kriptografi \parencite{hellman1976new} \parencite{standard1995secure}, Merkle Tree \parencite{merkle1987digital}, Konsensus Proof-of-Work \parencite{dwork1992pricing}, dan Smart Contracts \parencite{szabo1997formalizing}. Setelah perilisan Bitcoin pada tahun 2009, terdapat peningkatan eksponensial terhadap adopsi dan penelitian terkait Blockchain dan cryptocurrency. Secara pasar finansial, dunia Blockchain dan cryptocurrency sudah mencapai USD 26,91 miliar pada tahun 2024 \parencite{rosencrance2024top}, dan diprediksi untuk bertumbuh sampai USD 825,93 miliar pada tahun 2032. Pertumbuhan tersebut menandakan investasi yang tinggi pada teknologi Blockchain, diiringi dengan perkembangan teknologi dan juga peluang yang bertumbuh pada teknologi Blockchain. 
 
-% Dengan diperkenalkannya Ethereum oleh \cite{buterin2013ethereum}, teknologi blockchain memperbolehkan Smart Contract yang pertama diusulkan oleh \cite{szabo1997formalizing} untuk direalisasikan. Realisasi dari Smart Contract membuka jalan yang luas dengan mereduksi resiko, biaya administrasi, meningkatkan efisiensi dari proses bisnis, dan mendukung banyak spektrum dari pengembangan aplikasi \parencite{zheng2020overview}. Semenjak pengenalan Smart Contract, terdapat pertumbuhan yang drastis dalam pembuatan Smart Contract, dimana Smart Contract yang dibuat hanya pada kuarter 1 tahun 2022 adalah 1,45 juta Smart Contract, yang adalah peningkatan sejumlah 24,7\% dari kuarter 4 tahun 2021, yang adalah 1,16 juta \parencite{alchemy_ethereum_statistics}. Dengan jumlah Smart Contract yang terus bertambah, bertambah juga jumlah masalah yang terlihat di dalam Smart Contract, 
+% Dengan diperkenalkannya Ethereum oleh \cite{buterin2013ethereum}, teknologi Blockchain memperbolehkan Smart Contract yang pertama diusulkan oleh \cite{szabo1997formalizing} untuk direalisasikan. Realisasi dari Smart Contract membuka jalan yang luas dengan mereduksi resiko, biaya administrasi, meningkatkan efisiensi dari proses bisnis, dan mendukung banyak spektrum dari pengembangan aplikasi \parencite{zheng2020overview}. Semenjak pengenalan Smart Contract, terdapat pertumbuhan yang drastis dalam pembuatan Smart Contract, dimana Smart Contract yang dibuat hanya pada kuarter 1 tahun 2022 adalah 1,45 juta Smart Contract, yang adalah peningkatan sejumlah 24,7\% dari kuarter 4 tahun 2021, yang adalah 1,16 juta \parencite{alchemy_ethereum_statistics}. Dengan jumlah Smart Contract yang terus bertambah, bertambah juga jumlah masalah yang terlihat di dalam Smart Contract, 
 % seperti kesulitan pengguna untuk menemukan Smart Contract yang sesuai dengan kebutuhan,
 % ketergantungan pada kata kunci yang spesifik atau tidak relevan dalam pencarian Smart Contract,
 % kesulitan integrasi karena perancangan Smart Contract yang tidak \textit{interoperable},
 % banyaknya Smart Contract dengan fungsionalitas yang serupa dengan implementasi berbeda yang menimbulkan kebingungan pada pengguna untuk memilih,
-% sulitnya mengevaluasi keamanan dan kepercayaan/kredibilitas/kualitas pada smart contract,
-% sulitnya menemukan versi yang lebih baru dari sebuah smart contract, 
+% sulitnya mengevaluasi keamanan dan kepercayaan/kredibilitas/kualitas pada Smart Contract,
+% sulitnya menemukan versi yang lebih baru dari sebuah Smart Contract, 
 
-Dengan diperkenalkannya Ethereum oleh \cite{buterin2013ethereum}, teknologi blockchain memungkinkan realisasi Smart Contract yang pertama kali diusulkan oleh \cite{szabo1997formalizing}. Realisasi Smart Contract ini membuka peluang besar dengan mereduksi risiko, menurunkan biaya administrasi, meningkatkan efisiensi proses bisnis, serta mendukung pengembangan aplikasi dalam berbagai spektrum \parencite{zheng2020overview}. 
+Dengan diperkenalkannya Ethereum oleh \cite{buterin2013ethereum}, teknologi Blockchain memungkinkan realisasi Smart Contract yang pertama kali diusulkan oleh \cite{szabo1997formalizing}. Realisasi Smart Contract ini membuka peluang besar dengan mereduksi risiko, menurunkan biaya administrasi, meningkatkan efisiensi proses bisnis, serta mendukung pengembangan aplikasi dalam berbagai spektrum \parencite{zheng2020overview}. 
 
-Sejak pengenalan Smart Contract, terjadi pertumbuhan drastis dalam jumlah kontrak yang dibuat. Pada kuartal 1 tahun 2022 saja, tercatat 1,45 juta Smart Contract baru yang dideploy, meningkat sebesar 24,7\% dari kuartal 4 tahun 2021 yang mencatat 1,16 juta Smart Contract \parencite{alchemy_ethereum_statistics}. 
+Smart Contracts bukan hanya dimanfaatkan untuk melakukan transaksi di dalam Blockchain dengan lebih efisien, terpercaya, dan \textit{trustless}, tetapi juga menjadi dasar bagi pengembangan dApps (Decentralized Applications), sebuah aplikasi terdesentralisasi yang memanfaatkan Smart Contracts untuk menjalankan logika bisnis dan pemrosesannya. Smart Contracts menjadi konsep yang penting di dalam Blockchain, sejak pengenalan Smart Contract, terjadi pertumbuhan drastis dalam jumlah kontrak yang dibuat. Pada kuartal 1 tahun 2022 saja, tercatat 1,45 juta Smart Contract baru yang dideploy, meningkat sebesar 24,7\% dari kuartal 4 tahun 2021 yang mencatat 1,16 juta Smart Contract \parencite{alchemy_ethereum_statistics}. 
 
 Namun, pertumbuhan ini juga menghadirkan berbagai tantangan, seperti:
 \begin{itemize}
-    \item Kesulitan bagi pengguna dalam menemukan Smart Contract yang paling sesuai dengan kebutuhan mereka karena kurangnya mekanisme pencarian yang efektif.
-    \item Ketergantungan pada pencarian berbasis kata kunci yang sering kali terlalu spesifik atau tidak relevan, sehingga menyulitkan proses penemuan Smart Contract.
-    \item Hambatan integrasi yang disebabkan oleh desain Smart Contract yang tidak mendukung \textit{interoperability}, membatasi kemampuannya untuk berkolaborasi dengan sistem lain.
-    \item Banyaknya Smart Contract dengan fungsionalitas serupa tetapi implementasi yang berbeda, yang menciptakan kebingungan bagi pengguna dalam menentukan pilihan terbaik.
+    %  \item Kesulitan bagi pengguna, baik pengguna kontrak maupun \textit{developer} dalam menemukan Smart Contracts.
+    \item Kesulitan untuk menemukan dan menggunakan Smart Contract yang sesuai dengan kegunaan yang diinginkan dari banyaknya Smart Contracts yang ada dan bersifat publik.
+    \item Pencarian Smart Contracts mengeluarkan hasil yang terlalu spesifik atau tidak relevan karena memanfaatkan pencarian berbasis kata kunci, sehingga menyulitkan proses pencarian Smart Contract yang sesuai.
+    \item Pencarian Smart Contracts sulit dilakukan karena tidak seluruh Smart Contracts yang \textit{deployed} disertai \textit{source code}, sehingga masih berbentuk EVM Bytecode, yang tidak memiliki semantik yang baik, baik bagi \textit{end-user}, maupun sistem. 
+%     \item Kesulitan penentuan Smart Contracts dengan fungsionalitas serupa tetapi implementasi yang berbeda.
+    \item Redundansi penulisan Smart Contract, dimana Smart Contract yang serupa tetap ditulis dan dimasukkan ke dalam Blockchain untuk digunakan karena Smart Contract yang serupa, atau bahkan, sama, sulit untuk ditemukan dan digunakan.
+    \item Hambatan integrasi yang disebabkan oleh desain Smart Contract yang tidak mendukung \textit{interoperability}, membatasi kemampuannya untuk berkolaborasi dengan sistem atau Smart Contract lain.
     \item Kesulitan dalam menilai keamanan, kredibilitas, dan kualitas Smart Contract, terutama ketika tidak ada mekanisme evaluasi yang standar atau dapat diandalkan.
     \item Tantangan dalam mengidentifikasi versi terbaru dan lebih efisien dari sebuah Smart Contract, yang dapat menyebabkan penggunaan kontrak yang sudah usang atau tidak optimal.
 \end{itemize}
 
-Tantangan-tantangan ini menunjukkan perlunya sistem Smart Contract Discovery yang lebih baik untuk mendukung efisiensi dan keandalan dalam ekosistem blockchain.
+Tantangan-tantangan ini, jika dibiarkan dengan laju pertumbuhan Smart Contracts yang terus naik, akan membuat ekosistem pengembangan dan juga penggunaan Smart Contract tidak efisien. Kesulitan pencarian akan membuat lebih banyak pengguna membuat kontrak baru, dibandingkan menggunakan yang sudah ada, walaupun Smart Contract yang sudah ada memiliki fungsionalitas yang sama persis dengan apa yang dibutuhkan pengguna, menyebabkan inefisiensi secara usaha, waktu, dan juga besar data yang disimpan di dalam Blockchain. Hal ini juga berarti akan sulit mengembangkan sistem yang lebih kompleks menggunakan Smart Contracts.
+
+Sehingga, diperlukan sebuah sistem Smart Contract Discovery yang lebih baik untuk mendukung efisiensi dan keandalan dalam penggunaan dan pengembangan Smart Contracts di dalam ekosistem Blockchain.
 
 % Meskipun Smart Contracts memiliki potensi yang sangat besar untuk mengubah cara kerja proses bisnis konvensional dan mengefisiensikan sistem, masih terdapat banyak tantangan yang perlu dijawab, seperti masalah terkait \textit{privacy}, \textit{security}, \textit{interoperability}, dan lainnya.
 
-% kayanya perlu ditambahin terkait smart contract itu banyak banget, dan susah discover yang sesuai, dan bisa interoperable, intinya introduce kebutuhan discoverability disini. kaya sesuai fungsionalitas. dan gimana inituh bisa sangat membantu, misal dengan smart contract yang discoverable, bakal lebih efisien atau interoperable, introduce juga usecase yang developernya disini
+% kayanya perlu ditambahin terkait Smart Contract itu banyak banget, dan susah discover yang sesuai, dan bisa interoperable, intinya introduce kebutuhan discoverability disini. kaya sesuai fungsionalitas. dan gimana inituh bisa sangat membantu, misal dengan Smart Contract yang discoverable, bakal lebih efisien atau interoperable, introduce juga usecase yang developernya disini
 
-Penelitian ini berfokus untuk menjawab tantangan di dalam Smart Contract Discovery, yang akan berefek pada berbagai faktor seperti interoperabilitas, integritas, aksesibilitas, dan \textit{compliance}. Sebagai hasil dari penelitian ini, akan dibangun sebuah sistem yang memanfaatkan indeks \textit{linked-data} di dalam blockchain, dan menggunakan sebuah ekstensi dari Semantic Smart Contract Language untuk mempermudah pencarian Smart Contract yang sesuai dengan fungsionalitas tertentu. Perangkat lunak ini diharapkan dapat memperbolehkan pencarian Smart Contract berdasarkan semantik, sebagai langkah pertama untuk mencapai interoperabilitas dan integrasi dari sistem pengembangan Smart Contract.
+Tugas Akhir ini berfokus untuk menjawab tantangan di dalam Smart Contract Discovery, yang akan berefek pada berbagai faktor seperti interoperabilitas, integritas, aksesibilitas, dan \textit{compliance}. Tujuan dari sistem tersebut adalah untuk memudahkan pencarian Smart Contracts berdasarkan semantik, sehingga hasil dari pencarian relevan dengan kebutuhan. 
+
+% Sebagai hasil dari Tugas Akhir ini, akan dibangun sebuah sistem yang memanfaatkan indeks \textit{linked-data} di dalam Blockchain, dan menggunakan sebuah ekstensi dari Semantic Smart Contract Language untuk mempermudah pencarian Smart Contract yang sesuai dengan fungsionalitas tertentu. Perangkat lunak ini diharapkan dapat memperbolehkan pencarian Smart Contract berdasarkan semantik, sebagai langkah pertama untuk mencapai interoperabilitas dan integrasi dari sistem pengembangan Smart Contract.
 
 % ada indexingnya, gmn cara nyarinya itu query 
 
 % nah yang gua mau bikin itu discoverynya, gimana dapetin sc yang tepat untuk kebutuhan tertentu
 
-% dengan pembuatan sc discovery juga bisa dimanfaatkan untuk bikin package manager buat smart contract itu, tapi itu udah different topic, tapi harus dipikirin format yang jadi si sistem inituh bisa dipakai oleh banyak aplikasi dengan mudah, either dia json or something
+% dengan pembuatan sc discovery juga bisa dimanfaatkan untuk bikin package manager buat Smart Contract itu, tapi itu udah different topic, tapi harus dipikirin format yang jadi si sistem inituh bisa dipakai oleh banyak aplikasi dengan mudah, either dia json or something
 
-% (abis ini ngomongin, banyak juga riset paper yang rilis, sekitar X jumlahnya, yang menandakan bahwa teknologinya terus berkembang) Dengan diperkenalkannya Ethereum oleh  (nah ethereum memperkenalkan smart contract, dan disitu jadi muncul banyak isu buat optimasi seperti skalabilitas, security, privacy, dan salah satunya adalah interoperabilitas, nah si discovery ini bukan cuma interoperabilitas, tetapi juga (nah pikirin benefit apa yang muncul dengan si smart contract discovery inituh??))
+% (abis ini ngomongin, banyak juga riset paper yang rilis, sekitar X jumlahnya, yang menandakan bahwa teknologinya terus berkembang) Dengan diperkenalkannya Ethereum oleh  (nah ethereum memperkenalkan Smart Contract, dan disitu jadi muncul banyak isu buat optimasi seperti skalabilitas, security, privacy, dan salah satunya adalah interoperabilitas, nah si discovery ini bukan cuma interoperabilitas, tetapi juga (nah pikirin benefit apa yang muncul dengan si Smart Contract discovery inituh??))
 
 
 
-% setelah ini ngomongin terkait tren nya sekarang dan kenapa makin lama makin shift ke smart contract, kaya kenapa smart contract dipakai dan kenapa butuh, terus jadi ke gimana smart contract discovery itu akan dibutuhkan
+% setelah ini ngomongin terkait tren nya sekarang dan kenapa makin lama makin shift ke Smart Contract, kaya kenapa Smart Contract dipakai dan kenapa butuh, terus jadi ke gimana Smart Contract discovery itu akan dibutuhkan
 
 \section{Rumusan Masalah}
 \label{sec:rumusan-masalah}
@@ -59,12 +66,12 @@ Penelitian ini berfokus untuk menjawab tantangan di dalam Smart Contract Discove
 Berikut adalah rumusan masalah yang akan dijawab oleh penelitian ini:
 % Masih belum fiks
 \begin{enumerate}
-  % \item Bagaimana cara menemukan Smart Contracts dalam sebuah blockchain?
+  % \item Bagaimana cara menemukan Smart Contracts dalam sebuah Blockchain?
   \item Dengan banyaknya Smart Contracts yang ada, bagaimana menemukan Smart Contracts dengan fungsionalitas yang sesuai dengan kebutuhan dan spesifikasi yang diberikan?
   \item Pencarian Smart Contracts masih menggunakan kata kunci, yang biasanya tidak relevan dengan arti atau fungsionalitas dari Smart Contract tersebut, sehingga bagaimana menemukan Smart Contracts dengan semantik yang sesuai?
-  \item Tidak semua Smart Contract dapat terjamin keamanannya, sehingga bagaimana mendapatkan Smart Contracts yang memiliki \textit{compliance} terhadap aturan yang baik?
+  % \item Tidak semua Smart Contract dapat terjamin keamanannya, sehingga bagaimana mendapatkan Smart Contracts yang memiliki \textit{compliance} terhadap aturan yang baik?
   % \item Apakah ada cara yang lebih baik untuk memodelkan Smart Contracts dibandingkan model \textit{Minimal Service Model}?
-  \item Bagaimana mengevaluasi ketersesuaian hasil Smart Contracts Discovery?
+  \item Bagaimana mengevaluasi ketersesuaian hasil Smart Contracts Discovery berdasarkan semantik?
   % \item Apakah memungkinkan untuk membangun sebuah sistem Smart Contracts Discovery yang dinamis?
 \end{enumerate}
 
@@ -82,7 +89,7 @@ Berikut adalah rumusan masalah yang akan dijawab oleh penelitian ini:
 \section{Tujuan dan Ukuran Keberhasilan Pencapaian}
 \label{sec:tujuan-ukuran-keberhasilan-pencapaian}
 
-% Tuliskan tujuan utama dan/atau tujuan detil yang akan dicapai dalam pelaksanaan tugas akhir. Fokuskan pada hasil akhir yang ingin diperoleh setelah tugas akhir diselesaikan, terkait dengan penyelesaian persoalan pada rumusan masalah. Penting untuk diperhatikan bahwa tujuan yang dideskripsikan pada subbab ini akan dipertanggungjawabkan di akhir pelaksanaan tugas akhir apakah tercapai atau tidak. Tuliskan juga ukuran keberhasilan pencapaiannya.
+% Tuliskan tujuan utama dan/atau tujuan detail yang akan dicapai dalam pelaksanaan tugas akhir. Fokuskan pada hasil akhir yang ingin diperoleh setelah tugas akhir diselesaikan, terkait dengan penyelesaian persoalan pada rumusan masalah. Penting untuk diperhatikan bahwa tujuan yang dideskripsikan pada subbab ini akan dipertanggungjawabkan di akhir pelaksanaan tugas akhir apakah tercapai atau tidak. Tuliskan juga ukuran keberhasilan pencapaiannya.
 
 Tujuan yang akan dicapai untuk tugas akhir ini adalah membuat sebuah sistem Smart Contract Discovery berbasis indeks yang memanfaatkan semantik dan juga pencarian berdasarkan fungsionalitas dari Smart Contract, yang memperhitungkan aspek \textit{compliance} terhadap aturan dari Smart Contract tersebut, sehingga dapat dilakukan pencarian Smart Contract secara lebih mudah, terstruktur, bahkan inferensi secara dinamis untuk penggunaan Smart Contract yang aman. Ukuran keberhasilan pencapaiannya adalah seberapa sesuai Smart Contract dapat ditemukan berdasarkan kebutuhan dan fungsionalitas, dengan semantik yang sesuai.
 
