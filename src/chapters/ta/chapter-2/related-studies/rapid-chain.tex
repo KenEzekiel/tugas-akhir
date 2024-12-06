@@ -1,0 +1,27 @@
+\subsection{RapidChain - Scaling Blockchain via Full Sharding}
+\label{subsec:rapidchain}
+
+RapidChain merupakan protokol blockchain publik berbasis \textit{sharding} pertama yang mampu mentoleransi \textit{Byzantine faults} sampai $\frac{1}{3}$ dari total partisipan, dan menggapai \textit{sharding} dari komunikasi, komputasi, dan \textit{overhead} penyimpanan secara menyeluruh. RapidChain menggunakan algoritma konsensus \textit{intra-committe} yang optimal sehingga dapat menggapai \textit{throughput} yang sangat tinggi menggunakan \textit{block pipelining}, \textit{novel gossiping protocol} untuk blok besar, dan mekanisme rekonfigurasi yang sudah terbukti aman untuk menjamin ketahanan. Untuk menghindari \textit{gossiping transactions} ke seluruh jaringan, RapidChain menggunakan teknik verifikasi transaksi \textit{cross-sharding} yang efisien.
+
+RapidChain memberikan kebaruan sebagai berikut:
+
+\begin{itemize}
+  \item \textit{Sublinear Communication}
+  \item \textit{Higher Resiliency}
+  \item \textit{Rapid Committee Consensus}
+  \item \textit{Secure Reconfiguration}
+  \item \textit{Fast Cross-Shard Verification}
+  \item \textit{Decentralized Bootstrapping}
+\end{itemize}
+
+RapidChain terdiri dari tiga komponen utama, yaitu \textit{Bootstrap}, \textit{Consensus}, dan \textit{Reconfiguration}. Protokol akan dimulai dengan fase \textit{Bootstrap}, dan dilanjutkan dengan menggunakan iterasi \textit{epoch}, dimana setiap \textit{epoch} akan terdiri dari beberapa iterasi dari \textit{Consensus} yang diikuti dengan fase \textit{Reconfiguration}.
+
+Berikut merupakan penjelasan dari setiap fase:
+
+\begin{enumerate}
+  \item \textit{Bootstrapping}: Dalam fase ini, sebuah kelompok \textit{node} (\textit{root group}) menetapkan \textit{reference committee} dengan membangkitkan bit acak. \textit{Reference Committee} akan mengorganisasikan seluruh \textit{nodes} menjadi banyak \textit{committee} untuk pemrosesan transaksi secara paralel.
+  \item \textit{Consensus in Committee}: Setiap \textit{committee} akan mengeksekusi protokol konsensus dua tahap. Tahap \textit{Gossiping Protocol (IDA-Gossip)}, yang membagikan \textit{message} besar menjadi bagian-bagian dan mendistribusikannya secara efisien antar \textit{node} menggunakan \textit{Merkle tree proofs}. Tahap kedua adalah tahap \textit{Synchrononous Consensus}, untuk memastikan resiliensi yang lebih tinggi dengan memperbolehkan \textit{committee} untuk berfungsi dengan jumlah \textit{honest node} (diatas 50\%), untuk meningkatkan resiliensi sistem keseluruhan menjadi $\frac{1}{3}$ \textit{faulty node}. 
+  \item \textit{Cross-Shard Transactions}: \textit{Cross-Shard Transactions} memperbolehkan setiap \textit{node} untuk berinteraksi antar \textit{committee} berbeda sambil menyimpan hanya sebagian dari blockchain. \textit{Committees} menangani transaksi ini memanfaatkan verifikasi UTXO (\textit{Unspent Transaction Output}) di seluruh pecahan, yang mengurangi kebutuhan komunikasi dan penyimpanan dengan mengoordinasikan hanya informasi yang diperlukan.
+  \item \textit{Inter-Committee Routing}: Memanfaatkan mekanisme \textit{routing} yang terinspirasi dari Kademlia, RapidChain memungkinkan \textit{node} untuk menemukan dan berkomunikasi satu sama lain di seluruh \textit{committee} dalam \textit{log-time steps}, yang memungkinkan verifikasi transaksi tanpa memerlukan pesan "\textit{gossip-to-all}". 
+  \item \textit{Reconfiguration}: \textit{Reconfiguration} periodik memastikan bahwa \textit{node} diacak dengan aman di seluruh \textit{committee} menggunakan aturan Cuckoo untuk melindungi dari kontrol yang berlawanan. Fase ini memungkinkan \textit{node} baru untuk bergabung tanpa mengganggu operasi protokol yang sedang berlangsung.
+\end{enumerate}

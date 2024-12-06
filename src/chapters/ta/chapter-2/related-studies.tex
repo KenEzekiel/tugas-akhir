@@ -3,43 +3,11 @@
 
 Berikut merupakan riset dan penelitian yang selaras dan juga menjadi komponen pendukung bagi tugas akhir ini.
 
-\subsection{RapidChain - Scaling Blockchain via Full Sharding}
-\label{subsec:rapidchain}
+% \input{chapters/ta/chapter-2/related-studies/rapid-chain}
 
-RapidChain merupakan protokol blockchain publik berbasis \textit{sharding} pertama yang mampu mentoleransi \textit{Byzantine faults} sampai $\frac{1}{3}$ dari total partisipan, dan menggapai \textit{sharding} dari komunikasi, komputasi, dan \textit{overhead} penyimpanan secara menyeluruh. RapidChain menggunakan algoritma konsensus \textit{intra-committe} yang optimal sehingga dapat menggapai \textit{throughput} yang sangat tinggi menggunakan \textit{block pipelining}, \textit{novel gossiping protocol} untuk blok besar, dan mekanisme rekonfigurasi yang sudah terbukti aman untuk menjamin ketahanan. Untuk menghindari \textit{gossiping transactions} ke seluruh jaringan, RapidChain menggunakan teknik verifikasi transaksi \textit{cross-sharding} yang efisien.
+\input{chapters/ta/chapter-2/related-studies/linked-data-indexing}
+\input{chapters/ta/chapter-2/related-studies/extraction-indexing-analysis-eth-sc}
+\input{chapters/ta/chapter-2/related-studies/semantic-smart-contract}
+\input{chapters/ta/chapter-2/related-studies/solidity-ontology}
 
-RapidChain memberikan kebaruan sebagai berikut:
-
-\begin{itemize}
-  \item \textit{Sublinear Communication}
-  \item \textit{Higher Resiliency}
-  \item \textit{Rapid Committee Consensus}
-  \item \textit{Secure Reconfiguration}
-  \item \textit{Fast Cross-Shard Verification}
-  \item \textit{Decentralized Bootstrapping}
-\end{itemize}
-
-RapidChain terdiri dari tiga komponen utama, yaitu \textit{Bootstrap}, \textit{Consensus}, dan \textit{Reconfiguration}. Protokol akan dimulai dengan fase \textit{Bootstrap}, dan dilanjutkan dengan menggunakan iterasi \textit{epoch}, dimana setiap \textit{epoch} akan terdiri dari beberapa iterasi dari \textit{Consensus} yang diikuti dengan fase \textit{Reconfiguration}.
-
-Berikut merupakan penjelasan dari setiap fase:
-
-\begin{enumerate}
-  \item \textit{Bootstrapping}: Dalam fase ini, sebuah kelompok \textit{node} (\textit{root group}) menetapkan \textit{reference committee} dengan membangkitkan bit acak. \textit{Reference Committee} akan mengorganisasikan seluruh \textit{nodes} menjadi banyak \textit{committee} untuk pemrosesan transaksi secara paralel.
-  \item \textit{Consensus in Committee}: Setiap \textit{committee} akan mengeksekusi protokol konsensus dua tahap. Tahap \textit{Gossiping Protocol (IDA-Gossip)}, yang membagikan \textit{message} besar menjadi bagian-bagian dan mendistribusikannya secara efisien antar \textit{node} menggunakan \textit{Merkle tree proofs}. Tahap kedua adalah tahap \textit{Synchrononous Consensus}, untuk memastikan resiliensi yang lebih tinggi dengan memperbolehkan \textit{committee} untuk berfungsi dengan jumlah \textit{honest node} (diatas 50\%), untuk meningkatkan resiliensi sistem keseluruhan menjadi $\frac{1}{3}$ \textit{faulty node}. 
-  \item \textit{Cross-Shard Transactions}: \textit{Cross-Shard Transactions} memperbolehkan setiap \textit{node} untuk berinteraksi antar \textit{committee} berbeda sambil menyimpan hanya sebagian dari blockchain. \textit{Committees} menangani transaksi ini memanfaatkan verifikasi UTXO (\textit{Unspent Transaction Output}) di seluruh pecahan, yang mengurangi kebutuhan komunikasi dan penyimpanan dengan mengoordinasikan hanya informasi yang diperlukan.
-  \item \textit{Inter-Committee Routing}: Memanfaatkan mekanisme \textit{routing} yang terinspirasi dari Kademlia, RapidChain memungkinkan \textit{node} untuk menemukan dan berkomunikasi satu sama lain di seluruh \textit{committee} dalam \textit{log-time steps}, yang memungkinkan verifikasi transaksi tanpa memerlukan pesan "\textit{gossip-to-all}". 
-  \item \textit{Reconfiguration}: \textit{Reconfiguration} periodik memastikan bahwa \textit{node} diacak dengan aman di seluruh \textit{committee} menggunakan aturan Cuckoo untuk melindungi dari kontrol yang berlawanan. Fase ini memungkinkan \textit{node} baru untuk bergabung tanpa mengganggu operasi protokol yang sedang berlangsung.
-\end{enumerate}
-
-\subsection{Linked Data Indexing of Distributed Ledgers}
-\label{subsec:linked-data-indexing-distributed-ledgers}
-
-Penelitian yang dilakukan oleh \parencite{third2017linked} membahas tantangan dalam pencarian informasi pada \textit{distributed ledger}, yang sulit dilakukan karena informasi mengenai suatu entitas dapat tersebar di seluruh \textit{ledger} tanpa adanya indeks. Penelitian ini mengusulkan penggunaan indeks berbasis semantik untuk Ethereum Blockchain dengan pendekatan \textit{Linked Data}, yang memungkinkan pencarian menggunakan istilah khusus sesuai \textit{domain}. Pendekatan ini diharapkan dapat meningkatkan kekuatan, kegunaan, dan cakupan dari sistem \textit{ledger} tersebut.
-
-Dalam penelitian ini, mereka mengimplementasikan indeks semantik pada Ethereum Blockchain untuk mengekspos data di dalam \textit{distributed ledger} sebagai \textit{Linked Data}. Indeks ini mengindeks data pada level blok dan transaksi menggunakan ontologi BLONDiE, serta memetakan Smart Contract ke dalam ontologi \textit{Minimal Service Model} (MSM) sebagai langkah awal untuk menghubungkan Smart Contract dengan \textit{Semantic Web Services}.
-
-Implementasi indeks semantik ini menggunakan ontologi BLONDiE sebagai kerangka untuk mengelompokkan dan mendeskripsikan elemen-elemen utama dari blockchain. Ontologi \textit{Minimal Service Model}, yang biasanya digunakan untuk \textit{web services}, diterapkan untuk menggambarkan fungsionalitas dari Smart Contract pada blockchain, sehingga memungkinkan integrasi yang lebih efisien.
-
-Proyek ini diimplementasikan pada jaringan Ethereum Blockchain privat, di mana komponen \textit{listener} dikembangkan untuk mendeteksi blok baru dan mengindeksnya berdasarkan ontologi BLONDiE. RDF \textit{triples} kemudian dihasilkan dari data ini, yang memungkinkan penguraian data blockchain secara semantik untuk mendukung pencarian data yang lebih terstruktur.
-
-Hasil dari penelitian ini menunjukkan bahwa \textit{semantic indexing} memungkinkan data di dalam blockchain menjadi lebih mudah diakses dan dapat terintegrasi dengan sumber data eksternal. Hal ini membuka peluang untuk mengembangkan \textit{semantic indexing} pada platform blockchain lainnya serta berpotensi memperluas interoperabilitas data antara blockchain dan \textit{Semantic Web}.
+% \input{chapters/ta/chapter-2/related-studies/}
