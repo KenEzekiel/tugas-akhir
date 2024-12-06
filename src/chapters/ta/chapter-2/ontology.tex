@@ -38,9 +38,9 @@ Konsep ontology di dalam Blockchain adalah sebuah pendekatan yang berupaya untuk
 \subsubsection{EthOn}
 \label{subsubsec:ethon}
 
-\begin{figure}
+\begin{figure}[ht]
   \centering
-  \includegraphics[width=1\textwidth]{resources/chapter-2/ethon.png}
+  \includegraphics[width=0.7\textwidth]{resources/chapter-2/ethon.png}
   \caption{Visualisasi EthOn \parencite{ethon2024}}
   \label{image:ethon}
 \end{figure}
@@ -50,7 +50,7 @@ EthOn adalah sebuah ontology yang dirancang secara spesifik untuk ekosistem Ethe
 \subsubsection{BLONDiE}
 \label{subsubsec:blondie}
 
-\begin{figure}
+\begin{figure}[ht]
   \centering
   \includegraphics[width=1\textwidth]{resources/chapter-2/blondie-visualization.jpg}
   \caption{Visualisasi Ontologi BLONDiE \parencite{third2017linked}}
@@ -62,13 +62,6 @@ BLONDiE adalah singkatan dari Blockchain Ontology with Dynamic Extensibility, ya
 \subsection{Minimal Service Model}
 \label{subsec:minimal-service-model}
 
-\begin{figure}
-  \centering
-  \includegraphics[width=1\textwidth]{resources/chapter-2/msm-visualization.jpg}
-  \caption{Visualisasi Ontologi Minimal Service Model \parencite{third2017linked}}
-  \label{image:msm-visualization}
-\end{figure}
-
 Minimal Service Model adalah sebuah RDF(S) integration ontology sederhana berdasarkan prinsip \textit{minimal ontological commitment}, yaitu prinsip dalam perancangan ontology yang berarti membuat klaim atau asumsi sesedikit mungkin tentang domain yang dimodelkan. MSM hanya mendefinisikan struktur dasar seperti Services, Operations, dan Message Content. MSM dikembangkan bukan untuk menambah keragaman model \textit{service} yang sudah ada, melainkan berfungsi sebagai model untuk integrasi yang menjembatani berbagai formalisme yang telah ada. Model ini mampu menangkap semantik inti dari Web Service dan Web API dalam satu model yang sama, sehingga mendukung proses publikasi dan penemuan \textit{service} secara homogen. Salah satu fitur kunci dari MSM adalah kemampuan integrasinya, yang menggunakan properti msm untuk memungkinkan \textit{binding} ke berbagai format deskripsi untuk sebuah \textit{service} seperti WSDL, SWAGGER, WSMO, dan OWL-S, dan juga integrasi \textit{vocabulary} dari ontology lainnya \parencite{iserve2015datamodel}.
 
 Ekstensi Minimal Service Model antara lain:
@@ -77,3 +70,10 @@ Ekstensi Minimal Service Model antara lain:
   \item MSM-SWAGGER \break Memberikan kemampuan \textit{grounding} untuk deskripsi SWAGGER.
   \item MSM-NFP \break Melacak metrik penggunaan \textit{service} yang mencakup informasi terkait properti non-fungsional.
 \end{enumerate}
+
+\begin{figure}[ht]
+  \centering
+  \includegraphics[width=1\textwidth]{resources/chapter-2/msm-visualization.jpg}
+  \caption{Visualisasi Ontologi Minimal Service Model \parencite{third2017linked}}
+  \label{image:msm-visualization}
+\end{figure}

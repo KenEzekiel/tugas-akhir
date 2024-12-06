@@ -23,7 +23,7 @@ Struktur dari sebuah blok terdiri dari \textit{block header} dan \textit{block b
 	\item \textit{nonce}: \textit{number used only once}, sebuah angka yang digunakan untuk menambahkan tingkat keacakan dari nilai \textit{hash}.
 \end{enumerate}
 
-\begin{figure}
+\begin{figure}[ht]
 	\centering
 	\includegraphics[width=0.7\textwidth]{resources/chapter-2/struktur-block.png}
 	\caption{Struktur blok \parencite{zheng2018blockchain}}
@@ -55,7 +55,7 @@ Ethereum adalah sebuah platform berbasis Blockchain untuk membangun aplikasi ter
 \subsubsection{ABI}
 \label{subsubsec:abi}
 
-\begin{figure}
+\begin{figure}[ht]
   \centering
   \includegraphics[width=0.7\textwidth]{resources/chapter-2/smart-contract-abi.jpg}
   \caption{Contoh ABI dari sebuah Smart Contract \parencite{third2017linked}}
@@ -79,3 +79,5 @@ Layer 2 adalah sebuah protokol sekunder yang dibangun di atas Blockchain yang su
 	\item \textit{Sidechains L2}: Sebuah Blockchain "anak" yang berjangkar pada \textit{main chain} dan berjalan secara paralel dengan \textit{main chain}. Serupa dengan Channels, tetapi dalam Sidechains, \textit{off-chain transaction} berjalan di atas Blockchain juga.
 	\item \textit{Rollups L2}: Hanya mengeksekusi \textit{transaction} secara \textit{off-chain}, tetapi selalu melaporkan data tentang \textit{transaction} ke dalam \textit{main chain}. Dibandingkan kedua jenis lainnya, Rollups melaporkan data yang lebih kecil untuk setiap \textit{off-chain state update}.
 \end{enumerate}
+
+\newpage

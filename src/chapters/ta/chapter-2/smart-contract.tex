@@ -5,6 +5,13 @@ Smart Contracts adalah sebuah protokol transaksi elektronik yang mengeksekusi ke
 
 Smart Contracts adalah salah satu teknologi yang dimungkinkan oleh teknologi Blockchain. Seluruh klausa kontraktual dalam sebuah Smart Contract akan dikonversi menjadi sebuah bentuk \textit{executable computer programs}. Seluruh eksekusi dari setiap \textit{contract statement} direkam dan dimasukkan ke dalam transaksi yang \textit{immutable}, yang disimpan di dalam Blockchain. Smart Contracts juga dapat menjamin \textit{access control} yang tepat dan \textit{contract enforcement} yang deterministik, karena dijamin dalam seluruh \textit{logic} yang terdapat di dalam Smart Contract tersebut \parencite{zheng2020overview}.
 
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{resources/chapter-2/sc-lifecycle.png}
+	\caption{\textit{Life cycle} dari Smart Contract \parencite{zheng2020overview}}
+	\label{image:sc-lifecycle}
+\end{figure}
+
 \textit{Life cycle} dari sebuah Smart Contract terdiri dari empat fase seperti pada ilustrasi di Gambar \ref{image:sc-lifecycle}:
 
 \begin{enumerate}
@@ -13,13 +20,6 @@ Smart Contracts adalah salah satu teknologi yang dimungkinkan oleh teknologi Blo
 	\item \textit{Execution}: Setelah \textit{deployment}, klausa kontraktual akan dimonitor, dan saat kondisi yang sesuai dengan yang terdefinisi dalam Smart Contract, maka prosedur kontrak akan dieksekusi secara otomatis.
 	\item \textit{Completion}: Setelah eksekusi, \textit{state} baru dari semua pihak akan diperbarui sesuai dengan hasil dari transaksi yang terjadi dan disimpan ke dalam Blockchain. 
 \end{enumerate}
-
-\begin{figure}
-	\centering
-	\includegraphics[width=0.7\textwidth]{resources/chapter-2/sc-lifecycle.png}
-	\caption{\textit{Life cycle} dari Smart Contract \parencite{zheng2020overview}}
-	\label{image:sc-lifecycle}
-\end{figure}
 
 \subsection{Off-Chain Smart Contracts}
 \label{subsec:off-chain-smart-contracts}
