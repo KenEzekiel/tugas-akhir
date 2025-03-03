@@ -3,4 +3,20 @@
 
 % Tuliskan tujuan utama dan/atau tujuan detail yang akan dicapai dalam pelaksanaan tugas akhir. Fokuskan pada hasil akhir yang ingin diperoleh setelah tugas akhir diselesaikan, terkait dengan penyelesaian persoalan pada rumusan masalah. Penting untuk diperhatikan bahwa tujuan yang dideskripsikan pada subbab ini akan dipertanggungjawabkan di akhir pelaksanaan tugas akhir apakah tercapai atau tidak. Tuliskan juga ukuran keberhasilan pencapaiannya.
 
-Tujuan yang akan dicapai untuk tugas akhir ini adalah membuat sebuah sistem Smart Contract Discovery yang memanfaatkan semantik dan juga pencarian berdasarkan fungsionalitas dari Smart Contract, yang memperhitungkan aspek \textit{compliance} terhadap aturan dari Smart Contract tersebut, sehingga dapat dilakukan pencarian Smart Contract secara lebih mudah, terstruktur, bahkan inferensi secara dinamis untuk penggunaan Smart Contract yang aman. Ukuran keberhasilan pencapaiannya adalah seberapa sesuai Smart Contract dapat ditemukan berdasarkan kebutuhan dan fungsionalitas, dengan semantik yang sesuai.
+Tujuan yang akan dicapai untuk tugas akhir ini adalah membuat sebuah sistem Smart Contract Discovery yang dapat menghubungkan kebutuhan dari pengguna kepada fungsionalitas dari Smart Contract yang sesuai menggunakan semantik dan memberikan hasil yang sesuai kepada pengguna. Sistem ini diharapkan dapat memudahkan pencarian Smart Contracts dengan mengutamakan keterkaitan semantik, serta dapat digunakan oleh pengguna tanpa mempengaruhi kinerja dari Blockchain yang digunakan.
+
+Ukuran keberhasilan pencapaiannya adalah seberapa sesuai Smart Contract dapat ditemukan. Metrik dari masing-masing ukuran keberhasilan adalah sebagai berikut:
+
+% \begin{enumerate}
+%   \item Akurasi dan relevansi pencarian: seberapa akurat dan relevan hasil pencarian Smart Contract dengan kebutuhan dan fungsionalitas yang diinginkan oleh pengguna. Metrik yang digunakan adalah \textit{precision}, \textit{recall}, dan \textit{F1-score} dari hasil pencarian.
+%   % \item Kesesuaian dengan semantik dan fungsionalitas: seberapa sesuai hasil pencarian Smart Contract dengan semantik dan fungsionalitas yang diinginkan oleh pengguna.
+%   \item Efisiensi pencarian dan skalabilitas: seberapa cepat dan efisien proses pencarian Smart Contract, serta seberapa baik sistem dapat menangani jumlah data yang besar. Metrik yang digunakan adalah \textit{query response time} dan \textit{scalability performance} dari sistem.
+% \end{enumerate}
+
+\begin{enumerate}
+  \item Sistem Smart Contract Discovery dapat menghasilkan Smart Contract yang relevan sesuai semantik dan fungsionalitas yang diinginkan oleh pengguna. Metrik yang digunakan adalah \textit{Semantic Similarity Score}.
+  \item Sistem Smart Contract Discovery dapat berjalan tanpa mempengaruhi kinerja dari Blockchain yang digunakan. 
+  % Ini sudah pasti tercapai, karena didesain agar seperti itu, validasi nya gimana?
+  \item Sistem Smart Contract Discovery dapat berjalan dengan latensi rendah dan skalabilitas yang baik. Metrik yang digunakan adalah \textit{Response Time} dan \textit{Throughput}
+  % \item Model dari Smart Contract yang digunakan melingkupi fungsionalitas yang umum digunakan oleh pengguna. Metrik yang 
+\end{enumerate}
