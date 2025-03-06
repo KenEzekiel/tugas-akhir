@@ -10,13 +10,21 @@ Berikut adalah rumusan masalah yang akan dijawab dalam penelitian ini:
   % \item Bagaimana mengevaluasi ketersesuaian hasil Smart Contracts Discovery berdasarkan semantik?
   
   % \item Bagaimana membangun arsitektur dan mengimplementasikan sistem Smart Contract Discovery berbasis semantik yang mampu menemukan Smart Contracts sesuai dengan kebutuhan pengguna secara lebih akurat dibandingkan metode berbasis kata kunci?
-  \item Bagaimana membangun sebuah sistem Smart Contract Discovery yang dapat memberikan hasil pencarian berupa Smart Contract yang sesuai bagi pengembang maupun pengguna Smart Contracts jika hanya diketahui kebutuhan fungsionalitas yang diinginkan?
+
+  % \item Bagaimana membangun sebuah sistem Smart Contract Discovery yang dapat memberikan hasil pencarian berupa Smart Contract yang sesuai bagi pengembang maupun pengguna Smart Contracts jika hanya diketahui kebutuhan fungsionalitas yang diinginkan?
+  \item Bagaimana membangun sistem yang dapat menerima input berupa kebutuhan fungsionalitas dari pengguna atau pengembang dan menghasilkan daftar Smart Contract yang relevan melalui mekanisme pencarian yang efektif dan akurat?
+  % mekanisme pencarian dan relevansi hasil.
   % Langchain (difasilitasi LLM) -> mengerti kebutuhan fungsionalitas yang pengguna inginkan dan dapat memberikan hasil yang sesuai
-  \item Bagaimana membangun sebuah sistem Smart Contract Discovery yang dapat digunakan secara luas oleh pengguna tanpa berdampak pada kinerja dari Blockchain yang digunakan?
+
+  \item Bagaimana mendesain dan mengimplementasikan sistem Smart Contract Discovery agar dapat diakses secara luas oleh pengguna tanpa mengganggu kinerja jaringan blockchain yang digunakan?
+  % sistem dapat diskalakan dan tidak mengganggu performa blockchain.
   % Offchain dan dgraph
-  \item Bagaimana membangun sebuah sistem Smart Contract Discovery yang dapat mengekstrak informasi dari Smart Contracts yang ada dan menghasilkan model yang dapat digunakan untuk menemukan Smart Contracts yang sesuai dengan kebutuhan pengguna?
+  \item Bagaimana mengekstrak informasi dari Smart Contract yang ada dan membangun model representasi yang efektif untuk mendukung pencarian dan klasifikasi?
+  % (melalui metadata, source code, dan dokumentasi)
+  % ekstraksi data dan pembentukan model representasi dari smart contract.
   % eth2dgraph mengektstrak informasi, lalu melakukan semantic enrichment, lalu melakukan query (fokus di semantic enrichment nya)
-  \item Bagaimana membangun sebuah sistem Smart Contract Discovery yang dapat mengetahui semantik dari kebutuhan dan Smart Contract yang menjawab kebutuhan tersebut?
+  \item Bagaimana mengembangkan modul yang dapat memahami semantik dari kebutuhan pengguna dan isi Smart Contract, sehingga memungkinkan pemetaan yang tepat antara permintaan dan Smart Contract yang tersedia?
+  % mengintegrasikan pemahaman semantik untuk mencocokkan kebutuhan dengan konten smart contract.
   % Ini fokus di GIMANA MEKANISME semantic enrichment nya
 \end{enumerate}
 

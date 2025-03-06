@@ -3,20 +3,41 @@
 
 % Tuliskan tujuan utama dan/atau tujuan detail yang akan dicapai dalam pelaksanaan tugas akhir. Fokuskan pada hasil akhir yang ingin diperoleh setelah tugas akhir diselesaikan, terkait dengan penyelesaian persoalan pada rumusan masalah. Penting untuk diperhatikan bahwa tujuan yang dideskripsikan pada subbab ini akan dipertanggungjawabkan di akhir pelaksanaan tugas akhir apakah tercapai atau tidak. Tuliskan juga ukuran keberhasilan pencapaiannya.
 
-Tujuan yang akan dicapai untuk tugas akhir ini adalah membuat sebuah sistem Smart Contract Discovery yang dapat menghubungkan kebutuhan dari pengguna kepada fungsionalitas dari Smart Contract yang sesuai menggunakan semantik dan memberikan hasil yang sesuai kepada pengguna. Sistem ini diharapkan dapat memudahkan pencarian Smart Contracts dengan mengutamakan keterkaitan semantik, serta dapat digunakan oleh pengguna tanpa mempengaruhi kinerja dari Blockchain yang digunakan.
+Tujuan yang akan dicapai untuk tugas akhir ini adalah mengembangkan sebuah sistem Smart Contract Discovery yang mampu: 
+
+\begin{enumerate}
+  \item \textbf{Menghubungkan Kebutuhan Pengguna dengan Fungsionalitas Smart Contract} \newline
+  Menggunakan pendekatan semantik untuk menerjemahkan dan memetakan kebutuhan fungsionalitas dari pengguna dengan fitur dan fungsi Smart Contract yang relevan, sehingga dapat menghasilkan daftar Smart Contract yang sesuai dengan kebutuhan pengguna.
+  \item \textbf{Meningkatkan Relevansi dan Akurasi Hasil Pencarian} \newline
+  Menerapkan teknik ekstraksi informasi, representasi semantik, serta mekanisme pencarian untuk memastikan hasil pencarian tidak hanya relevan tetapi juga akurat.
+  \item \textbf{Menjamin Efisiensi dan Skalabilitas Sistem} \newline
+  Merancang arsitektur sistem yang tidak membebani kinerja jaringan Blockchain tetapi dapat digunakan secara luas.
+\end{enumerate}
+
+% dapat menghubungkan kebutuhan dari pengguna kepada fungsionalitas dari Smart Contract yang sesuai menggunakan semantik dan memberikan hasil yang sesuai kepada pengguna. Sistem ini diharapkan dapat memudahkan pencarian Smart Contracts dengan mengutamakan keterkaitan semantik, serta dapat digunakan oleh pengguna tanpa mempengaruhi kinerja dari Blockchain yang digunakan.
 
 Ukuran keberhasilan pencapaiannya adalah seberapa sesuai Smart Contract dapat ditemukan. Metrik dari masing-masing ukuran keberhasilan adalah sebagai berikut:
 
-% \begin{enumerate}
-%   \item Akurasi dan relevansi pencarian: seberapa akurat dan relevan hasil pencarian Smart Contract dengan kebutuhan dan fungsionalitas yang diinginkan oleh pengguna. Metrik yang digunakan adalah \textit{precision}, \textit{recall}, dan \textit{F1-score} dari hasil pencarian.
-%   % \item Kesesuaian dengan semantik dan fungsionalitas: seberapa sesuai hasil pencarian Smart Contract dengan semantik dan fungsionalitas yang diinginkan oleh pengguna.
-%   \item Efisiensi pencarian dan skalabilitas: seberapa cepat dan efisien proses pencarian Smart Contract, serta seberapa baik sistem dapat menangani jumlah data yang besar. Metrik yang digunakan adalah \textit{query response time} dan \textit{scalability performance} dari sistem.
-% \end{enumerate}
-
 \begin{enumerate}
-  \item Sistem Smart Contract Discovery dapat menghasilkan Smart Contract yang relevan sesuai semantik dan fungsionalitas yang diinginkan oleh pengguna. Metrik yang digunakan adalah \textit{Semantic Similarity Score}.
-  \item Sistem Smart Contract Discovery dapat berjalan tanpa mempengaruhi kinerja dari Blockchain yang digunakan. 
+  \item \textbf{Relevansi Hasil Pencarian Smart Contract} \newline 
+  Sistem Smart Contract Discovery dapat menghasilkan Smart Contract yang relevan sesuai semantik dan fungsionalitas yang diinginkan oleh pengguna. Metrik yang digunakan adalah \textit{Semantic Similarity Score}. 
+  % Pengukuran:
+  % Gunakan model pre-trained (misalnya, CodeBERT atau BERT) untuk menghasilkan representasi vektor dari query dan smart contract yang ditemukan. (BISA PAKAI LLM)
+  % Hitung nilai cosine similarity antara vektor query dan vektor smart contract untuk memperoleh Semantic Similarity Score.
+  % Jika dataset berlabel tidak tersedia, lakukan evaluasi manual dengan mengambil sampel hasil pencarian dan mengumpulkan umpan balik dari pengguna atau domain expert.
+  % (Alternatif) Gunakan metrik ekstrinsik seperti Click-Through Rate (CTR) jika sistem sudah di-deploy.
+  
+  \item \textbf{Dampak Terhadap Kinerja Blockchain} \newline 
+  Sistem Smart Contract Discovery dapat berjalan tanpa mempengaruhi kinerja dari Blockchain yang digunakan. Metrik yang digunakan adalah \textit{overhead} penggunaan sumber daya pada Blockchain.
   % Ini sudah pasti tercapai, karena didesain agar seperti itu, validasi nya gimana?
-  \item Sistem Smart Contract Discovery dapat berjalan dengan latensi rendah dan skalabilitas yang baik. Metrik yang digunakan adalah \textit{Response Time} dan \textit{Throughput}
-  % \item Model dari Smart Contract yang digunakan melingkupi fungsionalitas yang umum digunakan oleh pengguna. Metrik yang 
+  %   Pengukuran:
+  % Lakukan benchmarking pada jaringan blockchain dalam kondisi normal (tanpa integrasi sistem discovery) dan setelah integrasi.
+  % Bandingkan metrik seperti waktu konfirmasi transaksi, beban jaringan, atau total penggunaan gas untuk mengidentifikasi apakah sistem discovery memberikan dampak negatif terhadap kinerja blockchain.
+  % Pengukuran ini dapat dilakukan di lingkungan testnet dengan simulasi beban yang representatif.
+  \item \textbf{Kinerja dan Skalabilitas Sistem} \newline 
+  Sistem Smart Contract Discovery dapat berjalan dengan latensi rendah dan skalabilitas yang baik. Metrik yang digunakan adalah \textit{Response Time}, \textit{Throughput}, dan \textit{Resource Utilization}.
+  %   Pengukuran:
+  % Gunakan tools performance testing (misalnya, Apache JMeter atau Gatling) untuk mensimulasikan beban pengguna dan mengukur response time sistem.
+  % Ukur throughput dengan mencatat jumlah permintaan pencarian yang diproses dalam jangka waktu tertentu.
+  % Pantau resource utilization menggunakan monitoring tools standar seperti Prometheus dan Grafana untuk memastikan sistem dapat menangani beban secara efisien, terutama pada kondisi puncak.
 \end{enumerate}

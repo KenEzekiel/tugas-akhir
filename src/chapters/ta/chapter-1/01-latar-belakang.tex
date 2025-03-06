@@ -20,16 +20,28 @@ Smart Contracts bukan hanya dimanfaatkan untuk melakukan transaksi di dalam Bloc
 Namun, pertumbuhan ini juga menghadirkan berbagai tantangan, seperti:
 \begin{itemize}
     %  \item Kesulitan bagi pengguna, baik pengguna kontrak maupun \textit{developer} dalam menemukan Smart Contracts.
-    \item Kesulitan untuk menemukan dan menggunakan Smart Contract yang sesuai dengan kegunaan yang diinginkan dari banyaknya Smart Contracts yang ada dan bersifat publik.
-    \item Pencarian Smart Contracts mengeluarkan hasil yang terlalu spesifik atau tidak relevan karena memanfaatkan pencarian berbasis kata kunci, sehingga menyulitkan proses pencarian Smart Contract yang sesuai.
-    \item Latensi yang terus bertumbuh seiring dengan pertumbuhan data di dalam Blockchain, yang menyebabkan proses pencarian Smart Contract menjadi semakin lambat.
-    \item Pencarian Smart Contracts sulit dilakukan karena tidak seluruh Smart Contracts yang \textit{deployed} disertai \textit{source code}, sehingga masih berbentuk EVM Bytecode, yang tidak memiliki semantik yang baik, baik bagi \textit{end-user}, maupun sistem.
-    \item Kesulitan dalam memahami dan mengevaluasi Smart Contract yang ada, karena kurangnya dokumentasi dan informasi yang jelas tentang Smart Contract tersebut.
-    \item Kesulitan adopsi Smart Contracts karena kurangnya standarisasi dan juga pengartian semantik dari setiap aspek dan fungsionalitas dari Smart Contract.
-    \item Terdapat redundansi penulisan Smart Contract, di mana Smart Contract yang serupa tetap ditulis dan dimasukkan ke dalam Blockchain untuk digunakan karena Smart Contract yang serupa, atau bahkan sama, sulit untuk ditemukan dan digunakan.
-    \item Hambatan integrasi yang disebabkan oleh desain Smart Contract yang tidak mendukung \textit{interoperability}, membatasi kemampuannya untuk berkolaborasi dengan sistem atau Smart Contract lain.
-    \item Kesulitan dalam menilai keamanan, kredibilitas, dan kualitas Smart Contract, terutama ketika tidak ada mekanisme evaluasi yang standar atau dapat diandalkan.
-    \item Tantangan dalam mengidentifikasi versi terbaru dan lebih efisien dari sebuah Smart Contract, yang dapat menyebabkan penggunaan kontrak yang sudah usang atau tidak optimal.
+    \item \textbf{Kesulitan Menemukan Smart Contract yang Sesuai} \newline
+    Terdapat banyak Smart Contract publik, sehingga sulit bagi pengguna atau pengembang menemukan dan menggunakan Smart Contract yang sesuai dengan kegunaan yang diinginkan.
+    \item \textbf{Hasil Pencarian yang Terlalu Spesifik atau Tidak Relevan} \newline
+    Metode pencarian berbasis kata kunci sering menghasilkan hasil yang tidak tepat, baik terlalu sempit maupun tidak relevan, sehingga menghambat proses pencarian Smart Contract yang sesuai.
+    \item \textbf{Latensi Pencarian yang Meningkat} \newline
+    Pertumbuhan data di blockchain menyebabkan latensi yang semakin tinggi, sehingga proses pencarian Smart Contract menjadi lebih lambat.
+    \item \textbf{Keterbatasan Informasi Karena Tidak Selalu Ada Source Code} \newline
+    Tidak semua Smart Contract yang telah dideploy disertai dengan source code (beberapa hanya tersedia dalam bentuk EVM Bytecode), sehingga sulit untuk mendapatkan informasi semantik yang mendalam baik bagi pengguna maupun sistem.
+    \item \textbf{Kurangnya Dokumentasi dan Informasi yang Jelas} \newline
+    Banyak Smart Contract yang kekurangan dokumentasi dan informasi penjelasan, sehingga menyulitkan pemahaman dan evaluasi Smart Contract tersebut.
+    \item \textbf{Kurangnya Standarisasi dan Pengartian Semantik} \newline
+    Tidak adanya standarisasi serta definisi semantik yang jelas mengenai aspek dan fungsionalitas Smart Contract menyulitkan adopsi dan pemanfaatan yang optimal.
+    \item \textbf{Redundansi Penulisan Smart Contract} \newline
+    Karena Smart Contract yang serupa sulit ditemukan, pengembang cenderung menulis ulang kontrak yang sebenarnya sudah ada, sehingga terjadi redundansi dalam blockchain.
+    \item \textbf{Kurangnya Standar Keamanan dan Mekanisme \textit{Reuse}} \newline
+    Tidak terdapat mekanisme standar yang memudahkan penggunaan ulang Smart Contract, sehingga standar keamanan dalam penulisan Smart Contract pun belum optimal.  
+    \item \textbf{Hambatan Integrasi dan Kurangnya Interoperabilitas} \newline
+    Desain Smart Contract yang tidak mendukung interoperabilitas menghambat integrasi dan kolaborasi antar sistem atau Smart Contract lain.
+    \item \textbf{Kesulitan Menilai Keamanan, Kredibilitas, dan Kualitas} \newline
+    Tidak adanya mekanisme evaluasi yang standar membuat penilaian terhadap keamanan, kredibilitas, dan kualitas Smart Contract menjadi sulit.
+    \item \textbf{Sulit Mengidentifikasi Versi Terbaru dan Efisien} \newline
+    Pengguna sering mengalami kesulitan dalam menemukan versi Smart Contract yang terbaru dan lebih efisien, sehingga kontrak yang sudah usang atau tidak optimal tetap digunakan.
 \end{itemize}
 
 Tantangan-tantangan ini, jika dibiarkan dengan laju pertumbuhan Smart Contracts yang terus naik, akan membuat ekosistem pengembangan dan juga penggunaan Smart Contract tidak efisien. Kesulitan pencarian akan membuat lebih banyak pengguna membuat kontrak baru, yang lebih tidak terstandarisasi dan \textit{error-prone} dibandingkan menggunakan yang sudah ada, walaupun Smart Contract yang sudah ada memiliki fungsionalitas yang sama persis dengan apa yang dibutuhkan pengguna dan lebih terjamin secara \textit{standard}, sehingga menyebabkan inefisiensi secara usaha, waktu, dan juga besar data yang disimpan di dalam Blockchain. Hal ini juga berarti akan sulit mengembangkan sistem yang lebih kompleks menggunakan Smart Contracts.
