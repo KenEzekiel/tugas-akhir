@@ -1,0 +1,14 @@
+\subsection{GraphChain: A Distributed Database with Explicit Semantics and Chained RDF Graphs}
+\label{subsec:graphchain}
+
+Penelitian yang dilakukan oleh \cite{sopek2018graphchain} mengusulkan GraphChain, sebuah sistem basis data terdistribusi yang memanfaatkan mekanisme Blockchain dan model data RDF (\textit{Resource Description Framework}) untuk mengindeks dan mengakses data dengan semantik eksplisit. Berbeda dengan implementasi Blockchain tradisional yang menggunakan struktur data yang disederhanakan untuk menyimpan data, GraphChain menyarankan penggunaan grafik RDF yang terhubung untuk menyimpan data terstruktur, di mana setiap grafik RDF diberi nama dan dirantai dalam urutan tertentu menggunakan mekanisme Blockchain untuk memastikan keamanan dan konsistensi data.
+
+Dalam penelitian ini, GraphChain diusulkan sebagai solusi untuk mengatasi keterbatasan teknologi Blockchain yang ada, terutama dalam hal efisiensi query dan penyimpanan data terstruktur yang lebih canggih. Data yang disimpan dalam GraphChain bisa diakses menggunakan teknik-teknik yang sudah ada, seperti SPARQL untuk query data dan Linked Data untuk mengakses simpul-simpul dalam grafik tersebut melalui protokol web standar (HTTP). Protokol ini juga menyediakan mekanisme keamanan Blockchain seperti hashing dan tanda tangan kriptografis untuk memastikan integritas data.
+
+GraphChain menggunakan ontologi yang sesuai dengan OWL (Web Ontology Language) untuk mendefinisikan elemen-elemen struktural yang ada dalam GraphChain, serta memberikan dasar semantik yang diperlukan. Pendekatan ini menggabungkan keuntungan dari teknologi blockchain, seperti desentralisasi dan ketahanan terhadap perubahan data, dengan kekuatan model data RDF yang sangat kuat dalam representasi semantik dan hubungan data yang kompleks.
+
+Selain itu, implementasi awal GraphChain telah diuji menggunakan berbagai teknologi seperti Java, .NET (C\#), dan JavaScript (Node.js). Hasil pengujian menunjukkan bahwa GraphChain memungkinkan untuk penyimpanan dan pencarian data yang lebih efisien di atas jaringan terdistribusi dengan menggunakan mekanisme yang telah teruji dalam komunitas RDF dan Semantic Web.
+
+Secara keseluruhan, GraphChain mengusulkan solusi inovatif yang memungkinkan penggabungan manfaat Blockchain dengan Semantic Web, sehingga dapat digunakan untuk aplikasi seperti pengelolaan identitas digital, di mana data yang terstruktur dan tidak dapat diubah harus disimpan secara aman namun tetap dapat diakses dan dikelola dengan efisien.
+
+Hasil penelitian ini membuka peluang baru dalam integrasi Semantic Web dan Blockchain untuk pengelolaan data terdistribusi yang tidak hanya aman, tetapi juga mudah diakses dan digunakan dengan metode query yang efisien. Implementasi GraphChain diharapkan dapat lebih menyempurnakan dan mempercepat adopsi teknologi Blockchain dalam berbagai aplikasi berbasis data terstruktur.
