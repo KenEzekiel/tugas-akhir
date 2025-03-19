@@ -1,0 +1,17 @@
+\subsection{The Graph Protocol: Desentralisasi Indeksasi Data Blockchain}
+\label{subsec:the-graph-protocol}
+
+Produk yang dikembangkan oleh \cite{TheGraphDocs}, The Graph, adalah sebuah protokol indeksasi terdesentralisasi untuk data Blockchain yang memungkinkan pengguna untuk mendapatkan data terstruktur dari Blockchain lainnya melalui antarmuka GraphQL. Sebelumnya, sulit atau bahkan tidak mungkin bagi pengguna untuk mendapatkan hasil operasi query tingkat lanjut dari data Smart Contracts tertentu seperti agregasi atau relasi. The Graph menyelesaikan permasalahan ini dengan sebuah protokol terdesentralisasi yang melakukan indeksasi data pada Blockchain Ethereum menggunakan subgraphs. Subgraphs merupakan koleksi data independen yang mengindeks subset kecil dari jaringan Blockchain. Umumnya, subgraph mengindeks data dari satu atau beberapa Smart Contracts yang merupakan bagian dari protokol umum, seperti Uniswap. Semua subgraph yang tersedia dapat ditemukan di Graph Explorer.
+
+Data diindeks dengan menggunakan subgraph manifest, sebuah file YAML yang berisi deskripsi dari bagian-bagian yang diperlukan oleh subgraph, termasuk pemetaan data Ethereum dan log yang terkait. Semua bagian ini diorganisir dengan baik agar dapat diakses oleh berbagai aplikasi terdesentralisasi (dApp), mengurangi ketergantungan pada layanan data terpusat dan memperkenalkan mekanisme yang lebih terbuka dan terdesentralisasi.
+
+Protokol ini melibatkan beberapa aktor utama:
+
+\begin{itemize}
+  \item Pengembang: Mereka yang memiliki pengetahuan teknis untuk mengembangkan kode yang diperlukan untuk membuat dan memelihara indeks, seperti pemetaan dari acara Ethereum ke data yang disimpan, yang ditulis dalam AssemblyScript.
+  \item Indexers: Bertanggung jawab untuk mengoperasikan node dan melayani kueri dari pengguna. Untuk mengindeks dan melayani kueri, indexers harus mempertaruhkan minimal 100.000 token GRT (setara dengan sekitar 12.000 USD). Mereka diberi hadiah dalam bentuk token GRT berdasarkan jumlah kueri yang dilayani.
+  \item Curators: Bertugas untuk menemukan subgraphs terbaik yang harus diindeks.
+  \item Delegators: Mengamankan jaringan dengan mengunci nilai ekonomi ke indexers tertentu yang mereka pilih, memberikan mereka kemungkinan untuk melayani lebih banyak kueri.
+\end{itemize}
+
+Sistem ini beroperasi dengan mata uang GRT yang digunakan dalam ekonomi token, memberikan insentif ekonomi untuk para aktor yang terlibat agar berperilaku baik dan memastikan kualitas layanan. Dengan demikian, The Graph menjadi protokol pertama yang mencoba mendesentralisasi indeksasi data blockchain, yang sangat penting untuk masa depan Web3 dan dApps yang tidak bergantung pada layanan data terpusat.
