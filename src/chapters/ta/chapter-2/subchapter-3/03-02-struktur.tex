@@ -1,0 +1,27 @@
+\subsection{Struktur Smart Contract}
+\label{subsec:struktur-smart-contract}
+
+Smart Contract di dalam Solidity serupa dengan \textit{class} di dalam pemrograman berbasis objek. Struktur dari Smart Contract tersusun dari \parencite{solidity_structure}:
+
+\begin{enumerate}
+  \item \textbf{State Variables} \newline
+  Variabel yang datanya disimpan secara permanen di di \textit{contract storage} atau secara sementara di \textit{transient storage} yang dibersihkan di akhir setiap transaksi.
+  \item \textbf{Functions} \newline
+  Unit kode berisi logika bisnis yang dapat dieksekusi, dapat didefinisikan di dalam atau di luar \textit{contract}.
+  \item \textbf{Modifiers} \newline
+  Mekanisme untuk mengontrol akses atau mengimplementasikan logika tambahan sebelum atau sesudah eksekusi.
+  \item \textbf{Events} \newline
+  Mekanisme \textit{logging} yang memungkinkan Smart Contract untuk mengeluarkan informasi ke log Blockchain, yang dapat dipantau oleh aplikasi eksternal.
+  \item \textbf{Errors} \newline
+  Mekanisme untuk mendefinisikan nama dan data untuk situasi kegagalan, yang dapat digunakan dalam \textit{revert statement}.
+  \item \textbf{Struct Types} \newline
+  Definisi tipe yang dapat digunakan secara \textit{custom} untuk menyimpan data yang kompleks.
+  \item \textbf{Enum Types} \newline
+  Definisi tipe yang dapat digunakan untuk membuat tipe data dengan nilai yang terbatas.
+  \item \textbf{Constructors} \newline
+  Fungsi khusus yang hanya dipanggil sekali saat kontrak di-\textit{deploy} untuk menginisialisasi \textit{state} awal dari kontrak.
+  \item \textbf{Fallback and Receive Functions} \newline
+  Fungsi khusus yang menangani transaksi yang dikirim langsung ke kontrak tanpa data, atau ketika fungsi yang dipanggil tidak ditemukan.
+  \item \textbf{Library and Inheritance} \newline
+  Mekanisme \textit{inheritance} dan \textit{reusability} kode yang memungkinkan kontrak untuk mewarisi fungsi dan variabel dari kontrak lain untuk mengorganisir kode den meminimalisir duplikasi.
+\end{enumerate}
