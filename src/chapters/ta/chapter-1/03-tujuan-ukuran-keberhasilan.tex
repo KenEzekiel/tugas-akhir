@@ -6,11 +6,11 @@
 Tujuan yang akan dicapai untuk tugas akhir ini adalah mengembangkan sebuah sistem Smart Contract Discovery yang mampu: 
 
 \begin{enumerate}
-  \item \textbf{Menghubungkan Kebutuhan Pengguna dengan Fungsionalitas Smart Contract} \newline
+  \item \textbf{Menghubungkan Kebutuhan Pengguna dengan Fungsionalitas Smart Contract (T1)} \newline
   Menggunakan pendekatan semantik untuk menerjemahkan dan memetakan kebutuhan fungsionalitas dari pengguna dengan fitur dan fungsi Smart Contract yang relevan, sehingga dapat menghasilkan daftar Smart Contract yang sesuai dengan kebutuhan pengguna.
-  \item \textbf{Meningkatkan Relevansi dan Akurasi Hasil Pencarian} \newline
+  \item \textbf{Meningkatkan Relevansi dan Akurasi Hasil Pencarian (T2)} \newline
   Menerapkan teknik ekstraksi informasi, representasi semantik, serta mekanisme pencarian untuk memastikan hasil pencarian tidak hanya relevan tetapi juga akurat.
-  \item \textbf{Menjamin Efisiensi dan Skalabilitas Sistem} \newline
+  \item \textbf{Menjamin Efisiensi dan Skalabilitas Sistem (T3)} \newline
   Merancang arsitektur sistem yang tidak membebani kinerja jaringan Blockchain tetapi dapat digunakan secara luas.
 \end{enumerate}
 
@@ -19,7 +19,7 @@ Tujuan yang akan dicapai untuk tugas akhir ini adalah mengembangkan sebuah siste
 Ukuran keberhasilan pencapaiannya adalah seberapa sesuai Smart Contract dapat ditemukan. Metrik dari masing-masing ukuran keberhasilan adalah sebagai berikut:
 
 \begin{enumerate}
-  \item \textbf{Relevansi Hasil Pencarian Smart Contract} \newline 
+  \item \textbf{Relevansi Hasil Pencarian Smart Contract (UK1)} \newline 
   Sistem Smart Contract Discovery dapat menghasilkan Smart Contract yang relevan sesuai semantik dan fungsionalitas yang diinginkan oleh pengguna. Metrik yang digunakan adalah \textit{Semantic Similarity Score}. 
   % Pengukuran:
   % Gunakan model pre-trained (misalnya, CodeBERT atau BERT) untuk menghasilkan representasi vektor dari query dan smart contract yang ditemukan. (BISA PAKAI LLM)
@@ -27,14 +27,14 @@ Ukuran keberhasilan pencapaiannya adalah seberapa sesuai Smart Contract dapat di
   % Jika dataset berlabel tidak tersedia, lakukan evaluasi manual dengan mengambil sampel hasil pencarian dan mengumpulkan umpan balik dari pengguna atau domain expert.
   % (Alternatif) Gunakan metrik ekstrinsik seperti Click-Through Rate (CTR) jika sistem sudah di-deploy.
   
-  \item \textbf{Dampak Terhadap Kinerja Blockchain} \newline 
+  \item \textbf{Dampak Terhadap Kinerja Blockchain (UK2)} \newline 
   Sistem Smart Contract Discovery dapat berjalan tanpa mempengaruhi kinerja dari Blockchain yang digunakan. Metrik yang digunakan adalah \textit{overhead} penggunaan sumber daya pada Blockchain.
   % Ini sudah pasti tercapai, karena didesain agar seperti itu, validasi nya gimana?
   %   Pengukuran:
   % Lakukan benchmarking pada jaringan blockchain dalam kondisi normal (tanpa integrasi sistem discovery) dan setelah integrasi.
   % Bandingkan metrik seperti waktu konfirmasi transaksi, beban jaringan, atau total penggunaan gas untuk mengidentifikasi apakah sistem discovery memberikan dampak negatif terhadap kinerja blockchain.
   % Pengukuran ini dapat dilakukan di lingkungan testnet dengan simulasi beban yang representatif.
-  \item \textbf{Kinerja dan Skalabilitas Sistem} \newline 
+  \item \textbf{Kinerja dan Skalabilitas Sistem (UK3)} \newline 
   Sistem Smart Contract Discovery dapat berjalan dengan latensi rendah dan skalabilitas yang baik. Metrik yang digunakan adalah \textit{Response Time}, \textit{Throughput}, dan \textit{Resource Utilization}.
   %   Pengukuran:
   % Gunakan tools performance testing (misalnya, Apache JMeter atau Gatling) untuk mensimulasikan beban pengguna dan mengukur response time sistem.
