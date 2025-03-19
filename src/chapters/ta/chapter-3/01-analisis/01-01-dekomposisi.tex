@@ -1,0 +1,38 @@
+\subsubsection{Dekomposisi Masalah}
+\label{subsubsec:dekomposisi-masalah}
+% masalah utama: sulit untuk menemukan Smart Contracts yang sesuai dengan kebutuhan pengguna di tengah banyaknya Smart Contracts yang ada pada Blockchain. Kesulitan ini terutama muncul dalam pengklasifikasian dan pelabelan Smart Contracts secara semantik, yang berdampak pada sulitnya menemukan Smart Contracts yang sesuai dengan kebutuhan pengguna.
+% dampak masalah: pertumbuhan jumlah Smart Contracts yang tidak terkendali dan peningkatan ukuran Blockchain (\textit{bloating}), peningkatan biaya dan waktu serta penurunan kualitas karena kurangnya mekanisme \textit{reusability} Smart Contracts.
+
+% dekomposisi permasalahan
+% 1. bagaimana mengekstraksi data smart contracts dari Blockchain
+% 2. bagaimana menyimpan dan mengelola data smart contracts yang sudah diekstrak
+% 3. (ini nanti jawabannya dengen semantik enrichment) bagaimana melabelkan dan mengklasifikasikan Smart Contracts yang akan mempermudah pencarian berdasarkan kebutuhan pengguna -> untuk identifikasi kebutuhan yang dijawab oleh Smart Contract
+% 4. bagaimana melakukan manajemen terhadap data smart contracts yang sudah dilabelkan dan diklasifikasikan
+% 5. (ini nanti jawabannya pake RAG) bagaimana menghubungkan permintaan kebutuhan pengguna dengan data yang sudah dilabelkan dan diklasifikasikan
+
+Secara singkat, masalah utama yang diidentifikasi adalah kesulitan untuk menemukan Smart Contracts yang sesuai dengan kebutuhan pengguna di tengah pertumbuhan jumlah Smart Contracts yang ada pada Blockchain. Masalah ini terutama muncul karena ketiadaan mekanisme klasifikasi yang jelas untuk mengidentifikasi Smart Contracts, sehingga pengguna kesulitan dalam menemukan Smart Contracts yang sesuai. 
+
+Permasalahan ini dapat dijawab dengan sebuah mekanisme pencarian Smart Contracts yang lebih akurat dan efisien, yang memungkinkan pengguna untuk menemukan Smart Contracts yang sesuai dengan kebutuhan mereka dengan memanfaatkan pelabelan atau pengklasifikasian dari Smart Contracts.
+% berdasarkan kebutuhan yang dijawabnya
+
+% ini masih umum kaya yaudah ini idenya dan emang cara solve nya ini, tapi nanti di bab berikutnya itu fokusnya gimana implementasinya dan ide utama yang menawarkan kebaruannya tuh apa
+
+Untuk mengembangkan mekanisme tersebut, berikut merupakan dekomposisi masalah yang perlu dikonsiderasi:
+
+\begin{enumerate}
+  \item Bagaimana melakukan ekstraksi data Smart Contracts dari Blockchain? (DK1)
+  \item Bagaimana menyimpan dan mengelola data Smart Contracts yang sudah diekstrak? (DK2)
+  \item Bagaimana melabelkan atau mengklasifikasikan Smart Contracts yang akan mempermudah pencarian berdasarkan kebutuhan? (DK3)
+  \item Bagaimana melakukan manajemen terhadap data Smart Contracts yang sudah dilabelkan dan diklasifikasikan? (DK4)
+  \item Bagaimana memahami kebutuhan dari pengguna? (DK5)
+  \item Bagaimana menghubungkan permintaan kebutuhan pengguna dengan data yang sudah dilabelkan dan diklasifikasikan? (DK6)
+  \item Bagaimana melakukan pencarian dan penggunaan ulang tanpa mempengaruhi kinerja sistem? (DK7)
+  \item Bagaimana mempermudah integrasi Smart Contracts dalam pengembangan dApps? (DK8)
+  % \item Bagaimana melakukan \textit{semantic enrichment} terhadap data Smart Contracts? (DK3)
+  % ini salah, semantic enrichment itu belum muncul dari sini harusnya
+  % \item Bagaimana melakukan query terhadap data Smart Contracts yang sudah dilakukan \textit{semantic enrichment}? 
+  % salah, terlalu spesifik, sama (harusnya RAG ini muncul di bawah)
+  % \item Bagaimana menghubungkan permintaan kebutuhan pengguna dengan query terhadap data yang sesuai? 
+\end{enumerate}
+
+% bisa dipakai untuk memperbaiki rumusan masalah (kalau masih kurang jelas)

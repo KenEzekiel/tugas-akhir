@@ -1,0 +1,62 @@
+\subsubsection{Kebutuhan Utama}
+\label{subsubsec:kebutuhan-utama}
+
+Berdasarkan permasalahan utama dan dekomposisi masalah yang sudah diidentifikasi, muncul beberapa kebutuhan utama untuk menyelesaikannya, terutama yang berkaitan dengan pengelolaan dan penggunaan Smart Contracts. Berikut adalah beberapa kebutuhan yang perlu dijawab:
+
+% \begin{enumerate}
+%   \item \textbf{Peningkatan \textit{Reusability} Smart Contracts} \newline
+%   Dibutuhkan sebuah sistem yang dapat meningkatkan \textit{reusability} dari Smart Contracts yang sudah ada. Hal ini penting untuk mengurangi redundansi dalam pengembangan Smart Contracts baru yang sebenarnya memiliki fungsionalitas serupa. Dengan adanya mekanisme pencarian berdasarkan fungsionalitas dan semantik, pengembang dapat memanfaatkan kontrak yang tersedia tanpa perlu menulis dari awal, sehingga menekan biaya serta waktu \textit{deployment}.
+%   \item \textbf{Manajemen \textit{Smart Contracts} yang Efisien} \newline
+%   Dibutuhkan sistem yang mendukung manajemen Smart Contracts secara efisien. Sistem ini tidak hanya membantu dalam melakukan pelabelan dan pengklasifikasian Smart Contracts berdasarkan fungsinya, tetapi juga memungkinkan pengembang untuk memahami hubungan antar kontrak. Dengan pendekatan manajemen yang baik, proses pengelolaan Smart Contracts menjadi lebih terstruktur dan sistematis, yang pada akhirnya memudahkan integrasi dalam pengembangan dApps.
+%   \item \textbf{Solusi \textit{Off-Chain} untuk Mengurangi Beban Blockchain} \newline
+%   Untuk mengurangi beban pada Blockchain, diperlukan solusi yang memungkinkan sebagian proses dilakukan di luar jaringan Blockchain (off-chain). Dengan cara ini, pencarian dan pengelolaan Smart Contracts dapat dilakukan tanpa membebani kapasitas penyimpanan atau mengganggu efisiensi sistem konsensus di Blockchain. Solusi semacam ini dapat menjadi pendukung utama untuk menciptakan ekosistem Blockchain yang lebih skalabel dan efisien.
+%   \item \textbf{Pengurangan Biaya dan Waktu Pengembangan} \newline
+%   Selain meminimalkan redundansi, sistem yang dikembangkan harus membantu menekan biaya dan waktu pengembangan. Dengan menyediakan mekanisme pencarian berbasis semantik yang tepat sasaran, pengembang dapat langsung menemukan dan menggunakan Smart Contracts yang sudah ada, menghemat biaya \textit{deployment} baru dan waktu pengembangan.
+%   \item \textbf{Skalabilitas dan Efisiensi Penyimpanan Blockchain} \newline
+%   Solusi yang diusulkan juga harus mendukung peningkatan skalabilitas dan efisiensi penyimpanan Blockchain. Dengan mengurangi jumlah Smart Contracts yang \textit{redundant}, sistem ini dapat membantu mencegah \textit{bloating} Blockchain dan memastikan penyimpanan tetap efisien, sehingga jaringan dapat terus mendukung pengembangan aplikasi berskala besar.
+% \end{enumerate}
+
+% kebutuhan yang muncul
+% 1. sistem harus bisa klasifikasi fungsional dan semantik dari sc (semantic enrichment)
+% 2. import dan reuse sc harus dipermudah oleh sistem || sistem harus bisa memudahkan reusability -> lebih mudah untuk reuse sc
+% 3. sistem harus bisa manajemen sc -> grouping sc berdasarkan label semantik
+% 4. sistem harus berjalan secara offchain -> tidak membebani blockchain
+
+% 5. sistem harus bisa ekstraksi data sc dari blockchain
+% 6. sistem harus bisa menyimpan dan mengelola data sc yang sudah diekstrak
+% 7. sistem harus bisa mentranslasikan kebutuhan pengguna ke query yang sesuai
+% 8. data yang disimpan di dalam sistem harus dapat dilakukan query 
+
+\begin{enumerate}
+  \item \textbf{Kebutuhan Ekstraksi Data Smart Contracts (K1)} \newline
+  Sistem harus mampu mengekstraksi data Smart Contracts yang ada di Blockchain untuk dapat diproses dan digunakan lebih lanjut.
+  % DK1
+
+  \item \textbf{Kebutuhan Penyimpanan dan Pengelolaan Data Smart Contracts (K2)} \newline
+  Sistem harus dapat menyimpan dan mengelola data Smart Contracts yang telah diekstrak dan di-\textit{enrich}, sehingga data dapat diakses dan digunakan untuk pencarian lebih lanjut. 
+  % DK2, DK4
+
+  \item \textbf{Kebutuhan Klasifikasi Fungsional dan Semantik (K3)} \newline
+  Sistem harus dapat mengklasifikasikan Smart Contracts berdasarkan fungsionalitas dan semantik, dengan memperkaya data semantik (\textit{semantic enrichment}) untuk memudahkan pencarian kontrak yang relevan.
+  % DK3, DK5
+
+  \item \textbf{Kebutuhan Solusi \textit{Off-Chain} (K4)} \newline
+  Sistem harus berjalan secara \textit{off-chain} untuk mengurangi beban pada jaringan Blockchain dan meningkatkan skalabilitas. 
+  % DK7
+
+  \item \textbf{Kebutuhan Translasi Kebutuhan Pengguna ke Smart Contracts (K5)} \newline
+  Sistem harus dapat mentranslasikan kebutuhan fungsionalitas yang diajukan oleh pengguna menjadi kontrak yang relevan.
+  % DK5, DK6 
+
+  \item \textbf{Kebutuhan Kemampuan Query Data (K6)} \newline
+  Data yang disimpan dalam sistem harus dapat di-query dengan mudah untuk memungkinkan pengambilan informasi yang relevan.
+  % DK6
+
+  \item \textbf{Kebutuhan Peningkatan \textit{Reusability} (K7)} \newline
+  Sistem harus memudahkan penggunaan ulang Smart Contracts yang telah ada, dengan memastikan kemudahan dalam melakukan \textit{import} Smart Contract.
+  % DK8
+\end{enumerate}
+
+Kebutuhan-kebutuhan ini akan menjadi dasar dalam merancang solusi yang tepat untuk mengatasi permasalahan utama yang diidentifikasi sebelumnya. Dengan memenuhi kebutuhan-kebutuhan tersebut, diharapkan solusi yang diusulkan dapat memberikan manfaat yang maksimal bagi pengguna dalam mengelola dan menggunakan Smart Contracts di Blockchain.
+
+% Bisa dikasih visualisasi juga 

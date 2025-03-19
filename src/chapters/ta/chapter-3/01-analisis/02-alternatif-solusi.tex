@@ -1,0 +1,73 @@
+\subsection{Analisis Alternatif Solusi}
+
+\subsubsection{Pendekatan Solusi}
+Berdasarkan analisis masalah pada bagian \ref{subsec:analisis-masalah}, terdapat beberapa kebutuhan yang perlu dipenuhi dalam pengembangan solusi. Pemenuhan kebutuhan-kebutuhan ini akan menjadi konsiderasi untuk memilih alternatif solusi yang tepat. Altenatif-alternatif solusi akan dibagi menjadi beberapa kategori berdasarkan kebutuhan yang dipenuhinya, yaitu:
+
+\begin{enumerate}
+  \item Ekstraksi data Smart Contracts dari Blockchain Ethereum
+  % K1 (eth2dgraph)
+  \item Pemodelan, penyimpanan, dan \textit{indexing} data Smart Contracts
+  % K2, K6 (dgraph)
+  \item Klasifikasi fungsional dan semantik Smart Contracts
+  % K3 (LLM, source code)
+  \item Pencarian dan rekomendasi Smart Contracts berdasarkan kebutuhan pengguna dan pengembang
+  % K5 (RAG)
+  \item Interaksi pengguna dengan sistem
+  % K7 (UI, API)
+  % \item Penempatan sistem dalam ekosistem Blockchain -> ini udah pasti offchain. jadi udah gausah jadi alternatif (nanti muncul pas rekap pemilihan aja) (K4)
+\end{enumerate}
+
+
+\subsubsection{Ekstraksi Data Smart Contracts dari Blockchain Ethereum}
+
+\subsubsection{Pemodelan, Penyimpanan, dan \textit{Indexing} Data Smart Contracts}
+
+\subsubsection{Klasifikasi Fungsional dan Semantik Smart Contracts}
+
+\subsubsection{Pencarian dan Rekomendasi Smart Contracts}
+
+\subsubsection{Interaksi Pengguna dengan Sistem}
+
+
+% Untuk mengatasi permasalahan pemilihan Smart Contracts yang tepat dan mengurangi redundansi Smart Contracts di Blockchain, solusi yang diusulkan adalah sebuah sistem pencarian Smart Contracts yang dapat memberikan hasil berdasarkan fungsionalitas Smart Contracts. Sistem akan dibangun dengan memanfaatkan berbagai teknologi dan riset yang sudah ada, yang melakukan \textit{indexing} maupun modeling yang menjadikan Smart Contracts \textit{discoverable} untuk mengefisiensikan pengembangan.
+
+% Beberapa riset yang dilakukan peninjauan untuk digunakan sebagai basis adalah riset oleh \cite{third2017linked}, \cite{aimar2023extraction}, \cite{baqa2019semantic}, \cite{cano2021toward}. Peninjauan didasari dengan beberapa aspek yaitu aksesibilitas dari hasil riset, kompleksitas teknis, skalabilitas, dan dukungan fungsional untuk mencapai tujuan utama.
+
+% % Masukin diagram yang dibuat di ppt
+
+% % preliminary analysis
+
+% % gambaran solusi
+
+% % menjelaskan secara lebih detail latar belakang dan masalah yang menjadi dasar munculnya topik TA ini, intinya kita coba lihat & analisis gapnya 
+% % gap analysis
+% % kaitan antara sistem yang dikembangkan dengan yang terkait -> apa kelebihannya? atau apa kekurangan dari aplikasi lain? emang belum terpenuhi? apa yang belum terpenuhi?
+% % posisi sistem yang dikembangkan terhadap sistem yang lebih besar
+
+% % PLACEHOLDER
+% \subsubsection{Semantic Indexing with Linked Data \parencite{third2017linked}}
+
+% Riset ini menerapkan indeks semantik pada data Blockchain menggunakan Linked Data dengan keunggulan penggunaan ontology BLONDiE dan MSM untuk mendeskripsikan semantik Smart Contracts dan fokus pada aspek \textit{discoverability}. Secara aksesibilitas, konsep riset ini \textit{public}, namun tanpa implementasi \textit{open source}. Implementasinya kompleks karena memerlukan pemetaan ontology ekstensif dan RDF triple generation, tanpa dukungan \textit{tools} atau \textit{framework}. Skalabilitas riset ini terbatas karena bergantung pada RDF-based Linked Data, yang kurang cocok untuk data Blockchain besar.
+
+% \subsubsection{eth2dgraph \parencite{aimar2023extraction}}
+
+% Riset ini berfokus pada ekstraksi, \textit{indexing}, dan penyimpanan data Ethereum berbasis Distributed Graph. Keunggulannya adalah penggunaan ekstraksi ABI, bytecode, dan metadata yang dapat diubah menjadi format berbasis graf, serta implementasinya yang \textit{open source} dan \textit{public}. Menggunakan Rust untuk performa tinggi dan Dgraph untuk skalabilitas, riset ini dapat melakukan query pada hubungan Smart Contracts di Ethereum. Kompleksitasnya moderat karena memerlukan pengetahuan dasar tentang Rust dan Dgraph, namun dapat diperluas untuk menambahkan aspek semantik. Skalabilitasnya tinggi berkat kinerja Dgraph.
+
+% \subsubsection{Alternatif Lainnya}
+
+% Kedua riset alternatif lainnya oleh \cite{baqa2019semantic} dan \cite{cano2021toward} tidak dapat dipilih karena \textit{domain} yang terlalu spesifik, ditambah dengan implementasi yang tidak bersifat \textit{open source} dan \textit{public}.
+
+% \subsubsection{Hasil Analisis}
+
+% Setelah melakukan analisis dari alternatif yang ada, diputuskan untuk menggunakan riset oleh \cite{aimar2023extraction}, karena memiliki implementasi yang \textit{open source}, yang mempermudah ekstraksi dan \textit{indexing} data menjadi Graph Database, sehingga tidak perlu membuat RDF Triples ada model ontology dari awal. Distributed Graph Database juga memiliki skalabilitas yang baik untuk data yang banyak pada Blockchain Ethereum. eth2dgraph juga memiliki kemampuan ekstensibilitas yang baik dalam \textit{domain} yang lebih umum, sehingga lebih mudah diimplementasikan sebagai fondasi dari sistem keseluruhan. 
+
+% \subsubsection{Rancangan Solusi}
+
+% Dengan penggunaan eth2dgraph sebagai fondasi dari sistem pencarian Smart Contract, berikut merupakan ajuan rancangan dari sistem:
+
+% \begin{enumerate}
+%   \item Layer 1: Blockchain Data Extraction (eth2dgraph) \newline Ekstraksi data Blockchain Ethereum menjadi Dgraph
+%   \item Layer 2: Semantic Indexing and Enrichment \newline \textit{Mapping} data hasil ekstraksi kepada sebuah ontology seperti BLONDiE atau EthOn, pelabelan fungsional Smart Contracts, dan Version Control
+%   \item Layer 3: Query and Discovery System \newline Sebuah Search Engine menggunakan GraphQL Queries diatas Dgraph Database yang memperkenalkan pencarian berbasis semantik
+%   \item Layer 4: User Interaction Layer \newline Sebuah \textit{dashboard} atau API untuk pengembang melakukan pencarian Smart Contracts berdasarkan fungsionalitas, metadata, atau relasi, membandingkan Smart Contracts yang serupa, dan melakukan \textit{export} atau \textit{reuse} dari Smart Contract 
+% \end{enumerate}
