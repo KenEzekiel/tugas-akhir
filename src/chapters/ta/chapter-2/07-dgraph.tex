@@ -1,0 +1,33 @@
+\section{Distributed Graph}
+\label{sec:dgraph}
+
+Dgraph adalah sebuah \textit{distributed graph database} yang dirancang untuk menyimpan dan mengelola \textit{linked data} secara efisien dengan skalabilitas horizontal. Sebagai basis data graf, Dgraph merepresentasikan data dalam bentuk \textit{triple} \textit{subject-predicate-object} (entitas-relasi-nilai), yang memungkinkan pencarian kompleks dan analisis relasi secara cepat melalui bahasa query GraphQL+-. Dgraph menggunakan pendekatan \textit{sharding} unik berdasarkan predikat untuk membagi data ke dalam grup terpisah yang dijalankan pada kelompok server (\textit{Alpha groups}), serta menjamin konsistensi melalui protokol Raft \parencite{jain2005dgraph}. Arsitektur Dgraph terdiri dari dua komponen utama: \textit{Zeros} (manajemen metadata dan penyeimbangan \textit{cluster}) dan \textit{Alphas} (penanganan query dan penyimpanan data pengguna). 
+
+\textit{Sharding} pada Dgraph dilakukan dengan mengelompokkan semua \textit{triple} yang memiliki predikat sama ke dalam satu \textit{shard}, sehingga setiap operasi \textit{join} atau \textit{traversal} dapat dieksekusi dalam satu panggilan jaringan. Setiap grup \textit{shard} direplikasi secara sinkron menggunakan protokol Raft untuk \textit{fault tolerance} dan \textit{high availability}. Dgraph menjamin transaksi ACID (\textit{Atomicity, Consistency, Isolation, Durability}) yang berlaku \textit{cluster-wide} melalui mekanisme \textit{Multi-Version Concurrency Control} (MVCC) dan alokasi \textit{logical timestamp} yang diatur oleh \textit{Zero}. Data diindeks secara otomatis menggunakan struktur \textit{posting list} yang dioptimalkan dengan teknik kompresi integer dan tokenizer khusus (misalnya, trigram untuk pencarian teks).
+
+Berikut adalah alur pemrosesan query dan penyimpanan data di Dgraph:
+
+\begin{enumerate}
+  \item \textbf{Penerimaan Query} \newline
+  Query GraphQL+- diterima oleh \textit{Alpha node} melalui HTTP/gRPC. Query diurai untuk mengidentifikasi predikat, fungsi, dan operasi yang diperlukan.
+
+  \item \textbf{\textit{Routing} Berbasis Predikat} \newline
+  \textit{Alpha node} menentukan predikat yang terlibat dan merutekan subquery ke grup \textit{shard} yang sesuai. Jika query melibatkan beberapa predikat, tugas diproses secara paralel di grup berbeda.
+
+  \item \textbf{Pemrosesan di Shard} \newline
+  Setiap \textit{Alpha} dalam grup target melakukan pencarian \textit{posting list} di BadgerDB (mesin penyimpanan key-value berbasis LSM-tree). Operasi seperti interseksi \textit{UID} atau filter diterapkan menggunakan struktur data terkompresi (contoh: \textit{group varint encoding}).
+
+  \item \textbf{Konsensus Transaksional} \newline
+  Untuk operasi \textit{write}, pemimpin grup \textit{Alpha} mengusulkan perubahan melalui protokol Raft ke replika lain. \textit{Zero} memvalidasi konflik transaksi menggunakan \textit{conflict keys} dan memastikan linearisasi \textit{timestamp}.
+
+  \item \textbf{Penggabungan Hasil} \newline
+  Hasil parsial dari setiap \textit{shard} digabungkan di \textit{Alpha coordinator}. Untuk query bertingkat, operasi \textit{merge-sort} dan interseksi dilakukan pada daftar \textit{UID} terurut.
+
+  \item \textbf{Pengembalian Respons} \newline
+  Hasil akhir diformat dalam JSON sesuai spesifikasi GraphQL dan dikirim kembali ke klien.
+
+  \item \textbf{Replikasi dan Penyimpanan} \newline
+  Data disimpan persisten di BadgerDB dengan dukungan MVCC. Perubahan direplikasi sinkron ke seluruh replika dalam grup melalui protokol Raft, memastikan durabilitas dan konsistensi.
+\end{enumerate}
+
+Dgraph mendukung skalabilitas elastis dengan redistribusi \textit{shard} antar grup melalui \textit{Zero}, yang memantau ukuran grup dan memindahkan \textit{shard} untuk menghindari ketidakseimbangan beban. Dengan arsitektur ini, Dgraph mampu menangani query arbitrase-depth join pada data masif dengan latensi rendah tanpa \textit{network broadcast}. Optimasi lebih lanjut seperti penggunaan \textit{Roaring Bitmaps} untuk kompresi \textit{UID} sedang dalam pengembangan.

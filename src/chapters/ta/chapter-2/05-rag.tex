@@ -28,36 +28,27 @@ Istilah "RAG" pertama kali diperkenalkan oleh \cite{lewis2020retrieval} dari Fac
 
 Cara kerja dari RAG meliputi dua langkah utama, yaitu proses Data Ingestion dan Data Querying, yang dapat didekomposisi menjadi beberapa subproses. Data Ingestion melibatkan pengambilan data dari berbagai sumber, seperti dokumen atau basis data, dan mengubahnya menjadi format standar yang dapat diproses oleh model. Data Querying, di sisi lain, melibatkan pencarian data yang paling relevan dari sumber eksternal berdasarkan query yang diberikan. Proses ini memungkinkan model untuk mengakses informasi tambahan yang diperlukan untuk menghasilkan respons yang lebih akurat dan relevan. Berikut adalah penjelasan dari setiap subproses dalam RAG:
 
-% \begin{enumerate}
-%   \item Data Ingestion: Data dari berbagai sumber dimuat dan diubah menjadi format standar, seperti objek Dokumen LangChain, yang berisi teks dan metadata terkait.
-%   \item Text Splitting: Teks yang dimuat dibagi menjadi potongan-potongan kecil untuk memastikan bahwa hanya bagian yang paling relevan yang disertakan dalam proses selanjutnya.
-%   \item Embedding Creation: Setiap potongan teks diubah menjadi representasi numerik (\textit{embedding}) menggunakan model \textit{embedding}, memungkinkan perbandingan semantik antar potongan.
-%   \item Embedding Storing in Vectorstore: \textit{Embedding} dan dokumen terkait disimpan dalam vectorstore, basis data yang memungkinkan pencarian cepat potongan teks yang paling relevan berdasarkan kesamaan semantik.
-%   \item Document Retrieval: Saat menerima query, sistem mencari potongan teks yang paling relevan dari vectorstore dengan membandingkan \textit{embedding} query dengan \textit{embedding} yang ada.
-%   \item Response Generation: Query dan dokumen yang diambil digabungkan dan diberikan ke LLM untuk menghasilkan respons yang informatif dan kontekstual.
-% \end{enumerate}
-
 \begin{enumerate}
   \item \textbf{Data Ingestion} \\
   Proses ini melibatkan pengolahan data menjadi format yang dapat digunakan oleh model bahasa. Proses ingesti dapat dibagi menjadi beberapa sub-langkah sebagai berikut:
   \begin{enumerate}
-    \item \textbf{Load Data Sources to Text} \\
+    \item \textbf{Pemuatan Sumber Data ke Teks} \\
     Tahap ini melibatkan pemuatan data dari berbagai sumber (seperti PDF, dokumen, teks, dan lainnya) ke dalam format teks standar. Dalam implementasi LangChain, data dikonversi menjadi objek Document yang berisi teks dan metadata terkait dokumen tersebut.
-    \item \textbf{Chunk Text} \\
+    \item \textbf{\textit{Chunking} Teks} \\
     Teks yang telah dimuat kemudian dipecah menjadi potongan-potongan kecil (\textit{chunks}). Langkah ini penting karena model bahasa umumnya memiliki batas jumlah teks yang dapat diproses. Dengan membuat potongan teks sekecil mungkin, sistem dapat memilih hanya bagian yang paling relevan untuk digunakan.
-    \item \textbf{Embed Text} \\
+    \item \textbf{\textit{Embed} Teks} \\
     Setiap potongan teks diubah menjadi \textit{embeddings} menggunakan model \textit{embedding} seperti OpenAI text-embedding-ada-002. \textit{Embeddings} ini memungkinkan sistem untuk menemukan potongan teks yang paling relevan berdasarkan kesamaan semantik, bukan sekadar kecocokan kata kunci.
-    \item \textbf{Load Embeddings to Vectorstore} \\
+    \item \textbf{Membuat \textit{Embeddings} ke Vectorstore} \\
     \textit{Embeddings} dan dokumen terkait kemudian disimpan dalam basis data vektor (vectorstore) seperti FAISS, Pinecone, atau Chroma. Vectorstore membantu dalam pencarian potongan teks yang paling mirip secara cepat dan efisien.
   \end{enumerate}
   \item \textbf{Data Querying} \\
   Proses ini melibatkan penggunaan data yang telah diingesti untuk menjawab pertanyaan pengguna. Proses kueri juga dapat dibagi menjadi beberapa sub-langkah:
   \begin{enumerate}
-    \item \textbf{Combine Chat History and New Question} \\
+    \item \textbf{Penggabungan Riwayat Chat dan Pertanyaan Baru} \\
     Sistem menggabungkan riwayat percakapan dengan pertanyaan baru menjadi sebuah pertanyaan mandiri (\textit{standalone question}). Langkah ini penting untuk memungkinkan pengguna mengajukan pertanyaan lanjutan tanpa harus mengulang konteks secara eksplisit.
-    \item \textbf{Lookup Relevant Documents} \\
+    \item \textbf{Mencari Dokumen Relevan} \\
     Menggunakan \textit{embeddings} dan vectorstore yang dibuat selama proses ingesti, sistem mencari dokumen yang paling relevan dengan pertanyaan mandiri. Langkah ini memastikan bahwa hanya informasi yang relevan yang digunakan untuk menjawab pertanyaan.
-    \item \textbf{Generate a Response} \\
+    \item \textbf{Menghasilkan Respon} \\
     Pertanyaan mandiri dan dokumen relevan yang ditemukan kemudian dimasukkan ke dalam LLM untuk menghasilkan respons. Proses ini menggunakan prompt khusus yang disebut QA\_PROMPT, yang dapat disesuaikan untuk memberikan gaya percakapan tertentu pada \textit{chatbot}.
   \end{enumerate}
 \end{enumerate}
@@ -65,3 +56,4 @@ Cara kerja dari RAG meliputi dua langkah utama, yaitu proses Data Ingestion dan 
 RAG telah menjadi pendekatan yang sangat populer sejak diperkenalkan untuk meningkatkan kemampuan LLM dalam mengakses dan memanfaatkan informasi dari data internal tanpa perlu melakukan \textit{fine-tuning} model. Dengan menggunakan RAG, aplikasi dapat menjawab pertanyaan berdasarkan dokumen perusahaan, basis pengetahuan, atau \textit{dataset} spesifik domain dengan akurasi yang lebih tinggi dan risiko halusinasi yang lebih rendah.
 
 Implementasi RAG dapat dilakukan menggunakan \textit{framework} seperti LangChain yang menyediakan komponen modular untuk membangun \textit{pipeline} RAG. LangChain menyediakan \textit{interface} sederhana untuk berinteraksi dengan \textit{chatbot} melalui terminal (CLI) dan juga memungkinkan \textit{deployment} menggunakan Gradio untuk \textit{interface} web. Dengan pendekatan modular ini, setiap komponen dalam \textit{text} RAG dapat disesuaikan atau diganti sesuai dengan kebutuhan spesifik aplikasi.
+
