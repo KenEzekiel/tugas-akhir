@@ -3,15 +3,24 @@
 
 % Tuliskan tujuan utama dan/atau tujuan detail yang akan dicapai dalam pelaksanaan tugas akhir. Fokuskan pada hasil akhir yang ingin diperoleh setelah tugas akhir diselesaikan, terkait dengan penyelesaian persoalan pada rumusan masalah. Penting untuk diperhatikan bahwa tujuan yang dideskripsikan pada subbab ini akan dipertanggungjawabkan di akhir pelaksanaan tugas akhir apakah tercapai atau tidak. Tuliskan juga ukuran keberhasilan pencapaiannya.
 
-Tujuan yang akan dicapai untuk tugas akhir ini adalah mengembangkan sebuah sistem Smart Contract Discovery yang mampu: 
+Tujuan yang akan dicapai untuk tugas akhir ini adalah menghasilkan: 
 
 \begin{enumerate}
-  \item \textbf{Menghubungkan Kebutuhan Pengguna dengan Fungsionalitas Smart Contract (T1)} \newline
-  Menggunakan pendekatan semantik untuk menerjemahkan dan memetakan kebutuhan fungsionalitas dari pengguna dengan fitur dan fungsi Smart Contract yang relevan, sehingga dapat menghasilkan daftar Smart Contract yang sesuai dengan kebutuhan pengguna.
-  \item \textbf{Meningkatkan Relevansi dan Akurasi Hasil Pencarian (T2)} \newline
-  Menerapkan teknik ekstraksi informasi, representasi semantik, serta mekanisme pencarian untuk memastikan hasil pencarian tidak hanya relevan tetapi juga akurat.
-  \item \textbf{Menjamin Efisiensi dan Skalabilitas Sistem (T3)} \newline
-  Merancang arsitektur sistem yang tidak membebani kinerja jaringan Blockchain tetapi dapat digunakan secara luas.
+  \item \textbf{Sistem Smart Contract Discovery (T1)} \newline
+  Sebuah sistem yang dapat digunakan oleh pengguna, yang dapat diakses dengan beberapa cara, untuk mencari sebuah Smart Contract yang spesifik dan sesuai dengan kebutuhan.
+
+  \item \textbf{Mekanisme Ekstraksi Data dari Blockchain yang Terintegrasi (T2)} \newline
+  Sebuah mekanisme yang terintegrasi dengan sistem yang dapat mengekstrak data dari Blockchain dan mengubahnya menjadi format yang dapat digunakan oleh sistem.
+
+  \item \textbf{Format Semantik yang Dapat Mengakomodasi Pencarian Semantik yang Spesifik (T3)} \newline
+  Sebuah format yang dapat digunakan untuk menyimpan data deskripsi semantik dari Smart Contract yang dapat digunakan untuk melakukan pencarian semantik yang spesifik. 
+
+  \item \textbf{Teknik \textit{Semantic Enrichment} Menggunakan LLM yang Efektif (T4)} \newline
+  Implementasi teknik \textit{semantic enrichment} menggunakan \textit{Large Language Models} (LLM) untuk memperkaya deskripsi dan metadata Smart Contract, sehingga meningkatkan akurasi dan relevansi hasil pencarian.
+
+  \item \textbf{Teknik \textit{Data Retrieval} Menggunakan RAG yang Efektif (T5)} \newline
+  Penerapan teknik \textit{Retrieval-Augmented Generation} (RAG) yang efektif untuk mengambil informasi yang relevan dari basis data Smart Contract yang telah diekstraksi dan diperkaya, untuk menghasilkan daftar Smart Contracts yang sesuai dengan kebutuhan pengguna.
+  
 \end{enumerate}
 
 % dapat menghubungkan kebutuhan dari pengguna kepada fungsionalitas dari Smart Contract yang sesuai menggunakan semantik dan memberikan hasil yang sesuai kepada pengguna. Sistem ini diharapkan dapat memudahkan pencarian Smart Contracts dengan mengutamakan keterkaitan semantik, serta dapat digunakan oleh pengguna tanpa mempengaruhi kinerja dari Blockchain yang digunakan.
@@ -26,16 +35,25 @@ Ukuran keberhasilan pencapaiannya adalah seberapa sesuai Smart Contract dapat di
   % Hitung nilai cosine similarity antara vektor query dan vektor smart contract untuk memperoleh Semantic Similarity Score.
   % Jika dataset berlabel tidak tersedia, lakukan evaluasi manual dengan mengambil sampel hasil pencarian dan mengumpulkan umpan balik dari pengguna atau domain expert.
   % (Alternatif) Gunakan metrik ekstrinsik seperti Click-Through Rate (CTR) jika sistem sudah di-deploy.
+
+  \item \textbf{Kualitas Semantik Data Smart Contract (UK2)} \newline
+  Format semantik yang digunakan untuk menyimpan data dapat mengakomodasi pencarian Smart Contract berdasarkan semantik secara spesifik. Selain itu, data yang dihasilkan dari \textit{semantic enrichment} dapat mendeskripsikan Smart Contract dengan baik. Metrik yang digunakan adalah \textit{Semantic Expresiveness Score}.
+
+  \item \textbf{Kemiripan Hasil Pencarian (UK3)} \newline
+  Sistem Smart Contract Discovery dapat menghasilkan hasil pencarian yang memiliki kemiripan antar satu sama lain dengan query yang sama. Metrik yang digunakan adalah \textit{Semantic Similarity Score}.
+
+  \item \textbf{Konsistensi Hasil Pencarian (UK4)} \newline
+  Sistem Smart Contract Discovery dapat menghasilkan hasil pencarian yang konsisten dengan query yang serupa. Metrik yang digunakan adalah \textit{Jaccard Index} pada K-buah hasil teratas.
   
-  \item \textbf{Dampak Terhadap Kinerja Blockchain (UK2)} \newline 
-  Sistem Smart Contract Discovery dapat berjalan tanpa mempengaruhi kinerja dari Blockchain yang digunakan. Metrik yang digunakan adalah \textit{overhead} penggunaan sumber daya pada Blockchain.
+  % \item \textbf{Dampak Terhadap Kinerja Blockchain (UK2)} \newline 
+  % Sistem Smart Contract Discovery dapat berjalan tanpa mempengaruhi kinerja dari Blockchain yang digunakan. Metrik yang digunakan adalah \textit{overhead} penggunaan sumber daya pada Blockchain.
   % Ini sudah pasti tercapai, karena didesain agar seperti itu, validasi nya gimana?
   %   Pengukuran:
   % Lakukan benchmarking pada jaringan blockchain dalam kondisi normal (tanpa integrasi sistem discovery) dan setelah integrasi.
   % Bandingkan metrik seperti waktu konfirmasi transaksi, beban jaringan, atau total penggunaan gas untuk mengidentifikasi apakah sistem discovery memberikan dampak negatif terhadap kinerja blockchain.
   % Pengukuran ini dapat dilakukan di lingkungan testnet dengan simulasi beban yang representatif.
-  \item \textbf{Kinerja dan Skalabilitas Sistem (UK3)} \newline 
-  Sistem Smart Contract Discovery dapat berjalan dengan latensi rendah dan skalabilitas yang baik. Metrik yang digunakan adalah \textit{Response Time}, \textit{Throughput}, dan \textit{Resource Utilization}.
+  % \item \textbf{Kinerja dan Skalabilitas Sistem (UK3)} \newline 
+  % Sistem Smart Contract Discovery dapat berjalan dengan latensi rendah dan skalabilitas yang baik. Metrik yang digunakan adalah \textit{Response Time}, \textit{Throughput}, dan \textit{Resource Utilization}.
   %   Pengukuran:
   % Gunakan tools performance testing (misalnya, Apache JMeter atau Gatling) untuk mensimulasikan beban pengguna dan mengukur response time sistem.
   % Ukur throughput dengan mencatat jumlah permintaan pencarian yang diproses dalam jangka waktu tertentu.

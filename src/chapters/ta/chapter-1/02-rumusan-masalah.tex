@@ -12,21 +12,34 @@ Berdasarkan kondisi saat ini dimana jumlah Smart Contracts terus bertambah denga
   % \item Bagaimana membangun arsitektur dan mengimplementasikan sistem Smart Contract Discovery berbasis semantik yang mampu menemukan Smart Contracts sesuai dengan kebutuhan pengguna secara lebih akurat dibandingkan metode berbasis kata kunci?
 
   % \item Bagaimana membangun sebuah sistem Smart Contract Discovery yang dapat memberikan hasil pencarian berupa Smart Contract yang sesuai bagi pengembang maupun pengguna Smart Contracts jika hanya diketahui kebutuhan fungsionalitas yang diinginkan?
-  \item Bagaimana membantu pengguna atau pengembang menemukan Smart Contracts yang sesuai dengan kebutuhan di tengah banyaknya Smart Contracts yang ada pada Blockchain? (RM1)
+
+  % \item Bagaimana membantu pengguna atau pengembang menemukan Smart Contracts yang sesuai dengan kebutuhan di tengah banyaknya Smart Contracts yang ada pada Blockchain? (RM1)
+  \item Bagaimana melakukan \textit{semantic enrichment} dengan memanfaatkan LLM terhadap data Smart Contracts untuk membantu pengguna menemukan Smart Contracts yang sesuai dengan kebutuhan? (RM1)
+  % SEMANTIC ENRICHMENT
   % dengan sistem yang akan dibangun
   % menggunakan semantic search & functionaliy-based search, dan memanfaatkan RAG untuk memahami kebutuhan pengguna dan mengambil data
-  \item Bagaimana membangun sistem yang dapat menerima input berupa kebutuhan fungsionalitas dari pengguna atau pengembang dan menghasilkan daftar Smart Contract yang relevan melalui mekanisme pencarian yang efektif dan akurat? (RM2)
+  % menggunakan LLM 
+
+  \item Bagaimana melakukan \textit{data retrieval} terhadap Smart Contracts yang sudah \textit{semantically richened} menggunakan RAG? (RM2)
+  % RAG
+  % RAG diinkorporasikan ke dalam sistem
+
+  \item Bagaimana merancang dan mengimplementasikan sistem Smart Contract Discovery yang mampu menerima input berupa kebutuhan fungsionalitas dari pengguna atau pengembang, menghasilkan daftar Smart Contract yang relevan melalui mekanisme pencarian yang efektif dan akurat, serta dapat diakses secara luas tanpa mengganggu kinerja jaringan blockchain yang digunakan? (RM3)
+  % DESIGN AND DEVELOPMENT
   % mekanisme pencarian dan relevansi hasil.
   % Langchain (difasilitasi LLM) -> mengerti kebutuhan fungsionalitas yang pengguna inginkan dan dapat memberikan hasil yang sesuai
+  % LLM untuk semantic enrichment
+  % RAG untuk retrieval
 
-  \item Bagaimana mendesain dan mengimplementasikan sistem Smart Contract Discovery agar dapat diakses secara luas oleh pengguna tanpa mengganggu kinerja jaringan blockchain yang digunakan? (RM3)
   % sistem dapat diskalakan dan tidak mengganggu performa blockchain.
   % Offchain dan dgraph
-  \item Bagaimana mengekstrak informasi dari Smart Contract yang ada dan membangun model representasi yang efektif untuk mendukung pencarian dan klasifikasi? (RM4)
+  
+  % \item Bagaimana mengekstrak informasi dari Smart Contract yang ada dan membangun model representasi yang efektif untuk mendukung pencarian dan klasifikasi? (RM4)
   % (melalui metadata, source code, dan dokumentasi)
   % ekstraksi data dan pembentukan model representasi dari smart contract.
   % eth2dgraph mengektstrak informasi, lalu melakukan semantic enrichment, lalu melakukan query (fokus di semantic enrichment nya)
-  \item Bagaimana mengembangkan modul yang dapat memahami semantik dari kebutuhan pengguna dan isi Smart Contract, sehingga memungkinkan pemetaan yang tepat antara permintaan dan Smart Contract yang tersedia? (RM5)
+
+  % \item Bagaimana mengembangkan modul yang dapat memahami semantik dari kebutuhan pengguna dan isi Smart Contract, sehingga memungkinkan pemetaan yang tepat antara permintaan dan Smart Contract yang tersedia? (RM5)
   % mengintegrasikan pemahaman semantik untuk mencocokkan kebutuhan dengan konten smart contract.
   % Ini fokus di GIMANA MEKANISME semantic enrichment nya
 \end{enumerate}
