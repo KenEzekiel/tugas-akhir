@@ -30,7 +30,8 @@ class DgraphClient:
     txn = self.client.txn(read_only=read_only)
     try:
       yield txn
-      # Commit only for non-read-only transactions if required
+      if not read_only:
+        txn.commit()
     except Exception as e:
       raise
     finally:
