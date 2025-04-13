@@ -7,10 +7,34 @@ from contextlib import contextmanager
 
 
 class DgraphClient:
+  """
+  Interface for interacting with Dgraph database
+  """
+  
   def __init__(self, host: str = 'localhost', port: int = 9081) -> None:
     self.logger = logger.getChild("DgraphClient")
     self.client_stub = pydgraph.DgraphClientStub(f"{host}:{port}")
     self.client = pydgraph.DgraphClient(self.client_stub)
+
+  @contextmanager  
+  def dgraph_txn(self, read_only: bool = False):
+    """
+    Creates a transaction for Dgraph operations
+
+    Args:
+      read_only: Whether the transaction is read-only
+    
+    Returns:
+      A Dgraph transaction object
+    """
+    txn = self.client.txn(read_only=read_only)
+    try:
+      yield txn
+      # Commit only for non-read-only transactions if required
+    except Exception as e:
+      raise
+    finally:
+      txn.discard()
 
   def alter_schema(self, schema: str) -> None:
     """
@@ -27,27 +51,6 @@ class DgraphClient:
       self.logger.exception(f"Failed to alter schema: {str(e)}")
       raise
     
-  @contextmanager  
-  def dgraph_txn(self, read_only: bool = False):
-    """
-    Creates a transaction for Dgraph operations
-
-    Args:
-      read_only: Whether the transaction is read-only
-    
-    Returns:
-      A Dgraph transaction object
-    """
-    txn = self.client.txn(read_only=read_only)
-    try:
-        yield txn
-        # Commit only for non-read-only transactions if required
-    except Exception as e:
-        raise
-    finally:
-        txn.discard()
-    
-
   def get_contracts(self, batch_size: int = 5, enriched: bool = False) -> dict[str, str]:
     """
     Retrieves unenriched contracts without a semantic description
