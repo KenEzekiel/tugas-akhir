@@ -1,0 +1,4 @@
+.venv
+.env
+unused/
+chroma_db/
