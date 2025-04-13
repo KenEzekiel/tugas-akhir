@@ -3,7 +3,6 @@ import json
 import pydgraph
 from utils.logger import logger
 from utils.file import write_file
-from typing import Any, Dict
 from contextlib import contextmanager
 
 
@@ -49,7 +48,7 @@ class DgraphClient:
         txn.discard()
     
 
-  def get_contracts(self, batch_size: int = 5, enriched: bool = False) -> Dict:
+  def get_contracts(self, batch_size: int = 5, enriched: bool = False) -> dict[str, str]:
     """
     Retrieves unenriched contracts without a semantic description
     
@@ -92,7 +91,7 @@ class DgraphClient:
         raise
       
 
-  def mutate(self, mutation_data: Dict[str, Any], commit_now: bool = True) -> Dict:
+  def mutate(self, mutation_data: dict[str, str], commit_now: bool = True) -> dict:
     """
     Performs a mutation (insert/update) in the database
     
