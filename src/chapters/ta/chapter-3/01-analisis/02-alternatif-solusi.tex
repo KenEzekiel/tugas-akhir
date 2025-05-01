@@ -1,4 +1,5 @@
 \subsection{Analisis Alternatif Solusi}
+\label{subsec:analisis-alternatif-solusi}
 
 \subsubsection{Pendekatan Solusi}
 Berdasarkan analisis masalah pada bagian \ref{subsec:analisis-masalah}, terdapat beberapa kebutuhan yang perlu dipenuhi dalam pengembangan solusi. Pemenuhan kebutuhan-kebutuhan ini akan menjadi konsiderasi untuk memilih alternatif solusi yang tepat. Altenatif-alternatif solusi akan dibagi menjadi beberapa kategori berdasarkan kebutuhan yang dipenuhinya, yaitu:
@@ -9,25 +10,27 @@ Berdasarkan analisis masalah pada bagian \ref{subsec:analisis-masalah}, terdapat
   \item Pemodelan, penyimpanan, dan \textit{indexing} data Smart Contracts
   % K2, K6 (dgraph)
   \item Klasifikasi fungsional dan semantik Smart Contracts
-  % K3 (LLM, source code)
+  % K3 (LLM, source code) -> ada teknik prompting
   \item Pencarian dan rekomendasi Smart Contracts berdasarkan kebutuhan pengguna dan pengembang
-  % K5 (RAG)
+  % K5 (RAG) -> ada teknik prompting
   \item Interaksi pengguna dengan sistem
   % K7 (UI, API)
   % \item Penempatan sistem dalam ekosistem Blockchain -> ini udah pasti offchain. jadi udah gausah jadi alternatif (nanti muncul pas rekap pemilihan aja) (K4)
 \end{enumerate}
 
+Bagian-bagian berikut akan membahas alternatif-alternatif yang dapat digunakan untuk menjawab masing-masing kebutuhan tersebut. Alternatif-alternatif yang akan dibahas adalah hasil peninjauan terhadap beberapa riset yang relevan dengan topik ini, yang dapat digunakan sebagai referensi atau fondasi untuk membangun solusi. Peninjauan ini dilakukan dengan mempertimbangkan beberapa aspek, yaitu aksesibilitas dari hasil riset, kompleksitas teknis, skalabilitas, dan dukungan fungsional untuk memenuhi kebutuhan.
 
-\subsubsection{Ekstraksi Data Smart Contracts dari Blockchain Ethereum}
+\input{chapters/ta/chapter-3/01-analisis/02-01-ekstraksi}
 
-\subsubsection{Pemodelan, Penyimpanan, dan \textit{Indexing} Data Smart Contracts}
+\input{chapters/ta/chapter-3/01-analisis/02-02-pemodelan}
 
-\subsubsection{Klasifikasi Fungsional dan Semantik Smart Contracts}
+\input{chapters/ta/chapter-3/01-analisis/02-03-klasifikasi}
 
-\subsubsection{Pencarian dan Rekomendasi Smart Contracts}
+\input{chapters/ta/chapter-3/01-analisis/02-04-pencarian}
 
-\subsubsection{Interaksi Pengguna dengan Sistem}
+\input{chapters/ta/chapter-3/01-analisis/02-05-interaksi}
 
+\input{chapters/ta/chapter-3/01-analisis/02-06-kesimpulan}
 
 % Untuk mengatasi permasalahan pemilihan Smart Contracts yang tepat dan mengurangi redundansi Smart Contracts di Blockchain, solusi yang diusulkan adalah sebuah sistem pencarian Smart Contracts yang dapat memberikan hasil berdasarkan fungsionalitas Smart Contracts. Sistem akan dibangun dengan memanfaatkan berbagai teknologi dan riset yang sudah ada, yang melakukan \textit{indexing} maupun modeling yang menjadikan Smart Contracts \textit{discoverable} untuk mengefisiensikan pengembangan.
 
