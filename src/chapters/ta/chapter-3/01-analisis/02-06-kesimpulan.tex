@@ -1,1 +1,18 @@
 \subsubsection{Kesimpulan Pemilihan Alternatif}
+
+\begin{figure}[ht]
+	\centering
+	\includegraphics[width=0.7\textwidth]{resources/chapter-3/hasil-pemilihan.png}
+    \caption{Kesimpulan pemilihan alternatif}
+    \label{image:layer-architecture}
+\end{figure}
+
+Berdasarkan analisis dari alternatif-alternatif yang dibahas pada bagian \ref{subsec:analisis-alternatif-solusi}, dapat disimpulkan bahwa alternatif yang dipilih untuk membangun sistem adalah sebagai berikut:
+
+\begin{enumerate}
+    \item \textbf{Ekstraksi data Smart Contracts dari Blockchain Ethereum}: Alternatif yang dipilih adalah \textit{eth2dgraph} \parencite{aimar2023extraction}, karena memiliki aksesibilitas yang baik, bersifat \textit{open source}, memiliki kecepatan ekstraksi yang tinggi, dan juga menyediakan infrastruktur lengkap sampai pada penyimpanan data dalam format Distributed Graph Database.
+    \item \textbf{Pemodelan, penyimpanan, dan \textit{indexing} data Smart Contracts}: Alternatif yang dipilih adalah \textit{eth2dgraph} \parencite{aimar2023extraction}, karena memiliki kemampuan skalabilitas tinggi dan dapat melakukan query dengan efisien. Selain itu, Dgraph juga memiliki kemampuan untuk melakukan \textit{indexing} data dengan baik.
+    \item \textbf{Klasifikasi fungsional dan semantik Smart Contracts}: Alternatif yang dipilih untuk mekanisme klasifikasi adalah Agents, karena memiliki kemampuan kustomisasi yang baik untuk klasifikasi, sedangkan model semantik yang akan digunakan adalah gabungan dari model-model yang dituliskan seperti UDL-SC, Service Oriented Format, dan ontologi (ekstensi OWL-S dan Solidity Ontology). Pendekatan yang akan dilakukan adalah pendekatan \textit{incremental}, dimana model akan digunakan model paling sederhana di awal, lalu ditambahkan atribut-atribut lainnya untuk melakukan pengujian dan evaluasi.
+    \item \textbf{Pencarian dan rekomendasi Smart Contracts}: Alternatif yang dipilih untuk mekanisme pencarian awal adalah alternatif Vector Embedding Search, karena simplisitas yang ditawarkan dan tidak ada redundansi \textit{layer}. Alternatif yang dapat dikonsiderasikan untuk pengembangan berikutnya, terutama jika dikembangkan sebuah fitur untuk berinteraksi dengan sistem yang lebih kompleks adalah alternatif \textit{Retrieval-Augmented Generation (RAG)}, karena dapat mengakomodasi interaksi yang lebih kompleks. Untuk menambahkan kapabilitas dari Vector Embedding Search, dapat digunakan aspek \textit{enrichment} yang dilakukan oleh AI Agents terhadap query.
+    \item \textbf{Interaksi pengguna dengan sistem}: Seluruh alternatif yang diajukan, yaitu \textit{API} dan \textit{GUI} akan diimplementasikan untuk interaksi pengguna dengan sistem karena dapat memberikan fleksibilitas dan kemudahan bagi pengguna. Sehingga, pengguna dapat melakukan pencarian Smart Contracts dengan cara yang sesuai dengan kebutuhan mereka.
+\end{enumerate}
