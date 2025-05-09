@@ -1,0 +1,14 @@
+\subsection{Sourcify}
+\label{subsec:sourcify}
+
+Sourcify adalah sebuah inisiatif dan layanan \textit{open source} yang bertujuan untuk menyediakan repositori publik dan terdesentralisasi untuk Source Code dari Smart Contracts. Layanan ini mendukung berbagai blockchain yang kompatibel dengan Ethereum Virtual Machine (EVM), termasuk Ethereum, Polygon, Binance Smart Chain, dan Avalanche. Tujuan utama Sourcify adalah meningkatkan transparansi dan kepercayaan dalam ekosistem Smart Contract dengan memungkinkan verifikasi Source Code secara independen.
+
+Proses verifikasi di Sourcify sangat bergantung pada \textit{metadata} kontrak, yang biasanya berupa file JSON yang dihasilkan oleh \textit{compiler} (misalnya, Solidity atau Vyper). File metadata ini berisi informasi krusial seperti versi \textit{compiler}, pengaturan optimasi, dan \textit{hash} dari setiap file Source Code. Sourcify menggunakan informasi ini untuk merekompilasi Source Code yang diajukan dan membandingkan \textit{bytecode} yang dihasilkan dengan \textit{bytecode} yang ada di blockchain.
+
+Sourcify membedakan dua tingkat pencocokan utama:
+\begin{itemize}
+    \item \textbf{Full Match (Pencocokan Penuh):} Dianggap sebagai standar verifikasi tertinggi. Terjadi ketika \textit{bytecode} yang dihasilkan dari rekompilasi identik dengan \textit{bytecode} on-chain, dan \textit{hash} dari file metadata (yang biasanya ditambahkan di akhir \textit{bytecode} oleh \textit{compiler} Solidity) juga cocok. Ini memberikan jaminan kriptografis bahwa Source Code yang diverifikasi, termasuk komentar dan nama variabel, adalah sama persis dengan yang digunakan saat \textit{deployment}.
+    \item \textbf{Partial Match (Pencocokan Sebagian):} Terjadi ketika \textit{bytecode} yang direkompilasi cocok dengan \textit{bytecode} on-chain, tetapi \textit{hash} metadatanya mungkin berbeda. Ini menunjukkan bahwa fungsionalitas kontrak kemungkinan besar sama, namun bisa terdapat perbedaan kosmetik pada Source Code (misalnya, komentar atau spasi). Tingkat verifikasi ini serupa dengan yang umum ditemukan pada platform block explorer seperti Etherscan.
+\end{itemize}
+
+Untuk mendukung aspek desentralisasinya, Sourcify sering memanfaatkan InterPlanetary File System (IPFS) untuk menyimpan dan menyebarkan Source Code serta metadata yang terverifikasi. Seluruh repositori data Sourcify juga dapat diakses dan diunduh untuk keperluan analisis dan penelitian lebih lanjut, yang terdiri dari basis data berisi Source Code, \textit{bytecode}, metadata, dan detail \textit{deployment} dari kontrak-kontrak yang telah terverifikasi \parencite{sourcify_website}.
