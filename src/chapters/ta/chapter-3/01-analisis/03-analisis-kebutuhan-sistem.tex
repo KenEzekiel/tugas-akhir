@@ -8,13 +8,13 @@ Pada bagian \ref{subsec:analisis-alternatif-solusi}, telah disimpulkan pilihan a
 % buat diagram UML gambaran umum
 % Jelaskan tujuan utama sistem (misalnya: "Membangun sistem pencarian smart contract berbasis semantik untuk meningkatkan efisiensi pengembangan dApps").
 
-Solusi yang akan dikembangkan adalah sebuah sistem Smart Contract Discovery yang bertujuan untuk menyediakan \textit{platform} pencarian Smart Contract dalam Blockchain Ethereum berbasis semantik memanfaatkan LLM dan RAG. Sistem akan dibagi menjadi beberapa komponen utama yang saling berinteraksi untuk menyediakan fungsionalitas yang terpadu. Komponen utama sistem adalah sebagai berikut:
+Solusi yang akan dikembangkan adalah sebuah sistem Smart Contract Discovery yang bertujuan untuk menyediakan \textit{platform} pencarian Smart Contract dalam Blockchain Ethereum berbasis semantik memanfaatkan LLM dan RAG. Sistem akan dibagi menjadi beberapa komponen utama yang saling berinteraksi untuk menyediakan fungsionalitas yang terpadu. Komponen utama sistem dapat dibagi sebagai berikut:
 
 \begin{enumerate}
-  \item Komponen Ekstraksi Data
-  \item Komponen Penyimpanan Data
-  \item Komponen \textit{Semantic Enrichment}
-  \item Komponen Pencarian
+  \item Komponen Ekstraksi Data (Ethereum Archive Node dan eth2dgraph)
+  \item Komponen Penyimpanan Data (DgraphDB dan Vector Database)
+  \item Komponen \textit{Semantic Enrichment} (Smart Contract Enricher)
+  \item Komponen Pencarian (Query Enricher dan Data Retriever)
   \item Komponen Antarmuka Pengguna
 \end{enumerate}
 
@@ -44,30 +44,92 @@ Sistem ini hanya akan digunakan oleh satu jenis pengguna, yaitu User yang ingin 
 
 \subsubsection{Kebutuhan Fungsional}
 
-Sistem ini memiliki beberapa kebutuhan fungsional yang harus dipenuhi agar dapat berfungsi dengan baik. Kebutuhan fungsional ini mencakup semua fitur dan fungsi yang harus ada dalam sistem untuk memenuhi tujuan utama sistem. Berikut adalah daftar kebutuhan fungsional yang diidentifikasi:
+Sistem ini memiliki beberapa kebutuhan fungsional yang harus dipenuhi agar dapat berfungsi dengan baik. Kebutuhan fungsional ini mencakup semua fitur dan fungsi yang harus ada dalam sistem untuk memenuhi tujuan utama sistem. Seluruh kebutuhan fungsional akan diberikan ID yang diawali dengan huruf F lalu diikuti dengan dua angka. Berikut adalah daftar kebutuhan fungsional yang diidentifikasi:
 
-% tabel
+\begin{table}[h]
+	\caption{Kebutuhan Fungsional Sistem}
+	\vspace{0.25cm}
+	\begin{center}
+		\begin{tabular}{|c|l|}
+			\hline
+			\textbf{ID} & \textbf{Penjelasan} \\ \hline
+			F01 & Sistem mampu mengekstraksi data Smart Contracts dari Blockchain \\ & Ethereum Mainnet \\ \hline
+			F02 & Sistem dapat mengimpor, menyimpan, dan mengelola data \\ & Smart Contracts yang telah diekstraksi dan diperkaya  \\ \hline
+			F03 & Sistem harus menyediakan fungsionalitas untuk melihat dan \\ & mendapatkan data Smart Contracts yang sudah disimpan  \\ \hline
+			F04 & Sistem dapat mengklasifikasikan Smart Contracts berdasarkan \\ & fungsionalitas dan semantik \\ \hline
+			F05 & Sistem dapat melakukan pencarian Smart Contracts berdasarkan \\ & deskripsi kebutuhan pengguna dalam bahasa alami \\ \hline
+			F06 & Sistem harus menyediakan GUI yang memungkinkan pengguna untuk \\ & berinteraksi dengan sistem sesuai fungsionalitas \\ \hline
+			F07 & Sistem harus menyediakan API yang memungkinkan pengguna untuk \\ & berinteraksi dengan sistem sesuai fungsionalitas \\ \hline
+			% F08 -> memfasilitasi pengguna dalam menggunakan kembali Smart Contracts yang ditemukan dengan menyediakan informasi yang dapat ditindaklanjuti.
+		\end{tabular}
+	\end{center}
+\end{table}
+
+% F01
+% "Sistem harus dapat mengekstraksi kode sumber (jika tersedia), bytecode, ABI, alamat kontrak, dan tanggal pembuatan Smart Contracts dari Blockchain Ethereum Mainnet."
+% "Sistem harus menyediakan opsi untuk mengekstraksi data Smart Contracts secara terjadwal (misalnya, harian) atau berdasarkan permintaan pengguna."
+% (Jika relevan) "Sistem harus memungkinkan pengguna untuk memfilter Smart Contracts yang akan diekstraksi berdasarkan rentang tanggal deployment."
+
+% F02 (+F03)
+% "Sistem harus dapat menyimpan data Smart Contracts yang telah diekstraksi (sesuai F01) ke dalam sebuah database."
+% "Sistem harus menyediakan fungsionalitas untuk melihat detail, memperbarui metadata (jika diizinkan), dan menghapus (secara logis/fisik) data Smart Contracts yang tersimpan."
+% Jika "diperkaya" adalah fungsi sistem: "Sistem harus dapat memperkaya data Smart Contracts dengan [sebutkan jenis data pengayaan, misal: tag kategori, hasil analisis statis awal] setelah proses ekstraksi."
+
+% F03 -> F04
+% "Sistem harus dapat secara otomatis mengklasifikasikan Smart Contracts ke dalam kategori fungsionalitas yang telah ditentukan sebelumnya (misalnya, DeFi, NFT, Gaming, DAO) berdasarkan analisis [sebutkan dasar analisis, misal: pola kode, metadata]."
+% "Sistem harus memungkinkan pengguna (misalnya, admin) untuk meninjau dan mengoreksi hasil klasifikasi otomatis."
+% "Sistem harus memungkinkan pengguna (misalnya, admin) untuk menambahkan atau memodifikasi kategori klasifikasi fungsionalitas dan semantik."
+
+
+\subsubsection{Kebutuhan Non-Fungsional}
+
+Selain kebutuhan fungsional, sistem ini juga harus memenuhi berbagai kebutuhan non-fungsional agar kualitas dan keandalan sistem terjaga. Seluruh kebutuhan non-fungsional akan diberikan ID yang diawali dengan huruf NF lalu diikuti dengan dua angka. Kebutuhan non-fungsional mencakup aspek-aspek berikut:
+
+% \begin{itemize}
+% 	\item \textbf{Kinerja (Performance)}: Waktu respons pencarian tidak lebih dari 2 detik untuk kueri dengan bahasa alami.
+% 	\item \textbf{Keandalan (Reliability)}: Tingkat ketersediaan (uptime) sistem minimal 99,5\% per bulan.
+% 	\item \textbf{Keamanan (Security)}: Semua akses API dan UI harus melalui otentikasi, serta data kontrak harus dienkripsi saat penyimpanan dan transmisi.
+% 	\item \textbf{Skalabilitas (Scalability)}: Sistem mampu menangani peningkatan volume data kontrak hingga 10x tanpa degradasi signifikan.
+% 	\item \textbf{Keterpakai-an (Usability)}: Antarmuka pengguna intuitif dan dapat digunakan tanpa pelatihan khusus.
+% 	\item \textbf{Keterpeliharaan (Maintainability)}: Kode modular dan terdokumentasi, memungkinkan tim pengembang melakukan perbaikan dan penambahan fitur dengan cepat.
+% \end{itemize}
+
+% masih ngasal
+
 % \begin{table}[h]
-% 	\caption{Kebutuhan Fungsional Sistem}
+% 	\caption{Kebutuhan Non-Fungsional Sistem}
 % 	\vspace{0.25cm}
 % 	\begin{center}
-% 		\begin{tabular}{|c|l|}
+% 		\begin{tabular}{|c|p{0.85\linewidth}|}
 % 			\hline
 % 			\textbf{ID} & \textbf{Penjelasan} \\ \hline
-% 			F01 & User dapat melakukan input kebutuhan dalam bentuk \textit{Natural Language} \\ \hline
-% 			F02 & User dapat mencari Smart Contract  \\ \hline
-% 			F03 & Pengembangan Prototipe \\ \hline
-% 			F04 & Pengujian Prototipe \\ \hline
-% 			F05 & Evaluasi dan Perbaikan \\ \hline
+% 			NF01 & Sistem harus memiliki waktu respons pencarian tidak lebih dari 2 detik untuk kueri bahasa alami \\ \hline
+% 			NF02 & Sistem harus memiliki tingkat ketersediaan (\textit{uptime}) minimal 99,5\% per bulan \\ \hline
+% 			NF03 & Semua akses API dan UI harus melalui otentikasi \\ \hline
+% 			NF04 & Data kontrak harus dienkripsi saat penyimpanan dan transmisi \\ \hline
+% 			NF05 & Sistem harus mampu menangani peningkatan volume data kontrak hingga 10x tanpa degradasi signifikan \\ \hline
+% 			NF06 & Antarmuka pengguna harus intuitif dan dapat digunakan tanpa pelatihan khusus \\ \hline
+% 			NF07 & Kode harus modular dan terdokumentasi, memungkinkan tim pengembang melakukan perbaikan dan penambahan fitur dengan cepat \\ \hline
+% 			NF08 & Sistem harus memiliki dokumentasi yang jelas dan lengkap untuk pengguna dan pengembang \\ \hline
 % 		\end{tabular}
 % 	\end{center}
 % \end{table}
 
-\subsubsection{Kebutuhan Non-Fungsional}
+\begin{table}[h]
+	\caption{Kebutuhan Non-Fungsional Sistem}
+	\vspace{0.25cm}
+	\begin{center}
+		\begin{tabular}{|c|c|p{0.7\linewidth}|}
+			\hline
+			\textbf{ID} & \textbf{Parameter} & \textbf{Penjelasan} \\ \hline
+			
+		\end{tabular}
+	\end{center}
+\end{table}
 
 \subsubsection{Model Use Case}
 
-Kebutuhan fungsional dan karakteristik pengguna yang dirumuskan dapat dimodelkan menjadi use case. Seperti pada gambar \ref{image:usecase}, Use case kemudian dapat dipetakan menjadi sebuah Use Case Diagram yang menghubungkan relasi antara aktor dengan use case yang berkolerasi. Diagram ini menggambarkan interaksi antara pengguna dan sistem, serta fungsi-fungsi yang tersedia dalam sistem. Diagram use case ini akan membantu dalam memahami bagaimana pengguna akan berinteraksi dengan sistem dan fitur-fitur apa saja yang harus ada dalam sistem. Use case dapat dilihat secara detail pada lampiran XX.
+Kebutuhan fungsional dan karakteristik pengguna yang dirumuskan dapat dimodelkan menjadi use case. Seperti pada gambar \ref{image:usecase}, Use case kemudian dapat dipetakan menjadi sebuah Use Case Diagram yang menghubungkan relasi antara aktor dengan use case yang berkolerasi. Diagram ini menggambarkan interaksi antara pengguna dan sistem, serta fungsi-fungsi yang tersedia dalam sistem. Diagram use case ini akan membantu dalam memahami bagaimana pengguna akan berinteraksi dengan sistem dan fitur-fitur apa saja yang harus ada dalam sistem. Seluruh Use Case diidentifikasi dengan sebuah ID yang diawali dengan huruf UC dan diikuti dua angka. Use case dapat dilihat secara detail pada tabel \ref{tabel:use-case}.
 
 \begin{figure}[ht]
 	\centering
@@ -76,4 +138,20 @@ Kebutuhan fungsional dan karakteristik pengguna yang dirumuskan dapat dimodelkan
 	\label{image:usecase}
 \end{figure}
 
-\subsubsection{Risiko dan Mitigasi}
+\begin{table}[h]
+	\caption{Use Case}
+	\label{tabel:use-case}
+	\vspace{0.25cm}
+	\begin{center}
+		\begin{tabular}{|c|p{0.25\linewidth}|p{0.55\linewidth}|}
+			\hline
+			\textbf{ID} & \textbf{Use Case} & \textbf{Deskripsi} \\ \hline
+			UC01 & Mencari Smart Contract & Sistem memberikan data Smart Contract hasil dari pencarian berdasarkan query yang diberikan oleh pengguna. Pengguna dapat memasukkan query pencarian dalam bahasa alami. \\ \hline
+			UC02 & Mendapatkan Address Smart Contract & Sistem memberikan detail address dari Smart Contract yang dipilih oleh pengguna. \\ \hline
+		\end{tabular}
+	\end{center}
+\end{table}
+
+% \subsubsection{Risiko dan Mitigasi}
+
+% perlu ga?
