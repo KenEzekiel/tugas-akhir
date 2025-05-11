@@ -2,3 +2,4 @@
 .env
 unused/
 chroma_db/
+eth2dgraph/

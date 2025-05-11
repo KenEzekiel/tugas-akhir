@@ -1,7 +1,7 @@
 from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel
-from rag.lightweight_retriever import LightweightRetriever
+from core.data_retrieval.lightweight_retriever import LightweightRetriever
 import uvicorn
 
 app = FastAPI()

@@ -5,7 +5,7 @@ import json
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain.chat_models import init_chat_model
-from data_processing.dgraph_client import DgraphClient
+from system.src.core.data_access.dgraph_client import DgraphClient
 from utils.file import write_file
 from utils.logger import logger
 from utils.tokens import num_tokens_from_string
