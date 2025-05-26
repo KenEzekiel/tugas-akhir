@@ -3,12 +3,20 @@ export interface ContractResult {
   name: string
   symbol: string
   description: string
-  platform: string
-  language: string
   license: string
   created: string
   verified: boolean
   tags: string[]
   externalUrl?: string
   address?: string
+  storage_protocol?: string
+  storage_address?: string
+  experimental?: boolean
+  solc_version?: string
+  verified_source?: boolean
+  verified_source_code?: string
+  functionality?: string
+  domain?: string
+  security_risks?: string[]
+  // last_updated?: string
 }

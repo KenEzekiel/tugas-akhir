@@ -20,7 +20,6 @@ interface ImportContractProps {
     name: string
     address: string
     abi: any[]
-    platform: string
   }
 }
 

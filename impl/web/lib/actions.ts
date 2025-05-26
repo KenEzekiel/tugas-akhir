@@ -9,8 +9,6 @@ const mockContracts: ContractResult[] = [
     name: "CryptoKitties",
     symbol: "CK",
     description: "A popular NFT game that allows users to collect and breed digital cats",
-    platform: "Ethereum",
-    language: "Solidity",
     license: "MIT",
     created: "November 28, 2017",
     verified: true,
@@ -23,8 +21,6 @@ const mockContracts: ContractResult[] = [
     name: "Uniswap V3",
     symbol: "UNI",
     description: "Decentralized trading protocol for automated liquidity provision",
-    platform: "Ethereum",
-    language: "Solidity",
     license: "GPL-2.0",
     created: "May 5, 2021",
     verified: true,
@@ -38,8 +34,6 @@ const mockContracts: ContractResult[] = [
     symbol: "AAVE",
     description:
       "Decentralized non-custodial liquidity protocol where users can participate as depositors or borrowers",
-    platform: "Ethereum",
-    language: "Solidity",
     license: "BUSL-1.1",
     created: "March 16, 2022",
     verified: true,
@@ -52,8 +46,6 @@ const mockContracts: ContractResult[] = [
     name: "OpenSea Shared Storefront",
     symbol: "OPENSTORE",
     description: "A shared contract for creators to mint and sell NFTs without deploying their own contract",
-    platform: "Ethereum",
-    language: "Solidity",
     license: "MIT",
     created: "July 12, 2021",
     verified: true,
@@ -67,8 +59,6 @@ const mockContracts: ContractResult[] = [
     symbol: "LINK",
     description:
       "Decentralized oracle network that provides reliable, tamper-proof inputs and outputs for complex smart contracts",
-    platform: "Ethereum",
-    language: "Solidity",
     license: "MIT",
     created: "January 1, 2019",
     verified: true,
@@ -81,8 +71,6 @@ const mockContracts: ContractResult[] = [
     name: "Compound Finance",
     symbol: "COMP",
     description: "Algorithmic, autonomous interest rate protocol built for developers",
-    platform: "Ethereum",
-    language: "Solidity",
     license: "BSD-3",
     created: "May 7, 2018",
     verified: true,
@@ -95,8 +83,6 @@ const mockContracts: ContractResult[] = [
     name: "ENS (Ethereum Name Service)",
     symbol: "ENS",
     description: "Distributed, open, and extensible naming system based on the Ethereum blockchain",
-    platform: "Ethereum",
-    language: "Solidity",
     license: "MIT",
     created: "May 4, 2017",
     verified: true,
@@ -107,20 +93,44 @@ const mockContracts: ContractResult[] = [
 ]
 
 export async function searchContracts(query: string): Promise<ContractResult[]> {
-  // In a real application, this would call an API or database
-  // For demonstration, we'll return mock data with a delay to simulate network request
-  await new Promise((resolve) => setTimeout(resolve, 1500))
+  const baseUrl = process.env.CONTRACT_SEARCH_API_URL || 'http://0.0.0.0:8000'
 
-  // Simple filtering based on the query
-  // In a real app, this would be handled by a backend search engine
-  const lowercaseQuery = query.toLowerCase()
-
-  return mockContracts.filter((contract) => {
-    return (
-      contract.name.toLowerCase().includes(lowercaseQuery) ||
-      contract.description.toLowerCase().includes(lowercaseQuery) ||
-      contract.tags.some((tag) => tag.toLowerCase().includes(lowercaseQuery)) ||
-      contract.platform.toLowerCase().includes(lowercaseQuery)
-    )
+  const res = await fetch(`${baseUrl}/search`, {
+    method: 'POST',
+    cache: 'no-store',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ 
+      query: query, 
+      limit: 10,
+      data: true  // Request full contract data
+    }),
   })
+
+  console.log('Search request:', {
+    url: `${baseUrl}/search`,
+    method: 'POST',
+    headers: { 'Content-Type': 'application/json' },
+    body: JSON.stringify({ query, limit: 10, data: true })
+  })
+
+  if (!res.ok) {
+    throw new Error(`Failed to fetch contracts: ${res.status} ${res.statusText}`)
+  }
+
+  const responseText = await res.text()
+  console.log('Search response:', {
+    status: res.status,
+    statusText: res.statusText,
+    headers: Object.fromEntries(res.headers.entries()),
+    body: responseText
+  })
+
+  // Parse the response text as JSON
+  try {
+    const data = JSON.parse(responseText)
+    return data as ContractResult[]
+  } catch (e) {
+    console.error('Failed to parse response as JSON:', e)
+    throw new Error('Invalid JSON response from API')
+  }
 }

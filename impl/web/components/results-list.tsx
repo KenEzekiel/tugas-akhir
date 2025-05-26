@@ -20,7 +20,7 @@ export function ResultsList() {
   const [results, setResults] = useState<ContractResult[]>([])
   const [loading, setLoading] = useState(false)
   const [selectedContract, setSelectedContract] = useState<string | null>(null)
-  const [contractDetails, setContractDetails] = useState<any | null>(null)
+  const [contractDetails, setContractDetails] = useState<ContractResult | null>(null)
   const [loadingDetails, setLoadingDetails] = useState(false)
 
   useEffect(() => {
@@ -30,128 +30,41 @@ export function ResultsList() {
       setLoading(true)
       try {
         const data = await searchContracts(query)
+        console.log(data, "data")
         setResults(data)
       } catch (error) {
         console.error("Error fetching results:", error)
+        toast({
+          title: "Error",
+          description: "Failed to fetch search results. Please try again.",
+          variant: "destructive",
+        })
       } finally {
         setLoading(false)
       }
     }
 
     fetchResults()
-  }, [query])
+  }, [query, toast])
 
   const handleViewDetails = async (contractId: string) => {
     setSelectedContract(contractId)
     setLoadingDetails(true)
 
     try {
-      // In a real app, this would fetch from the API
       const contract = results.find((r) => r.id === contractId)
+      if (!contract) {
+        throw new Error("Contract not found")
+      }
 
-      // Simulate API call delay
-      await new Promise((resolve) => setTimeout(resolve, 500))
-
-      setContractDetails({
-        ...contract,
-        fullCode: `// SPDX-License-Identifier: MIT
-pragma solidity ^0.8.0;
-
-import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
-import "@openzeppelin/contracts/access/Ownable.sol";
-
-contract ${contract?.name || "SmartContract"} is ERC721, Ownable {
-    uint256 private _tokenIds;
-    uint256 public mintPrice = 0.05 ether;
-    uint256 public maxSupply = 10000;
-    uint256 public maxPerWallet = 3;
-    bool public isPublicMintEnabled = false;
-    string internal baseTokenUri;
-    mapping(address => uint256) public walletMints;
-
-    constructor() ERC721("${contract?.name || "NFT Collection"}", "${contract?.symbol || "NFT"}") {
-        // Initialize contract
-    }
-
-    function setIsPublicMintEnabled(bool _isPublicMintEnabled) external onlyOwner {
-        isPublicMintEnabled = _isPublicMintEnabled;
-    }
-
-    function setBaseTokenUri(string calldata _baseTokenUri) external onlyOwner {
-        baseTokenUri = _baseTokenUri;
-    }
-
-    function tokenURI(uint256 _tokenId) public view override returns (string memory) {
-        require(_exists(_tokenId), "Token does not exist");
-        return string(abi.encodePacked(baseTokenUri, Strings.toString(_tokenId), ".json"));
-    }
-
-    function mint(uint256 _quantity) public payable {
-        require(isPublicMintEnabled, "Public mint is not enabled");
-        require(msg.value == _quantity * mintPrice, "Wrong mint value");
-        require(_tokenIds + _quantity <= maxSupply, "Sold out");
-        require(walletMints[msg.sender] + _quantity <= maxPerWallet, "Exceed max wallet");
-
-        for (uint256 i = 0; i < _quantity; i++) {
-            uint256 newTokenId = _tokenIds + 1;
-            _tokenIds++;
-            _safeMint(msg.sender, newTokenId);
-        }
-    }
-
-    function withdraw() external onlyOwner {
-        (bool success, ) = payable(owner()).call{value: address(this).balance}("");
-        require(success, "Withdraw failed");
-    }
-}`,
-        abi: [
-          {
-            inputs: [],
-            stateMutability: "nonpayable",
-            type: "constructor",
-          },
-          {
-            inputs: [
-              {
-                internalType: "uint256",
-                name: "_quantity",
-                type: "uint256",
-              },
-            ],
-            name: "mint",
-            outputs: [],
-            stateMutability: "payable",
-            type: "function",
-          },
-          {
-            inputs: [
-              {
-                internalType: "bool",
-                name: "_isPublicMintEnabled",
-                type: "bool",
-              },
-            ],
-            name: "setIsPublicMintEnabled",
-            outputs: [],
-            stateMutability: "nonpayable",
-            type: "function",
-          },
-        ],
-        deployments: [
-          {
-            network: "Ethereum Mainnet",
-            address: "0x1234567890123456789012345678901234567890",
-            timestamp: "2023-05-15T14:30:00Z",
-          },
-          {
-            network: "Polygon",
-            address: "0x0987654321098765432109876543210987654321",
-            timestamp: "2023-06-02T09:15:00Z",
-          },
-        ],
-      })
+      setContractDetails(contract)
     } catch (error) {
       console.error("Error fetching contract details:", error)
+      toast({
+        title: "Error",
+        description: "Failed to load contract details. Please try again.",
+        variant: "destructive",
+      })
     } finally {
       setLoadingDetails(false)
     }
@@ -223,31 +136,50 @@ contract ${contract?.name || "SmartContract"} is ERC721, Ownable {
               <CardHeader className="pb-2">
                 <div className="flex justify-between items-start">
                   <div>
-                    <CardTitle className="text-lg">{contract.name}</CardTitle>
-                    <CardDescription>{contract.description}</CardDescription>
+                    <CardTitle className="text-lg">{contract.name || "Unnamed Contract"}</CardTitle>
+                    <CardDescription>{contract.description || "No description available"}</CardDescription>
                   </div>
-                  <Badge variant={contract.verified ? "default" : "outline"}>
-                    {contract.verified ? "Verified" : "Unverified"}
-                  </Badge>
+                  <div className="flex gap-2">
+                    {contract.verified && (
+                      <Badge variant="default">Verified</Badge>
+                    )}
+                    {contract.solc_version && (
+                      <Badge variant="outline">Solidity {contract.solc_version}</Badge>
+                    )}
+                  </div>
                 </div>
               </CardHeader>
               <CardContent>
                 <div className="flex flex-wrap gap-2 mb-3">
-                  {contract.tags.map((tag, i) => (
+                  {contract.tags?.map((tag, i) => (
                     <Badge key={i} variant="secondary" className="flex items-center gap-1">
                       <Tag className="h-3 w-3" />
                       {tag}
                     </Badge>
                   ))}
+                  {contract.domain && (
+                    <Badge variant="secondary" className="flex items-center gap-1">
+                      <Tag className="h-3 w-3" />
+                      {contract.domain}
+                    </Badge>
+                  )}
                 </div>
-                <div className="text-sm text-gray-500 dark:text-gray-400">
-                  <div className="flex items-center gap-1">
-                    <span className="font-medium">Platform:</span> {contract.platform}
+                {contract.functionality && (
+                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    <p className="font-medium">Functionality:</p>
+                    <p>{contract.functionality}</p>
                   </div>
-                  <div className="flex items-center gap-1">
-                    <span className="font-medium">Language:</span> {contract.language}
+                )}
+                {contract.security_risks && contract.security_risks.length > 0 && (
+                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                    <p className="font-medium">Security Considerations:</p>
+                    <ul className="list-disc list-inside">
+                      {contract.security_risks.map((risk, i) => (
+                        <li key={i}>{risk}</li>
+                      ))}
+                    </ul>
                   </div>
-                </div>
+                )}
               </CardContent>
               <CardFooter className="flex flex-wrap gap-2">
                 <Button
@@ -265,22 +197,23 @@ contract ${contract?.name || "SmartContract"} is ERC721, Ownable {
                   )}
                 </Button>
 
-                <Button
-                  variant="outline"
-                  size="sm"
-                  onClick={() => {
-                    const address = contract.address || "0x1234567890123456789012345678901234567890"
-                    navigator.clipboard.writeText(address)
-                    toast({
-                      title: "Address copied",
-                      description: "Contract address copied to clipboard",
-                    })
-                  }}
-                  className="flex items-center gap-1"
-                >
-                  <Copy className="h-3.5 w-3.5" />
-                  Copy Address
-                </Button>
+                {contract.address && (
+                  <Button
+                    variant="outline"
+                    size="sm"
+                    onClick={() => {
+                      navigator.clipboard.writeText(contract.address!)
+                      toast({
+                        title: "Address copied",
+                        description: "Contract address copied to clipboard",
+                      })
+                    }}
+                    className="flex items-center gap-1"
+                  >
+                    <Copy className="h-3.5 w-3.5" />
+                    Copy Address
+                  </Button>
+                )}
 
                 {contract.externalUrl && (
                   <Button variant="outline" size="icon" asChild className="ml-auto">

@@ -62,7 +62,6 @@ export function ContractDetails({ contract, onBack }: ContractDetailsProps) {
               name: contract.name,
               address: contract.deployments?.[0]?.address || "0x1234567890123456789012345678901234567890",
               abi: contract.abi || [],
-              platform: contract.platform,
             }}
           />
         </div>
@@ -75,14 +74,6 @@ export function ContractDetails({ contract, onBack }: ContractDetailsProps) {
         </CardHeader>
         <CardContent>
           <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
-            <div>
-              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Platform</h4>
-              <p>{contract.platform}</p>
-            </div>
-            <div>
-              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">Language</h4>
-              <p>{contract.language}</p>
-            </div>
             <div>
               <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">License</h4>
               <p>{contract.license || "MIT"}</p>
