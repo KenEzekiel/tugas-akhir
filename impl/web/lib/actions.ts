@@ -106,12 +106,12 @@ export async function searchContracts(query: string): Promise<ContractResult[]> 
     }),
   })
 
-  console.log('Search request:', {
-    url: `${baseUrl}/search`,
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ query, limit: 10, data: true })
-  })
+  // console.log('Search request:', {
+  //   url: `${baseUrl}/search`,
+  //   method: 'POST',
+  //   headers: { 'Content-Type': 'application/json' },
+  //   body: JSON.stringify({ query, limit: 10, data: true })
+  // })
 
   if (!res.ok) {
     throw new Error(`Failed to fetch contracts: ${res.status} ${res.statusText}`)
