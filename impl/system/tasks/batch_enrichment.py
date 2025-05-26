@@ -1,16 +1,17 @@
 import asyncio
-from data_processing.dgraph_client import DgraphClient
-from data_processing.llm_enrichment import ParallelSemanticEnricher
-from data_processing.vectordb import VectorDBManager
-from utils.logger import logger
+import json
+from src.core.data_access.dgraph_client import DgraphClient
+from src.core.data_processing.llm_enrichment import ParallelSemanticEnricher
+from src.core.data_access.vectordb_client import VectorDBManager
+from src.utils.logger import logger
 
-async def batch_enrichment(batch_size: int = 100):
+async def batch_enrichment(batch_size: int = 50):
   dgraph = DgraphClient()
   enricher = ParallelSemanticEnricher()
   vector_db = VectorDBManager()
   
   while True:
-    contracts = await dgraph.get_contracts(batch_size, enriched=False)
+    contracts = json.loads(dgraph.get_contracts(batch_size, enriched=False).json)["allContractDeployments"]
     if not contracts:
       logger.info("No more contracts to enrich")
       break
