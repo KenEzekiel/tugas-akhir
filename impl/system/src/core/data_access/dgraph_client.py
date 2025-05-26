@@ -1,8 +1,8 @@
 import os
 import json
 import pydgraph
-from utils.logger import logger
-from utils.file import write_file
+from src.utils.logger import logger
+from src.utils.file import write_file
 from contextlib import contextmanager
 
 
@@ -88,12 +88,50 @@ class DgraphClient:
     with self.dgraph_txn(read_only=True) as txn:
       try:
         response = txn.query(query)
-        self.logger.info(f"Retrieved {"" if enriched else "un"}enriched contracts")
+        self.logger.info(f"Retrieved {'' if enriched else 'un'}enriched contracts")
         return response
       except Exception as e:
         self.logger.exception("Dgraph query failed")
         raise
       
+  def get_contract_by_uid(self, uid: str) -> dict:
+    """
+    Retrieves a contract by its UID.
+
+    Args:
+      uid: The UID of the contract to retrieve.
+
+    Returns:
+      The Dgraph query response as a dict.
+    """
+    query = f"""
+    {{
+      contract(func: uid("{uid}")) {{
+      uid
+      ContractDeployment.contract
+      ContractDeployment.block
+      ContractDeployment.storage_protocol
+      ContractDeployment.storage_address
+      ContractDeployment.experimental
+      ContractDeployment.solc_version
+      ContractDeployment.verified_source
+      ContractDeployment.verified_source_code
+      ContractDeployment.name
+      ContractDeployment.description
+      ContractDeployment.functionality
+      ContractDeployment.domain
+      ContractDeployment.security_risks
+      }}
+    }}
+    """
+    with self.dgraph_txn(read_only=True) as txn:
+      try:
+        response = txn.query(query)
+        self.logger.info(f"Retrieved contract with UID {uid}")
+        return response
+      except Exception as e:
+        self.logger.exception(f"Failed to retrieve contract with UID {uid}: {e}")
+        raise
 
   def mutate(self, mutation_data: dict[str, str], commit_now: bool = True) -> dict:
     """
@@ -134,7 +172,7 @@ def main() -> None:
     json_data = json.loads(result.json)
     write_file(json_data, 'unenriched_contracts.json')
     
-    result = client.get_contracts(batch_size=100, enriched=True)
+    result = client.get_contracts(batch_size=50, enriched=True)
 
     # Save results to file
     json_data = json.loads(result.json)
@@ -144,6 +182,23 @@ def main() -> None:
   finally:
     if client:
       client.close()
+      # Test get single contract by uid using one of the retrieved UIDs
+      try:
+        # assume last `result` was the enriched contracts query
+        client = DgraphClient()
+        contracts_list = json.loads(result.json).get("allContractDeployments", [])
+        if contracts_list:
+          test_uid = contracts_list[0]["uid"]
+          single_resp = client.get_contract_by_uid(test_uid)
+          single_data = json.loads(single_resp.json)
+          write_file(single_data, f"contract_{test_uid}.json")
+          logger.info(f"Wrote single contract {test_uid} to contract_{test_uid}.json")
+        else:
+          logger.warning("No contracts available to test get_contract_by_uid")
+      except Exception as e:
+        logger.error(f"Failed to test get_contract_by_uid: {e}")
+      finally:
+        client.close()
 
 if __name__ == '__main__':
   main()

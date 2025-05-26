@@ -1,6 +1,6 @@
-from system.src.core.data_access.vectordb_client import VectorDBManager
-from utils.file import write_file
-from utils.logger import logger
+from src.core.data_access.vectordb_client import VectorDBManager
+from src.utils.file import write_file
+from src.utils.logger import logger
 from langchain.chat_models import init_chat_model
 from langchain_core.prompts import ChatPromptTemplate
 

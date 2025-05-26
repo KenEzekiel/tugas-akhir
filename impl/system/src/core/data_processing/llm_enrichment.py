@@ -5,10 +5,10 @@ import json
 from langchain_core.prompts import ChatPromptTemplate
 from langchain_core.output_parsers import JsonOutputParser
 from langchain.chat_models import init_chat_model
-from system.src.core.data_access.dgraph_client import DgraphClient
-from utils.file import write_file
-from utils.logger import logger
-from utils.tokens import num_tokens_from_string
+from src.core.data_access.dgraph_client import DgraphClient
+from src.utils.file import write_file
+from src.utils.logger import logger
+from src.utils.tokens import num_tokens_from_string
 
 load_dotenv()
 
@@ -17,7 +17,7 @@ class SemanticEnricher:
   Enriches smart contracts with semantic information using a language model
   """
   
-  def __init__(self, model: str = "deepseek-r1-distill-llama-70b", model_provider: str = "groq") -> None:
+  def __init__(self, model: str = "gpt-4o-mini", model_provider: str = "openai") -> None:
     
     self.logger = logger.getChild("SemanticEnricher")
 
@@ -67,7 +67,7 @@ class SemanticEnricher:
       result = {f"ContractDeployment.{key}": value for key, value in result.items()}
       result["uid"] = contract_data["uid"]
       
-      self.logger.info(f"Enrichment process completed successfully for UID: {contract_data["uid"]}")
+      self.logger.info(f"Enrichment process completed successfully for UID: {contract_data['uid']}")
     except Exception as e:
       self.logger.error(f"Error during enrichment: {str(e)}")
       raise

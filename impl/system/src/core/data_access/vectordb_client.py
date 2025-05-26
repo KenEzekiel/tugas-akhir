@@ -6,7 +6,7 @@ import yaml
 from dotenv import load_dotenv
 from langchain_huggingface import HuggingFaceEmbeddings
 from langchain_community.vectorstores import Chroma
-from utils.logger import logger
+from src.utils.logger import logger
 
 load_dotenv()
 
@@ -172,22 +172,22 @@ if __name__ == "__main__":
     logger.info("Initializing VectorDBManager...")
     manager = VectorDBManager("config/vectordb.yaml")
     logger.info("VectorDBManager initialized.")
-    
+
     logger.info("Adding embeddings...")
     manager.add_embeddings(contracts)
     logger.info("Embeddings added successfully.")
     
     # Test search functionality
-    # print("Testing search functionality...")
+    print("Testing search functionality...")
     # disini bisa implement searching dengan LLM nya
     # query user -> di augment sama LLM (minta querynya ke deepkseek)
     # augmented query -> baru di vector search
-    # results = manager.search("uniswap", k=2)
-    # print(f"Found {len(results)} results:")
-    # for i, result in enumerate(results):
-    #     print(f"Result {i+1}:")
-    #     print(f"  Content: {result['content']}")
-    #     print(f"  Document ID: {result['metadata']['dgraph_id']}")
+    results = manager.search("Open-source ERC-20 token contract with mint/burn functions and snapshot capabilities.", k=2)
+    print(f"Found {len(results)} results:")
+    for i, result in enumerate(results):
+        print(f"Result {i+1}:")
+        print(f"  Content: {result['content']}")
+        print(f"  Document ID: {result['metadata']['dgraph_id']}")
       
   except Exception as e:
     logger.error("An error occurred: %s", e)
