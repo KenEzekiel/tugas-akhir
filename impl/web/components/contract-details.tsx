@@ -140,7 +140,7 @@ export function ContractDetails({ contract, onBack }: ContractDetailsProps) {
             <CardHeader className="pb-2">
               <div className="flex justify-between items-center">
                 <CardTitle className="text-lg">Source Code</CardTitle>
-                <Button variant="outline" size="sm" onClick={() => copyToClipboard(contract.fullCode)} className="h-8">
+                <Button variant="outline" size="sm" onClick={() => copyToClipboard(contract.verified_source_code)} className="h-8">
                   {copied ? (
                     <span className="flex items-center gap-1">
                       <Check className="h-4 w-4" />
@@ -157,7 +157,7 @@ export function ContractDetails({ contract, onBack }: ContractDetailsProps) {
             </CardHeader>
             <CardContent>
               <pre className="p-4 bg-gray-50 dark:bg-gray-800 rounded-md overflow-x-auto text-sm font-mono">
-                {contract.fullCode}
+                {contract.verified_source_code}
               </pre>
             </CardContent>
           </Card>
