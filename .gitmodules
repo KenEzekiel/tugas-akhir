@@ -1,0 +1,3 @@
+[submodule "impl/eth2dgraph"]
+	path = impl/eth2dgraph
+	url = https://github.com/KenEzekiel/eth2dgraph.git
