@@ -85,7 +85,7 @@ export function ResultsList() {
       <div className="space-y-4">
         <h2 className="text-xl font-semibold mb-4">Searching for: "{query}"</h2>
         {[1, 2, 3].map((i) => (
-          <Card key={i} className="overflow-hidden">
+          <Card key={`skeleton-${i}`} className="overflow-hidden">
             <CardHeader className="pb-2">
               <Skeleton className="h-6 w-1/3" />
               <Skeleton className="h-4 w-2/3" />
@@ -132,7 +132,7 @@ export function ResultsList() {
       ) : (
         <div className="space-y-4">
           {results.map((contract) => (
-            <Card key={contract.id} className="overflow-hidden hover:shadow-md transition-shadow">
+            <Card key={`${contract.id}-${contract.name}`} className="overflow-hidden hover:shadow-md transition-shadow">
               <CardHeader className="pb-2">
                 <div className="flex justify-between items-start">
                   <div>
@@ -152,7 +152,7 @@ export function ResultsList() {
               <CardContent>
                 <div className="flex flex-wrap gap-2 mb-3">
                   {contract.tags?.map((tag, i) => (
-                    <Badge key={i} variant="secondary" className="flex items-center gap-1">
+                    <Badge key={`${tag}-${i}`} variant="secondary" className="flex items-center gap-1">
                       <Tag className="h-3 w-3" />
                       {tag}
                     </Badge>
@@ -175,7 +175,7 @@ export function ResultsList() {
                     <p className="font-medium">Security Considerations:</p>
                     <ul className="list-disc list-inside">
                       {contract.security_risks.map((risk, i) => (
-                        <li key={i}>{risk}</li>
+                        <li key={`${risk}-${i}`}>{risk}</li>
                       ))}
                     </ul>
                   </div>
