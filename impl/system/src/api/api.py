@@ -2,13 +2,14 @@ from fastapi import FastAPI, HTTPException
 from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel, Field
-from typing import List, Optional, Union
+from typing import List, Optional
 from src.core.data_retrieval.lightweight_retriever import LightweightRetriever
 import uvicorn
 from src.core.data_access.dgraph_client import DgraphClient
 import json
 import yaml
 import os
+from openai import OpenAI
 
 
 # Load custom OpenAPI spec
@@ -34,6 +35,18 @@ if custom_openapi:
     app.openapi = custom_openapi_func
 
 retriever = LightweightRetriever()
+
+# Initialize OpenAI client
+openai_client = None
+try:
+    openai_api_key = os.getenv("OPENAI_API_KEY")
+    if openai_api_key:
+        openai_client = OpenAI(api_key=openai_api_key)
+        print("OpenAI client initialized successfully")
+    else:
+        print("Warning: OPENAI_API_KEY not found in environment variables")
+except Exception as e:
+    print(f"Warning: Failed to initialize OpenAI client: {e}")
 
 # CORS configuration
 app.add_middleware(
@@ -225,6 +238,16 @@ class ContractDeploymentResult(BaseModel):
     block: Optional[Block] = None
     parsed_source_data: Optional[ParsedContractData] = None
     analysis: Optional[ContractAnalysis] = None
+
+
+class RefineRequest(BaseModel):
+    query: str = Field(..., min_length=1, description="Original search query to refine")
+
+
+class RefineResponse(BaseModel):
+    original_query: str = Field(..., description="The original query provided")
+    refined_query: str = Field(..., description="The enhanced, more descriptive query")
+    reasoning: Optional[str] = Field(None, description="Explanation of the refinement")
 
 
 def parse_dgraph_entity(data: dict, entity_type: str) -> dict:
@@ -428,6 +451,27 @@ async def search_contracts(request: SearchRequest):
         raise HTTPException(status_code=500, detail=str(e))
 
 
+@app.post("/refine", response_model=RefineResponse)
+async def refine_query(request: RefineRequest):
+    """
+    Refine and enhance a search query using AI to make it more semantically rich
+    for better smart contract search results.
+    """
+    try:
+        print(f"Refining query: {request.query}")
+
+        # Use LLM to refine the query
+        refined_response = await refine_query_with_llm(request.query)
+
+        print(f"Refined query: {refined_response.refined_query}")
+
+        return refined_response
+
+    except Exception as e:
+        print(f"Error refining query: {str(e)}")
+        raise HTTPException(status_code=500, detail=f"Failed to refine query: {str(e)}")
+
+
 @app.get("/", response_class=HTMLResponse)
 async def root():
     """API Documentation Landing Page"""
@@ -589,6 +633,134 @@ async def root():
         </body>
     </html>
     """
+
+
+# ========================================================================
+# Query Refinement System
+# ========================================================================
+
+QUERY_REFINEMENT_SYSTEM_PROMPT = """You are an expert smart contract search query enhancement assistant. Your role is to transform user queries into more detailed, semantically rich descriptions that will improve search results for smart contracts.
+
+TASK: Take a user's search query and enhance it with:
+1. Technical terminology relevant to blockchain/smart contracts
+2. Specific functionality descriptions
+3. Common patterns and standards (ERC20, ERC721, DeFi protocols, etc.)
+4. Security considerations when relevant
+5. Use cases and business logic details
+
+GUIDELINES:
+- Keep the core intent of the original query
+- Add semantic depth without changing the meaning
+- Include relevant technical terms that developers would use
+- Mention specific standards, patterns, or protocols when applicable
+- Be concise but descriptive (aim for 1-3 sentences)
+- Focus on functionality, not implementation details
+
+EXAMPLES:
+Input: "token contract"
+Output: "ERC20 or ERC721 token contract implementations with standard transfer functionality, allowance mechanisms, and potentially mintable or burnable capabilities"
+
+Input: "NFT marketplace"
+Output: "Non-fungible token marketplace smart contracts implementing ERC721 or ERC1155 standards with auction mechanisms, royalty distribution, and decentralized trading functionality"
+
+Input: "lending protocol"
+Output: "Decentralized finance lending and borrowing protocols with collateral management, interest rate calculations, liquidation mechanisms, and automated market maker integration"
+
+Return your response as a JSON object with:
+- "refined_query": the enhanced query
+- "reasoning": brief explanation of what you added and why
+
+Be helpful and precise. Transform the query to maximize smart contract search relevance."""
+
+
+async def refine_query_with_llm(original_query: str) -> RefineResponse:
+    """Use OpenAI to refine and enhance the search query"""
+
+    if not openai_client:
+        # Fallback: return original query with a note
+        return RefineResponse(
+            original_query=original_query,
+            refined_query=original_query,
+            reasoning="LLM service not available - using original query",
+        )
+
+    try:
+        response = openai_client.chat.completions.create(
+            model="gpt-4o-mini",  # Using the more cost-effective model
+            messages=[
+                {"role": "system", "content": QUERY_REFINEMENT_SYSTEM_PROMPT},
+                {
+                    "role": "user",
+                    "content": f"Please refine this search query: {original_query}",
+                },
+            ],
+            temperature=0.3,  # Lower temperature for more consistent results
+            max_tokens=300,
+            response_format={"type": "json_object"},
+        )
+
+        result = json.loads(response.choices[0].message.content)
+
+        return RefineResponse(
+            original_query=original_query,
+            refined_query=result.get("refined_query", original_query),
+            reasoning=result.get("reasoning", "Query enhanced with semantic details"),
+        )
+
+    except Exception as e:
+        print(f"Error refining query with LLM: {str(e)}")
+        # Fallback to rule-based enhancement
+        return fallback_query_enhancement(original_query)
+
+
+def fallback_query_enhancement(original_query: str) -> RefineResponse:
+    """Fallback query enhancement using rule-based patterns"""
+
+    query_lower = original_query.lower()
+    enhancements = []
+
+    # Token-related enhancements
+    if any(word in query_lower for word in ["token", "coin", "currency"]):
+        enhancements.append("ERC20 or ERC721 token standard implementation")
+
+    # NFT-related enhancements
+    if any(word in query_lower for word in ["nft", "collectible", "art", "gaming"]):
+        enhancements.append(
+            "non-fungible token with metadata and ownership transfer capabilities"
+        )
+
+    # DeFi-related enhancements
+    if any(
+        word in query_lower for word in ["defi", "lending", "borrowing", "liquidity"]
+    ):
+        enhancements.append(
+            "decentralized finance protocol with automated market maker functionality"
+        )
+
+    # Governance enhancements
+    if any(word in query_lower for word in ["governance", "voting", "dao"]):
+        enhancements.append(
+            "decentralized governance system with proposal and voting mechanisms"
+        )
+
+    # Security enhancements
+    if any(word in query_lower for word in ["security", "audit", "safe"]):
+        enhancements.append(
+            "security-focused implementation with access controls and vulnerability mitigations"
+        )
+
+    if enhancements:
+        refined = f"{original_query} - {', '.join(enhancements)}"
+        reasoning = (
+            "Enhanced with rule-based pattern matching for blockchain terminology"
+        )
+    else:
+        refined = f"{original_query} smart contract functionality with standard implementation patterns"
+        reasoning = "Added general smart contract context"
+
+    return RefineResponse(
+        original_query=original_query, refined_query=refined, reasoning=reasoning
+    )
 
 
 if __name__ == "__main__":

@@ -57,6 +57,49 @@ paths:
               schema:
                 $ref: '#/components/schemas/ErrorResponse'
 
+  /refine:
+    post:
+      summary: Refine search query
+      description: Enhance a search query using AI to make it more semantically rich and improve search results
+      operationId: refineQuery
+      tags:
+        - queries
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RefineRequest'
+            examples:
+              simple_query:
+                summary: Simple query refinement
+                value:
+                  query: "token contract"
+              complex_query:
+                summary: Complex query refinement
+                value:
+                  query: "NFT marketplace with royalties"
+      responses:
+        '200':
+          description: Successfully refined query
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RefineResponse'
+              examples:
+                refined_result:
+                  summary: Example refined query
+                  value:
+                    original_query: "token contract"
+                    refined_query: "ERC20 or ERC721 token contract implementations with standard transfer functionality, allowance mechanisms, and potentially mintable or burnable capabilities"
+                    reasoning: "Enhanced with specific token standards and common functionality patterns"
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
 components:
   schemas:
     SearchRequest:
@@ -638,6 +681,34 @@ components:
           description: Error message describing what went wrong
           example: "Internal server error occurred while processing the request"
 
+    RefineRequest:
+      type: object
+      required:
+        - query
+      properties:
+        query:
+          type: string
+          description: The original search query
+          example: "token contract"
+
+    RefineResponse:
+      type: object
+      properties:
+        original_query:
+          type: string
+          description: The original search query
+          example: "token contract"
+        refined_query:
+          type: string
+          description: The refined search query
+          example: "ERC20 or ERC721 token contract implementations with standard transfer functionality, allowance mechanisms, and potentially mintable or burnable capabilities"
+        reasoning:
+          type: string
+          description: The reasoning behind the refined query
+          example: "Enhanced with specific token standards and common functionality patterns"
+
 tags:
   - name: contracts
-    description: Smart contract search and comprehensive analysis operations 
+    description: Smart contract search and comprehensive analysis operations
+  - name: queries
+    description: Query refinement and enhancement operations 
