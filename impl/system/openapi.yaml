@@ -1,0 +1,643 @@
+openapi: 3.0.3
+info:
+  title: Smart Contract Search API
+  description: Advanced API for searching and retrieving comprehensive smart contract information with detailed source code analysis, security insights, and behavioral patterns
+  version: 2.0.0
+  contact:
+    name: API Support
+  license:
+    name: MIT
+
+servers:
+  - url: http://localhost:8000
+    description: Development server
+  - url: https://api.example.com
+    description: Production server
+
+paths:
+  /search:
+    post:
+      summary: Search smart contracts
+      description: Search for smart contracts with comprehensive metadata, source code analysis, and security insights
+      operationId: searchContracts
+      tags:
+        - contracts
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/SearchRequest'
+            examples:
+              basic_search:
+                summary: Basic search without detailed data
+                value:
+                  query: "ERC20 token"
+                  limit: 10
+                  data: false
+              detailed_search:
+                summary: Comprehensive search with full analysis
+                value:
+                  query: "DeFi lending protocol"
+                  limit: 5
+                  data: true
+      responses:
+        '200':
+          description: Successful search results
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/ContractDeploymentResult'
+        '500':
+          description: Internal server error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ErrorResponse'
+
+components:
+  schemas:
+    SearchRequest:
+      type: object
+      required:
+        - query
+        - limit
+      properties:
+        query:
+          type: string
+          description: Search query string to find relevant contracts
+          example: "ERC20 token contract"
+          minLength: 1
+        limit:
+          type: integer
+          description: Maximum number of results to return
+          example: 10
+          minimum: 1
+          maximum: 100
+        data:
+          type: boolean
+          description: Whether to include comprehensive contract data and analysis
+          default: false
+          example: true
+
+    ContractDeploymentResult:
+      type: object
+      required:
+        - uid
+        - name
+        - description
+        - verified_source
+      properties:
+        uid:
+          type: string
+          description: Unique identifier for the contract deployment
+          example: "0x123abc"
+        name:
+          type: string
+          description: Name of the smart contract
+          example: "MyToken"
+        description:
+          type: string
+          description: Description of the contract
+          example: "A comprehensive ERC20 token implementation with advanced features"
+        functionality:
+          type: string
+          nullable: true
+          description: Description of the contract's main functionality
+          example: "Token minting and burning with access controls"
+        domain:
+          type: string
+          nullable: true
+          description: Domain or category the contract belongs to
+          example: "finance"
+        security_risks:
+          type: array
+          items:
+            type: string
+          nullable: true
+          description: Array of identified security risks
+          example: ["reentrancy", "integer_overflow"]
+        
+        # Deployment Information
+        tx_hash:
+          type: string
+          nullable: true
+          description: Transaction hash of the deployment
+          example: "0xabcd1234..."
+        failed_deploy:
+          type: boolean
+          nullable: true
+          description: Whether the deployment failed
+          example: false
+        creation_bytecode:
+          type: string
+          nullable: true
+          description: Creation bytecode of the contract
+        deployed_bytecode:
+          type: string
+          nullable: true
+          description: Runtime bytecode of the contract
+        storage_protocol:
+          type: string
+          nullable: true
+          description: Storage protocol used for contract data
+          example: "IPFS"
+        storage_address:
+          type: string
+          nullable: true
+          description: Storage address where contract data is stored
+        experimental:
+          type: boolean
+          nullable: true
+          description: Whether the contract is marked as experimental
+        solc_version:
+          type: string
+          nullable: true
+          description: Solidity compiler version used
+          example: "0.8.19"
+        verified_source:
+          type: boolean
+          description: Whether the source code has been verified
+          example: true
+        verified_source_code:
+          type: string
+          nullable: true
+          description: The verified source code of the contract
+
+        # Related entities (included when data=true)
+        creator:
+          $ref: '#/components/schemas/Account'
+          nullable: true
+        block:
+          $ref: '#/components/schemas/Block'
+          nullable: true
+        parsed_source_data:
+          $ref: '#/components/schemas/ParsedContractData'
+          nullable: true
+        analysis:
+          $ref: '#/components/schemas/ContractAnalysis'
+          nullable: true
+
+    Account:
+      type: object
+      properties:
+        uid:
+          type: string
+          description: Unique identifier for the account
+        address:
+          type: string
+          description: Blockchain address of the account
+          example: "0x1234567890abcdef1234567890abcdef12345678"
+        tags:
+          type: array
+          items:
+            type: string
+          description: Tags associated with the account
+          example: ["deployer", "verified"]
+        is_contract:
+          type: boolean
+          description: Whether this address is a contract
+          example: false
+
+    Block:
+      type: object
+      properties:
+        uid:
+          type: string
+          description: Unique identifier for the block
+        number:
+          type: integer
+          description: Block number
+          example: 12345678
+        datetime:
+          type: string
+          format: date-time
+          description: Block timestamp
+          example: "2023-01-15T10:30:00Z"
+        difficulty:
+          type: string
+          description: Block difficulty
+        size:
+          type: integer
+          description: Block size in bytes
+
+    ParsedContractData:
+      type: object
+      properties:
+        uid:
+          type: string
+          description: Unique identifier for the parsed data
+        source_contract_name:
+          type: string
+          nullable: true
+          description: Name of the contract in source code
+          example: "MyToken"
+        imports:
+          type: array
+          items:
+            type: string
+          description: Import statements in the contract
+          example: ["@openzeppelin/contracts/token/ERC20/ERC20.sol"]
+        inherits_from:
+          type: array
+          items:
+            type: string
+          description: Contracts this contract inherits from
+          example: ["ERC20", "Ownable"]
+        implemented_interfaces_source:
+          type: array
+          items:
+            type: string
+          description: Interfaces implemented by this contract
+        natspec_contract_dev:
+          type: string
+          nullable: true
+          description: NatSpec developer documentation for the contract
+        natspec_contract_notice:
+          type: string
+          nullable: true
+          description: NatSpec notice documentation for the contract
+        token_name_literal:
+          type: string
+          nullable: true
+          description: Token name if this is a token contract
+          example: "MyToken"
+        token_symbol_literal:
+          type: string
+          nullable: true
+          description: Token symbol if this is a token contract
+          example: "MTK"
+        
+        # Detailed contract structure (included in comprehensive responses)
+        state_variables:
+          type: array
+          items:
+            $ref: '#/components/schemas/StateVariable'
+          nullable: true
+        functions:
+          type: array
+          items:
+            $ref: '#/components/schemas/FunctionDef'
+          nullable: true
+        events:
+          type: array
+          items:
+            $ref: '#/components/schemas/EventDef'
+          nullable: true
+        modifiers:
+          type: array
+          items:
+            $ref: '#/components/schemas/ModifierDef'
+          nullable: true
+        structs:
+          type: array
+          items:
+            $ref: '#/components/schemas/StructDef'
+          nullable: true
+        enums:
+          type: array
+          items:
+            $ref: '#/components/schemas/EnumDef'
+          nullable: true
+        custom_errors:
+          type: array
+          items:
+            $ref: '#/components/schemas/CustomErrorDef'
+          nullable: true
+
+    StateVariable:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+          example: "_totalSupply"
+        data_type:
+          type: string
+          example: "uint256"
+        visibility:
+          type: string
+          example: "private"
+        immutability:
+          type: string
+          example: "mutable"
+        natspec_dev:
+          type: string
+          nullable: true
+
+    FunctionDef:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+          example: "transfer"
+        visibility:
+          type: string
+          example: "public"
+        mutability:
+          type: string
+          example: "nonpayable"
+        modifiers_used:
+          type: array
+          items:
+            type: string
+          example: ["onlyOwner"]
+        natspec_dev:
+          type: string
+          nullable: true
+        natspec_notice:
+          type: string
+          nullable: true
+        internal_function_calls:
+          type: array
+          items:
+            type: string
+        external_call_signatures:
+          type: array
+          items:
+            type: string
+        emitted_events:
+          type: array
+          items:
+            type: string
+        reads_state_variables:
+          type: array
+          items:
+            type: string
+        writes_state_variables:
+          type: array
+          items:
+            type: string
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractParam'
+          nullable: true
+        returns:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractParam'
+          nullable: true
+
+    EventDef:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+          example: "Transfer"
+        natspec_dev:
+          type: string
+          nullable: true
+        natspec_notice:
+          type: string
+          nullable: true
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractParam'
+          nullable: true
+
+    ModifierDef:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+          example: "onlyOwner"
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractParam'
+          nullable: true
+
+    StructDef:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+          example: "UserData"
+        members:
+          type: array
+          items:
+            $ref: '#/components/schemas/StructMember'
+          nullable: true
+
+    StructMember:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+          example: "balance"
+        data_type:
+          type: string
+          example: "uint256"
+
+    EnumDef:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+          example: "Status"
+        values:
+          type: array
+          items:
+            type: string
+          example: ["PENDING", "ACTIVE", "EXPIRED"]
+
+    CustomErrorDef:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+          example: "InsufficientBalance"
+        parameters:
+          type: array
+          items:
+            $ref: '#/components/schemas/ContractParam'
+          nullable: true
+
+    ContractParam:
+      type: object
+      properties:
+        uid:
+          type: string
+        name:
+          type: string
+          example: "amount"
+        data_type:
+          type: string
+          example: "uint256"
+        storage_location:
+          type: string
+          nullable: true
+          example: "memory"
+        is_indexed:
+          type: boolean
+          nullable: true
+          example: true
+
+    ContractAnalysis:
+      type: object
+      description: High-level semantic and behavioral analysis of the contract
+      properties:
+        uid:
+          type: string
+        contract_purpose:
+          type: array
+          items:
+            type: string
+          description: Identified purposes of the contract
+          example: ["token", "governance", "staking"]
+        access_control_patterns:
+          type: array
+          items:
+            type: string
+          description: Access control patterns detected
+          example: ["Ownable", "Role-based access"]
+        state_management_patterns:
+          type: array
+          items:
+            type: string
+          description: State management patterns
+          example: ["Pausable", "Upgradeable"]
+        design_patterns:
+          type: array
+          items:
+            type: string
+          description: Design patterns used
+          example: ["Factory", "Proxy"]
+        financial_operations_detected:
+          type: array
+          items:
+            type: string
+          description: Financial operations detected
+          example: ["token transfers", "fee collection"]
+        tokenomics_hints:
+          type: array
+          items:
+            type: string
+          description: Tokenomics-related insights
+          example: ["deflationary", "yield-bearing"]
+        standard_adherence:
+          type: array
+          items:
+            type: string
+          description: Standards the contract adheres to
+          example: ["ERC20", "ERC721"]
+        high_level_summary:
+          type: string
+          nullable: true
+          description: Plain English summary of the contract
+          example: "A standard ERC20 token with additional governance features"
+        
+        # Related analysis entities
+        function_purposes:
+          type: array
+          items:
+            $ref: '#/components/schemas/FunctionPurpose'
+          nullable: true
+        inferred_roles:
+          type: array
+          items:
+            $ref: '#/components/schemas/InferredRole'
+          nullable: true
+        security_risks_detected:
+          type: array
+          items:
+            $ref: '#/components/schemas/SecurityRiskHint'
+          nullable: true
+        function_summaries:
+          type: array
+          items:
+            $ref: '#/components/schemas/FunctionSummary'
+          nullable: true
+
+    FunctionPurpose:
+      type: object
+      properties:
+        uid:
+          type: string
+        function_name:
+          type: string
+          example: "mint"
+        purpose_description:
+          type: string
+          example: "Creates new tokens and assigns them to specified address"
+
+    InferredRole:
+      type: object
+      properties:
+        uid:
+          type: string
+        role_name:
+          type: string
+          example: "Minter"
+        description:
+          type: string
+          example: "Can create new tokens"
+        associated_functions:
+          type: array
+          items:
+            type: string
+          example: ["mint", "mintTo"]
+
+    SecurityRiskHint:
+      type: object
+      properties:
+        uid:
+          type: string
+        risk_type:
+          type: string
+          example: "reentrancy"
+        description:
+          type: string
+          example: "Function may be vulnerable to reentrancy attacks"
+        affected_elements:
+          type: array
+          items:
+            type: string
+          example: ["withdraw", "transfer"]
+        severity:
+          type: string
+          example: "high"
+          enum: ["low", "medium", "high", "critical"]
+
+    FunctionSummary:
+      type: object
+      properties:
+        uid:
+          type: string
+        function_name:
+          type: string
+          example: "transfer"
+        plain_english_summary:
+          type: string
+          example: "Transfers tokens from sender to recipient with balance validation"
+
+    ErrorResponse:
+      type: object
+      properties:
+        detail:
+          type: string
+          description: Error message describing what went wrong
+          example: "Internal server error occurred while processing the request"
+
+tags:
+  - name: contracts
+    description: Smart contract search and comprehensive analysis operations 
