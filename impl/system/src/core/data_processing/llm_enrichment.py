@@ -33,9 +33,33 @@ class SemanticEnricher:
     self.prompt = ChatPromptTemplate.from_template(
       """
       Analyze this smart contract and return JSON with:
-      - functionality: 2-3 sentence description
-      - domain: DeFi, NFT, DAO, or Gaming
-      - security_risks: list of risks
+      - description: 2-3 sentence description of the contract
+      - functionality_classification: (Pick one, only write the picked key)
+        - token_contracts:
+          - token_contracts:erc-20: {{description: "Standard for fungible tokens, meaning each token is identical and interchangeable (e.g., cryptocurrencies like USDC or UNI)."}}
+          - token_contracts:erc-721: {{description: "Standard for non-fungible tokens, meaning each token is unique and not interchangeable (e.g., digital art, collectibles like CryptoPunks)."}}
+          - token_contracts:erc-1155: {{description: "A multi-token standard that allows for both fungible and non-fungible tokens within a single contract, offering greater efficiency."}}
+        - library_contracts: {{description: "Reusable code modules that other smart contracts can call upon, promoting code efficiency and reducing redundancy."}}
+        - proxy_contracts: {{description: "Contracts that delegate calls to an underlying implementation contract, enabling upgradeability of smart contracts without changing the contract address."}}
+        - multisignature_wallets: {{description: "Contracts that require multiple pre-approved signatures to authorize a transaction, enhancing security for shared funds or critical operations."}}
+        - name_services: {{description: "Smart contracts that map human-readable names (e.g., 'example.eth') to machine-readable blockchain addresses, simplifying interactions and enabling decentralized websites. Example: Ethereum Name Service (ENS)."}}
+        - smart_wallets: {{description: "Wallets built as smart contracts, offering advanced features like social recovery, batch transactions, and multi-signature capabilities beyond basic external accounts."}}
+      - application_domain: (Pick one, only write the picked key)
+        - defi:
+          - defi:lending_borrowing: {{description: "Protocols allowing users to lend out their crypto assets to earn interest, or borrow crypto by providing collateral. Examples include Aave and Compound."}}
+          - defi:decentralized_exchanges: {{description: "Platforms for peer-to-peer cryptocurrency trading without the need for a central intermediary. Examples include Uniswap and SushiSwap."}}
+          - defi:stablecoins: {{description: "Contracts that manage digital assets designed to maintain a stable value, often pegged to fiat currencies like USD. Examples include MakerDAO's DAI and Tether's USDT."}}
+          - defi:yield_farming/liquidity_mining: {{description: "Protocols that incentivize users to provide liquidity to DeFi platforms by rewarding them with additional tokens."}}
+          - defi:insurance: {{description: "Decentralized protocols offering coverage against various risks in the crypto space, such as smart contract hacks or stablecoin de-pegging."}}
+        - gaming: {{description: "Smart contracts used for in-game assets (NFTs), game logic, virtual economies, and player interactions within blockchain-based games."}}
+        - nft_marketplaces/collectibles: {{description: "Platforms that enable the creation, buying, selling, and management of Non-Fungible Tokens (NFTs), which represent unique digital or physical assets. Examples include OpenSea and Rarible."}}
+        - gambling: {{description: "Decentralized applications for betting, lotteries, and other forms of gambling where outcomes are determined by smart contracts."}}
+        - social: {{description: "Smart contracts that power decentralized social media platforms, identity management systems, and reputation protocols."}}
+        - supply_chain: {{description: "Contracts used to track and verify goods, automate payments, and ensure transparency and traceability in supply chain processes."}}
+        - voting/governance: {{description: "Smart contracts that enable decentralized autonomous organizations (DAOs) to make collective decisions, manage treasuries, and implement proposals."}}
+        - identity_verification: {{description: "Protocols and contracts for secure, self-sovereign digital identity management and verification."}}
+      - security_risks_description: 2-3 sentence description of the security risks of the contract, if any.
+
       
       the smart contract given has some keywords truncated with this dictionary:
       - func: function
@@ -177,8 +201,10 @@ if __name__ == "__main__":
   async def main():
     dgraph_client = DgraphClient()
     
-    with open("./data/retrieved_enriched_contracts.json", "r") as file:
-      contracts = json.load(file)["allContractDeployments"]
+    # with open("./data/retrieved_enriched_contracts.json", "r") as file:
+    #   contracts = json.load(file)["allContractDeployments"]
+
+    contracts = dgraph_client.get_contracts(enriched=False)
     
     parallel_enricher = ParallelSemanticEnricher()
     
@@ -192,7 +218,7 @@ if __name__ == "__main__":
     
     dgraph_client.mutate(response, commit_now=True)
     
-    enricher = SemanticEnricher()
+    # enricher = SemanticEnricher()
 
     # try:
     #   enriched_data = []
