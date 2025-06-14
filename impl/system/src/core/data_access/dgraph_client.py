@@ -66,7 +66,7 @@ class DgraphClient:
     {{
       allContractDeployments(func: type(ContractDeployment), first:{batch_size}) 
       @filter(eq(ContractDeployment.verified_source, true) AND 
-      {"" if enriched else "NOT"} has(ContractDeployment.functionality)) 
+      {"" if enriched else "NOT"} has(ContractDeployment.description)) 
       {{
         uid
         ContractDeployment.contract
@@ -79,15 +79,17 @@ class DgraphClient:
         ContractDeployment.verified_source_code
         ContractDeployment.name
         ContractDeployment.description
-        ContractDeployment.functionality
-        ContractDeployment.domain
-        ContractDeployment.security_risks
+        ContractDeployment.description_embedding
+        ContractDeployment.functionality_classification
+        ContractDeployment.application_domain
+        ContractDeployment.security_risks_description
       }}
     }}
     """
     with self.dgraph_txn(read_only=True) as txn:
       try:
-        response = txn.query(query)
+        response = txn.query(query).json
+        response = json.loads(response)['allContractDeployments']
         self.logger.info(f"Retrieved {'' if enriched else 'un'}enriched contracts")
         return response
       except Exception as e:
@@ -118,15 +120,17 @@ class DgraphClient:
       ContractDeployment.verified_source_code
       ContractDeployment.name
       ContractDeployment.description
-      ContractDeployment.functionality
-      ContractDeployment.domain
-      ContractDeployment.security_risks
+      ContractDeployment.description_embedding
+      ContractDeployment.functionality_classification
+      ContractDeployment.application_domain
+      ContractDeployment.security_risks_description
       }}
     }}
     """
     with self.dgraph_txn(read_only=True) as txn:
       try:
-        response = txn.query(query)
+        response = txn.query(query).json
+        response = json.loads(response)['contract']
         self.logger.info(f"Retrieved contract with UID {uid}")
         return response
       except Exception as e:
@@ -169,14 +173,12 @@ def main() -> None:
     result = client.get_contracts(batch_size=10, enriched=False)
 
     # Save results to file
-    json_data = json.loads(result.json)
-    write_file(json_data, 'unenriched_contracts.json')
+    write_file(result, 'unenriched_contracts.json')
     
     result = client.get_contracts(batch_size=50, enriched=True)
 
     # Save results to file
-    json_data = json.loads(result.json)
-    write_file(json_data, 'retrieved_enriched_contracts.json')
+    write_file(result, 'retrieved_enriched_contracts.json')
   except Exception as e:
     logger.error(f"An error occurred in the main process: {str(e)}")
   finally:
@@ -186,11 +188,10 @@ def main() -> None:
       try:
         # assume last `result` was the enriched contracts query
         client = DgraphClient()
-        contracts_list = json.loads(result.json).get("allContractDeployments", [])
+        contracts_list = result
         if contracts_list:
           test_uid = contracts_list[0]["uid"]
-          single_resp = client.get_contract_by_uid(test_uid)
-          single_data = json.loads(single_resp.json)
+          single_data = client.get_contract_by_uid(test_uid)
           write_file(single_data, f"contract_{test_uid}.json")
           logger.info(f"Wrote single contract {test_uid} to contract_{test_uid}.json")
         else:
