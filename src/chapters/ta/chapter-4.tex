@@ -1,22 +1,9 @@
 \chapter{Implementasi dan Pengujian}
 Bab ini akan menjelaskan proses implementasi dari rancangan solusi yang telah dikaji pada Bab III. Setelah pembahasan terkait implementasi, akan dilanjutkan dengan pemaparan hasil uji terkait implementasi yang telah dibuat.
 
-\section{Lingkungan}
-\blindtext
+\input{chapters/ta/chapter-4/01-lingkungan}
 
-\section{Implementasi}
-\blindtext
-% ceritain gimana setup si eth2dgraph, archive node, lalu dgraph, lalu gimana nyambungin si archive node ke eth2dgraph, dan import data dari hasil extract jadi dgraph. lalu gimana enrich si formatnya, lalu gimana si formatnya dimasukkin ke dgraph dengan data korespondennya.
-% setelah itu ceritain gimana querynya. bikin python class buat client dgraph buat query
-% CERITAIN DULU PROSES BIKIN FORMAT YANG BAGUS NYA
-
-% penggunaan langchain
-% choosing LLM model (groq, openai, dst) -> sekarang openai karena groq rate limited dan openai masih paling stable
-% choosing vectordb -> chroma vs pinecone, sekarang chroma karena lebih lightweight dan skala kecil, pinecone bisa buat improvement kalau udah skalanya lebih besar (pinecone juga paid, jadi menghindari biaya)
-
-% note: langchain ini bisa pake langsmith juga buat trackingnya
-
+\input{chapters/ta/chapter-4/02-implementasi}
 
 \section{Pengujian}
-\blindtext
 

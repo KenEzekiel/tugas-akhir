@@ -1,0 +1,14 @@
+\section{Implementasi}
+% ceritain gimana setup si eth2dgraph, archive node, lalu dgraph, lalu gimana nyambungin si archive node ke eth2dgraph, dan import data dari hasil extract jadi dgraph. lalu gimana enrich si formatnya, lalu gimana si formatnya dimasukkin ke dgraph dengan data korespondennya.
+% setelah itu ceritain gimana querynya. bikin python class buat client dgraph buat query
+% CERITAIN DULU PROSES BIKIN FORMAT YANG BAGUS NYA
+
+% penggunaan langchain
+% choosing LLM model (groq, openai, dst) -> sekarang openai karena groq rate limited dan openai masih paling stable
+% choosing vectordb -> chroma vs pinecone, sekarang chroma karena lebih lightweight dan skala kecil, pinecone bisa buat improvement kalau udah skalanya lebih besar (pinecone juga paid, jadi menghindari biaya)
+
+% note: langchain ini bisa pake langsmith juga buat trackingnya
+
+Bagian ini akan menjelaskan terkait proses implementasi sistem secara rinci. Seperti yang dijelaskan bagian \ref{subsec:rancangan-struktural}, sistem ini terdiri dari beberapa komponen utama yang saling berinteraksi untuk mencapai tujuan sistem. Implementasi sistem dapat dibagi menjadi beberapa bagian utama, yaitu pengaturan komponen eksternal sistem, pengaturan komponen data store, implementasi komponen internal sistem, dan implementasi komponen user interface. Pembahasan bagian ini akan dimulai dengan batasan implementasi, dilanjutkan dengan penjelasan terkait masing-masing bagian utama implementasi.
+
+\subsection{}
