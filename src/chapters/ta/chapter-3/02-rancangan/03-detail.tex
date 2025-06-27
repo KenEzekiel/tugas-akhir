@@ -2,24 +2,57 @@
 
 \subsubsection{Rancangan Detail Komponen GUI}
 
-Komponen GUI akan digunakan sebagai salah satu antarmuka pengguna untuk berinteraksi dengan sistem. 
+Komponen GUI akan digunakan sebagai salah satu antarmuka pengguna untuk berinteraksi dengan sistem. Komponen ini akan menyediakan tampilan sederhana yang memungkinkan pengguna untuk memasukkan query dalam bahasa alami, melihat hasil pencarian Smart Contracts, dan mendapatkan informasi lebih lanjut tentang Smart Contracts yang relevan. Komponen GUI akan berkomunikasi dengan API untuk mengirimkan query dan menerima hasil pencarian.
 
-% Komponen ini akan dibangun menggunakan \textit{framework} Streamlit \parencite{streamlit}, yang merupakan \textit{framework} berbasis Python untuk membangun aplikasi web interaktif. Komponen GUI akan memiliki dua fitur utama, yaitu pencarian Smart Contracts dan pengambilan data address dari Smart Contracts. Pengguna dapat memasukkan query dalam bentuk bahasa alami untuk mencari Smart Contracts yang relevan, dan juga dapat memasukkan dgraph ID untuk mendapatkan address dari Smart Contract yang dicari.
+Terdapat 3 tampilan utama pada komponen GUI, yaitu:
+\begin{itemize}
+    \item Tampilan Pencarian Smart Contract: Pengguna dapat memasukkan query dalam bahasa alami untuk mencari Smart Contracts yang relevan dan mendapatkan daftar hasil pencarian Smart Contracts dengan informasi umum terkait Smart Contracts yang didapatkan.
+    \item Tampilan Detail Smart Contract: Menampilkan informasi lebih lanjut tentang Smart Contract yang dipilih, termasuk address, deskripsi, dan metadata lainnya.
+    \item Tampilan Import Smart Contract: Menampilkan cara melakukan import Smart Contract yang khusus untuk Smart Contract yang dipilih, sehingga pengguna dapat dengan mudah mengimport Smart Contract tersebut.
+\end{itemize}
 
 \subsubsection{Rancangan Detail Komponen API}
 
+Komponen API akan menjadi antarmuka utama bagi pengguna untuk berinteraksi dengan fungsinoalitas sistem. Komponen ini akan menerima permintaan dari pengguna, memproses permintaan tersebut, dan mengembalikan respons yang sesuai. Komponen API akan berkomunikasi dengan komponen Retriever dan Dgraph Client untuk melakukan pencarian Smart Contracts dan mendapatkan informasi lebih lanjut tentang Smart Contracts yang relevan.
+
+Komponen API akan menyediakan satu endpoint utama untuk menerima query dalam bahasa alami dari pengguna. Endpoint ini akan menerima permintaan pencarian, meneruskan query ke komponen Retriever, dan mengembalikan hasil pencarian kepada pengguna. Sebelum permintaan pencarian diteruskan ke komponen Retriever, API akan melakukan query expansion untuk meningkatkan relevansi hasil pencarian. Selain itu, sebelum hasil pencarian dikembalikan kepada pengguna, komponen Retriever akan melakukan query ke Dgraph Client untuk mendapatkan informasi detail dari Smart Contracts yang dihasilkan.
 
 \subsubsection{Rancangan Detail Komponen Retriever}
 
+Komponen Retriever akan bertanggung jawab untuk melakukan pencarian Smart Contracts berdasarkan query yang diberikan oleh pengguna. Komponen ini akan menerima query dari komponen API, melakukan query expansion untuk meningkatkan relevansi hasil pencarian, dan kemudian melakukan pencarian menggunakan interface yang disediakan oleh VectorDB Client. Hasil pencarian akan dikembalikan ke komponen API untuk ditampilkan kepada pengguna.
 
 \subsubsection{Rancangan Detail Komponen Enricher}
 % Bahas terkait schema disini
 
+Komponen Enricher akan bertanggung jawab untuk memperkaya data Smart Contracts yang akan disimpan dalam VectorDB. \textit{Enrichment} ini dilakukan untuk membantu meningkatkan kualitas dan relevansi data yang disimpan, sehingga memudahkan proses pencarian dan pengambilan informasi.
+
+Komponen Enricher terbagi menjadi 2 subkomponen, yaitu:
+\begin{enumerate}
+    \item \textbf{Semantic Enricher}: Subkomponen ini akan melakukan proses pengayaan data Smart Contracts secara paralel. Proses ini akan memperkaya data dengan informasi tambahan yang relevan, seperti metadata, deskripsi, dan informasi lainnya yang dapat membantu dalam pencarian dan pengambilan informasi.
+    \item \textbf{Data Schema}:
+    Subkomponen skema akan diterapkan kepada data Smart Contracts yang akan disimpan dalam DgraphDB. Skema ini akan memastikan bahwa data yang disimpan memiliki struktur yang konsisten dan dapat mendeskripsikan semantik Smart Contracts. Skema ini akan mencakup atribut-atribut penting dari Smart Contracts, seperti address, deskripsi, fungsionalitas, metadata, dan informasi lainnya yang relevan.
+\end{enumerate}
+
+Proses yang dilakukan oleh komponen Enricher adalah sebagai berikut:
+\begin{enumerate}
+    \item Komponen Enricher akan mengambil data Smart Contracts yang disimpan pada DgraphDB.
+    \item Data Source Code dari Smart Contracts akan diambil dan dilakukan preprocessing sehingga dapat diproses dengan lebih efisien.
+    \item Data Smart Contracts akan diproses oleh subkomponen Semantic Enricher untuk melakukan data enrichment. Proses ini akan menghasilkan data yang lebih kaya dan relevan.
+    \item Setelah proses pengayaan selesai, data yang telah diperkaya akan disimpan kembali ke dalam DgraphDB. Proses penyimpanan ini akan menggunakan komponen Dgraph Client untuk memastikan bahwa data yang disimpan sesuai dengan skema yang telah ditentukan.
+\end{enumerate}
+
+
 \subsubsection{Rancangan Detail Komponen Parallel Enricher}
+
+Komponen Parallel Enricher merupakan sebuah komponen \textit{wrapper} untuk komponen Semantic Enricher. Komponen ini akan membagi \textit{task} untuk enrichment dan menjalankan proses enrichment secara paralel. Hal ini dilakukan untuk meningkatkan efisiensi dan kecepatan proses pengayaan data Smart Contracts.
 
 \subsubsection{Rancangan Detail Komponen VectorDB Client}
 
+Komponen VectorDB Client akan bertanggung jawab untuk berkomunikasi dengan VectorDB yang digunakan untuk menyimpan dan mengambil data embeddings dari Smart Contracts yang sudah dilakukan enrichment. Komponen ini akan menyediakan fungsi untuk mengakses fungsionalitas pencarian semantik dari VectorDB. Terdapat sebuah skrip untuk melakukan \textit{pull} data dari DgraphDB, mengonversi menjadi embeddings, dan menyimpannya ke dalam VectorDB. Skrip ini akan dijalankan secara berkala untuk memastikan bahwa data yang disimpan di VectorDB selalu diperbarui dengan data terbaru dari DgraphDB.
+
 \subsubsection{Rancangan Detail Komponen Dgraph Client}
+
+Komponen Dgraph Client akan bertanggung jawab untuk berkomunikasi dengan DgraphDB yang digunakan untuk menyimpan data Smart Contracts. Komponen ini akan menyediakan fungsi untuk melakukan query, penyimpanan, mutasi skema, dan pengambilan data dari DgraphDB. Komponen ini akan menjadi antarmuka utama bagi komponen lain untuk berinteraksi dengan DgraphDB.
 
 
 % package diagram
