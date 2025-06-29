@@ -1,0 +1,33 @@
+\section{Pengujian}
+
+Tujuan pengujian adalah untuk memastikan bahwa sistem yang telah diimplementasikan memenuhi seluruh kebutuhan fungsional baik dari perspektif pengguna maupun sistem. Hasil dari pengujian ini akan memberikan gambaran terkait ketercapaian sistem dalam memenuhi kebutuhan utamanya, yaitu untuk memberikan hasil pencarian Smart Contracts yang relevan berdasarkan query dalam bahasa alami.
+
+\subsection{Metodologi Pengujian}
+
+Pengujian akan dilakukan dengan menggunakan beberapa metode. Metode-metode yang akan digunakan dalam pengujian ini disesuaikan dengan tujuan sistem dan ukuran keberhasilan yang telah ditetapkan. Metode yang akan digunakan dalam pengujian ini adalah:
+
+\begin{enumerate}
+    \item \textbf{Relevansi Hasil Pencarian Smart Contract (UK1)}: Pengujian ini menggunakan pendekatan \textit{data-driven testing} dengan membandingkan hasil pencarian sistem terhadap hasil yang diharapkan. Metrik akurasi digunakan untuk menghitung persentase hasil relevan dari total hasil pencarian. Data uji mencakup Smart Contracts yang telah diperkaya dan dilabelkan dengan benar, serta berbagai skenario query dari sederhana hingga kompleks. Pengujian akan memberikan gambaran akurasi sistem dan kinerja dalam menangani berbagai jenis query bahasa alami.
+    \item \textbf{Kualitas Semantik Data Smart Contract (UK2)}: Mengevaluasi efektivitas semantic enrichment dalam memberikan deskripsi yang lebih kaya dan relevan. Menggunakan metrik \textit{Semantic Expressiveness Score} untuk mengukur kemampuan data diperkaya dalam mendeskripsikan Smart Contracts secara semantik, dibandingkan dengan data aslinya.
+    \item \textbf{Kemiripan Hasil Pencarian (UK3)}: Mengukur tingkat kemiripan semantik antara hasil pencarian dengan query yang diberikan menggunakan metrik \textit{Semantic Similarity Score}. Pengujian ini memastikan hasil pencarian memiliki relevansi semantik yang tinggi dengan query pengguna.
+    \item \textbf{Konsistensi Hasil Pencarian (UK4)}: Mengevaluasi konsistensi sistem dalam memberikan hasil untuk query yang serupa. Menggunakan metrik \textit{Jaccard Index} pada K-buah hasil teratas untuk membandingkan konsistensi hasil pencarian antar query yang memiliki kesamaan semantik.
+\end{enumerate}
+
+\subsection{Batasan Pengujian}
+
+Berikut adalah batasan-batasan yang diterapkan dalam pengujian sistem:
+\begin{enumerate}
+    \item Jumlah data Smart Contracts yang digunakan dalam pengujian adalah 100 Smart Contracts yang sudah diperkaya dan sudah dilabelkan dengan benar.
+    \item Jumlah Dgraph Zero yang digunakan dalam pengujian adalah 1 buah, dengan asumsi bahwa skalabilitas dari sistem ini bergantung pada skalabilitas underlying dari DgraphDB.
+    \item Jumlah query yang digunakan dalam pengujian adalah 20 query yang mencakup berbagai skenario dari sederhana hingga kompleks.
+\end{enumerate}
+
+% ini buat datanya apa aja, labelnya apa aja, dan query nya apa aja, ditaro di lampiran
+
+\subsection{Data Pengujian}
+
+\subsubsection{Data Smart Contracts}
+
+\subsubsection{Data Query}
+
+\subsection{Hasil Pengujian}
