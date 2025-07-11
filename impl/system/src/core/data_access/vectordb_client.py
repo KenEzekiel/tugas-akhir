@@ -100,7 +100,7 @@ class VectorDBManager:
       metadatas = []
       
       for contract in contracts:
-        text = f"domain {contract.get('ContractDeployment.domain')} functionality {contract.get('ContractDeployment.functionality', '')} security risks {', '.join(contract.get('ContractDeployment.security_risks', []))}"
+        text = f"description {contract.get('ContractDeployment.description')} functionality_classification {contract.get('ContractDeployment.functionality_classification', '')} application_domain {contract.get('ContractDeployment.application_domain', '')} security_risks_description {contract.get('ContractDeployment.security_risks_description', '')}"
         texts.append(text)
         ids.append(contract["uid"])
         # ids.append(contract["ContractDeployment.storage_address"])
@@ -168,7 +168,7 @@ if __name__ == "__main__":
   try:
     # Sample contracts for testing
     with open("./data/retrieved_enriched_contracts.json", "r") as file:
-      contracts = json.load(file)["allContractDeployments"]
+      contracts = json.load(file)
     logger.info("Initializing VectorDBManager...")
     manager = VectorDBManager("config/vectordb.yaml")
     logger.info("VectorDBManager initialized.")
@@ -188,7 +188,6 @@ if __name__ == "__main__":
         print(f"Result {i+1}:")
         print(f"  Content: {result['content']}")
         print(f"  Document ID: {result['metadata']['dgraph_id']}")
-      
   except Exception as e:
     logger.error("An error occurred: %s", e)
     print(f"An error occurred: {e}")

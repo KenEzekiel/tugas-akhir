@@ -57,187 +57,220 @@ app.add_middleware(
 
 
 class SearchRequest(BaseModel):
-    query: str = Field(..., min_length=1, description="Search query string")
-    limit: int = Field(..., ge=1, le=100, description="Maximum number of results")
-    data: bool = Field(
-        False, description="Include comprehensive contract data and analysis"
-    )
+  query: str
+  limit: int
+  data: bool = False
+
+class ContractResult(BaseModel):
+  id: str
+  name: str
+  symbol: str = ""  # Default empty as it might not always be present
+  description: str
+  license: str = "UNLICENSED"  # Default value
+  created: str
+  verified: bool
+  tags: List[str]
+  externalUrl: Optional[str] = None
+  address: Optional[str] = None
+  storage_protocol: Optional[str] = None
+  storage_address: Optional[str] = None
+  experimental: Optional[bool] = None
+  solc_version: Optional[str] = None
+  verified_source: Optional[bool] = None
+  verified_source_code: Optional[str] = None
+  functionality: Optional[str] = None
+  domain: Optional[str] = None
+  security_risks: Optional[List[str]] = None
+
+class Config:
+  json_encoders = {
+  # Add custom JSON encoders if needed
+  }
 
 
-class Account(BaseModel):
-    uid: Optional[str] = None
-    address: Optional[str] = None
-    tags: Optional[List[str]] = None
-    is_contract: Optional[bool] = None
+  
+# class SearchRequest(BaseModel):
+#     query: str = Field(..., min_length=1, description="Search query string")
+#     limit: int = Field(..., ge=1, le=100, description="Maximum number of results")
+#     data: bool = Field(
+#         False, description="Include comprehensive contract data and analysis"
+#     )
 
 
-class Block(BaseModel):
-    uid: Optional[str] = None
-    number: Optional[int] = None
-    datetime: Optional[str] = None
-    difficulty: Optional[str] = None
-    size: Optional[int] = None
+# class Account(BaseModel):
+#     uid: Optional[str] = None
+#     address: Optional[str] = None
+#     tags: Optional[List[str]] = None
+#     is_contract: Optional[bool] = None
 
 
-class ContractParam(BaseModel):
-    uid: Optional[str] = None
-    name: Optional[str] = None
-    data_type: Optional[str] = None
-    storage_location: Optional[str] = None
-    is_indexed: Optional[bool] = None
+# class Block(BaseModel):
+#     uid: Optional[str] = None
+#     number: Optional[int] = None
+#     datetime: Optional[str] = None
+#     difficulty: Optional[str] = None
+#     size: Optional[int] = None
 
 
-class StateVariable(BaseModel):
-    uid: Optional[str] = None
-    name: Optional[str] = None
-    data_type: Optional[str] = None
-    visibility: Optional[str] = None
-    immutability: Optional[str] = None
-    natspec_dev: Optional[str] = None
+# class ContractParam(BaseModel):
+#     uid: Optional[str] = None
+#     name: Optional[str] = None
+#     data_type: Optional[str] = None
+#     storage_location: Optional[str] = None
+#     is_indexed: Optional[bool] = None
 
 
-class FunctionDef(BaseModel):
-    uid: Optional[str] = None
-    name: Optional[str] = None
-    visibility: Optional[str] = None
-    mutability: Optional[str] = None
-    modifiers_used: Optional[List[str]] = None
-    natspec_dev: Optional[str] = None
-    natspec_notice: Optional[str] = None
-    internal_function_calls: Optional[List[str]] = None
-    external_call_signatures: Optional[List[str]] = None
-    emitted_events: Optional[List[str]] = None
-    reads_state_variables: Optional[List[str]] = None
-    writes_state_variables: Optional[List[str]] = None
-    parameters: Optional[List[ContractParam]] = None
-    returns: Optional[List[ContractParam]] = None
+# class StateVariable(BaseModel):
+#     uid: Optional[str] = None
+#     name: Optional[str] = None
+#     data_type: Optional[str] = None
+#     visibility: Optional[str] = None
+#     immutability: Optional[str] = None
+#     natspec_dev: Optional[str] = None
 
 
-class EventDef(BaseModel):
-    uid: Optional[str] = None
-    name: Optional[str] = None
-    natspec_dev: Optional[str] = None
-    natspec_notice: Optional[str] = None
-    parameters: Optional[List[ContractParam]] = None
+# class FunctionDef(BaseModel):
+#     uid: Optional[str] = None
+#     name: Optional[str] = None
+#     visibility: Optional[str] = None
+#     mutability: Optional[str] = None
+#     modifiers_used: Optional[List[str]] = None
+#     natspec_dev: Optional[str] = None
+#     natspec_notice: Optional[str] = None
+#     internal_function_calls: Optional[List[str]] = None
+#     external_call_signatures: Optional[List[str]] = None
+#     emitted_events: Optional[List[str]] = None
+#     reads_state_variables: Optional[List[str]] = None
+#     writes_state_variables: Optional[List[str]] = None
+#     parameters: Optional[List[ContractParam]] = None
+#     returns: Optional[List[ContractParam]] = None
 
 
-class ModifierDef(BaseModel):
-    uid: Optional[str] = None
-    name: Optional[str] = None
-    parameters: Optional[List[ContractParam]] = None
+# class EventDef(BaseModel):
+#     uid: Optional[str] = None
+#     name: Optional[str] = None
+#     natspec_dev: Optional[str] = None
+#     natspec_notice: Optional[str] = None
+#     parameters: Optional[List[ContractParam]] = None
 
 
-class StructMember(BaseModel):
-    uid: Optional[str] = None
-    name: Optional[str] = None
-    data_type: Optional[str] = None
+# class ModifierDef(BaseModel):
+#     uid: Optional[str] = None
+#     name: Optional[str] = None
+#     parameters: Optional[List[ContractParam]] = None
 
 
-class StructDef(BaseModel):
-    uid: Optional[str] = None
-    name: Optional[str] = None
-    members: Optional[List[StructMember]] = None
+# class StructMember(BaseModel):
+#     uid: Optional[str] = None
+#     name: Optional[str] = None
+#     data_type: Optional[str] = None
 
 
-class EnumDef(BaseModel):
-    uid: Optional[str] = None
-    name: Optional[str] = None
-    values: Optional[List[str]] = None
+# class StructDef(BaseModel):
+#     uid: Optional[str] = None
+#     name: Optional[str] = None
+#     members: Optional[List[StructMember]] = None
 
 
-class CustomErrorDef(BaseModel):
-    uid: Optional[str] = None
-    name: Optional[str] = None
-    parameters: Optional[List[ContractParam]] = None
+# class EnumDef(BaseModel):
+#     uid: Optional[str] = None
+#     name: Optional[str] = None
+#     values: Optional[List[str]] = None
 
 
-class ParsedContractData(BaseModel):
-    uid: Optional[str] = None
-    source_contract_name: Optional[str] = None
-    imports: Optional[List[str]] = None
-    inherits_from: Optional[List[str]] = None
-    implemented_interfaces_source: Optional[List[str]] = None
-    natspec_contract_dev: Optional[str] = None
-    natspec_contract_notice: Optional[str] = None
-    token_name_literal: Optional[str] = None
-    token_symbol_literal: Optional[str] = None
-    state_variables: Optional[List[StateVariable]] = None
-    functions: Optional[List[FunctionDef]] = None
-    events: Optional[List[EventDef]] = None
-    modifiers: Optional[List[ModifierDef]] = None
-    structs: Optional[List[StructDef]] = None
-    enums: Optional[List[EnumDef]] = None
-    custom_errors: Optional[List[CustomErrorDef]] = None
+# class CustomErrorDef(BaseModel):
+#     uid: Optional[str] = None
+#     name: Optional[str] = None
+#     parameters: Optional[List[ContractParam]] = None
 
 
-class FunctionPurpose(BaseModel):
-    uid: Optional[str] = None
-    function_name: Optional[str] = None
-    purpose_description: Optional[str] = None
+# class ParsedContractData(BaseModel):
+#     uid: Optional[str] = None
+#     source_contract_name: Optional[str] = None
+#     imports: Optional[List[str]] = None
+#     inherits_from: Optional[List[str]] = None
+#     implemented_interfaces_source: Optional[List[str]] = None
+#     natspec_contract_dev: Optional[str] = None
+#     natspec_contract_notice: Optional[str] = None
+#     token_name_literal: Optional[str] = None
+#     token_symbol_literal: Optional[str] = None
+#     state_variables: Optional[List[StateVariable]] = None
+#     functions: Optional[List[FunctionDef]] = None
+#     events: Optional[List[EventDef]] = None
+#     modifiers: Optional[List[ModifierDef]] = None
+#     structs: Optional[List[StructDef]] = None
+#     enums: Optional[List[EnumDef]] = None
+#     custom_errors: Optional[List[CustomErrorDef]] = None
 
 
-class InferredRole(BaseModel):
-    uid: Optional[str] = None
-    role_name: Optional[str] = None
-    description: Optional[str] = None
-    associated_functions: Optional[List[str]] = None
+# class FunctionPurpose(BaseModel):
+#     uid: Optional[str] = None
+#     function_name: Optional[str] = None
+#     purpose_description: Optional[str] = None
 
 
-class SecurityRiskHint(BaseModel):
-    uid: Optional[str] = None
-    risk_type: Optional[str] = None
-    description: Optional[str] = None
-    affected_elements: Optional[List[str]] = None
-    severity: Optional[str] = None
+# class InferredRole(BaseModel):
+#     uid: Optional[str] = None
+#     role_name: Optional[str] = None
+#     description: Optional[str] = None
+#     associated_functions: Optional[List[str]] = None
 
 
-class FunctionSummary(BaseModel):
-    uid: Optional[str] = None
-    function_name: Optional[str] = None
-    plain_english_summary: Optional[str] = None
+# class SecurityRiskHint(BaseModel):
+#     uid: Optional[str] = None
+#     risk_type: Optional[str] = None
+#     description: Optional[str] = None
+#     affected_elements: Optional[List[str]] = None
+#     severity: Optional[str] = None
 
 
-class ContractAnalysis(BaseModel):
-    uid: Optional[str] = None
-    contract_purpose: Optional[List[str]] = None
-    access_control_patterns: Optional[List[str]] = None
-    state_management_patterns: Optional[List[str]] = None
-    design_patterns: Optional[List[str]] = None
-    financial_operations_detected: Optional[List[str]] = None
-    tokenomics_hints: Optional[List[str]] = None
-    standard_adherence: Optional[List[str]] = None
-    high_level_summary: Optional[str] = None
-    function_purposes: Optional[List[FunctionPurpose]] = None
-    inferred_roles: Optional[List[InferredRole]] = None
-    security_risks_detected: Optional[List[SecurityRiskHint]] = None
-    function_summaries: Optional[List[FunctionSummary]] = None
+# class FunctionSummary(BaseModel):
+#     uid: Optional[str] = None
+#     function_name: Optional[str] = None
+#     plain_english_summary: Optional[str] = None
 
 
-class ContractDeploymentResult(BaseModel):
-    uid: str
-    name: str
-    description: str
-    verified_source: bool
+# class ContractAnalysis(BaseModel):
+#     uid: Optional[str] = None
+#     contract_purpose: Optional[List[str]] = None
+#     access_control_patterns: Optional[List[str]] = None
+#     state_management_patterns: Optional[List[str]] = None
+#     design_patterns: Optional[List[str]] = None
+#     financial_operations_detected: Optional[List[str]] = None
+#     tokenomics_hints: Optional[List[str]] = None
+#     standard_adherence: Optional[List[str]] = None
+#     high_level_summary: Optional[str] = None
+#     function_purposes: Optional[List[FunctionPurpose]] = None
+#     inferred_roles: Optional[List[InferredRole]] = None
+#     security_risks_detected: Optional[List[SecurityRiskHint]] = None
+#     function_summaries: Optional[List[FunctionSummary]] = None
 
-    # Optional contract deployment fields
-    functionality: Optional[str] = None
-    domain: Optional[str] = None
-    security_risks: Optional[List[str]] = None
-    tx_hash: Optional[str] = None
-    failed_deploy: Optional[bool] = None
-    creation_bytecode: Optional[str] = None
-    deployed_bytecode: Optional[str] = None
-    storage_protocol: Optional[str] = None
-    storage_address: Optional[str] = None
-    experimental: Optional[bool] = None
-    solc_version: Optional[str] = None
-    verified_source_code: Optional[str] = None
 
-    # Related entities (populated when data=True)
-    creator: Optional[Account] = None
-    block: Optional[Block] = None
-    parsed_source_data: Optional[ParsedContractData] = None
-    analysis: Optional[ContractAnalysis] = None
+# class ContractDeploymentResult(BaseModel):
+#     uid: str
+#     name: str
+#     description: str
+#     verified_source: bool
+
+#     # Optional contract deployment fields
+#     functionality: Optional[str] = None
+#     domain: Optional[str] = None
+#     security_risks: Optional[List[str]] = None
+#     tx_hash: Optional[str] = None
+#     failed_deploy: Optional[bool] = None
+#     creation_bytecode: Optional[str] = None
+#     deployed_bytecode: Optional[str] = None
+#     storage_protocol: Optional[str] = None
+#     storage_address: Optional[str] = None
+#     experimental: Optional[bool] = None
+#     solc_version: Optional[str] = None
+#     verified_source_code: Optional[str] = None
+
+#     # Related entities (populated when data=True)
+#     creator: Optional[Account] = None
+#     block: Optional[Block] = None
+#     parsed_source_data: Optional[ParsedContractData] = None
+#     analysis: Optional[ContractAnalysis] = None
 
 
 class RefineRequest(BaseModel):
@@ -375,81 +408,127 @@ def parse_nested_entities(nested_data: List[dict], entity_type: str) -> List[dic
     return result
 
 
+# @app.post("/search")
+# async def search_contracts(request: SearchRequest):
+#     try:
+#         # Get search results from retriever
+#         results = retriever.search(request.query, request.limit)
+#         formatted_results = []
+
+#         if request.data:
+#             # Use Dgraph client for detailed data
+#             client = DgraphClient()
+#             for result in results:
+#                 try:
+#                     # Get comprehensive contract data
+#                     contract_data = client.get_contract_by_uid(
+#                         result["metadata"]["dgraph_id"]
+#                     )
+#                     print(contract_data)
+#                     if (
+#                         not contract_data
+#                         or "contract" not in contract_data
+#                         or not contract_data["contract"]
+#                     ):
+#                         continue
+
+#                     contract = contract_data[0]
+
+#                     # Parse main contract deployment data
+#                     main_data = parse_dgraph_entity(contract, "ContractDeployment")
+
+#                     # Add basic required fields
+#                     main_data.update(
+#                         {
+#                             "uid": contract["uid"],
+#                             "name": contract.get("ContractDeployment.name", ""),
+#                             "description": result.get("content", ""),
+#                             "verified_source": contract.get(
+#                                 "ContractDeployment.verified_source", False
+#                             ),
+#                         }
+#                     )
+                    
+#                     print(main_data)
+
+#                     # Extract related entities if data is requested
+#                     related_entities = extract_related_entities(contract, request.data)
+#                     main_data.update(related_entities)
+
+#                     # Create the result object
+#                     formatted_result = ContractDeploymentResult(**main_data)
+#                     formatted_results.append(formatted_result.model_dump())
+
+#                 except Exception as e:
+#                     print(f"Error processing contract: {str(e)}")
+#                     continue
+
+#             client.close()
+#         else:
+#             # Return basic results without detailed data
+#             for result in results:
+#                 try:
+#                     basic_result = ContractDeploymentResult(
+#                         uid=result["metadata"].get("dgraph_id", ""),
+#                         name=result["metadata"].get("title", "Unknown"),
+#                         description=result.get("content", ""),
+#                         verified_source=True,  # Assume verified if in search results
+#                     )
+#                     formatted_results.append(basic_result.model_dump())
+#                 except Exception as e:
+#                     print(f"Error processing basic result: {str(e)}")
+#                     continue
+
+#         return JSONResponse(content=formatted_results)
+
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+
 @app.post("/search")
 async def search_contracts(request: SearchRequest):
-    try:
-        # Get search results from retriever
-        results = retriever.search(request.query, request.limit)
-        formatted_results = []
+  try:
+    results = retriever.search(request.query, request.limit)
+    formatted_results = []
+    
+    if request.data:
+      client = DgraphClient()
+      for result in results:
+        try:
+          contract_data = client.get_contract_by_uid(
+                result["metadata"]["dgraph_id"]
+          )
+          if not contract_data:
+            continue
 
-        if request.data:
-            # Use Dgraph client for detailed data
-            client = DgraphClient()
-            for result in results:
-                try:
-                    # Get comprehensive contract data
-                    contract_response = client.get_contract_by_uid(
-                        result["metadata"]["dgraph_id"]
-                    )
-                    contract_data = json.loads(contract_response.json)
-
-                    if (
-                        not contract_data
-                        or "contract" not in contract_data
-                        or not contract_data["contract"]
-                    ):
-                        continue
-
-                    contract = contract_data["contract"][0]
-
-                    # Parse main contract deployment data
-                    main_data = parse_dgraph_entity(contract, "ContractDeployment")
-
-                    # Add basic required fields
-                    main_data.update(
-                        {
-                            "uid": contract["uid"],
-                            "name": contract.get("ContractDeployment.name", ""),
-                            "description": result.get("content", ""),
-                            "verified_source": contract.get(
-                                "ContractDeployment.verified_source", False
-                            ),
-                        }
-                    )
-
-                    # Extract related entities if data is requested
-                    related_entities = extract_related_entities(contract, request.data)
-                    main_data.update(related_entities)
-
-                    # Create the result object
-                    formatted_result = ContractDeploymentResult(**main_data)
-                    formatted_results.append(formatted_result.model_dump())
-
-                except Exception as e:
-                    print(f"Error processing contract: {str(e)}")
-                    continue
-
-            client.close()
-        else:
-            # Return basic results without detailed data
-            for result in results:
-                try:
-                    basic_result = ContractDeploymentResult(
-                        uid=result["metadata"].get("dgraph_id", ""),
-                        name=result["metadata"].get("title", "Unknown"),
-                        description=result.get("content", ""),
-                        verified_source=True,  # Assume verified if in search results
-                    )
-                    formatted_results.append(basic_result.model_dump())
-                except Exception as e:
-                    print(f"Error processing basic result: {str(e)}")
-                    continue
-
-        return JSONResponse(content=formatted_results)
-
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
+          contract = contract_data[0]
+            
+          formatted_result = ContractResult(
+            id=contract["uid"],
+            name=contract.get("ContractDeployment.name", ""),
+            description=result.get("content", ""),
+            created=contract.get("ContractDeployment.created", ""),
+            verified=contract.get("ContractDeployment.verified_source", False),
+            tags=[contract.get("ContractDeployment.domain", "")],
+            storage_protocol=contract.get("ContractDeployment.storage_protocol"),
+            storage_address=contract.get("ContractDeployment.storage_address"),
+            experimental=contract.get("ContractDeployment.experimental"),
+            solc_version=contract.get("ContractDeployment.solc_version"),
+            verified_source=contract.get("ContractDeployment.verified_source"),
+            verified_source_code=contract.get("ContractDeployment.verified_source_code"),
+            functionality=contract.get("ContractDeployment.functionality"),
+            domain=contract.get("ContractDeployment.domain"),
+            security_risks=contract.get("ContractDeployment.security_risks", [])
+          )
+          formatted_results.append(formatted_result.model_dump())
+        except Exception as e:
+          print(f"Error processing contract: {str(e)}")
+          continue
+      client.close()
+    
+    return JSONResponse(content=formatted_results)
+  except Exception as e:
+    raise HTTPException(status_code=500, detail=str(e))
+  
 
 @app.post("/refine", response_model=RefineResponse)
 async def refine_query(request: RefineRequest):

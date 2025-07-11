@@ -126,7 +126,7 @@ export function Search() {
             className="w-full pl-4 pr-10 py-6 text-base rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-primary"
           />
         </div>
-        <Button 
+        {/* <Button 
           type="button" 
           onClick={handleRefine}
           disabled={isRefining || isSearching} 
@@ -144,7 +144,7 @@ export function Search() {
               Refine
             </span>
           )}
-        </Button>
+        </Button> */}
         <Button type="submit" disabled={isSearching || isRefining} className="px-6 py-6">
           {isSearching ? (
             <span className="flex items-center gap-2">

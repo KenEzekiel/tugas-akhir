@@ -1,7 +1,7 @@
 import os
 import json
 from typing import Any
-from utils.logger import logger
+from src.utils.logger import logger
 
 def write_file(data: Any, filename: str) -> None:
   os.makedirs('data', exist_ok=True)
