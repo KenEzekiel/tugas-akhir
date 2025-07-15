@@ -1,133 +1,218 @@
-LaTeX Tesis Informatika ITB
-===================================
-Tugas Akhir Kenneth Ezekiel Suprantoni - 13521089
+# Smart Contract Discovery System
 
-# Template Credits
-oleh:
+<div align="center">
 
-- Petra Novandi <me@petrabarus.net>
-- Faris Rizki Ekananda <work@farisekananda.dev>
+*Pengembangan Smart Contract Discovery System Berbasis Konteks Semantik*
 
-Edited By:
+[![License: Apache 2.0](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](LICENSE)
+[![Python 3.8+](https://img.shields.io/badge/python-3.8+-blue.svg)](https://www.python.org/downloads/)
+[![Next.js](https://img.shields.io/badge/Next.js-15-black.svg)](https://nextjs.org/)
+[![Rust](https://img.shields.io/badge/Rust-2021-orange.svg)](https://www.rust-lang.org/)
 
-- Muhammad Garebaldhie ER Rahman <mgarebaldhie80@gmail.com>
+**📝 Tugas Akhir - Institut Teknologi Bandung**  
+*Kenneth Ezekiel Suprantoni (13521089)*
 
-original repo:
+</div>
 
-- Thesis <https://github.com/petrabarus/if-itb-latex/>  
-- Thesis <https://github.com/darkGrimoire/ta1-latex-itb>
-- Latex <https://github.com/alvinwilta/ieee-conference-latex>
-- Template <https://github.com/IloveNooodles/ta-paper-latex-itb>
+## 🎯 Overview
 
-Dokumen ini merupakan templat LaTeX yang ditujukan untuk laporan
-tesis dan paper di program studi Teknik Informatika ITB. Template ini penulis
-gunakan dalam penulisan laporan tesis dan paper penulis dan dengan semangat
-berbagi penulis memutuskan untuk mempublikasikan template ini agar
-dapat digunakan oleh banyak orang.
+Smart Contract Discovery System adalah sistem pencarian Smart Contract berbasis semantik yang memungkinkan pengguna menemukan Smart Contract yang relevan menggunakan query dalam bahasa alami. Sistem ini memanfaatkan **Semantic Enrichment dengan Large Language Models (LLM)** untuk memberikan hasil pencarian yang lebih akurat dan kontekstual dibandingkan metode pencarian berbasis kata kunci tradisional.
 
-Silakan mengunduh, menggunakan, memodifikasi, dan menyebarkan
-templat ini. :)
+### 🚀 Key Features
 
-Contoh Hasil Build
----------
+- **🧠 Semantic Search**: Pencarian berbasis makna menggunakan vector embeddings dan LLM
+- **🔍 Natural Language Queries**: Mendukung pencarian dengan bahasa alami
+- **📊 Smart Contract Analysis**: Analisis mendalam terhadap kode Smart Contract
+- **🛡️ Security Insights**: Deteksi potensi risiko keamanan
+- **🎨 Modern UI**: Interface yang user-friendly dengan Next.js dan Tailwind CSS
+- **⚡ Real-time Search**: Pencarian cepat dengan caching dan optimisasi
 
-Berikut merupakan contoh ketiga file hasil build
+## 🏗️ Architecture
 
-- [Thesis](./thesis.example.pdf)
-- [Yudisium](./yudisium.example.pdf)
-- [Paper](./paper.example.pdf)
-
-Instalasi
----------
-
-Program telah diuji dalam sistem operasi Linux Ubuntu 20.04, Windows 10, Mac OS Ventura 13.3 dan Sonoma 14.5.
-
-## Linux
-
-Untuk melakukan instalasi *package* jalankan perintah berikut
+Sistem ini terdiri dari beberapa komponen utama:
 
 ```
-sudo apt-get -qq update && sudo apt-get install -y --no-install-recommends \
-    texlive-fonts-recommended texlive-latex-extra texlive-fonts-extra \
-    dvipng texlive-latex-recommended texlive-lang-other \
-    texlive-bibtex-extra biber xzdec
+┌─────────────────┐    ┌──────────────────┐    ┌─────────────────┐
+│   Frontend      │    │   Backend API    │    │   Data Sources  │
+│   (Next.js)     │◄──►│   (FastAPI)      │◄──►│   - DgraphDB    │
+│                 │    │                  │    │   - ChromaDB    │
+│   - Search UI   │    │   - Retriever    │    │   - Ethereum    │
+│   - Results     │    │   - Enrichment   │    │     Archive     │
+│   - Details     │    │   - Vector DB    │    │                 │
+└─────────────────┘    └──────────────────┘    └─────────────────┘
 ```
 
-## Windows
+### 🔧 Technology Stack
 
-Untuk Windows, Anda dapat melakukan instalasi TeXLive pada [link berikut](https://mirror.ctan.org/systems/texlive/tlnet/install-tl-windows.exe). Manual Instalasi dapat dilihat pada [link berikut](https://www.tug.org/texlive/windows.html). Jangan lupa cek environment variable Anda dan pastikan terdapat PATH menuju `<texlive_installation_directory>\2021\bin\win32`
+**Frontend:**
+- Next.js 15 with App Router
+- TypeScript
+- Tailwind CSS + Radix UI
+- React Hook Form
 
-## Mac
+**Backend:**
+- FastAPI (Python)
+- LangChain for LLM integration
+- OpenAI GPT models
+- HuggingFace embeddings
 
-Untuk melakukan instalasi pada Mac, diperlukan library bernama `mactex`. Mactex dapat diinstall dengan dua cara
+**Databases:**
+- DgraphDB (Graph database untuk Smart Contract data)
+- ChromaDB (Vector database untuk semantic search)
 
-### Brew
+**Data Extraction:**
+- eth2dgraph (Rust) untuk ekstraksi data dari Ethereum
+- Alchemy Archive Node sebagai data source
 
-Jika ingin menginstall `mactex` dengan [brew](https://brew.sh/) masukan perintah berikut
+## 📁 Project Structure
 
 ```
-brew install --cask mactex
+tugas-akhir/
+├── impl/                          # Implementation code
+│   ├── eth2dgraph/               # Rust-based Ethereum data extractor
+│   │   ├── src/                  # Rust source code
+│   │   ├── Cargo.toml           # Rust dependencies
+│   │   └── docker-compose.yml   # DgraphDB setup
+│   ├── system/                   # Python backend system
+│   │   ├── src/
+│   │   │   ├── api/             # FastAPI endpoints
+│   │   │   ├── core/            # Core business logic
+│   │   │   │   ├── data_access/ # Database clients
+│   │   │   │   ├── data_processing/ # LLM enrichment
+│   │   │   │   └── data_retrieval/ # Search & retrieval
+│   │   │   └── utils/           # Utility functions
+│   │   ├── config/              # Configuration files
+│   │   ├── requirements.txt     # Python dependencies
+│   │   └── openapi.yaml         # API documentation
+│   └── web/                      # Next.js frontend
+│       ├── app/                 # App router pages
+│       ├── components/          # React components
+│       ├── hooks/               # Custom React hooks
+│       ├── lib/                 # Utility libraries
+│       └── package.json         # Node dependencies
+└── src/                          # LaTeX thesis documentation
+    ├── thesis.tex               # Main thesis document
+    ├── chapters/                # Thesis chapters
+    └── config/                  # LaTeX configuration
 ```
 
-### Pkg
+## 🚀 Getting Started
 
-Jika ingin melakukan instalasi secara manual dapat mengunjungi laman [mactex download page](https://tug.org/mactex/mactex-download.html).
+### Prerequisites
 
-Setelah download selesai lakukan instalasi default
+- **Python 3.8+**
+- **Node.js 18+** 
+- **Rust 2021 edition**
+- **Docker & Docker Compose**
+- **OpenAI API Key**
 
-Penggunaan
-----------
+### 🔧 Installation
 
-Templat ini telah dilengkapi oleh skrip untuk melakukan kompilasi
-Makefile. Untuk melakukan kompilasi cukup eksekusi perintah berikut
+1. **Clone the repository**
+   ```bash
+   git clone https://github.com/username/tugas-akhir.git
+   cd tugas-akhir
+   ```
 
+2. **Setup DgraphDB (Data Storage)**
+   ```bash
+   cd impl/eth2dgraph
+   docker-compose up -d
+   ```
+
+3. **Setup Backend System**
+   ```bash
+   cd impl/system
+   pip install -r requirements.txt
+   
+   # Configure environment variables
+   cp .env.example .env
+   # Edit .env file with your API keys
+   ```
+
+4. **Setup Frontend**
+   ```bash
+   cd impl/web
+   npm install
+   ```
+
+### 🏃‍♂️ Running the System
+
+1. **Start the Backend API**
+   ```bash
+   cd impl/system
+   python -m uvicorn src.api.api:app --reload --host 0.0.0.0 --port 8000
+   ```
+
+2. **Start the Frontend**
+   ```bash
+   cd impl/web
+   npm run dev
+   ```
+
+3. **Access the Application**
+   - Frontend: http://localhost:3000
+   - Backend API: http://localhost:8000
+   - API Documentation: http://localhost:8000/docs
+   - DgraphDB UI (Ratel): http://localhost:8001
+
+## 📖 Usage
+
+### Basic Search
+```
+Query: "ERC20 token with mint and burn functions"
+Results: Smart contracts that implement ERC20 standard with minting/burning capabilities
+```
+
+### Advanced Search
+```
+Query: "DeFi lending protocol with liquidation mechanism and oracle integration"
+Results: Detailed analysis of DeFi contracts with specific functionalities
+```
+
+### API Usage
 ```bash
-# untuk linux dan mac
-make
-
-# untuk windows
-make.bat
+curl -X POST "http://localhost:8000/search" \
+     -H "Content-Type: application/json" \
+     -d '{
+       "query": "NFT marketplace with royalty system",
+       "limit": 10,
+       "data": true
+     }'
 ```
 
-Hasil kompilasi akan berada pada directory `output`.
+## 🔬 Data Pipeline
 
-Integrasi VSCode LaTeX Workshop
-----------
+1. **Extraction**: eth2dgraph extracts Smart Contract data from Ethereum Archive Node
+2. **Storage**: Raw data stored in DgraphDB 
+3. **Enrichment**: LLM processes contracts for semantic understanding
+4. **Vectorization**: Embeddings create vector representations
+5. **Search**: ChromaDB enables semantic similarity search
 
-![Demo Gif](demo.gif)
+## 🧪 Testing
 
-Template ini telah diintegrasikan dengan VSCode extension LaTeX Workshop sehingga dapat melakukan build otomatis, memakai synctex, serta linter. Terdapat 2 file konfigurasi setelan vscode yang terdapat pada folder .vscode. Defaultnya adalah setelan UNIX, namun Anda dapat menggantinya dengan setelan windows.
+The system includes comprehensive testing methodologies:
 
-Karena terdapat tiga build command, jika ingin mengaktifkan fitur hot reload, maka perlu melakukan build file terkait dengan ekstensi LaTeX Workshop terlebih dahulu sebelum bisa mengaktifkan fitur hot reload. Pilih file mana yang akan dibuild (e.g. thesis) lalu tekan `Recipe: latex_itb_ta Thesis`. Setelah build selesai, maka fitur hot reload akan aktif untuk file tersebut.
+- **Relevansi Hasil Pencarian (UK1)**: Accuracy measurement using labeled datasets
+- **Kualitas Semantik Data (UK2)**: Semantic expressiveness evaluation  
+- **Kemiripan Hasil (UK3)**: Semantic similarity scoring
+- **Konsistensi Hasil (UK4)**: Jaccard Index for result consistency
 
-Shortcut Latex Workshop yang berguna
-----------
+## 📚 Research Publication
 
-`ctrl + alt + v` pada `*.tex` -> buka file `pdf` interaktif  
-`ctrl + alt + j` pada `*.tex` -> pergi ke lokasi kursor pada `pdf` yang dibuka  
-`ctrl + klik kanan` pada `*.pdf` -> pergi ke lokasi kursor pada file `.tex` yang sesuai  
+This work is part of the final thesis:
+> **"Pengembangan Smart Contract Discovery System Berbasis Konteks Semantik"**  
+> Kenneth Ezekiel Suprantoni (13521089)  
+> Institut Teknologi Bandung, 2025
 
-Troubleshooting
-----------
+## 📧 Contact
 
-**Q: Bagaimana cara menghilangkan border merah pada hyperlink di pdf?**  
-A: Pada file `config/if-itb-thesis.sty`, Ubah `\usepackage{hyperref}` menjadi `\usepackage[hidelinks]{hyperref}`.
+**Kenneth Ezekiel Suprantoni**  
+- Institution: Institut Teknologi Bandung
+- Program: Teknik Informatika
 
-Kontribusi
-----------
+---
 
-Templat ini dapat digunakan secara gratis, akan tetapi penulis sangat
-berharap adanya kritik serta saran dari pengguna untuk meningkatkan
-kualitas hasil dan penggunaan templat ini.
-
-Kritik dan saran tersebut dapat dikirim melalui URL
-.
-
-Terima Kasih
------------
-
-- Steven Lolong atas pemberian templat LaTeX yang asli.
-- Peb Ruswono Aryan atas bantuan pelengkapan struktur dokumen.
-- Petra Novandi atas template awal yang diberikan
-- Faris Riski Ekananda atas template dokumen yang telah dimodifikasi
-- Alvin Wilta atas template IEEE Latex for VSCode
+<div align="center">
+Made with ❤️ for the advancement of blockchain technology and semantic search
+</div>
