@@ -7,7 +7,7 @@ from src.utils.logger import logger
 async def batch_enrichment(batch_size: int = 10, update: bool = False):
   dgraph = DgraphClient()
   enricher = ParallelSemanticEnricher()
-  vector_db = VectorDBManager()
+  vector_db = VectorDBManager(dgraph_client=dgraph)
   
   if update:
     contracts_count = dgraph.get_contracts_count(enriched=True)

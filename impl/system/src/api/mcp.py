@@ -109,6 +109,34 @@ class MCPServer:
                 },
             ),
             Tool(
+                name="vector_search_contracts",
+                description="Search for smart contracts using vector similarity search with natural language queries",
+                inputSchema={
+                    "type": "object",
+                    "properties": {
+                        "query": {
+                            "type": "string",
+                            "description": "Natural language search query for finding similar contracts",
+                        },
+                        "limit": {
+                            "type": "integer",
+                            "description": "Maximum number of results to return",
+                            "default": 5,
+                            "minimum": 1,
+                            "maximum": 20,
+                        },
+                        "threshold": {
+                            "type": "number",
+                            "description": "Similarity threshold (0.0 to 1.0)",
+                            "default": 0.7,
+                            "minimum": 0.0,
+                            "maximum": 1.0,
+                        },
+                    },
+                    "required": ["query"],
+                },
+            ),
+            Tool(
                 name="get_contract_details",
                 description="Get detailed information about a specific contract by UID",
                 inputSchema={
@@ -219,6 +247,8 @@ class MCPServer:
         try:
             if tool_name == "search_contracts":
                 return self._search_contracts(arguments)
+            elif tool_name == "vector_search_contracts":
+                return self._vector_search_contracts(arguments)
             elif tool_name == "get_contract_details":
                 return self._get_contract_details(arguments)
             else:
@@ -296,6 +326,44 @@ class MCPServer:
                 }
             ]
         }
+
+    def _vector_search_contracts(self, arguments: Dict[str, Any]) -> Dict[str, Any]:
+        """Execute vector similarity search tool"""
+        query = arguments.get("query")
+        limit = arguments.get("limit", 5)
+
+        if not query:
+            raise ValueError("Query parameter is required")
+
+        client = DgraphClient()
+        try:
+            results = client.vector_search(query, limit=limit)
+
+            formatted_results = []
+            for i, result in enumerate(results):
+                formatted_results.append(
+                    f"Contract {i + 1}:\n"
+                    f"UID: {result.get('uid', 'N/A')}\n"
+                    f"Name: {result.get('ContractDeployment.name', 'N/A')}\n"
+                    f"Description: {result.get('ContractDeployment.description', 'N/A')[:200]}...\n"
+                    f"Domain: {result.get('ContractDeployment.application_domain', 'N/A')}\n"
+                    f"Functionality: {result.get('ContractDeployment.functionality_classification', 'N/A')}\n"
+                    f"Verified: {result.get('ContractDeployment.verified_source', False)}\n"
+                )
+
+            return {
+                "content": [
+                    {
+                        "type": "text",
+                        "text": f"Found {len(results)} contracts similar to '{query}' (threshold: {threshold}):\n\n"
+                        + "\n".join(formatted_results)
+                        if formatted_results
+                        else "No similar contracts found.",
+                    }
+                ]
+            }
+        finally:
+            client.close()
 
     def _get_contract_details(self, arguments: Dict[str, Any]) -> Dict[str, Any]:
         """Get contract details by UID"""

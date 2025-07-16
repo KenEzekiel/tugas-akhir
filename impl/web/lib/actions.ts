@@ -1,6 +1,6 @@
-"use server"
+"use server";
 
-import type { ContractResult } from "@/lib/types"
+import type { ContractResult } from "@/lib/types";
 
 // Mock data for demonstration purposes
 const mockContracts: ContractResult[] = [
@@ -8,7 +8,8 @@ const mockContracts: ContractResult[] = [
     id: "1",
     name: "CryptoKitties",
     symbol: "CK",
-    description: "A popular NFT game that allows users to collect and breed digital cats",
+    description:
+      "A popular NFT game that allows users to collect and breed digital cats",
     license: "MIT",
     created: "November 28, 2017",
     verified: true,
@@ -20,7 +21,8 @@ const mockContracts: ContractResult[] = [
     id: "2",
     name: "Uniswap V3",
     symbol: "UNI",
-    description: "Decentralized trading protocol for automated liquidity provision",
+    description:
+      "Decentralized trading protocol for automated liquidity provision",
     license: "GPL-2.0",
     created: "May 5, 2021",
     verified: true,
@@ -45,7 +47,8 @@ const mockContracts: ContractResult[] = [
     id: "4",
     name: "OpenSea Shared Storefront",
     symbol: "OPENSTORE",
-    description: "A shared contract for creators to mint and sell NFTs without deploying their own contract",
+    description:
+      "A shared contract for creators to mint and sell NFTs without deploying their own contract",
     license: "MIT",
     created: "July 12, 2021",
     verified: true,
@@ -70,7 +73,8 @@ const mockContracts: ContractResult[] = [
     id: "6",
     name: "Compound Finance",
     symbol: "COMP",
-    description: "Algorithmic, autonomous interest rate protocol built for developers",
+    description:
+      "Algorithmic, autonomous interest rate protocol built for developers",
     license: "BSD-3",
     created: "May 7, 2018",
     verified: true,
@@ -82,7 +86,8 @@ const mockContracts: ContractResult[] = [
     id: "7",
     name: "ENS (Ethereum Name Service)",
     symbol: "ENS",
-    description: "Distributed, open, and extensible naming system based on the Ethereum blockchain",
+    description:
+      "Distributed, open, and extensible naming system based on the Ethereum blockchain",
     license: "MIT",
     created: "May 4, 2017",
     verified: true,
@@ -90,47 +95,53 @@ const mockContracts: ContractResult[] = [
     externalUrl: "https://ens.domains/",
     address: "0x57f1887a8bf19b14fc0df6fd9b2acc9af147ea85",
   },
-]
+];
 
-export async function searchContracts(query: string): Promise<ContractResult[]> {
-  const baseUrl = process.env.CONTRACT_SEARCH_API_URL || 'http://0.0.0.0:8000'
+export async function searchContracts(
+  query: string,
+  limit: number = 10,
+  threshold: number = 0.7
+): Promise<ContractResult[]> {
+  const baseUrl = process.env.CONTRACT_SEARCH_API_URL || "http://0.0.0.0:8000";
 
-  const res = await fetch(`${baseUrl}/search`, {
-    method: 'POST',
-    cache: 'no-store',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ 
-      query: query, 
-      limit: 10,
-      data: true  // Request full contract data
+  const res = await fetch(`${baseUrl}/vector_search`, {
+    method: "POST",
+    cache: "no-store",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({
+      query: query,
+      limit: limit,
+      threshold: threshold,
     }),
-  })
+  });
 
-  // console.log('Search request:', {
-  //   url: `${baseUrl}/search`,
-  //   method: 'POST',
-  //   headers: { 'Content-Type': 'application/json' },
-  //   body: JSON.stringify({ query, limit: 10, data: true })
-  // })
+  console.log("Vector search request:", {
+    url: `${baseUrl}/vector_search`,
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ query, limit, threshold }),
+  });
 
   if (!res.ok) {
-    throw new Error(`Failed to fetch contracts: ${res.status} ${res.statusText}`)
+    throw new Error(
+      `Failed to fetch contracts: ${res.status} ${res.statusText}`
+    );
   }
 
-  const responseText = await res.text()
-  console.log('Search response:', {
+  const responseText = await res.text();
+  console.log("Vector search response:", {
     status: res.status,
     statusText: res.statusText,
     headers: Object.fromEntries(res.headers.entries()),
-    body: responseText
-  })
+    body: responseText,
+  });
 
   // Parse the response text as JSON
   try {
-    const data = JSON.parse(responseText)
-    return data as ContractResult[]
+    const data = JSON.parse(responseText);
+    return data as ContractResult[];
   } catch (e) {
-    console.error('Failed to parse response as JSON:', e)
-    throw new Error('Invalid JSON response from API')
+    console.error("Failed to parse response as JSON:", e);
+    throw new Error("Invalid JSON response from API");
   }
 }

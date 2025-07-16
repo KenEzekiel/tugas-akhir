@@ -1,5 +1,5 @@
-import { Search } from "@/components/search"
-import { ResultsList } from "@/components/results-list"
+import { Search } from "@/components/search";
+import { ResultsList } from "@/components/results-list";
 
 export default function HomePage() {
   return (
@@ -19,5 +19,5 @@ export default function HomePage() {
         </div>
       </div>
     </main>
-  )
+  );
 }

@@ -1,6 +1,6 @@
-"use client"
+"use client";
 
-import { useState } from "react"
+import { useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -8,40 +8,46 @@ import {
   DialogHeader,
   DialogTitle,
   DialogTrigger,
-} from "@/components/ui/dialog"
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs"
-import { Button } from "@/components/ui/button"
-import { Card, CardContent, CardDescription, CardFooter, CardHeader, CardTitle } from "@/components/ui/card"
-import { Copy, Check, Download, Package } from "lucide-react"
-import { useToast } from "@/hooks/use-toast"
+} from "@/components/ui/dialog";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import { Button } from "@/components/ui/button";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardFooter,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import { Copy, Check, Download, Package } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 interface ImportContractProps {
   contract: {
-    name: string
-    address: string
-    abi: any[]
-  }
+    name: string;
+    address: string;
+  };
 }
 
 export function ImportContract({ contract }: ImportContractProps) {
-  const [open, setOpen] = useState(false)
-  const [activeTab, setActiveTab] = useState("hardhat")
-  const [copied, setCopied] = useState<Record<string, boolean>>({})
-  const { toast } = useToast()
+  const [open, setOpen] = useState(false);
+  const [activeTab, setActiveTab] = useState("hardhat");
+  const [copied, setCopied] = useState<Record<string, boolean>>({});
+  const { toast } = useToast();
 
   const copyToClipboard = (text: string, key: string) => {
-    navigator.clipboard.writeText(text)
-    setCopied({ ...copied, [key]: true })
+    navigator.clipboard.writeText(text);
+    setCopied({ ...copied, [key]: true });
 
     toast({
       title: "Copied to clipboard",
       description: "The code snippet has been copied to your clipboard",
-    })
+    });
 
     setTimeout(() => {
-      setCopied({ ...copied, [key]: false })
-    }, 2000)
-  }
+      setCopied({ ...copied, [key]: false });
+    }, 2000);
+  };
 
   const hardhatSnippet = `// Import the contract in your Hardhat project
 const { ethers } = require("hardhat");
@@ -54,7 +60,10 @@ async function main() {
   );
 
   // Now you can interact with the contract
-  // Example: const balance = await ${contract.name.replace(/\s+/g, "")}.balanceOf(address);
+  // Example: const balance = await ${contract.name.replace(
+    /\s+/g,
+    ""
+  )}.balanceOf(address);
 }
 
 main()
@@ -62,15 +71,19 @@ main()
   .catch((error) => {
     console.error(error);
     process.exit(1);
-  });`
+  });`;
 
   const truffleSnippet = `// Import the contract in your Truffle project
-const ${contract.name.replace(/\s+/g, "")} = artifacts.require("${contract.name}");
+const ${contract.name.replace(/\s+/g, "")} = artifacts.require("${
+    contract.name
+  }");
 
 module.exports = async function(callback) {
   try {
     // Get the deployed contract instance
-    const instance = await ${contract.name.replace(/\s+/g, "")}.at("${contract.address}");
+    const instance = await ${contract.name.replace(/\s+/g, "")}.at("${
+    contract.address
+  }");
     
     // Now you can interact with the contract
     // Example: const balance = await instance.balanceOf(address);
@@ -80,7 +93,7 @@ module.exports = async function(callback) {
     console.error(error);
     callback(error);
   }
-};`
+};`;
 
   const foundrySnippet = `// In your Foundry script or test
 // SPDX-License-Identifier: MIT
@@ -97,18 +110,26 @@ interface I${contract.name.replace(/\s+/g, "")} {
 contract Script${contract.name.replace(/\s+/g, "")}Interaction is Script {
     function run() external {
         // Use the existing deployment
-        I${contract.name.replace(/\s+/g, "")} instance = I${contract.name.replace(/\s+/g, "")}(${contract.address});
+        I${contract.name.replace(
+          /\s+/g,
+          ""
+        )} instance = I${contract.name.replace(/\s+/g, "")}(${
+    contract.address
+  });
         
         // Now you can interact with the contract
         // Example: uint256 balance = instance.balanceOf(address);
     }
-}`
+}`;
 
   const ethersSnippet = `// Using ethers.js in a JavaScript/TypeScript project
 import { ethers } from "ethers";
 
-// ABI - you'll need the contract ABI
-const abi = ${JSON.stringify(contract.abi, null, 2)};
+// ABI - you'll need to obtain the contract ABI from the contract source
+const abi = [
+  // Insert the contract ABI here
+  // Example: "function balanceOf(address) view returns (uint256)"
+];
 
 async function interactWithContract() {
   // Connect to the Ethereum network
@@ -122,13 +143,16 @@ async function interactWithContract() {
   
   // Now you can call contract methods
   // Example: const balance = await contract.balanceOf(address);
-}`
+}`;
 
   const web3jsSnippet = `// Using web3.js in a JavaScript/TypeScript project
 import Web3 from 'web3';
 
-// ABI - you'll need the contract ABI
-const abi = ${JSON.stringify(contract.abi, null, 2)};
+// ABI - you'll need to obtain the contract ABI from the contract source
+const abi = [
+  // Insert the contract ABI here
+  // Example: {"inputs": [], "name": "balanceOf", "outputs": [{"type": "uint256"}], "type": "function"}
+];
 
 async function interactWithContract() {
   // Connect to the Ethereum network
@@ -141,13 +165,7 @@ async function interactWithContract() {
   
   // Now you can call contract methods
   // Example: const balance = await contract.methods.balanceOf(address).call();
-}`
-
-  const npmPackageJson = `{
-  "dependencies": {
-    "@${contract.name.toLowerCase().replace(/\s+/g, "-")}/contracts": "^1.0.0"
-  }
-}`
+}`;
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
@@ -160,10 +178,18 @@ async function interactWithContract() {
       <DialogContent className="sm:max-w-[700px] max-h-[90vh] overflow-y-auto">
         <DialogHeader>
           <DialogTitle>Import {contract.name}</DialogTitle>
-          <DialogDescription>Choose your preferred method to import this contract into your project.</DialogDescription>
+          <DialogDescription>
+            Choose your preferred method to import this contract into your
+            project. Note: You'll need to obtain the contract ABI separately for
+            JavaScript libraries.
+          </DialogDescription>
         </DialogHeader>
 
-        <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full mt-4">
+        <Tabs
+          value={activeTab}
+          onValueChange={setActiveTab}
+          className="w-full mt-4"
+        >
           <TabsList className="grid grid-cols-3 mb-4">
             <TabsTrigger value="hardhat">Hardhat</TabsTrigger>
             <TabsTrigger value="truffle">Truffle</TabsTrigger>
@@ -175,7 +201,8 @@ async function interactWithContract() {
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg">Import with Hardhat</CardTitle>
                 <CardDescription>
-                  Use this code to interact with the deployed contract in your Hardhat project.
+                  Use this code to interact with the deployed contract in your
+                  Hardhat project.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -204,9 +231,15 @@ async function interactWithContract() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button variant="outline" className="flex items-center gap-2" asChild>
+                <Button
+                  variant="outline"
+                  className="flex items-center gap-2"
+                  asChild
+                >
                   <a
-                    href={`data:text/javascript;charset=utf-8,${encodeURIComponent(hardhatSnippet)}`}
+                    href={`data:text/javascript;charset=utf-8,${encodeURIComponent(
+                      hardhatSnippet
+                    )}`}
                     download={`${contract.name.replace(/\s+/g, "")}_hardhat.js`}
                   >
                     <Download className="h-4 w-4" />
@@ -222,7 +255,8 @@ async function interactWithContract() {
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg">Import with Truffle</CardTitle>
                 <CardDescription>
-                  Use this code to interact with the deployed contract in your Truffle project.
+                  Use this code to interact with the deployed contract in your
+                  Truffle project.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -251,9 +285,15 @@ async function interactWithContract() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button variant="outline" className="flex items-center gap-2" asChild>
+                <Button
+                  variant="outline"
+                  className="flex items-center gap-2"
+                  asChild
+                >
                   <a
-                    href={`data:text/javascript;charset=utf-8,${encodeURIComponent(truffleSnippet)}`}
+                    href={`data:text/javascript;charset=utf-8,${encodeURIComponent(
+                      truffleSnippet
+                    )}`}
                     download={`${contract.name.replace(/\s+/g, "")}_truffle.js`}
                   >
                     <Download className="h-4 w-4" />
@@ -269,7 +309,8 @@ async function interactWithContract() {
               <CardHeader className="pb-2">
                 <CardTitle className="text-lg">Import with Foundry</CardTitle>
                 <CardDescription>
-                  Use this code to interact with the deployed contract in your Foundry project.
+                  Use this code to interact with the deployed contract in your
+                  Foundry project.
                 </CardDescription>
               </CardHeader>
               <CardContent>
@@ -298,10 +339,19 @@ async function interactWithContract() {
                 </div>
               </CardContent>
               <CardFooter>
-                <Button variant="outline" className="flex items-center gap-2" asChild>
+                <Button
+                  variant="outline"
+                  className="flex items-center gap-2"
+                  asChild
+                >
                   <a
-                    href={`data:text/plain;charset=utf-8,${encodeURIComponent(foundrySnippet)}`}
-                    download={`${contract.name.replace(/\s+/g, "")}_foundry.sol`}
+                    href={`data:text/plain;charset=utf-8,${encodeURIComponent(
+                      foundrySnippet
+                    )}`}
+                    download={`${contract.name.replace(
+                      /\s+/g,
+                      ""
+                    )}_foundry.sol`}
                   >
                     <Download className="h-4 w-4" />
                     Download Script
@@ -318,6 +368,9 @@ async function interactWithContract() {
             <Card className="overflow-hidden">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm">ethers.js</CardTitle>
+                <CardDescription className="text-xs">
+                  You'll need to provide the contract ABI to use this approach.
+                </CardDescription>
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="relative">
@@ -327,7 +380,11 @@ async function interactWithContract() {
                     className="absolute top-2 right-2 z-10"
                     onClick={() => copyToClipboard(ethersSnippet, "ethers")}
                   >
-                    {copied["ethers"] ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                    {copied["ethers"] ? (
+                      <Check className="h-3 w-3" />
+                    ) : (
+                      <Copy className="h-3 w-3" />
+                    )}
                   </Button>
                   <pre className="p-3 bg-gray-50 dark:bg-gray-800 rounded-md overflow-x-auto text-xs font-mono max-h-40 whitespace-pre-wrap break-words">
                     {ethersSnippet}
@@ -339,6 +396,9 @@ async function interactWithContract() {
             <Card className="overflow-hidden">
               <CardHeader className="pb-2">
                 <CardTitle className="text-sm">web3.js</CardTitle>
+                <CardDescription className="text-xs">
+                  You'll need to provide the contract ABI to use this approach.
+                </CardDescription>
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="relative">
@@ -348,7 +408,11 @@ async function interactWithContract() {
                     className="absolute top-2 right-2 z-10"
                     onClick={() => copyToClipboard(web3jsSnippet, "web3")}
                   >
-                    {copied["web3"] ? <Check className="h-3 w-3" /> : <Copy className="h-3 w-3" />}
+                    {copied["web3"] ? (
+                      <Check className="h-3 w-3" />
+                    ) : (
+                      <Copy className="h-3 w-3" />
+                    )}
                   </Button>
                   <pre className="p-3 bg-gray-50 dark:bg-gray-800 rounded-md overflow-x-auto text-xs font-mono max-h-40 whitespace-pre-wrap break-words">
                     {web3jsSnippet}
@@ -359,51 +423,18 @@ async function interactWithContract() {
           </div>
         </div>
 
-        <div className="mt-6">
-          <h3 className="text-lg font-medium mb-2">Contract ABI</h3>
-          <Card className="overflow-hidden">
-            <CardHeader className="pb-2">
-              <div className="flex justify-between items-center">
-                <CardTitle className="text-sm">ABI JSON</CardTitle>
-                <div className="flex gap-2">
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => copyToClipboard(JSON.stringify(contract.abi, null, 2), "abi")}
-                  >
-                    {copied["abi"] ? (
-                      <span className="flex items-center gap-1">
-                        <Check className="h-3 w-3" />
-                        Copied
-                      </span>
-                    ) : (
-                      <span className="flex items-center gap-1">
-                        <Copy className="h-3 w-3" />
-                        Copy ABI
-                      </span>
-                    )}
-                  </Button>
-                  <Button variant="outline" size="sm" asChild>
-                    <a
-                      href={`data:application/json;charset=utf-8,${encodeURIComponent(
-                        JSON.stringify(contract.abi, null, 2),
-                      )}`}
-                      download={`${contract.name.replace(/\s+/g, "")}_abi.json`}
-                    >
-                      <Download className="h-3 w-3" />
-                    </a>
-                  </Button>
-                </div>
-              </div>
-            </CardHeader>
-            <CardContent className="pt-0">
-              <pre className="p-3 bg-gray-50 dark:bg-gray-800 rounded-md overflow-x-auto text-xs font-mono max-h-40 whitespace-pre-wrap break-words">
-                {JSON.stringify(contract.abi, null, 2)}
-              </pre>
-            </CardContent>
-          </Card>
+        <div className="mt-6 p-4 bg-blue-50 dark:bg-blue-900/20 rounded-lg">
+          <h3 className="text-sm font-medium text-blue-900 dark:text-blue-100 mb-2">
+            📝 Note about ABI
+          </h3>
+          <p className="text-sm text-blue-700 dark:text-blue-300">
+            To use this contract with JavaScript libraries (ethers.js, web3.js),
+            you'll need to obtain the contract's ABI. You can usually find this
+            in the contract's source code, documentation, or by using tools like
+            Etherscan.
+          </p>
         </div>
       </DialogContent>
     </Dialog>
-  )
+  );
 }

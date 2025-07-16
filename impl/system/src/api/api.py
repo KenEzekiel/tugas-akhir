@@ -57,38 +57,46 @@ app.add_middleware(
 
 
 class SearchRequest(BaseModel):
-  query: str
-  limit: int
-  data: bool = False
+    query: str
+    limit: int
+    data: bool = False
+
+
+class VectorSearchRequest(BaseModel):
+    query: str = Field(..., min_length=1, description="Natural language search query")
+    limit: int = Field(5, ge=1, le=20, description="Maximum number of results")
+    threshold: float = Field(0.7, ge=0.0, le=1.0, description="Similarity threshold")
+
 
 class ContractResult(BaseModel):
-  id: str
-  name: str
-  symbol: str = ""  # Default empty as it might not always be present
-  description: str
-  license: str = "UNLICENSED"  # Default value
-  created: str
-  verified: bool
-  tags: List[str]
-  externalUrl: Optional[str] = None
-  address: Optional[str] = None
-  storage_protocol: Optional[str] = None
-  storage_address: Optional[str] = None
-  experimental: Optional[bool] = None
-  solc_version: Optional[str] = None
-  verified_source: Optional[bool] = None
-  verified_source_code: Optional[str] = None
-  functionality: Optional[str] = None
-  domain: Optional[str] = None
-  security_risks: Optional[List[str]] = None
+    id: str
+    name: str
+    symbol: str = ""  # Default empty as it might not always be present
+    description: str
+    license: str = "UNLICENSED"  # Default value
+    created: str
+    verified: bool
+    tags: List[str]
+    externalUrl: Optional[str] = None
+    address: Optional[str] = None
+    storage_protocol: Optional[str] = None
+    storage_address: Optional[str] = None
+    experimental: Optional[bool] = None
+    solc_version: Optional[str] = None
+    verified_source: Optional[bool] = None
+    verified_source_code: Optional[str] = None
+    functionality: Optional[str] = None
+    domain: Optional[str] = None
+    security_risks: Optional[List[str]] = None
+    similarity_score: Optional[float] = None  # For vector search results
+
 
 class Config:
-  json_encoders = {
-  # Add custom JSON encoders if needed
-  }
+    json_encoders = {
+        # Add custom JSON encoders if needed
+    }
 
 
-  
 # class SearchRequest(BaseModel):
 #     query: str = Field(..., min_length=1, description="Search query string")
 #     limit: int = Field(..., ge=1, le=100, description="Maximum number of results")
@@ -448,7 +456,7 @@ def parse_nested_entities(nested_data: List[dict], entity_type: str) -> List[dic
 #                             ),
 #                         }
 #                     )
-                    
+
 #                     print(main_data)
 
 #                     # Extract related entities if data is requested
@@ -484,52 +492,122 @@ def parse_nested_entities(nested_data: List[dict], entity_type: str) -> List[dic
 #     except Exception as e:
 #         raise HTTPException(status_code=500, detail=str(e))
 
+
 @app.post("/search")
 async def search_contracts(request: SearchRequest):
-  try:
-    results = retriever.search(request.query, request.limit)
-    formatted_results = []
-    
-    if request.data:
-      client = DgraphClient()
-      for result in results:
-        try:
-          contract_data = client.get_contract_by_uid(
-                result["metadata"]["dgraph_id"]
-          )
-          if not contract_data:
-            continue
+    try:
+        results = retriever.search(request.query, request.limit)
+        formatted_results = []
 
-          contract = contract_data[0]
-            
-          formatted_result = ContractResult(
-            id=contract.get("uid", ""),
-            name=contract.get("ContractDeployment.name", ""),
-            description=result.get("content", ""),
-            created=contract.get("ContractDeployment.created", ""),
-            verified=contract.get("ContractDeployment.verified_source", False),
-            tags=[contract.get("ContractDeployment.domain", "")],
-            storage_protocol=contract.get("ContractDeployment.storage_protocol"),
-            storage_address=contract.get("ContractDeployment.storage_address"),
-            experimental=contract.get("ContractDeployment.experimental"),
-            solc_version=contract.get("ContractDeployment.solc_version"),
-            verified_source=contract.get("ContractDeployment.verified_source"),
-            verified_source_code=contract.get("ContractDeployment.verified_source_code"),
-            functionality=contract.get("ContractDeployment.functionality"),
-            domain=contract.get("ContractDeployment.domain"),
-            security_risks=contract.get("ContractDeployment.security_risks", [])
-          )
-          print(formatted_result.id, formatted_result.description)
-          formatted_results.append(formatted_result.model_dump())
-        except Exception as e:
-          print(f"Error processing contract: {str(e)}")
-          continue
-      client.close()
-    
-    return JSONResponse(content=formatted_results)
-  except Exception as e:
-    raise HTTPException(status_code=500, detail=str(e))
-  
+        if request.data:
+            client = DgraphClient()
+            for result in results:
+                try:
+                    contract_data = client.get_contract_by_uid(
+                        result["metadata"]["dgraph_id"]
+                    )
+                    if not contract_data:
+                        continue
+
+                    contract = contract_data[0]
+
+                    formatted_result = ContractResult(
+                        id=contract.get("uid", ""),
+                        name=contract.get("ContractDeployment.name", ""),
+                        description=result.get("content", ""),
+                        created=contract.get("ContractDeployment.created", ""),
+                        verified=contract.get(
+                            "ContractDeployment.verified_source", False
+                        ),
+                        tags=[contract.get("ContractDeployment.domain", "")],
+                        storage_protocol=contract.get(
+                            "ContractDeployment.storage_protocol"
+                        ),
+                        storage_address=contract.get(
+                            "ContractDeployment.storage_address"
+                        ),
+                        experimental=contract.get("ContractDeployment.experimental"),
+                        solc_version=contract.get("ContractDeployment.solc_version"),
+                        verified_source=contract.get(
+                            "ContractDeployment.verified_source"
+                        ),
+                        verified_source_code=contract.get(
+                            "ContractDeployment.verified_source_code"
+                        ),
+                        functionality=contract.get("ContractDeployment.functionality"),
+                        domain=contract.get("ContractDeployment.domain"),
+                        security_risks=contract.get(
+                            "ContractDeployment.security_risks", []
+                        ),
+                    )
+                    print(formatted_result.id, formatted_result.description)
+                    formatted_results.append(formatted_result.model_dump())
+                except Exception as e:
+                    print(f"Error processing contract: {str(e)}")
+                    continue
+            client.close()
+
+        return JSONResponse(content=formatted_results)
+    except Exception as e:
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/vector_search")
+async def vector_search_contracts(request: VectorSearchRequest):
+    """
+    Perform vector similarity search on smart contracts using Dgraph's vector search.
+    Converts natural language queries to embeddings and finds similar contracts.
+    """
+    try:
+        client = DgraphClient()
+        results = client.vector_search(request.query, request.limit)
+        formatted_results = []
+
+        for result in results:
+            try:
+                formatted_result = ContractResult(
+                    id=result.get("uid", ""),
+                    name=result.get("ContractDeployment.name", ""),
+                    description=result.get("ContractDeployment.description", ""),
+                    created=result.get("ContractDeployment.created", ""),
+                    verified=result.get("ContractDeployment.verified_source", False),
+                    tags=[result.get("ContractDeployment.application_domain", "")],
+                    storage_protocol=result.get("ContractDeployment.storage_protocol"),
+                    storage_address=result.get("ContractDeployment.storage_address"),
+                    experimental=result.get("ContractDeployment.experimental"),
+                    solc_version=result.get("ContractDeployment.solc_version"),
+                    verified_source=result.get("ContractDeployment.verified_source"),
+                    verified_source_code=result.get(
+                        "ContractDeployment.verified_source_code"
+                    ),
+                    functionality=result.get(
+                        "ContractDeployment.functionality_classification"
+                    ),
+                    domain=result.get("ContractDeployment.application_domain"),
+                    security_risks=result.get(
+                        "ContractDeployment.security_risks_description", ""
+                    ).split(", ")
+                    if result.get("ContractDeployment.security_risks_description")
+                    else [],
+                )
+                print(
+                    f"Vector search result: {formatted_result.id}, {formatted_result.name}"
+                )
+                formatted_results.append(formatted_result.model_dump())
+            except Exception as e:
+                print(f"Error processing vector search result: {str(e)}")
+                print(f"Result data: {result}")
+                continue
+
+        client.close()
+        return JSONResponse(content=formatted_results)
+    except Exception as e:
+        print(f"Vector search error: {str(e)}")
+        import traceback
+
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
 
 @app.post("/refine", response_model=RefineResponse)
 async def refine_query(request: RefineRequest):
@@ -705,8 +783,13 @@ async def root():
                         <span class="url">/search</span>
                     </div>
                     
+                    <div class="endpoint">
+                        <span class="method">POST</span>
+                        <span class="url">/vector_search</span>
+                    </div>
+                    
                     <p style="margin-top: 16px; margin-bottom: 0; color: #666; font-size: 14px;">
-                        💡 <strong>Tip:</strong> Use the Swagger UI above to test the API interactively, or check ReDoc for detailed documentation.
+                        💡 <strong>Tip:</strong> Check the Swagger UI above to test both endpoints interactively.
                     </p>
                 </div>
             </div>
