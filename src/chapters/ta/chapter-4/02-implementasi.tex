@@ -16,8 +16,8 @@ Bagian ini akan menjelaskan terkait proses implementasi sistem secara rinci. Sep
 Berikut adalah batasan-batasan yang diterapkan pada implementasi sistem ini.
 
 \begin{enumerate}
-    \item Seluruh batasan masalah dan implementasi yang telah dijelaskan pada bagian \ref{sec:batasan-masalah} akan digunakan sebagai fondasi batasan implementasi.
-    \item Semantic Enrichment hanya akan dilakukan untuk beberapa aspek dari Smart Contract, tidak dilakukan secara \textit{exhaustive}.
+	\item Seluruh batasan masalah dan implementasi yang telah dijelaskan pada bagian \ref{sec:batasan-masalah} akan digunakan sebagai fondasi batasan implementasi.
+	\item Semantic Enrichment hanya akan dilakukan untuk beberapa aspek dari Smart Contract, tidak dilakukan secara \textit{exhaustive}.
 \end{enumerate}
 
 \subsection{Pengaturan Komponen Eksternal Sistem}
@@ -33,53 +33,53 @@ Pengaturan Ethereum Archive Node dilakukan pada platform Alchemy dengan pembuata
 Pengaturan eth2dgraph dimulai dengan melakukan instalasi untuk semua dependensi yang dibutuhkan, yaitu Rust, Cargo, dan Heimdall. Setelah itu, eth2dgraph dapat di-\textit{build} dan di-\textit{run} menggunakan perintah yang telah disediakan oleh eth2dgraph. Perintah-perintah beserta konfigurasi yang dapat dijalankan adalah sebagai berikut:
 
 \begin{enumerate}
-    \item \texttt{extract}
-    \begin{enumerate}
-        \item \texttt{-e, --endpoint <ENDPOINT>}: RPC endpoint dari Archive Node
-        \item \texttt{-o, --output <OUTPUT\textunderscore PATH>}: output path dari hasil ekstraksi
-        \item \texttt{-f, --from-block <FROM\textunderscore BLOCK>}: nomor blok awal dari ekstraksi
-        \item \texttt{-t, --to-block <TO\textunderscore BLOCK>}: nomor blok akhir dari ekstraksi
-        \item \texttt{-n, --num-tasks <NUM\textunderscore TASKS>}: jumlah Tokio \textit{tasks} yang akan dijalankan secara paralel
-        \item \texttt{--include-tx}: flag untuk menyertakan transaksi dalam ekstraksi
-        \item \texttt{--include-transfers}: flag untuk menyertakan transfer dalam ekstraksi
-        \item \texttt{--include-logs}: flag untuk menyertakan log dalam ekstraksi
-        \item \texttt{-s, --scs-path <SCS\textunderscore PATH>}: path Smart Contract Sanctuary untuk disambungkan dengan data yang diekstrak
-        \item \texttt{--size-output <SIZE\textunderscore OUTPUT>}: ukuran maksimal di dalam RAM untuk output files sebelum di-\textit{flush} dan dikompresi ke \textit{disk}, dalam KB
-        \item \texttt{--compression-level <COMPRESSION\textunderscore LEVEL>}: tingkat kompresi \\hasil ekstraksi dari 0 (tanpa kompresi) hingga 9 (kompresi maksimal)
-        \item \texttt{--decompiler-timeout <DECOMPILER\textunderscore TIMEOUT>}: waktu maksimal untuk dekompilasi Smart Contract, dalam milliseconds
-        \item \texttt{--skip-decompilation}: flag untuk melewati proses ekstraksi ABI dengan heimdall
-    \end{enumerate}
-    \item \texttt{stream}
-    \begin{enumerate}
-        \item \texttt{-e, --endpoint <ENDPOINT>}: endpoint Ethereum Archive Node \\yang akan dihubungkan dengan skema websocket
-        \item \texttt{-d, --dgraph <DGRAPH>}: endpoint GRPC Dgraph
-        \item \texttt{--include-tx}: flag untuk menyertakan transaksi dalam \textit{streaming}
-        \item \texttt{--include-tokens}: flag untuk menyertakan transfer token dalam \textit{streaming}
-        \item \texttt{--include-logs}: flag untuk menyertakan log dalam \textit{streaming}
-        \item \texttt{--decompiler-timeout <DECOMPILER\textunderscore TIMEOUT>}: waktu maksimal untuk dekompilasi Smart Contract, dalam milliseconds
-        \item \texttt{--no-sync}: flag untuk melewati sinkronisasi dari blok terakhir yang diindeks di Dgraph, hanya mengambil blok live
-        \item \texttt{-n, --num-jobs <NUM\textunderscore JOBS>}: jumlah Tokio \textit{tasks} yang akan dijalankan secara paralel 
-    \end{enumerate}
-    \item \texttt{analyse}
-    \begin{enumerate}
-        \item \texttt{similarities}: analisis kesamaan antar Smart Contract
-        \begin{enumerate}
-            \item \texttt{-e, --endpoint <ENDPOINT>}: endpoint GRPC Dgraph 
-            \item \texttt{-o, --output-file <OUTPUT\textunderscore FILE>}: file output dari hasil analisis
-            \item \texttt{-a, --address <ADDRESS>}: alamat Smart Contract untuk menghitung kesamaan
-            \item \texttt{--interface-sim}: flag untuk menghitung kesamaan interface
-            \item \texttt{--interface-threshold <INTERFACE\textunderscore THRESHOLD>}: ambang \\batas minimum kesamaan interface (0.0-1.0) di atas mana kesamaan akan disimpan
-            \item \texttt{--cosine-sim}: flag untuk menghitung kesamaan cosine
-            \item \texttt{--cosine-threshold <COSINE\textunderscore THRESHOLD>}: ambang batas minimum kesamaan cosine (0.0-1.0) di atas mana kesamaan akan disimpan
-            \item \texttt{--ngram-length <NGRAM\textunderscore LENGTH>}: panjang N-gram yang digunakan untuk kesamaan cosine
-        \end{enumerate}
-        \item \texttt{lifetimes}: analisis lifetime Smart Contract
-        \begin{enumerate}
-            \item \texttt{-e, --endpoint <ENDPOINT>}: endpoint GRPC Dgraph
-            \item \texttt{-o, --output-path <OUTPUT\textunderscore PATH>}: path output dari hasil analisis
-            \item \texttt{-c, --cache-file <CACHE\textunderscore FILE>}: file cache yang akan digunakan
-        \end{enumerate}
-    \end{enumerate}
+	\item \texttt{extract}
+	      \begin{enumerate}
+		      \item \texttt{-e, --endpoint <ENDPOINT>}: RPC endpoint dari Archive Node
+		      \item \texttt{-o, --output <OUTPUT\textunderscore PATH>}: output path dari hasil ekstraksi
+		      \item \texttt{-f, --from-block <FROM\textunderscore BLOCK>}: nomor blok awal dari ekstraksi
+		      \item \texttt{-t, --to-block <TO\textunderscore BLOCK>}: nomor blok akhir dari ekstraksi
+		      \item \texttt{-n, --num-tasks <NUM\textunderscore TASKS>}: jumlah Tokio \textit{tasks} yang akan dijalankan secara paralel
+		      \item \texttt{--include-tx}: flag untuk menyertakan transaksi dalam ekstraksi
+		      \item \texttt{--include-transfers}: flag untuk menyertakan transfer dalam ekstraksi
+		      \item \texttt{--include-logs}: flag untuk menyertakan log dalam ekstraksi
+		      \item \texttt{-s, --scs-path <SCS\textunderscore PATH>}: path Smart Contract Sanctuary untuk disambungkan dengan data yang diekstrak
+		      \item \texttt{--size-output <SIZE\textunderscore OUTPUT>}: ukuran maksimal di dalam RAM untuk output files sebelum di-\textit{flush} dan dikompresi ke \textit{disk}, dalam KB
+		      \item \texttt{--compression-level <COMPRESSION\textunderscore LEVEL>}: tingkat kompresi \\hasil ekstraksi dari 0 (tanpa kompresi) hingga 9 (kompresi maksimal)
+		      \item \texttt{--decompiler-timeout <DECOMPILER\textunderscore TIMEOUT>}: waktu maksimal untuk dekompilasi Smart Contract, dalam milliseconds
+		      \item \texttt{--skip-decompilation}: flag untuk melewati proses ekstraksi ABI dengan heimdall
+	      \end{enumerate}
+	\item \texttt{stream}
+	      \begin{enumerate}
+		      \item \texttt{-e, --endpoint <ENDPOINT>}: endpoint Ethereum Archive Node \\yang akan dihubungkan dengan skema websocket
+		      \item \texttt{-d, --dgraph <DGRAPH>}: endpoint GRPC Dgraph
+		      \item \texttt{--include-tx}: flag untuk menyertakan transaksi dalam \textit{streaming}
+		      \item \texttt{--include-tokens}: flag untuk menyertakan transfer token dalam \textit{streaming}
+		      \item \texttt{--include-logs}: flag untuk menyertakan log dalam \textit{streaming}
+		      \item \texttt{--decompiler-timeout <DECOMPILER\textunderscore TIMEOUT>}: waktu maksimal untuk dekompilasi Smart Contract, dalam milliseconds
+		      \item \texttt{--no-sync}: flag untuk melewati sinkronisasi dari blok terakhir yang diindeks di Dgraph, hanya mengambil blok live
+		      \item \texttt{-n, --num-jobs <NUM\textunderscore JOBS>}: jumlah Tokio \textit{tasks} yang akan dijalankan secara paralel
+	      \end{enumerate}
+	\item \texttt{analyse}
+	      \begin{enumerate}
+		      \item \texttt{similarities}: analisis kesamaan antar Smart Contract
+		            \begin{enumerate}
+			            \item \texttt{-e, --endpoint <ENDPOINT>}: endpoint GRPC Dgraph
+			            \item \texttt{-o, --output-file <OUTPUT\textunderscore FILE>}: file output dari hasil analisis
+			            \item \texttt{-a, --address <ADDRESS>}: alamat Smart Contract untuk menghitung kesamaan
+			            \item \texttt{--interface-sim}: flag untuk menghitung kesamaan interface
+			            \item \texttt{--interface-threshold <INTERFACE\textunderscore THRESHOLD>}: ambang \\batas minimum kesamaan interface (0.0-1.0) di atas mana kesamaan akan disimpan
+			            \item \texttt{--cosine-sim}: flag untuk menghitung kesamaan cosine
+			            \item \texttt{--cosine-threshold <COSINE\textunderscore THRESHOLD>}: ambang batas minimum kesamaan cosine (0.0-1.0) di atas mana kesamaan akan disimpan
+			            \item \texttt{--ngram-length <NGRAM\textunderscore LENGTH>}: panjang N-gram yang digunakan untuk kesamaan cosine
+		            \end{enumerate}
+		      \item \texttt{lifetimes}: analisis lifetime Smart Contract
+		            \begin{enumerate}
+			            \item \texttt{-e, --endpoint <ENDPOINT>}: endpoint GRPC Dgraph
+			            \item \texttt{-o, --output-path <OUTPUT\textunderscore PATH>}: path output dari hasil analisis
+			            \item \texttt{-c, --cache-file <CACHE\textunderscore FILE>}: file cache yang akan digunakan
+		            \end{enumerate}
+	      \end{enumerate}
 \end{enumerate}
 
 \subsubsection{Ekstraksi Data Smart Contracts}
@@ -96,7 +96,7 @@ Setelah pengaturan Ethereum Archive Node dan eth2dgraph selesai, langkah selanju
     -s smart-contract-sanctuary-ethereum
 \end{lstlisting}
 
-Perintah di atas akan mengekstrak data dari blok 16075682 hingga 16076782 dengan jumlah \textit{task} paralel yang dijalankan sebanyak 10. Hasil ekstraksi akan disimpan pada direktori \texttt{extracted} dan akan menghubungkan data yang diekstrak dengan Smart Contract Sanctuary yang telah diunduh sebelumnya. Hasil ekstraksi akan berupa hasil kompresi dari proses ekstraksi yang dilakukan oleh eth2dgraph. 
+Perintah di atas akan mengekstrak data dari blok 16075682 hingga 16076782 dengan jumlah \textit{task} paralel yang dijalankan sebanyak 10. Hasil ekstraksi akan disimpan pada direktori \texttt{extracted} dan akan menghubungkan data yang diekstrak dengan Smart Contract Sanctuary yang telah diunduh sebelumnya. Hasil ekstraksi akan berupa hasil kompresi dari proses ekstraksi yang dilakukan oleh eth2dgraph.
 
 Setelah proses ekstraksi selesai, akan dilakukan proses impor data ke dalam DgraphDB. Proses impor memerlukan pengaturan DgraphDB telah dilakukan sebelumnya, seperti yang akan dijelaskan pada bagian selanjutnya. Proses import dapat dilakukan dengan menjalankan perintah \texttt{dgraph bulk} dengan parameter yang sesuai. Berikut adalah contoh perintah yang dapat digunakan untuk melakukan impor data ke dalam DgraphDB:
 
@@ -173,30 +173,29 @@ Pengaturan ini akan menjalankan Dgraph Zero pada port 5081 untuk gRPC dan 6081 u
 Dgraph memiliki perintah-perintah yang dapat digunakan. Berikut merupakan perintah-perintah yang relevan untuk digunakan dalam sistem:
 
 \begin{enumerate}
-    \item \texttt{dgraph alpha}: Perintah ini digunakan untuk menjalankan Dgraph Alpha, yang merupakan komponen utama dari DgraphDB yang bertanggung jawab untuk menyimpan dan mengelola data. Perintah ini akan menghubungkan Dgraph Alpha dengan Dgraph Zero dan menyediakan antarmuka HTTP untuk berinteraksi dengan data.
-    \item \texttt{dgraph zero}: Perintah ini digunakan untuk menjalankan Dgraph Zero, yang merupakan komponen yang bertanggung jawab untuk Dgraph Cluster Management. Dgraph Zero akan mengelola metadata dari DgraphDB, termasuk informasi tentang shard dan replikasi data.
-    \item \texttt{dgraph bulk}: Perintah ini digunakan untuk melakukan impor data ke dalam DgraphDB. Perintah ini akan mengambil data dari file yang telah diekstrak dan memprosesnya untuk dimasukkan ke dalam database. Berikut merupakan parameter dari perintah \texttt{dgraph bulk} yang dapat digunakan:
-    \begin{enumerate}
-        \item \texttt{-f, --files <FILES>}: lokasi file \texttt{*.rdf(.gz)} atau \texttt{*.json(.gz)} yang akan di-\textit{load}
-        \item \texttt{-s, --schema <SCHEMA>}: lokasi file skema
-        \item \texttt{-g, --graphql-schema <GRAPHQL\textunderscore SCHEMA>}: lokasi file skema GraphQL
-        \item \texttt{--out <OUT>}: lokasi untuk menyimpan direktori data dgraph final (default \texttt{./out})
-        \item \texttt{--map-shards <MAP\textunderscore SHARDS>}: jumlah \textit{map output shards}. Harus lebih besar atau sama dengan jumlah \textit{reduce shards}. Peningkatan memungkinkan \textit{reduce shards} berukuran lebih merata, dengan mengorbankan peningkatan penggunaan memori (default 1)
-        \item \texttt{--reduce-shards <REDUCE\textunderscore SHARDS>}: jumlah \textit{reduce shards}. Ini menentukan jumlah instans dgraph dalam kluster final. Peningkatan ini berpotensi mengurangi waktu eksekusi tahap \textit{reduce} dengan menggunakan lebih banyak paralelisme, tetapi meningkatkan penggunaan memori
-        \item \texttt{-z, --zero <ZERO>}: alamat gRPC untuk Dgraph zero
-        \item \texttt{--mapoutput-mb <MAPOUTPUT\textunderscore MB>}: perkiraan ukuran setiap output file \textit{map}. Peningkatan ini meningkatkan penggunaan memori (default 2048)
-        \item \texttt{-j, --num-go-routines <NUM\textunderscore GO\textunderscore ROUTINES>}: jumlah \textit{worker threads} yang digunakan. Semakin banyak \textit{threads} akan menyebabkan penggunaan RAM yang lebih tinggi (default 1)
-        \item \texttt{--tmp <TMP>}: direktori sementara yang digunakan untuk \textit{scratch space} pada disk. Memerlukan ruang kosong yang proporsional dengan ukuran file RDF dan jumlah pengindeksan yang digunakan (default \texttt{tmp})
-        \item \texttt{--replace-out}: mengganti direktori \textit{out} dan isinya jika sudah ada
-        \item \texttt{--cleanup-tmp}: membersihkan direktori \texttt{tmp} setelah \textit{loader} selesai. Mengatur ini menjadi \texttt{false} memungkinkan \textit{bulk loader} dapat dijalankan ulang sambil melewati fase \textit{map} (default \texttt{true})
-        \item \texttt{--badger <BADGER>}: opsi Badger (default \texttt{compression=snappy; numgoroutines=8;})
-        \begin{enumerate}
-            \item \texttt{compression}: menentukan algoritma kompresi dan tingkat kompresi untuk direktori \textit{postings}. \texttt{none} akan menonaktifkan kompresi, sedangkan \texttt{zstd:1} akan mengatur kompresi zstd pada tingkat 1
-            \item \texttt{numgoroutines}: jumlah \textit{goroutines} yang digunakan dalam \\\texttt{badger.Stream}
-        \end{enumerate}
-    \end{enumerate}
+	\item \texttt{dgraph alpha}: Perintah ini digunakan untuk menjalankan Dgraph Alpha, yang merupakan komponen utama dari DgraphDB yang bertanggung jawab untuk menyimpan dan mengelola data. Perintah ini akan menghubungkan Dgraph Alpha dengan Dgraph Zero dan menyediakan antarmuka HTTP untuk berinteraksi dengan data.
+	\item \texttt{dgraph zero}: Perintah ini digunakan untuk menjalankan Dgraph Zero, yang merupakan komponen yang bertanggung jawab untuk Dgraph Cluster Management. Dgraph Zero akan mengelola metadata dari DgraphDB, termasuk informasi tentang shard dan replikasi data.
+	\item \texttt{dgraph bulk}: Perintah ini digunakan untuk melakukan impor data ke dalam DgraphDB. Perintah ini akan mengambil data dari file yang telah diekstrak dan memprosesnya untuk dimasukkan ke dalam database. Berikut merupakan parameter dari perintah \texttt{dgraph bulk} yang dapat digunakan:
+	      \begin{enumerate}
+		      \item \texttt{-f, --files <FILES>}: lokasi file \texttt{*.rdf(.gz)} atau \texttt{*.json(.gz)} yang akan di-\textit{load}
+		      \item \texttt{-s, --schema <SCHEMA>}: lokasi file skema
+		      \item \texttt{-g, --graphql-schema <GRAPHQL\textunderscore SCHEMA>}: lokasi file skema GraphQL
+		      \item \texttt{--out <OUT>}: lokasi untuk menyimpan direktori data dgraph final (default \texttt{./out})
+		      \item \texttt{--map-shards <MAP\textunderscore SHARDS>}: jumlah \textit{map output shards}. Harus lebih besar atau sama dengan jumlah \textit{reduce shards}. Peningkatan memungkinkan \textit{reduce shards} berukuran lebih merata, dengan mengorbankan peningkatan penggunaan memori (default 1)
+		      \item \texttt{--reduce-shards <REDUCE\textunderscore SHARDS>}: jumlah \textit{reduce shards}. Ini menentukan jumlah instans dgraph dalam kluster final. Peningkatan ini berpotensi mengurangi waktu eksekusi tahap \textit{reduce} dengan menggunakan lebih banyak paralelisme, tetapi meningkatkan penggunaan memori
+		      \item \texttt{-z, --zero <ZERO>}: alamat gRPC untuk Dgraph zero
+		      \item \texttt{--mapoutput-mb <MAPOUTPUT\textunderscore MB>}: perkiraan ukuran setiap output file \textit{map}. Peningkatan ini meningkatkan penggunaan memori (default 2048)
+		      \item \texttt{-j, --num-go-routines <NUM\textunderscore GO\textunderscore ROUTINES>}: jumlah \textit{worker threads} yang digunakan. Semakin banyak \textit{threads} akan menyebabkan penggunaan RAM yang lebih tinggi (default 1)
+		      \item \texttt{--tmp <TMP>}: direktori sementara yang digunakan untuk \textit{scratch space} pada disk. Memerlukan ruang kosong yang proporsional dengan ukuran file RDF dan jumlah pengindeksan yang digunakan (default \texttt{tmp})
+		      \item \texttt{--replace-out}: mengganti direktori \textit{out} dan isinya jika sudah ada
+		      \item \texttt{--cleanup-tmp}: membersihkan direktori \texttt{tmp} setelah \textit{loader} selesai. Mengatur ini menjadi \texttt{false} memungkinkan \textit{bulk loader} dapat dijalankan ulang sambil melewati fase \textit{map} (default \texttt{true})
+		      \item \texttt{--badger <BADGER>}: opsi Badger (default \texttt{compression=snappy; numgoroutines=8;})
+		            \begin{enumerate}
+			            \item \texttt{compression}: menentukan algoritma kompresi dan tingkat kompresi untuk direktori \textit{postings}. \texttt{none} akan menonaktifkan kompresi, sedangkan \texttt{zstd:1} akan mengatur kompresi zstd pada tingkat 1
+			            \item \texttt{numgoroutines}: jumlah \textit{goroutines} yang digunakan dalam \\\texttt{badger.Stream}
+		            \end{enumerate}
+	      \end{enumerate}
 \end{enumerate}
-
 
 \subsubsection{ChromaDB}
 
@@ -236,16 +235,16 @@ Pengaturan ChromaDB dilakukan pada komponen VectorDB Client, yang akan menginisi
 Implementasi Dgraph Client dilakukan dengan membuat sebuah kelas Python yang akan digunakan untuk berinteraksi dengan DgraphDB. Kelas ini akan menyediakan metode untuk melakukan query, mutasi, dan operasi lainnya pada DgraphDB. Berikut merupakan penjelasan terkait implementasi kelas Dgraph Client:
 
 \begin{enumerate}
-    \item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
-    \item \texttt{attribute client\textunderscore stub}: Stub untuk melakukan koneksi ke DgraphDB.
-    \item \texttt{attribute client}: Wrapper dari Dgraph Stub dalam Python untuk abstraksi method Dgraph.
-    \item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas DgraphClient dan koneksi ke DgraphDB menggunakan endpoint yang diberikan. Koneksi ini akan digunakan untuk melakukan query dan mutasi pada DgraphDB.
-    \item \texttt{dgraph\textunderscore txn}: Metode Context Manager untuk melakukan transaksi atomik pada DgraphDB.
-    \item \texttt{alter\textunderscore schema}: Metode untuk mengubah skema DgraphDB. Metode ini akan menerima parameter skema dalam format string dan akan mengirimkan permintaan untuk mengubah skema DgraphDB.
-    \item \texttt{get\textunderscore contracts}: Metode wrapper untuk mengambil data Smart Contract dari DgraphDB. Metode ini akan menerima parameter \texttt{batch\textunderscore size} untuk menentukan jumlah data yang akan diambild dan \textit{enriched} untuk menentukan apakah data yang diambil sudah di-enrich atau belum. Metode ini akan mengembalikan daftar Smart Contract yang diambil dari DgraphDB.
-    \item \texttt{get\textunderscore contract\textunderscore by\textunderscore uid}: Metode untuk mengambil data Smart Contract berdasarkan \textit{unique identifier} (UID) dari Smart Contract tersebut. Metode ini akan mengembalikan data Smart Contract yang sesuai dengan UID yang diberikan.
-    \item \texttt{mutate}: Metode untuk melakukan mutasi pada DgraphDB. Metode ini akan menerima parameter \texttt{mutation\textunderscore data} yang berisi data yang akan dimutasi dan \texttt{commit\textunderscore now} untuk menentukan apakah mutasi akan dilakukan secara langsung atau tidak. Metode ini akan mengembalikan hasil dari mutasi yang dilakukan.
-    \item \texttt{close}: Metode untuk menutup koneksi ke DgraphDB. Metode ini akan dipanggil ketika kelas DgraphClient tidak lagi digunakan untuk membersihkan sumber daya yang digunakan oleh kelas ini.
+	\item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
+	\item \texttt{attribute client\textunderscore stub}: Stub untuk melakukan koneksi ke DgraphDB.
+	\item \texttt{attribute client}: Wrapper dari Dgraph Stub dalam Python untuk abstraksi method Dgraph.
+	\item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas DgraphClient dan koneksi ke DgraphDB menggunakan endpoint yang diberikan. Koneksi ini akan digunakan untuk melakukan query dan mutasi pada DgraphDB.
+	\item \texttt{dgraph\textunderscore txn}: Metode Context Manager untuk melakukan transaksi atomik pada DgraphDB.
+	\item \texttt{alter\textunderscore schema}: Metode untuk mengubah skema DgraphDB. Metode ini akan menerima parameter skema dalam format string dan akan mengirimkan permintaan untuk mengubah skema DgraphDB.
+	\item \texttt{get\textunderscore contracts}: Metode wrapper untuk mengambil data Smart Contract dari DgraphDB. Metode ini akan menerima parameter \texttt{batch\textunderscore size} untuk menentukan jumlah data yang akan diambild dan \textit{enriched} untuk menentukan apakah data yang diambil sudah di-enrich atau belum. Metode ini akan mengembalikan daftar Smart Contract yang diambil dari DgraphDB.
+	\item \texttt{get\textunderscore contract\textunderscore by\textunderscore uid}: Metode untuk mengambil data Smart Contract berdasarkan \textit{unique identifier} (UID) dari Smart Contract tersebut. Metode ini akan mengembalikan data Smart Contract yang sesuai dengan UID yang diberikan.
+	\item \texttt{mutate}: Metode untuk melakukan mutasi pada DgraphDB. Metode ini akan menerima parameter \texttt{mutation\textunderscore data} yang berisi data yang akan dimutasi dan \texttt{commit\textunderscore now} untuk menentukan apakah mutasi akan dilakukan secara langsung atau tidak. Metode ini akan mengembalikan hasil dari mutasi yang dilakukan.
+	\item \texttt{close}: Metode untuk menutup koneksi ke DgraphDB. Metode ini akan dipanggil ketika kelas DgraphClient tidak lagi digunakan untuk membersihkan sumber daya yang digunakan oleh kelas ini.
 \end{enumerate}
 
 \subsubsection{Implementasi Semantic Enricher}
@@ -253,13 +252,13 @@ Implementasi Dgraph Client dilakukan dengan membuat sebuah kelas Python yang aka
 Implementasi Semantic Enricher dilakukan dengan membuat sebuah kelas Python yang akan digunakan untuk melakukan pengayaan semantik pada data. Kelas ini akan menyediakan metode untuk melakukan pengayaan semantik menggunakan Large Language Model. Berikut merupakan penjelasan terkait implementasi kelas Semantic Enricher:
 
 \begin{enumerate}
-    \item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
-    \item \texttt{attribute model}: LLM yang akan digunakan untuk melakukan Semantic Enrichment.
-    \item \texttt{attribute parser}: Parser yang akan digunakan untuk mem-parsing data yang dihasilkan LLM. Parser ini akan digunakan untuk mengubah data yang didapatkan menjadi format yang sesuai dengan skema yang akan digunakan.
-    \item \texttt{attribute prompt}: Prompt yang akan digunakan untuk melakukan Semantic Enrichment. Prompt ini akan berisi instruksi yang akan diberikan kepada LLM untuk melakukan Semantic Enrichment pada data.
-    \item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas SemanticEnricher dan memuat LLM yang akan digunakan.
-    \item \texttt{enrich}: Metode untuk melakukan Semantic Enrichment pada data. Metode ini akan menerima parameter \texttt{data} yang berisi data yang akan diperkaya dan akan mengembalikan data yang telah diperkaya. Proses ini akan memanfaatkan proses Chaining menggunakan LangChain untuk menghubungkan LLM dengan skema yang akan digunakan. Metode ini akan mengirimkan permintaan ke LLM dengan menggunakan prompt yang telah ditentukan dan akan mengembalikan hasil dari LLM lalu mengaplikasikan ke skema hasil yang diinginkan.
-    \item \texttt{preprocess}: Metode untuk melakukan data pre-processing sebelum dilakukan Semantic Enrichment. Metode ini akan menerima parameter \texttt{contract} yang berisi data Source Code dari Smart Contract yang akan diproses dan akan mengembalikan data yang telah diproses. Proses ini akan melakukan pengolahan data seperti menghapus spasi berlebih, menghapus komentar, dan mempersingkat pattern umum. 
+	\item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
+	\item \texttt{attribute model}: LLM yang akan digunakan untuk melakukan Semantic Enrichment.
+	\item \texttt{attribute parser}: Parser yang akan digunakan untuk mem-parsing data yang dihasilkan LLM. Parser ini akan digunakan untuk mengubah data yang didapatkan menjadi format yang sesuai dengan skema yang akan digunakan.
+	\item \texttt{attribute prompt}: Prompt yang akan digunakan untuk melakukan Semantic Enrichment. Prompt ini akan berisi instruksi yang akan diberikan kepada LLM untuk melakukan Semantic Enrichment pada data.
+	\item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas SemanticEnricher dan memuat LLM yang akan digunakan.
+	\item \texttt{enrich}: Metode untuk melakukan Semantic Enrichment pada data. Metode ini akan menerima parameter \texttt{data} yang berisi data yang akan diperkaya dan akan mengembalikan data yang telah diperkaya. Proses ini akan memanfaatkan proses Chaining menggunakan LangChain untuk menghubungkan LLM dengan skema yang akan digunakan. Metode ini akan mengirimkan permintaan ke LLM dengan menggunakan prompt yang telah ditentukan dan akan mengembalikan hasil dari LLM lalu mengaplikasikan ke skema hasil yang diinginkan.
+	\item \texttt{preprocess}: Metode untuk melakukan data pre-processing sebelum dilakukan Semantic Enrichment. Metode ini akan menerima parameter \texttt{contract} yang berisi data Source Code dari Smart Contract yang akan diproses dan akan mengembalikan data yang telah diproses. Proses ini akan melakukan pengolahan data seperti menghapus spasi berlebih, menghapus komentar, dan mempersingkat pattern umum.
 \end{enumerate}
 
 \subsubsection{Implementasi Parallel Enricher}
@@ -267,8 +266,8 @@ Implementasi Semantic Enricher dilakukan dengan membuat sebuah kelas Python yang
 Implementasi Parallel Enricher dilakukan dengan membuat sebuah kelas Python yang akan digunakan untuk melakukan Semantic Enrichment pada data secara paralel. Kelas ini akan menyediakan sebuah wrapper method untuk melakukan Semantic Enrichment pada data secara paralel. Berikut merupakan penjelasan terkait implementasi kelas Parallel Enricher:
 
 \begin{enumerate}
-    \item \texttt{attribute enricher}: Atribut yang berisi objek Semantic Enricher yang akan digunakan untuk melakukan Semantic Enrichment pada data.
-    \item \texttt{process\textunderscore contracts}: Metode untuk melakukan Semantic Enrichment pada data Smart Contract secara paralel. Metode ini akan menerima parameter \texttt{contracts} yang berisi daftar Smart Contract yang akan diproses. Metode ini akan menggunakan \textit{Asyncio} untuk menjalankan proses Semantic Enrichment pada setiap Smart Contract secara paralel. Hasil dari proses ini akan dikembalikan dalam bentuk daftar data Smart Contracts yang sudah di-enrich.
+	\item \texttt{attribute enricher}: Atribut yang berisi objek Semantic Enricher yang akan digunakan untuk melakukan Semantic Enrichment pada data.
+	\item \texttt{process\textunderscore contracts}: Metode untuk melakukan Semantic Enrichment pada data Smart Contract secara paralel. Metode ini akan menerima parameter \texttt{contracts} yang berisi daftar Smart Contract yang akan diproses. Metode ini akan menggunakan \textit{Asyncio} untuk menjalankan proses Semantic Enrichment pada setiap Smart Contract secara paralel. Hasil dari proses ini akan dikembalikan dalam bentuk daftar data Smart Contracts yang sudah di-enrich.
 \end{enumerate}
 
 \subsubsection{Implementasi VectorDB Client}
@@ -276,19 +275,19 @@ Implementasi Parallel Enricher dilakukan dengan membuat sebuah kelas Python yang
 Implementasi VectorDB Client dilakukan dengan membuat sebuah kelas Python yang akan digunakan untuk berinteraksi dengan ChromaDB. Kelas ini akan menyediakan metode untuk melakukan penyimpanan dan pengambilan data dari ChromaDB. Berikut merupakan penjelasan terkait implementasi kelas VectorDB Client:
 
 \begin{enumerate}
-    \item \texttt{attribute config}: Atribut yang berisi konfigurasi yang dimuat dari file YAML untuk pengaturan ChromaDB.
-    \item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
-    \item \texttt{attribute embedding\textunderscore model}: Model embedding dari HuggingFace yang digunakan untuk mengubah teks menjadi vektor. Model yang digunakan adalah \texttt{BAAI/bge-small-en-v1.5} dengan normalisasi embedding.
-    \item \texttt{attribute collection\textunderscore name}: Nama koleksi yang akan digunakan dalam ChromaDB untuk menyimpan data embedding.
-    \item \texttt{attribute chroma\textunderscore client}: Client ChromaDB untuk berinteraksi dengan database vektor.
-    \item \texttt{attribute chroma\textunderscore collection}: Koleksi ChromaDB yang digunakan untuk menyimpan dan mengakses data vektor.
-    \item \texttt{attribute vectorstore}: Wrapper LangChain Chroma yang menyediakan abstraksi tingkat tinggi untuk operasi vektor.
-    \item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas VectorDBManager dengan memuat konfigurasi dari file YAML, menginisialisasi model embedding, dan membuat koneksi ke ChromaDB.
-    \item \texttt{load\textunderscore config}: Metode statis untuk memuat konfigurasi YAML dari path yang diberikan. Metode ini akan melakukan validasi terhadap format file dan menangani error jika file tidak ditemukan atau format tidak valid.
-    \item \texttt{init\textunderscore chroma}: Metode untuk menginisialisasi koneksi ke ChromaDB menggunakan konfigurasi yang telah dimuat. Metode ini akan membuat client persistent ChromaDB dan koleksi yang diperlukan.
-    \item \texttt{add\textunderscore embeddings}: Metode untuk menambahkan embedding ke dalam ChromaDB. Metode ini akan menerima parameter \texttt{contracts} yang berisi daftar Smart Contract yang telah di-enrich dan akan mengubahnya menjadi embedding menggunakan model HuggingFace. Data yang digunakan untuk embedding meliputi domain, functionality, dan security risks dari Smart Contract.
-    \item \texttt{get\textunderscore retriever}: Metode untuk mendapatkan retriever dari vector store yang dapat digunakan untuk pencarian semantik. Metode ini akan mengembalikan objek retriever dengan parameter pencarian yang dapat dikustomisasi.
-    \item \texttt{search}: Metode untuk melakukan pencarian semantik pada ChromaDB. Metode ini akan menerima parameter \texttt{query} dan \texttt{k} untuk menentukan jumlah hasil yang akan dikembalikan. Metode ini akan mengubah query menjadi embedding dan melakukan pencarian pada koleksi ChromaDB.
+	\item \texttt{attribute config}: Atribut yang berisi konfigurasi yang dimuat dari file YAML untuk pengaturan ChromaDB.
+	\item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
+	\item \texttt{attribute embedding\textunderscore model}: Model embedding dari HuggingFace yang digunakan untuk mengubah teks menjadi vektor. Model yang digunakan adalah \texttt{BAAI/bge-small-en-v1.5} dengan normalisasi embedding.
+	\item \texttt{attribute collection\textunderscore name}: Nama koleksi yang akan digunakan dalam ChromaDB untuk menyimpan data embedding.
+	\item \texttt{attribute chroma\textunderscore client}: Client ChromaDB untuk berinteraksi dengan database vektor.
+	\item \texttt{attribute chroma\textunderscore collection}: Koleksi ChromaDB yang digunakan untuk menyimpan dan mengakses data vektor.
+	\item \texttt{attribute vectorstore}: Wrapper LangChain Chroma yang menyediakan abstraksi tingkat tinggi untuk operasi vektor.
+	\item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas VectorDBManager dengan memuat konfigurasi dari file YAML, menginisialisasi model embedding, dan membuat koneksi ke ChromaDB.
+	\item \texttt{load\textunderscore config}: Metode statis untuk memuat konfigurasi YAML dari path yang diberikan. Metode ini akan melakukan validasi terhadap format file dan menangani error jika file tidak ditemukan atau format tidak valid.
+	\item \texttt{init\textunderscore chroma}: Metode untuk menginisialisasi koneksi ke ChromaDB menggunakan konfigurasi yang telah dimuat. Metode ini akan membuat client persistent ChromaDB dan koleksi yang diperlukan.
+	\item \texttt{add\textunderscore embeddings}: Metode untuk menambahkan embedding ke dalam ChromaDB. Metode ini akan menerima parameter \texttt{contracts} yang berisi daftar Smart Contract yang telah di-enrich dan akan mengubahnya menjadi embedding menggunakan model HuggingFace. Data yang digunakan untuk embedding meliputi domain, functionality, dan security risks dari Smart Contract.
+	\item \texttt{get\textunderscore retriever}: Metode untuk mendapatkan retriever dari vector store yang dapat digunakan untuk pencarian semantik. Metode ini akan mengembalikan objek retriever dengan parameter pencarian yang dapat dikustomisasi.
+	\item \texttt{search}: Metode untuk melakukan pencarian semantik pada ChromaDB. Metode ini akan menerima parameter \texttt{query} dan \texttt{k} untuk menentukan jumlah hasil yang akan dikembalikan. Metode ini akan mengubah query menjadi embedding dan melakukan pencarian pada koleksi ChromaDB.
 \end{enumerate}
 
 \subsubsection{Implementasi Retriever}
@@ -296,20 +295,20 @@ Implementasi VectorDB Client dilakukan dengan membuat sebuah kelas Python yang a
 Implementasi Retriever dilakukan dengan membuat sebuah kelas Python yang akan digunakan untuk melakukan pencarian dan pengambilan data Smart Contract dari vector database. Kelas ini akan mengintegrasikan VectorDB Client dengan Large Language Model untuk melakukan query preprocessing. Berikut merupakan penjelasan terkait implementasi kelas LightweightRetriever:
 
 \begin{enumerate}
-    \item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
-    \item \texttt{attribute vector\textunderscore store}: Objek VectorDBManager yang digunakan untuk berinteraksi dengan ChromaDB dan melakukan operasi pencarian vektor.
-    \item \texttt{attribute llm}: Large Language Model yang digunakan untuk melakukan preprocessing query. Model yang digunakan adalah \texttt{gpt-3.5-turbo} dari OpenAI.
-    \item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas LightweightRetriever dengan membuat koneksi ke VectorDBManager dan menginisialisasi LLM yang akan digunakan untuk query preprocessing.
-    \item \texttt{search}: Metode utama untuk melakukan pencarian Smart Contract. Metode ini akan menerima parameter \texttt{query} dan \texttt{k} untuk menentukan jumlah hasil yang akan dikembalikan. Proses pencarian meliputi preprocessing query menggunakan LLM, pencarian semantik pada vector database, dan mengembalikan hasil pencarian.
-    \item \texttt{preprocess\textunderscore query}: Metode untuk melakukan preprocessing pada query pencarian menggunakan LLM. Metode ini akan memperluas query dengan istilah-istilah teknis yang relevan, standar Smart Contract (ERC-20, ERC-721, ERC-1155), dan konsep keamanan. Proses ini menggunakan ChatPromptTemplate yang berisi instruksi sistem untuk mengidentifikasi komponen kunci dan menambahkan sinonim teknis yang relevan tanpa mengubah maksud asli query.
+	\item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
+	\item \texttt{attribute vector\textunderscore store}: Objek VectorDBManager yang digunakan untuk berinteraksi dengan ChromaDB dan melakukan operasi pencarian vektor.
+	\item \texttt{attribute llm}: Large Language Model yang digunakan untuk melakukan preprocessing query. Model yang digunakan adalah \texttt{gpt-3.5-turbo} dari OpenAI.
+	\item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas LightweightRetriever dengan membuat koneksi ke VectorDBManager dan menginisialisasi LLM yang akan digunakan untuk query preprocessing.
+	\item \texttt{search}: Metode utama untuk melakukan pencarian Smart Contract. Metode ini akan menerima parameter \texttt{query} dan \texttt{k} untuk menentukan jumlah hasil yang akan dikembalikan. Proses pencarian meliputi preprocessing query menggunakan LLM, pencarian semantik pada vector database, dan mengembalikan hasil pencarian.
+	\item \texttt{preprocess\textunderscore query}: Metode untuk melakukan preprocessing pada query pencarian menggunakan LLM. Metode ini akan memperluas query dengan istilah-istilah teknis yang relevan, standar Smart Contract (ERC-20, ERC-721, ERC-1155), dan konsep keamanan. Proses ini menggunakan ChatPromptTemplate yang berisi instruksi sistem untuk mengidentifikasi komponen kunci dan menambahkan sinonim teknis yang relevan tanpa mengubah maksud asli query.
 \end{enumerate}
 
 Proses preprocessing query menggunakan prompt sistem yang dirancang khusus untuk Smart Contract dengan aturan sebagai berikut:
 \begin{enumerate}
-    \item Mengidentifikasi komponen kunci seperti jenis token (ERC-20/ERC-721), fungsi (mint/burn), standar (ERC-1155), dan istilah keamanan.
-    \item Menambahkan sinonim umum dan ekuivalen teknis yang relevan.
-    \item Menjaga penambahan tetap ringkas dan dipisahkan koma.
-    \item Tidak memberikan penjelasan, hanya menghasilkan query yang diperluas.
+	\item Mengidentifikasi komponen kunci seperti jenis token (ERC-20/ERC-721), fungsi (mint/burn), standar (ERC-1155), dan istilah keamanan.
+	\item Menambahkan sinonim umum dan ekuivalen teknis yang relevan.
+	\item Menjaga penambahan tetap ringkas dan dipisahkan koma.
+	\item Tidak memberikan penjelasan, hanya menghasilkan query yang diperluas.
 \end{enumerate}
 
 \subsubsection{Implementasi API}
@@ -317,31 +316,31 @@ Proses preprocessing query menggunakan prompt sistem yang dirancang khusus untuk
 Implementasi API dilakukan dengan membuat sebuah REST API menggunakan FastAPI framework yang akan menyediakan endpoint untuk berinteraksi dengan sistem. API ini akan menyediakan layanan pencarian Smart Contract dan refinement query. Berikut merupakan penjelasan terkait implementasi API:
 
 \begin{enumerate}
-    \item \texttt{FastAPI Application}: Aplikasi utama FastAPI yang dikonfigurasi dengan CORS middleware untuk memungkinkan akses dari berbagai domain. Aplikasi ini juga memuat spesifikasi OpenAPI kustom dari file YAML.
-    \item \texttt{LightweightRetriever Instance}: Instance dari LightweightRetriever yang digunakan untuk melakukan pencarian Smart Contract menggunakan vector database.
-    \item \texttt{OpenAI Client}: Client OpenAI yang diinisialisasi menggunakan API key dari environment variables untuk melakukan query refinement menggunakan GPT model.
-    \item \texttt{Pydantic Models}: Model-model data yang didefinisikan menggunakan Pydantic untuk validasi input dan output API, termasuk:
-    \begin{enumerate}
-        \item \texttt{SearchRequest}: Model untuk request pencarian dengan field query, limit, dan data boolean.
-        \item \texttt{ContractDeploymentResult}: Model untuk hasil pencarian Smart Contract dengan semua atribut yang relevan.
-        \item \texttt{RefineRequest/RefineResponse}: Model untuk request dan response refinement query.
-        \item Model-model entitas lainnya seperti \texttt{Account}, \texttt{Block}, \\\texttt{ParsedContractData}, dan \texttt{ContractAnalysis}.
-    \end{enumerate}
-    \item \texttt{POST /search}: Endpoint utama untuk melakukan pencarian Smart Contract. Endpoint ini akan menerima SearchRequest dan mengembalikan daftar Smart Contract yang sesuai dengan query. Proses pencarian meliputi:
-    \begin{enumerate}
-        \item Validasi input request
-        \item Pencarian menggunakan LightweightRetriever
-        \item Pengambilan detail lengkap dari DgraphDB jika parameter data=True
-        \item Parsing dan formatting hasil untuk dikembalikan ke client
-    \end{enumerate}
-    % \item \texttt{POST /refine}: Endpoint untuk melakukan refinement query menggunakan AI. Endpoint ini akan menerima RefineRequest dan mengembalikan query yang telah diperbaiki dan diperkaya dengan istilah teknis yang relevan.
-    \item \texttt{GET /}: Endpoint untuk dokumentasi API yang mengembalikan halaman HTML dengan informasi tentang penggunaan API.
-    % \item \texttt{Helper Functions}: Fungsi-fungsi pembantu untuk parsing data dari DgraphDB, termasuk:
-    % \begin{enumerate}
-    %     \item \texttt{parse\textunderscore dgraph\textunderscore entity}: Membersihkan dan memformat data entitas dari DgraphDB.
-    %     \item \texttt{extract\textunderscore related\textunderscore entities}: Mengekstrak entitas terkait seperti creator, block, parsed data, dan analysis.
-    %     \item \texttt{parse\textunderscore nested\textunderscore entities}: Mem-parsing entitas nested seperti functions, state variables, dan komponen kontrak lainnya.
-    % \end{enumerate}
+	\item \texttt{FastAPI Application}: Aplikasi utama FastAPI yang dikonfigurasi dengan CORS middleware untuk memungkinkan akses dari berbagai domain. Aplikasi ini juga memuat spesifikasi OpenAPI kustom dari file YAML.
+	\item \texttt{LightweightRetriever Instance}: Instance dari LightweightRetriever yang digunakan untuk melakukan pencarian Smart Contract menggunakan vector database.
+	\item \texttt{OpenAI Client}: Client OpenAI yang diinisialisasi menggunakan API key dari environment variables untuk melakukan query refinement menggunakan GPT model.
+	\item \texttt{Pydantic Models}: Model-model data yang didefinisikan menggunakan Pydantic untuk validasi input dan output API, termasuk:
+	      \begin{enumerate}
+		      \item \texttt{SearchRequest}: Model untuk request pencarian dengan field query, limit, dan data boolean.
+		      \item \texttt{ContractDeploymentResult}: Model untuk hasil pencarian Smart Contract dengan semua atribut yang relevan.
+		      \item \texttt{RefineRequest/RefineResponse}: Model untuk request dan response refinement query.
+		      \item Model-model entitas lainnya seperti \texttt{Account}, \texttt{Block}, \\\texttt{ParsedContractData}, dan \texttt{ContractAnalysis}.
+	      \end{enumerate}
+	\item \texttt{POST /search}: Endpoint utama untuk melakukan pencarian Smart Contract. Endpoint ini akan menerima SearchRequest dan mengembalikan daftar Smart Contract yang sesuai dengan query. Proses pencarian meliputi:
+	      \begin{enumerate}
+		      \item Validasi input request
+		      \item Pencarian menggunakan LightweightRetriever
+		      \item Pengambilan detail lengkap dari DgraphDB jika parameter data=True
+		      \item Parsing dan formatting hasil untuk dikembalikan ke client
+	      \end{enumerate}
+	      % \item \texttt{POST /refine}: Endpoint untuk melakukan refinement query menggunakan AI. Endpoint ini akan menerima RefineRequest dan mengembalikan query yang telah diperbaiki dan diperkaya dengan istilah teknis yang relevan.
+	\item \texttt{GET /}: Endpoint untuk dokumentasi API yang mengembalikan halaman HTML dengan informasi tentang penggunaan API.
+	      % \item \texttt{Helper Functions}: Fungsi-fungsi pembantu untuk parsing data dari DgraphDB, termasuk:
+	      % \begin{enumerate}
+	      %     \item \texttt{parse\textunderscore dgraph\textunderscore entity}: Membersihkan dan memformat data entitas dari DgraphDB.
+	      %     \item \texttt{extract\textunderscore related\textunderscore entities}: Mengekstrak entitas terkait seperti creator, block, parsed data, dan analysis.
+	      %     \item \texttt{parse\textunderscore nested\textunderscore entities}: Mem-parsing entitas nested seperti functions, state variables, dan komponen kontrak lainnya.
+	      % \end{enumerate}
 \end{enumerate}
 
 % Sistem Query Refinement menggunakan prompt sistem yang dirancang khusus untuk meningkatkan kualitas pencarian Smart Contract. Prompt ini akan:
@@ -361,13 +360,13 @@ Komponen User Interface diimplementasikan menggunakan framework Next.js versi 15
 
 Teknologi dan library yang digunakan dalam implementasi User Interface:
 \begin{enumerate}
-    \item \texttt{Next.js 15}: Framework React dengan App Router untuk server-side rendering dan static site generation
-    \item \texttt{TypeScript}: Bahasa pemrograman dengan type safety untuk pengembangan yang lebih robust
-    \item \texttt{Tailwind CSS}: Framework CSS utility-first untuk styling yang konsisten dan responsif
-    \item \texttt{Radix UI}: Library komponen headless yang accessible dan customizable
-    \item \texttt{Lucide React}: Library ikon yang modern dan konsisten
-    \item \texttt{React Hook Form}: Library untuk form management dengan validasi
-    \item \texttt{Next Themes}: Library untuk theme switching antara light dan dark mode
+	\item \texttt{Next.js 15}: Framework React dengan App Router untuk server-side rendering dan static site generation
+	\item \texttt{TypeScript}: Bahasa pemrograman dengan type safety untuk pengembangan yang lebih robust
+	\item \texttt{Tailwind CSS}: Framework CSS utility-first untuk styling yang konsisten dan responsif
+	\item \texttt{Radix UI}: Library komponen headless yang accessible dan customizable
+	\item \texttt{Lucide React}: Library ikon yang modern dan konsisten
+	\item \texttt{React Hook Form}: Library untuk form management dengan validasi
+	\item \texttt{Next Themes}: Library untuk theme switching antara light dan dark mode
 \end{enumerate}
 
 \subsubsection{Implementasi Main Search Page}
@@ -375,23 +374,23 @@ Teknologi dan library yang digunakan dalam implementasi User Interface:
 Main Search Page diimplementasikan pada file \texttt{app/page.tsx} dengan route \texttt{/} sebagai halaman utama aplikasi. Halaman ini menyediakan antarmuka pencarian Smart Contract yang terdiri dari beberapa komponen utama:
 
 \begin{enumerate}
-    \item \texttt{Search Component}: Komponen pencarian yang diimplementasikan pada \texttt{components/search.tsx} berupa form dengan input field untuk query pencarian. Komponen ini memiliki fitur:
-    \begin{enumerate}
-        \item Input validation untuk memastikan query tidak kosong
-        \item Loading state indicator selama proses pencarian
-        \item Query refinement menggunakan AI untuk memperbaiki query pencarian
-        \item URL parameter management untuk sharing dan bookmarking hasil pencarian
-        \item Toast notifications untuk feedback kepada pengguna
-    \end{enumerate}
-    \item \texttt{Results List Component}: Komponen yang menampilkan hasil pencarian dalam bentuk card grid yang diimplementasikan pada \\\texttt{components/results-list.tsx}. Komponen ini memiliki fitur:
-    \begin{enumerate}
-        \item Skeleton loading states selama fetch data
-        \item Card-based layout untuk setiap Smart Contract
-        \item Badge system untuk kategori dan status contract
-        \item Pagination atau infinite scroll untuk hasil yang banyak
-        \item Error handling dengan toast notifications
-    \end{enumerate}
-    \item \texttt{Theme Provider}: Komponen untuk manajemen theme dark/light mode yang diimplementasikan pada \texttt{components/theme-provider.tsx}
+	\item \texttt{Search Component}: Komponen pencarian yang diimplementasikan pada \texttt{components/search.tsx} berupa form dengan input field untuk query pencarian. Komponen ini memiliki fitur:
+	      \begin{enumerate}
+		      \item Input validation untuk memastikan query tidak kosong
+		      \item Loading state indicator selama proses pencarian
+		      \item Query refinement menggunakan AI untuk memperbaiki query pencarian
+		      \item URL parameter management untuk sharing dan bookmarking hasil pencarian
+		      \item Toast notifications untuk feedback kepada pengguna
+	      \end{enumerate}
+	\item \texttt{Results List Component}: Komponen yang menampilkan hasil pencarian dalam bentuk card grid yang diimplementasikan pada \\\texttt{components/results-list.tsx}. Komponen ini memiliki fitur:
+	      \begin{enumerate}
+		      \item Skeleton loading states selama fetch data
+		      \item Card-based layout untuk setiap Smart Contract
+		      \item Badge system untuk kategori dan status contract
+		      \item Pagination atau infinite scroll untuk hasil yang banyak
+		      \item Error handling dengan toast notifications
+	      \end{enumerate}
+	\item \texttt{Theme Provider}: Komponen untuk manajemen theme dark/light mode yang diimplementasikan pada \texttt{components/theme-provider.tsx}
 \end{enumerate}
 
 \subsubsection{Implementasi Smart Contract Detail Page}
@@ -399,29 +398,29 @@ Main Search Page diimplementasikan pada file \texttt{app/page.tsx} dengan route 
 Smart Contract Detail Page diimplementasikan sebagai modal atau overlay component pada \texttt{components/contract-details.tsx} yang dapat diakses dari hasil pencarian. Halaman detail ini menyediakan informasi lengkap tentang Smart Contract yang dipilih:
 
 \begin{enumerate}
-    \item \texttt{Contract Header}: Menampilkan nama contract, status verifikasi, dan action buttons:
-    \begin{enumerate}
-        \item Tombol back untuk kembali ke hasil pencarian
-        \item Badge verified/unverified status
-        \item Copy address button untuk menyalin alamat contract
-        \item Import contract button untuk mengimpor ke wallet atau IDE
-    \end{enumerate}
-    \item \texttt{Contract Information Card}: Menampilkan metadata contract seperti:
-    \begin{enumerate}
-        \item Deskripsi contract yang generated dari semantic enrichment
-        \item License information (MIT, GPL, etc.)
-        \item Creation date dan deployment information
-        \item Tags dan categories yang relevan
-        \item Deployment addresses di berbagai network
-    \end{enumerate}
-    \item \texttt{Tabbed Content}: Menggunakan Radix UI Tabs untuk mengorganisasi informasi:
-    \begin{enumerate}
-        \item \texttt{Code Tab}: Menampilkan source code contract dengan syntax highlighting
-        \item \texttt{ABI Tab}: Menampilkan Application Binary Interface dalam format JSON
-        \item \texttt{Analysis Tab}: Menampilkan hasil semantic analysis dan security insights
-    \end{enumerate}
-    \item \texttt{Address Badge Component}: Komponen khusus pada \texttt{components/\\address-badge.tsx} untuk menampilkan alamat Ethereum dengan format yang user-friendly dan copy functionality
-    \item \texttt{Import Contract Component}: Modal dialog pada \texttt{components/\\import-contract.tsx} yang memungkinkan pengguna mengimpor contract ke berbagai tools seperti Remix IDE atau MetaMask
+	\item \texttt{Contract Header}: Menampilkan nama contract, status verifikasi, dan action buttons:
+	      \begin{enumerate}
+		      \item Tombol back untuk kembali ke hasil pencarian
+		      \item Badge verified/unverified status
+		      \item Copy address button untuk menyalin alamat contract
+		      \item Import contract button untuk mengimpor ke wallet atau IDE
+	      \end{enumerate}
+	\item \texttt{Contract Information Card}: Menampilkan metadata contract seperti:
+	      \begin{enumerate}
+		      \item Deskripsi contract yang generated dari semantic enrichment
+		      \item License information (MIT, GPL, etc.)
+		      \item Creation date dan deployment information
+		      \item Tags dan categories yang relevan
+		      \item Deployment addresses di berbagai network
+	      \end{enumerate}
+	\item \texttt{Tabbed Content}: Menggunakan Radix UI Tabs untuk mengorganisasi informasi:
+	      \begin{enumerate}
+		      \item \texttt{Code Tab}: Menampilkan source code contract dengan syntax highlighting
+		      \item \texttt{ABI Tab}: Menampilkan Application Binary Interface dalam format JSON
+		      \item \texttt{Analysis Tab}: Menampilkan hasil semantic analysis dan security insights
+	      \end{enumerate}
+	\item \texttt{Address Badge Component}: Komponen khusus pada \texttt{components/\\address-badge.tsx} untuk menampilkan alamat Ethereum dengan format yang user-friendly dan copy functionality
+	\item \texttt{Import Contract Component}: Modal dialog pada \texttt{components/\\import-contract.tsx} yang memungkinkan pengguna mengimpor contract ke berbagai tools seperti Remix IDE atau MetaMask
 \end{enumerate}
 
 \subsubsection{Implementasi Komponen UI Reusable}
@@ -429,14 +428,14 @@ Smart Contract Detail Page diimplementasikan sebagai modal atau overlay componen
 Aplikasi menggunakan sistem komponen yang modular dan reusable yang diimplementasikan pada folder \texttt{components/ui/}:
 
 \begin{enumerate}
-    \item \texttt{Button Components}: Berbagai varian button dengan styling konsisten
-    \item \texttt{Card Components}: Layout container dengan header, content, dan footer
-    \item \texttt{Badge Components}: Label untuk status, kategori, dan tags
-    \item \texttt{Input Components}: Form input dengan validation dan error handling
-    \item \texttt{Skeleton Components}: Loading placeholders untuk better UX
-    \item \texttt{Toast Components}: Notification system untuk feedback
-    \item \texttt{Tabs Components}: Navigasi tab untuk mengorganisasi konten
-    \item \texttt{Dialog/Modal Components}: Overlay untuk detail views dan actions
+	\item \texttt{Button Components}: Berbagai varian button dengan styling konsisten
+	\item \texttt{Card Components}: Layout container dengan header, content, dan footer
+	\item \texttt{Badge Components}: Label untuk status, kategori, dan tags
+	\item \texttt{Input Components}: Form input dengan validation dan error handling
+	\item \texttt{Skeleton Components}: Loading placeholders untuk better UX
+	\item \texttt{Toast Components}: Notification system untuk feedback
+	\item \texttt{Tabs Components}: Navigasi tab untuk mengorganisasi konten
+	\item \texttt{Dialog/Modal Components}: Overlay untuk detail views dan actions
 \end{enumerate}
 
 \subsubsection{Implementasi Layout dan Navigation}
@@ -444,11 +443,11 @@ Aplikasi menggunakan sistem komponen yang modular dan reusable yang diimplementa
 Layout aplikasi diimplementasikan pada \texttt{app/layout.tsx} dengan struktur sebagai berikut:
 
 \begin{enumerate}
-    \item \texttt{HTML Structure}: Setup dasar HTML dengan metadata dan SEO optimization
-    \item \texttt{Theme Provider Integration}: Wrapper untuk dark/light mode functionality
-    \item \texttt{Global Styles}: Import styling global melalui \texttt{globals.css}
-    \item \texttt{Font Configuration}: Setup typography menggunakan system fonts
-    \item \texttt{Hydration Suppression}: Handling SSR hydration untuk theme switching
+	\item \texttt{HTML Structure}: Setup dasar HTML dengan metadata dan SEO optimization
+	\item \texttt{Theme Provider Integration}: Wrapper untuk dark/light mode functionality
+	\item \texttt{Global Styles}: Import styling global melalui \texttt{globals.css}
+	\item \texttt{Font Configuration}: Setup typography menggunakan system fonts
+	\item \texttt{Hydration Suppression}: Handling SSR hydration untuk theme switching
 \end{enumerate}
 
 \subsubsection{Implementasi State Management dan Data Fetching}
@@ -456,11 +455,11 @@ Layout aplikasi diimplementasikan pada \texttt{app/layout.tsx} dengan struktur s
 State management dan data fetching diimplementasikan menggunakan:
 
 \begin{enumerate}
-    \item \texttt{React useState/useEffect}: Local state management untuk komponen
-    \item \texttt{URL Search Params}: State persistence melalui URL untuk sharing dan bookmarking
-    \item \texttt{Custom Hooks}: Abstraksi logic yang reusable pada folder \texttt{hooks/}
-    \item \texttt{Server Actions}: API calls ke backend menggunakan Next.js server actions pada \texttt{lib/actions}
-    \item \texttt{Type Definitions}: TypeScript interfaces untuk data contracts pada \texttt{lib/\\types}
+	\item \texttt{React useState/useEffect}: Local state management untuk komponen
+	\item \texttt{URL Search Params}: State persistence melalui URL untuk sharing dan bookmarking
+	\item \texttt{Custom Hooks}: Abstraksi logic yang reusable pada folder \texttt{hooks/}
+	\item \texttt{Server Actions}: API calls ke backend menggunakan Next.js server actions pada \texttt{lib/actions}
+	\item \texttt{Type Definitions}: TypeScript interfaces untuk data contracts pada \texttt{lib/\\types}
 \end{enumerate}
 
 Implementasi User Interface ini memberikan pengalaman pengguna yang modern, responsive, dan accessible dengan performa yang optimal melalui server-side rendering dan optimizations yang disediakan oleh framework Next.js.

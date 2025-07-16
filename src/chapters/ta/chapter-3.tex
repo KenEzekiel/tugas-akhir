@@ -26,24 +26,18 @@ Bab ini akan berisikan deskripsi detail terkait persoalan, rencana penyelesaian 
 Bagian ini akan menjelaskan terkait rancangan sistem yang akan dibangun. Rancangan akan mencakup rancangan struktural, rancangan behavioral, dan rancangan detail dari setiap komponen. Sistem Smart Contract Discovery ini, seperti pada gambar \ref{image:komponen-sistem}, terdiri dari 7 komponen utama yang saling berinteraksi satu sama lain. Komponen-komponen tersebut adalah:
 
 \begin{enumerate}
-    \item Ethereum Archive Node: Node Ethereum yang digunakan untuk melakukan ekstraksi data dari blockchain Ethereum. Berada pada eksternal sistem.
-    \item eth2dgraph: Komponen yang digunakan untuk melakukan ekstraksi data dari Ethereum Archive Node dan menyimpannya ke dalam DgraphDB. Berada pada eksternal sistem.
-    \item DgraphDB: Komponen yang digunakan untuk menyimpan data Smart Contracts yang sudah diekstraksi dari Ethereum Archive Node. Diperlukan modul data access untuk mengakses data dari DgraphDB.
-    \item Smart Contract Enricher: Komponen yang digunakan untuk melakukan klasifikasi dan \textit{enrichment} data Smart Contracts. 
-    \item Vector Database: Komponen yang digunakan untuk menyimpan data Smart Contracts yang sudah diklasifikasikan dan di-\textit{enrich} oleh Smart Contract Enricher. Diperlukan modul data access untuk mengakses data dari Vector Database dan mentransformasi data ke dalam bentuk vector embedding.
-    \item Query Enricher dan Data Retriever: Komponen yang digunakan untuk melakukan \textit{enrichment} terhadap query yang diberikan oleh pengguna dan melakukan data retrieval dari Vector Database. 
-    \item User Interface: Komponen yang digunakan untuk berinteraksi dengan pengguna. Terdapat dua jenis antarmuka yang akan dibangun, yaitu antarmuka berbasis \textit{API} dan antarmuka berbasis \textit{GUI}.
+	\item Ethereum Archive Node: Node Ethereum yang digunakan untuk melakukan ekstraksi data dari blockchain Ethereum. Berada pada eksternal sistem.
+	\item eth2dgraph: Komponen yang digunakan untuk melakukan ekstraksi data dari Ethereum Archive Node dan menyimpannya ke dalam DgraphDB. Berada pada eksternal sistem.
+	\item DgraphDB: Komponen yang digunakan untuk menyimpan data Smart Contracts yang sudah diekstraksi dari Ethereum Archive Node. Diperlukan modul data access untuk mengakses data dari DgraphDB.
+	\item Smart Contract Enricher: Komponen yang digunakan untuk melakukan klasifikasi dan \textit{enrichment} data Smart Contracts.
+	\item Vector Database: Komponen yang digunakan untuk menyimpan data Smart Contracts yang sudah diklasifikasikan dan di-\textit{enrich} oleh Smart Contract Enricher. Diperlukan modul data access untuk mengakses data dari Vector Database dan mentransformasi data ke dalam bentuk vector embedding.
+	\item Query Enricher dan Data Retriever: Komponen yang digunakan untuk melakukan \textit{enrichment} terhadap query yang diberikan oleh pengguna dan melakukan data retrieval dari Vector Database.
+	\item User Interface: Komponen yang digunakan untuk berinteraksi dengan pengguna. Terdapat dua jenis antarmuka yang akan dibangun, yaitu antarmuka berbasis \textit{API} dan antarmuka berbasis \textit{GUI}.
 \end{enumerate}
 
 \input{chapters/ta/chapter-3/02-rancangan/01-struktural}
 
-
-
-
-
 \input{chapters/ta/chapter-3/02-rancangan/02-behavioral}
 
 \input{chapters/ta/chapter-3/02-rancangan/03-detail}
-
-
 

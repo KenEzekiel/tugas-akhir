@@ -10,7 +10,7 @@
 % 4. bagaimana melakukan manajemen terhadap data smart contracts yang sudah dilabelkan dan diklasifikasikan
 % 5. (ini nanti jawabannya pake RAG) bagaimana menghubungkan permintaan kebutuhan pengguna dengan data yang sudah dilabelkan dan diklasifikasikan
 
-Secara singkat, masalah utama yang diidentifikasi adalah kesulitan untuk menemukan Smart Contracts yang sesuai dengan kebutuhan pengguna di tengah pertumbuhan jumlah Smart Contracts yang ada pada Blockchain. Masalah ini terutama muncul karena ketiadaan mekanisme klasifikasi yang jelas untuk mengidentifikasi Smart Contracts, sehingga pengguna kesulitan dalam menemukan Smart Contracts yang sesuai. 
+Secara singkat, masalah utama yang diidentifikasi adalah kesulitan untuk menemukan Smart Contracts yang sesuai dengan kebutuhan pengguna di tengah pertumbuhan jumlah Smart Contracts yang ada pada Blockchain. Masalah ini terutama muncul karena ketiadaan mekanisme klasifikasi yang jelas untuk mengidentifikasi Smart Contracts, sehingga pengguna kesulitan dalam menemukan Smart Contracts yang sesuai.
 
 Permasalahan ini dapat dijawab dengan sebuah mekanisme pencarian Smart Contracts yang lebih akurat dan efisien, yang memungkinkan pengguna untuk menemukan Smart Contracts yang sesuai dengan kebutuhan mereka dengan memanfaatkan pelabelan atau pengklasifikasian dari Smart Contracts. Mekanisme ini juga diinspirasi oleh gabungan dari Semantic Web dan Blockchain seperti pada GraphChain \parencite{sopek2018graphchain}, yang memungkinkan untuk melakukan pencarian Smart Contracts berdasarkan semantik yang lebih mendalam. Dengan demikian, pengguna dapat menemukan Smart Contracts yang sesuai dengan kebutuhan mereka dengan lebih mudah dan efisien.
 % berdasarkan kebutuhan yang dijawabnya
@@ -20,21 +20,21 @@ Permasalahan ini dapat dijawab dengan sebuah mekanisme pencarian Smart Contracts
 Untuk mengembangkan mekanisme tersebut, digunakan referensi dengan kasus serupa, yaitu Data Retrieval Pipeline yang digunakan dalam RAG \parencite{CrateDB_RAG_Pipelines}. Referensi ini dipilih karena pada dasarnya mekanisme yang akan dikembangkan merupakan Data Retrieval Pipeline. Berdasarkan referensi tersebut, terdapat beberapa poin penting yang perlu dijawab, dan poin-poin ini akan menjadi dasar pemilihan teknologi serta metode yang digunakan dalam sistem yang akan dibangun. Berikut adalah poin-poin dekomposisi masalah yang menjadi dasar Tugas Akhir ini:
 
 \begin{enumerate}
-  \item Bagaimana melakukan ekstraksi data Smart Contracts dari Blockchain? (DK1)
-  \item Bagaimana menyimpan dan mengelola data Smart Contracts yang sudah diekstrak? (DK2)
-  % ngomongin tentang eth2dgraph dan format schema
-  \item Bagaimana melabelkan atau mengklasifikasikan Smart Contracts yang akan mempermudah pencarian berdasarkan kebutuhan? (DK3)
-  \item Bagaimana melakukan manajemen terhadap data Smart Contracts yang sudah dilabelkan dan diklasifikasikan? (DK4)
-  % manajemen ini dilakuinnya dengan ada mekanisme update (maybe), atau akan dilakuin dengan ada mekanisme upsert, atau yang dimaksud ADALAH MEKANISME UPDATE DATA YANG UDA DILABELIN KE STORAGE
-  \item Bagaimana memahami kebutuhan dari pengguna? (DK5)
-  \item Bagaimana menghubungkan permintaan kebutuhan pengguna dengan data yang sudah dilabelkan dan diklasifikasikan? (DK6)
-  \item Bagaimana melakukan pencarian dan memfasilitasi penggunaan ulang tanpa mempengaruhi kinerja sistem? (DK7)
-  \item Bagaimana mempermudah integrasi Smart Contracts dalam pengembangan dApps? (DK8)
-  % \item Bagaimana melakukan \textit{semantic enrichment} terhadap data Smart Contracts? (DK3)
-  % ini salah, semantic enrichment itu belum muncul dari sini harusnya
-  % \item Bagaimana melakukan query terhadap data Smart Contracts yang sudah dilakukan \textit{semantic enrichment}? 
-  % salah, terlalu spesifik, sama (harusnya RAG ini muncul di bawah)
-  % \item Bagaimana menghubungkan permintaan kebutuhan pengguna dengan query terhadap data yang sesuai? 
+	\item Bagaimana melakukan ekstraksi data Smart Contracts dari Blockchain? (DK1)
+	\item Bagaimana menyimpan dan mengelola data Smart Contracts yang sudah diekstrak? (DK2)
+	      % ngomongin tentang eth2dgraph dan format schema
+	\item Bagaimana melabelkan atau mengklasifikasikan Smart Contracts yang akan mempermudah pencarian berdasarkan kebutuhan? (DK3)
+	\item Bagaimana melakukan manajemen terhadap data Smart Contracts yang sudah dilabelkan dan diklasifikasikan? (DK4)
+	      % manajemen ini dilakuinnya dengan ada mekanisme update (maybe), atau akan dilakuin dengan ada mekanisme upsert, atau yang dimaksud ADALAH MEKANISME UPDATE DATA YANG UDA DILABELIN KE STORAGE
+	\item Bagaimana memahami kebutuhan dari pengguna? (DK5)
+	\item Bagaimana menghubungkan permintaan kebutuhan pengguna dengan data yang sudah dilabelkan dan diklasifikasikan? (DK6)
+	\item Bagaimana melakukan pencarian dan memfasilitasi penggunaan ulang tanpa mempengaruhi kinerja sistem? (DK7)
+	\item Bagaimana mempermudah integrasi Smart Contracts dalam pengembangan dApps? (DK8)
+	      % \item Bagaimana melakukan \textit{semantic enrichment} terhadap data Smart Contracts? (DK3)
+	      % ini salah, semantic enrichment itu belum muncul dari sini harusnya
+	      % \item Bagaimana melakukan query terhadap data Smart Contracts yang sudah dilakukan \textit{semantic enrichment}? 
+	      % salah, terlalu spesifik, sama (harusnya RAG ini muncul di bawah)
+	      % \item Bagaimana menghubungkan permintaan kebutuhan pengguna dengan query terhadap data yang sesuai? 
 \end{enumerate}
 
 % bisa dipakai untuk memperbaiki rumusan masalah (kalau masih kurang jelas)

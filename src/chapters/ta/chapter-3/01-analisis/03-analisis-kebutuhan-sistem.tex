@@ -11,11 +11,11 @@ Pada bagian \ref{subsec:analisis-alternatif-solusi}, telah disimpulkan pilihan a
 Solusi yang akan dikembangkan adalah sebuah sistem Smart Contract Discovery yang bertujuan untuk menyediakan \textit{platform} pencarian Smart Contract dalam Blockchain Ethereum berbasis semantik memanfaatkan LLM dan RAG. Sistem akan dibagi menjadi beberapa komponen utama yang saling berinteraksi untuk menyediakan fungsionalitas yang terpadu. Komponen utama sistem dapat dibagi sebagai berikut:
 
 \begin{enumerate}
-  \item Komponen Ekstraksi Data (Ethereum Archive Node dan eth2dgraph)
-  \item Komponen Penyimpanan Data (DgraphDB dan Vector Database)
-  \item Komponen \textit{Semantic Enrichment} (Smart Contract Enricher)
-  \item Komponen Pencarian (Query Enricher dan Data Retriever)
-  \item Komponen Antarmuka Pengguna
+	\item Komponen Ekstraksi Data (Ethereum Archive Node dan eth2dgraph)
+	\item Komponen Penyimpanan Data (DgraphDB dan Vector Database)
+	\item Komponen \textit{Semantic Enrichment} (Smart Contract Enricher)
+	\item Komponen Pencarian (Query Enricher dan Data Retriever)
+	\item Komponen Antarmuka Pengguna
 \end{enumerate}
 
 \begin{figure}[ht]
@@ -34,12 +34,12 @@ Solusi yang akan dikembangkan adalah sebuah sistem Smart Contract Discovery yang
 
 % Ethereum Archive Node → eth2dgraph (ekstraksi) → Dgraph (penyimpanan) → LLM (semantic enrichment) → Dgraph (update) → RAG (query).  
 
-Gambar \ref{image:komponen-sistem} dan gambar \ref{image:layer-arsitektur} menunjukkan gambaran umum alur kerja sistem. Sistem ini akan melakukan ekstraksi data dari Ethereum Archive Node menggunakan \textit{eth2dgraph} dan menyimpannya dalam Dgraph. Setelah itu, sistem akan melakukan \textit{semantic enrichment} menggunakan LLM untuk memperkaya deskripsi dan metadata Smart Contract, lalu memperbarui data di Dgraph. Sebelum data dapat dilakukan query menggunakan RAG, akan dilakukan indexing data menjadi bentuk vectorstore. Terakhir, sistem akan menggunakan RAG untuk melakukan pencarian berdasarkan kebutuhan pengguna. 
+Gambar \ref{image:komponen-sistem} dan gambar \ref{image:layer-arsitektur} menunjukkan gambaran umum alur kerja sistem. Sistem ini akan melakukan ekstraksi data dari Ethereum Archive Node menggunakan \textit{eth2dgraph} dan menyimpannya dalam Dgraph. Setelah itu, sistem akan melakukan \textit{semantic enrichment} menggunakan LLM untuk memperkaya deskripsi dan metadata Smart Contract, lalu memperbarui data di Dgraph. Sebelum data dapat dilakukan query menggunakan RAG, akan dilakukan indexing data menjadi bentuk vectorstore. Terakhir, sistem akan menggunakan RAG untuk melakukan pencarian berdasarkan kebutuhan pengguna.
 
 \subsubsection{Proses Semantic Enrichment}
 
 Proses \textit{Semantic Enrichment} yang terdapat pada poin 1.3 pada gambar \ref{image:komponen-sistem} dapat dibagi menjadi empat bagian, yaitu proses penerapan skema sebagai \textit{template} \textit{enrichment} pada data sebelum data diproses, proses pengambilan data dari Dgraph, proses data \textit{enrichment}, yang dibagi menjadi beberapa subproses yang dilakukan oleh Agents, dan proses \textit{update} data ke dalam Dgraph.
-Proses ini akan dilakukan secara berulang-ulang hingga semua data yang ada di Dgraph terproses. Proses ini akan menghasilkan data yang mengandung unsur semantik sehingga dapat digunakan untuk melakukan pencarian berbasis semantik. Setelah proses \textit{enrichment} selesai, data akan disimpan kembali ke dalam Dgraph. 
+Proses ini akan dilakukan secara berulang-ulang hingga semua data yang ada di Dgraph terproses. Proses ini akan menghasilkan data yang mengandung unsur semantik sehingga dapat digunakan untuk melakukan pencarian berbasis semantik. Setelah proses \textit{enrichment} selesai, data akan disimpan kembali ke dalam Dgraph.
 
 \begin{figure}[ht]
 	\centering
@@ -54,7 +54,7 @@ Skema data yang akan digunakan untuk menyimpan data hasil \textit{enrichment} da
 
 \subsubsection{Komponen Semantic Enricher}
 
-Komponen ini bertanggung jawab untuk melakukan \textit{enrichment} data Smart Contract yang telah diekstraksi dari Ethereum Archive Node dan disimpan dalam Dgraph. Proses \textit{enrichment} ini dilakukan dengan menggunakan Agents yang dibagi menjadi berbagai \textit{workflow} yang berbeda untuk setiap aspek dari data Smart Contract yang akan di-\textit{enrich}. 
+Komponen ini bertanggung jawab untuk melakukan \textit{enrichment} data Smart Contract yang telah diekstraksi dari Ethereum Archive Node dan disimpan dalam Dgraph. Proses \textit{enrichment} ini dilakukan dengan menggunakan Agents yang dibagi menjadi berbagai \textit{workflow} yang berbeda untuk setiap aspek dari data Smart Contract yang akan di-\textit{enrich}.
 % Cerita tentang agent flow, dan aspek apa aja yang di plan (nanti cuma diimplementasikan beberapa)
 % Jadi ada complete aspects & plan, ada yang diimplementasikan ada yang tidak
 
@@ -80,9 +80,9 @@ Sistem yang dibangun akan digunakan oleh pengguna berdasarkan Use Case dari sist
 	\begin{center}
 		\begin{tabular}{|c|p{0.25\linewidth}|p{0.55\linewidth}|}
 			\hline
-			\textbf{ID} & \textbf{Use Case} & \textbf{Deskripsi} \\ \hline
-			UC01 & Mencari Smart Contract & Sistem memberikan data Smart Contract hasil dari pencarian berdasarkan query yang diberikan oleh pengguna. Pengguna dapat memasukkan query pencarian dalam bahasa alami. \\ \hline
-			UC02 & Mendapatkan Address Smart Contract & Sistem memberikan detail address dari Smart Contract yang dipilih oleh pengguna. \\ \hline
+			\textbf{ID} & \textbf{Use Case}                  & \textbf{Deskripsi}                                                                                                                                                       \\ \hline
+			UC01        & Mencari Smart Contract             & Sistem memberikan data Smart Contract hasil dari pencarian berdasarkan query yang diberikan oleh pengguna. Pengguna dapat memasukkan query pencarian dalam bahasa alami. \\ \hline
+			UC02        & Mendapatkan Address Smart Contract & Sistem memberikan detail address dari Smart Contract yang dipilih oleh pengguna.                                                                                         \\ \hline
 		\end{tabular}
 	\end{center}
 \end{table}
@@ -97,12 +97,12 @@ Berdasarkan rumusan Use Case dan karakteristik pengguna, terdapat beberapa kebut
 	\begin{center}
 		\begin{tabular}{|c|l|}
 			\hline
-			\textbf{ID} & \textbf{Penjelasan} \\ \hline
-			F-USR01 & Sistem harus menyediakan antarmuka bagi pengguna untuk \\ & memasukkan query pencarian \\ \hline
-			F-USR02 & Sistem harus dapat menerima input query pencarian dari \\ & pengguna dalam bahasa alami \\ \hline
-			F-USR03 & Sistem harus memberikan hasil pencarian Smart Contracts \\ & yang relevan dengan query pencarian yang diberikan \\ \hline
-			F-USR04 & Sistem harus memberikan detail informasi dari Smart \\ & Contract yang dipilih oleh pengguna \\ \hline
-			F-USR05 & Sistem harus dapat menerima input jumlah Smart Contracts \\ & yang dicari \\ \hline
+			\textbf{ID} & \textbf{Penjelasan}                                      \\ \hline
+			F-USR01     & Sistem harus menyediakan antarmuka bagi pengguna untuk   \\ & memasukkan query pencarian \\ \hline
+			F-USR02     & Sistem harus dapat menerima input query pencarian dari   \\ & pengguna dalam bahasa alami \\ \hline
+			F-USR03     & Sistem harus memberikan hasil pencarian Smart Contracts  \\ & yang relevan dengan query pencarian yang diberikan \\ \hline
+			F-USR04     & Sistem harus memberikan detail informasi dari Smart      \\ & Contract yang dipilih oleh pengguna \\ \hline
+			F-USR05     & Sistem harus dapat menerima input jumlah Smart Contracts \\ & yang dicari \\ \hline
 		\end{tabular}
 	\end{center}
 \end{table}
@@ -117,12 +117,12 @@ Selain kebutuhan fungsional dari perspektif pengguna, sistem juga memiliki kebut
 	\begin{center}
 		\begin{tabular}{|c|l|}
 			\hline
-			\textbf{ID} & \textbf{Penjelasan} \\ \hline
-			F-SYS01 & Sistem mampu mengekstraksi data Smart Contracts dari \\ & Blockchain Ethereum Mainnet \\ \hline
-			F-SYS02 & Sistem dapat mengimpor, menyimpan, dan mengelola data \\ & Smart Contracts yang telah diekstraksi dan diperkaya  \\ \hline
-			F-SYS03 & Sistem harus menyediakan fungsionalitas untuk melihat dan \\ & mendapatkan data Smart Contracts yang sudah disimpan  \\ \hline
-			F-SYS04 & Sistem dapat mengklasifikasikan Smart Contracts berdasarkan \\ & fungsionalitas dan semantik \\ \hline
-			F-SYS05 & Sistem harus menyediakan API yang memungkinkan pengguna \\ & untuk berinteraksi dengan sistem sesuai fungsionalitas \\ \hline
+			\textbf{ID} & \textbf{Penjelasan}                                         \\ \hline
+			F-SYS01     & Sistem mampu mengekstraksi data Smart Contracts dari        \\ & Blockchain Ethereum Mainnet \\ \hline
+			F-SYS02     & Sistem dapat mengimpor, menyimpan, dan mengelola data       \\ & Smart Contracts yang telah diekstraksi dan diperkaya  \\ \hline
+			F-SYS03     & Sistem harus menyediakan fungsionalitas untuk melihat dan   \\ & mendapatkan data Smart Contracts yang sudah disimpan  \\ \hline
+			F-SYS04     & Sistem dapat mengklasifikasikan Smart Contracts berdasarkan \\ & fungsionalitas dan semantik \\ \hline
+			F-SYS05     & Sistem harus menyediakan API yang memungkinkan pengguna     \\ & untuk berinteraksi dengan sistem sesuai fungsionalitas \\ \hline
 			% F08 -> memfasilitasi pengguna dalam menggunakan kembali Smart Contracts yang ditemukan dengan menyediakan informasi yang dapat ditindaklanjuti.
 		\end{tabular}
 	\end{center}
@@ -142,7 +142,6 @@ Selain kebutuhan fungsional dari perspektif pengguna, sistem juga memiliki kebut
 % "Sistem harus dapat secara otomatis mengklasifikasikan Smart Contracts ke dalam kategori fungsionalitas yang telah ditentukan sebelumnya (misalnya, DeFi, NFT, Gaming, DAO) berdasarkan analisis [sebutkan dasar analisis, misal: pola kode, metadata]."
 % "Sistem harus memungkinkan pengguna (misalnya, admin) untuk meninjau dan mengoreksi hasil klasifikasi otomatis."
 % "Sistem harus memungkinkan pengguna (misalnya, admin) untuk menambahkan atau memodifikasi kategori klasifikasi fungsionalitas dan semantik."
-
 
 % \subsubsection{Kebutuhan Non-Fungsional}
 
@@ -177,17 +176,4 @@ Selain kebutuhan fungsional dari perspektif pengguna, sistem juga memiliki kebut
 % 		\end{tabular}
 % 	\end{center}
 % \end{table}
-
-\begin{table}[h]
-	\caption{Kebutuhan Non-Fungsional Sistem}
-	\vspace{0.25cm}
-	\begin{center}
-		\begin{tabular}{|c|c|p{0.7\linewidth}|}
-			\hline
-			\textbf{ID} & \textbf{Parameter} & \textbf{Penjelasan} \\ \hline
-			
-		\end{tabular}
-	\end{center}
-\end{table}
-
 

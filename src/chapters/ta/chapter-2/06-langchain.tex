@@ -4,27 +4,27 @@
 LangChain adalah sebuah \textit{framework} yang dirancang untuk memudahkan pengembangan aplikasi berbasis \textit{Large Language Models} (LLM). Dengan LangChain, pengembang dapat dengan mudah mengintegrasikan LLM ke dalam aplikasi mereka, serta memanfaatkan berbagai komponen dan alat yang tersedia untuk meningkatkan fungsionalitas dan kinerja aplikasi. LangChain menyediakan berbagai fitur seperti pengelolaan konteks, pemrosesan data, dan integrasi dengan berbagai sumber data eksternal \parencite{IBM2023LangChain}. Komponen-komponen penting dalam arsitektur LangChain adalah:
 
 \begin{enumerate}
-  \item \textbf{Chains} \newline
-  Chains adalah komponen utama dalam LangChain yang menghubungkan berbagai langkah dalam alur kerja aplikasi. Chains memungkinkan pengembang untuk menggabungkan beberapa komponen menjadi satu kesatuan yang terintegrasi, sehingga memudahkan pengelolaan dan pemrosesan data. Terdapat beberapa jenis chain untuk berbagai kebutuhan, seperti \textit{LLMChain}, \textit{RouterChain}, dan \textit{Agent}.
+	\item \textbf{Chains} \newline
+	      Chains adalah komponen utama dalam LangChain yang menghubungkan berbagai langkah dalam alur kerja aplikasi. Chains memungkinkan pengembang untuk menggabungkan beberapa komponen menjadi satu kesatuan yang terintegrasi, sehingga memudahkan pengelolaan dan pemrosesan data. Terdapat beberapa jenis chain untuk berbagai kebutuhan, seperti \textit{LLMChain}, \textit{RouterChain}, dan \textit{Agent}.
 
-  \item \textbf{Agents} \newline
-  Agents adalah komponen yang membuat aplikasi dinamis, yang dapat memutuskan sebuah tindakan berdasarkan konteks dan informasi yang tersedia. Agents dapat berinteraksi dengan pengguna, mengakses sumber data eksternal, dan menjalankan perintah tertentu. Dengan menggunakan agents, aplikasi dapat memberikan respons yang lebih relevan dan kontekstual kepada pengguna.
+	\item \textbf{Agents} \newline
+	      Agents adalah komponen yang membuat aplikasi dinamis, yang dapat memutuskan sebuah tindakan berdasarkan konteks dan informasi yang tersedia. Agents dapat berinteraksi dengan pengguna, mengakses sumber data eksternal, dan menjalankan perintah tertentu. Dengan menggunakan agents, aplikasi dapat memberikan respons yang lebih relevan dan kontekstual kepada pengguna.
 
-  \item \textbf{Memory} \newline
-  Memory digunakan untuk menyimpan informasi yang relevan selama sesi interaksi, yang memungkinkan aplikasi untuk melacak status atau konteks. Terdapat dua jenis memory yang umum digunakan, yaitu \textit{ConversationBufferMemory} dan \textit{VectorStoreMemory}. Memory membantu aplikasi untuk memberikan respons yang lebih konsisten dan relevan berdasarkan konteks sebelumnya.
+	\item \textbf{Memory} \newline
+	      Memory digunakan untuk menyimpan informasi yang relevan selama sesi interaksi, yang memungkinkan aplikasi untuk melacak status atau konteks. Terdapat dua jenis memory yang umum digunakan, yaitu \textit{ConversationBufferMemory} dan \textit{VectorStoreMemory}. Memory membantu aplikasi untuk memberikan respons yang lebih konsisten dan relevan berdasarkan konteks sebelumnya.
 
-  \item \textbf{Models} \newline
-  Models adalah komponen yang mengacu pada berbagai model LLM yang tersedia, seperti OpenAI, Cohere, dan Hugging Face. LangChain menyediakan antarmuka yang konsisten untuk berinteraksi dengan berbagai model ini, sehingga pengembang dapat dengan mudah mengganti atau mengonfigurasi model sesuai kebutuhan aplikasi.
+	\item \textbf{Models} \newline
+	      Models adalah komponen yang mengacu pada berbagai model LLM yang tersedia, seperti OpenAI, Cohere, dan Hugging Face. LangChain menyediakan antarmuka yang konsisten untuk berinteraksi dengan berbagai model ini, sehingga pengembang dapat dengan mudah mengganti atau mengonfigurasi model sesuai kebutuhan aplikasi.
 
-  \item \textbf{Tools} \newline
-  Tools adalah fungsi atau sumber daya eksternal yang dapat digunakan oleh Agents untuk memperluas kemampuan aplikasi. Tools dapat berupa API, basis data, atau layanan lainnya yang memungkinkan aplikasi untuk mengakses informasi tambahan atau menjalankan perintah tertentu. LangChain menyediakan berbagai alat yang siap pakai, serta memungkinkan pengembang untuk membuat alat kustom sesuai kebutuhan.
+	\item \textbf{Tools} \newline
+	      Tools adalah fungsi atau sumber daya eksternal yang dapat digunakan oleh Agents untuk memperluas kemampuan aplikasi. Tools dapat berupa API, basis data, atau layanan lainnya yang memungkinkan aplikasi untuk mengakses informasi tambahan atau menjalankan perintah tertentu. LangChain menyediakan berbagai alat yang siap pakai, serta memungkinkan pengembang untuk membuat alat kustom sesuai kebutuhan.
 
-  \item \textbf{Data Sources} \newline
-  LangChain dapat mengakses berbagai sumber data eksternal, seperti basis data, API, dan dokumen. Dengan menggunakan LangChain, pengembang dapat mengintegrasikan berbagai sumber data ini ke dalam aplikasi mereka, sehingga memungkinkan aplikasi untuk mengambil informasi yang relevan dan terkini. LangChain menyediakan berbagai konektor dan alat untuk memudahkan integrasi dengan sumber data eksternal.
+	\item \textbf{Data Sources} \newline
+	      LangChain dapat mengakses berbagai sumber data eksternal, seperti basis data, API, dan dokumen. Dengan menggunakan LangChain, pengembang dapat mengintegrasikan berbagai sumber data ini ke dalam aplikasi mereka, sehingga memungkinkan aplikasi untuk mengambil informasi yang relevan dan terkini. LangChain menyediakan berbagai konektor dan alat untuk memudahkan integrasi dengan sumber data eksternal.
 
-  \item \textbf{Prompt Templates} \newline
-  Prompt Template membantu dalam membuat prompt yang efektif dan terstruktur untuk LLM. Komponen ini memungkinkan pengembang untuk mendefinisikan format dan struktur prompt yang akan digunakan dalam interaksi dengan model. Dengan menggunakan Prompt Template, pengembang dapat memastikan bahwa prompt yang dihasilkan konsisten dan sesuai dengan kebutuhan aplikasi.
+	\item \textbf{Prompt Templates} \newline
+	      Prompt Template membantu dalam membuat prompt yang efektif dan terstruktur untuk LLM. Komponen ini memungkinkan pengembang untuk mendefinisikan format dan struktur prompt yang akan digunakan dalam interaksi dengan model. Dengan menggunakan Prompt Template, pengembang dapat memastikan bahwa prompt yang dihasilkan konsisten dan sesuai dengan kebutuhan aplikasi.
 
-  \item \textbf{Indexes} \newline
-  Indexes digunakan oleh LangChain untuk merujuk pada dokumentasi eksternal yang dapat diambil oleh LLM. Dengan menggunakan Indexes, aplikasi dapat mengakses informasi yang relevan dari dokumen atau basis data eksternal, sehingga meningkatkan akurasi dan relevansi respons yang dihasilkan oleh model. LangChain menyediakan berbagai metode untuk membuat dan mengelola Indexes, sehingga pengembang dapat dengan mudah mengintegrasikan informasi eksternal ke dalam aplikasi mereka.
+	\item \textbf{Indexes} \newline
+	      Indexes digunakan oleh LangChain untuk merujuk pada dokumentasi eksternal yang dapat diambil oleh LLM. Dengan menggunakan Indexes, aplikasi dapat mengakses informasi yang relevan dari dokumen atau basis data eksternal, sehingga meningkatkan akurasi dan relevansi respons yang dihasilkan oleh model. LangChain menyediakan berbagai metode untuk membuat dan mengelola Indexes, sehingga pengembang dapat dengan mudah mengintegrasikan informasi eksternal ke dalam aplikasi mereka.
 \end{enumerate}

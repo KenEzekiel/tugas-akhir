@@ -7,22 +7,21 @@ Berdasarkan Use Case yang telah dirumuskan, terdapat 2 skenario utama yang akan 
 Pengguna akan melakukan pencarian dengan menggunakan API atau GUI. Pengguna akan memasukkan bahasa alami yang mendeskripsikan kebutuhan Smart Contract yang dicari. Data masukan yang diterima akan diteruskan ke API lalu ke komponen Retriever, yang akan melakukan query enrichment dan mengirimkan query ke dalam Vector Database dalam bentuk embedding. Hasil pencarian yang didapatkan akan dikembalikan ke API dan ditampilkan kepada pengguna dalam bentuk tabel yang berisi informasi Smart Contract yang relevan dengan query yang dimasukkan oleh pengguna. Ilustrasi alur pencarian Smart Contract dapat dilihat pada Gambar \ref{image:alur-pencarian-smart-contract}.
 
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.7\textwidth]{resources/chapter-3/sequence-1.png}
-    \caption{Alur Pencarian Smart Contract}
-    \label{image:alur-pencarian-smart-contract}
+	\centering
+	\includegraphics[width=0.7\textwidth]{resources/chapter-3/sequence-1.png}
+	\caption{Alur Pencarian Smart Contract}
+	\label{image:alur-pencarian-smart-contract}
 \end{figure}
-
 
 \subsubsection{Alur Mendapatkan Address Smart Contract}
 
 Pengguna akan melakukan pencarian dengan menggunakan API atau GUI. Pengguna akan memasukkan dgraph ID yang didapatkan dari hasil pencarian Smart Contract. Data ID yang diterima akan diteruskan ke API lalu ke dgraph Client, yang akan melakukan query ke dalam Dgraph Database. Hasil pencarian yang didapatkan akan dikembalikan ke API dan ditampilkan kepada pengguna dalam bentuk tabel yang berisi informasi Smart Contract dengan dgraph ID yang dimasukkan oleh pengguna. Ilustrasi alur mendapatkan address Smart Contract dapat dilihat pada Gambar \ref{image:alur-mendapatkan-address-smart-contract}.
 
 \begin{figure}[ht]
-    \centering
-    \includegraphics[width=0.7\textwidth]{resources/chapter-3/sequence-2.png}
-    \caption{Alur Mendapatkan Address Smart Contract}
-    \label{image:alur-mendapatkan-address-smart-contract}
+	\centering
+	\includegraphics[width=0.7\textwidth]{resources/chapter-3/sequence-2.png}
+	\caption{Alur Mendapatkan Address Smart Contract}
+	\label{image:alur-mendapatkan-address-smart-contract}
 \end{figure}
 
 % \subsubsection{Alur Ekstraksi Data}

@@ -23,7 +23,6 @@ Bab ini akan berisikan deskripsi detail terkait persoalan dan juga rencana penye
 
 % -------------------------------- %
 
-
 % Tujuan utama penulisan bab ini adalah untuk menguraikan rencana penyelesaian masalah tugas akhir I. Bab ini mencakup antara lain: 
 % 1.	Deskripsi dan analisis persoalan yang terkait dengan Rumusan Masalah, misalnya menjelaskan secara detail latar belakang dan masalah yang menjadi dasar munculnya topik, menunjukkan gap/celah antara kondisi saat ini dengan kondisi yang diharapkan, dan kaitan antara sistem/aplikasi yang dikembangkan dengan sistem/aplikasi lain yang terkait.
 % 2.	Analisis solusi yang terdiri dari pilihan alternatif solusi yang dapat digunakan untuk setiap permasalahan berdasarkan hasil studi literatur atau survei, pemilihan solusi beserta justifikasinya.
@@ -32,7 +31,6 @@ Bab ini akan berisikan deskripsi detail terkait persoalan dan juga rencana penye
 % b.	Alur umum algoritma atau langkah-langkah pengembangan sistem dan penjelasannya.
 % c.	Penggunaan kakas yang diperlukan
 % Dianjurkan untuk menggunakan diagram sebagai pendukung penjelasan bagian ini.
-
 
 \section{Analisis Masalah}
 
@@ -49,15 +47,12 @@ Bab ini akan berisikan deskripsi detail terkait persoalan dan juga rencana penye
 
 % ---------------------------------------------------------- %
 
-
 % Mempersingkat juga (opsional, tidak perlu di uncomment juga tidak apa)
 % Sudah ada beberapa upaya untuk mengurangi ukuran dari Blockchain, terutama dari segi Smart Contracts, seperti Smart Contract Lifecycle, di mana Smart Contracts yang sudah tidak aktif dibuang dari penyimpanan, tetapi upaya ini perlu dieksekusi bersama dengan upaya lainnya untuk menjaga agar Blockchain tidak mudah bertumbuh jika tidak diperlukan. 
-
 
 % ---------------------------------------------------------- %
 % Kebutuhan yang muncul dari permasalahan ini adalah sebuah sistem yang dapat memberikan Smart Contracts yang sesuai fungsionalitasnya dengan yang dibutuhkan dengan pencarian dari dalam Blockchain, sehingga pengembang tidak perlu mengembangkan Custom Smart Contracts untuk setiap dApp yang dikembangkan. 
 % ---------------------------------------------------------- %
-
 
 % Kebutuhan ini sangat didukung oleh riset-riset dan tren dari Blockchain yang mengarah kepada Semantic Blockchain, di mana seluruh entitas di dalam Blockchain dapat terdefinisi secara formal dengan semantik yang baik, dan juga Searchable Blockchain, di mana seluruh entitas di dalam Blockchain dapat ditemukan.
 
@@ -72,7 +67,7 @@ Bab ini akan berisikan deskripsi detail terkait persoalan dan juga rencana penye
 
 % versi ringkas %
 
-Dalam pengembangan dApps, Smart Contracts berfungsi sebagai \textit{building blocks} yang saling terhubung dan berinteraksi sesuai fungsionalitasnya. Pemilihan Smart Contracts yang tepat menjadi masalah kompleks, mengingat jumlahnya yang sangat banyak di Blockchain, serta ketidakhadiran spesifikasi fungsionalitas selain ABI. Hal ini menyulitkan pengklasifikasian dan pelabelan Smart Contracts secara semantik. 
+Dalam pengembangan dApps, Smart Contracts berfungsi sebagai \textit{building blocks} yang saling terhubung dan berinteraksi sesuai fungsionalitasnya. Pemilihan Smart Contracts yang tepat menjadi masalah kompleks, mengingat jumlahnya yang sangat banyak di Blockchain, serta ketidakhadiran spesifikasi fungsionalitas selain ABI. Hal ini menyulitkan pengklasifikasian dan pelabelan Smart Contracts secara semantik.
 
 Seringkali, pengembang dApps memilih untuk mengembangkan Smart Contracts khusus untuk aplikasi mereka, meskipun fungsionalitasnya serupa dengan yang telah ada. Ini menyebabkan pertumbuhan jumlah Smart Contracts yang eksponensial, sehingga memperbesar ukuran Blockchain secara signifikan. Ukuran yang \textit{bloated} ini mengarah pada inefisiensi dalam penyimpanan dan isu \textit{scalability} yang mempengaruhi kinerja sistem konsensus. Selain itu, biaya pengembangan dApp juga akan meningkat karena kebutuhan untuk membuat dan \textit{deploy} Smart Contracts baru untuk setiap aplikasi.
 
@@ -81,7 +76,6 @@ Seringkali, pengembang dApps memilih untuk mengembangkan Smart Contracts khusus 
 Kebutuhan yang muncul adalah sebuah solusi untuk melakukan pencarian Smart Contracts dengan fungsionalitas yang sesuai, sehingga tidak perlu membuat Smart Contracts baru setiap kali mengembangkan dApp, yang membantu mengefisiensikan penggunaan sumber daya yang digunakan. Sehingga, solusi yang diajukan adalah sebuah sistem pencarian Smart Contracts berbasis semantik untuk mendapatkan fungsionalitas yang sesuai.
 
 % end versi ringkas %
-
 
 \section{Rancangan Solusi}
 % kebutuhan -> rancangan solusi
@@ -150,7 +144,6 @@ Riset ini berfokus pada ekstraksi, \textit{indexing}, dan penyimpanan data Ether
 
 Kedua riset alternatif lainnya oleh \cite{baqa2019semantic} dan \cite{cano2021toward} tidak dapat dipilih karena \textit{domain} yang terlalu spesifik, ditambah dengan implementasi yang tidak bersifat \textit{open source} dan \textit{public}.
 
-
 % Teknologi ini juga kemudian diklasifikasi menjadi beberapa aspek. 
 
 % Alternatif aspek ekstraksi dan \textit{indexing} data (Data Discovery):
@@ -171,15 +164,15 @@ Kedua riset alternatif lainnya oleh \cite{baqa2019semantic} dan \cite{cano2021to
 
 \subsubsection{Hasil Analisis}
 
-Setelah melakukan analisis dari alternatif yang ada, diputuskan untuk menggunakan riset oleh \cite{aimar2023extraction}, karena memiliki implementasi yang \textit{open source}, yang mempermudah ekstraksi dan \textit{indexing} data menjadi Graph Database, sehingga tidak perlu membuat RDF Triples ada model ontology dari awal. Distributed Graph Database juga memiliki skalabilitas yang baik untuk data yang banyak pada Blockchain Ethereum. eth2dgraph juga memiliki kemampuan ekstensibilitas yang baik dalam \textit{domain} yang lebih umum, sehingga lebih mudah diimplementasikan sebagai fondasi dari sistem keseluruhan. 
+Setelah melakukan analisis dari alternatif yang ada, diputuskan untuk menggunakan riset oleh \cite{aimar2023extraction}, karena memiliki implementasi yang \textit{open source}, yang mempermudah ekstraksi dan \textit{indexing} data menjadi Graph Database, sehingga tidak perlu membuat RDF Triples ada model ontology dari awal. Distributed Graph Database juga memiliki skalabilitas yang baik untuk data yang banyak pada Blockchain Ethereum. eth2dgraph juga memiliki kemampuan ekstensibilitas yang baik dalam \textit{domain} yang lebih umum, sehingga lebih mudah diimplementasikan sebagai fondasi dari sistem keseluruhan.
 
 \subsubsection{Rancangan Solusi}
 
 Dengan penggunaan eth2dgraph sebagai fondasi dari sistem pencarian Smart Contract, berikut merupakan ajuan rancangan dari sistem:
 
 \begin{enumerate}
-  \item Layer 1: Blockchain Data Extraction (eth2dgraph) \newline Ekstraksi data Blockchain Ethereum menjadi Dgraph
-  \item Layer 2: Semantic Indexing and Enrichment \newline \textit{Mapping} data hasil ekstraksi kepada sebuah ontology seperti BLONDiE atau EthOn, pelabelan fungsional Smart Contracts, dan Version Control
-  \item Layer 3: Query and Discovery System \newline Sebuah Search Engine menggunakan GraphQL Queries diatas Dgraph Database yang memperkenalkan pencarian berbasis semantik
-  \item Layer 4: User Interaction Layer \newline Sebuah \textit{dashboard} atau API untuk pengembang melakukan pencarian Smart Contracts berdasarkan fungsionalitas, metadata, atau relasi, membandingkan Smart Contracts yang serupa, dan melakukan \textit{export} atau \textit{reuse} dari Smart Contract 
+	\item Layer 1: Blockchain Data Extraction (eth2dgraph) \newline Ekstraksi data Blockchain Ethereum menjadi Dgraph
+	\item Layer 2: Semantic Indexing and Enrichment \newline \textit{Mapping} data hasil ekstraksi kepada sebuah ontology seperti BLONDiE atau EthOn, pelabelan fungsional Smart Contracts, dan Version Control
+	\item Layer 3: Query and Discovery System \newline Sebuah Search Engine menggunakan GraphQL Queries diatas Dgraph Database yang memperkenalkan pencarian berbasis semantik
+	\item Layer 4: User Interaction Layer \newline Sebuah \textit{dashboard} atau API untuk pengembang melakukan pencarian Smart Contracts berdasarkan fungsionalitas, metadata, atau relasi, membandingkan Smart Contracts yang serupa, dan melakukan \textit{export} atau \textit{reuse} dari Smart Contract
 \end{enumerate}

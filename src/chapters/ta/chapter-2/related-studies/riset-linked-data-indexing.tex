@@ -8,17 +8,17 @@ Dalam penelitian ini, mereka mengimplementasikan indeks semantik pada Ethereum B
 Implementasi indeks semantik ini menggunakan ontology BLONDiE sebagai kerangka untuk mengelompokkan dan mendeskripsikan elemen-elemen utama dari Blockchain. Ontology \textit{Minimal Service Model}, yang biasanya digunakan untuk \textit{web services}, diterapkan untuk menggambarkan fungsionalitas dari Smart Contract pada Blockchain, sehingga memungkinkan integrasi yang lebih efisien.
 
 \begin{figure}[ht]
-  \centering
-  \includegraphics[width=1\textwidth]{resources/chapter-2/rdf-block.jpg}
-  \caption{RDF dari deskripsi blok \parencite{third2017linked}}
-  \label{image:rdf-block}
+	\centering
+	\includegraphics[width=1\textwidth]{resources/chapter-2/rdf-block.jpg}
+	\caption{RDF dari deskripsi blok \parencite{third2017linked}}
+	\label{image:rdf-block}
 \end{figure}
 
 \begin{figure}[ht]
-  \centering
-  \includegraphics[width=1\textwidth]{resources/chapter-2/rdf-transaction.jpg}
-  \caption{RDF dari deskripsi transaksi \parencite{third2017linked}}
-  \label{image:rdf-transaction}
+	\centering
+	\includegraphics[width=1\textwidth]{resources/chapter-2/rdf-transaction.jpg}
+	\caption{RDF dari deskripsi transaksi \parencite{third2017linked}}
+	\label{image:rdf-transaction}
 \end{figure}
 
 Proyek ini diimplementasikan pada jaringan Ethereum Blockchain privat, di mana komponen \textit{listener} dikembangkan untuk mendeteksi blok baru dan mengindeksnya berdasarkan ontology BLONDiE. RDF \textit{triples} kemudian dihasilkan dari data ini, yang memungkinkan penguraian data Blockchain secara semantik untuk mendukung pencarian data yang lebih terstruktur. Gambar \ref{image:rdf-block} dan gambar \ref{image:rdf-transaction} adalah contoh dari RDF \textit{triples} yang dihasilkan dari deskripsi blok dan transaksi masing-masing.
