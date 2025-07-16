@@ -503,7 +503,7 @@ async def search_contracts(request: SearchRequest):
           contract = contract_data[0]
             
           formatted_result = ContractResult(
-            id=contract["uid"],
+            id=contract.get("uid", ""),
             name=contract.get("ContractDeployment.name", ""),
             description=result.get("content", ""),
             created=contract.get("ContractDeployment.created", ""),
@@ -519,6 +519,7 @@ async def search_contracts(request: SearchRequest):
             domain=contract.get("ContractDeployment.domain"),
             security_risks=contract.get("ContractDeployment.security_risks", [])
           )
+          print(formatted_result.id, formatted_result.description)
           formatted_results.append(formatted_result.model_dump())
         except Exception as e:
           print(f"Error processing contract: {str(e)}")

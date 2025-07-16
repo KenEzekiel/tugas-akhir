@@ -33,6 +33,7 @@ def main():
         for item in data:
             row = {field: item.get(field, "") for field in FIELDS}
             writer.writerow(row)
+    print(f"Exported {len(data)} contracts to {OUTPUT_PATH}")
 
 
 if __name__ == "__main__":

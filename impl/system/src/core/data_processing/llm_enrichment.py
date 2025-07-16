@@ -33,7 +33,7 @@ class SemanticEnricher:
     self.prompt = ChatPromptTemplate.from_template(
       """
       Analyze this smart contract and return JSON with:
-      - description: 2-3 sentence description of the contract
+      - description: 2-3 sentence description of the contract, mainly the purpose of the contract, specific function of what the contract does.
       - functionality_classification: (Pick one, only write the picked key)
         - token_contracts:
           - token_contracts:erc-20: {{description: "Standard for fungible tokens, meaning each token is identical and interchangeable (e.g., cryptocurrencies like USDC or UNI)."}}

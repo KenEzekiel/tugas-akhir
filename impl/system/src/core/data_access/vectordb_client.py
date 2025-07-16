@@ -102,9 +102,9 @@ class VectorDBManager:
       for contract in contracts:
         text = f"description {contract.get('ContractDeployment.description')} functionality_classification {contract.get('ContractDeployment.functionality_classification', '')} application_domain {contract.get('ContractDeployment.application_domain', '')} security_risks_description {contract.get('ContractDeployment.security_risks_description', '')}"
         texts.append(text)
-        ids.append(contract["uid"])
+        ids.append(contract.get("uid"))
         # ids.append(contract["ContractDeployment.storage_address"])
-        metadatas.append({"dgraph_id": contract["uid"]})
+        metadatas.append({"dgraph_id": contract.get("uid")})
       
       # Get embeddings
       embeddings = self.embedding_model.embed_documents(texts)
@@ -119,6 +119,7 @@ class VectorDBManager:
       self.logger.info(f"Added {len(texts)} embeddings successfully")
     except Exception as e:
       self.logger.error(f"Error when adding embeddings: {str(e)}")
+      self.logger.error(f"Contract: {contract}")
       raise
         
   def get_retriever(self, search_kwargs: dict = None) -> Any:
