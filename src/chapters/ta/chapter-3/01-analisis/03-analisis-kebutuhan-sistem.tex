@@ -34,7 +34,7 @@ Solusi yang akan dikembangkan adalah sebuah sistem Smart Contract Discovery yang
 
 % Ethereum Archive Node → eth2dgraph (ekstraksi) → Dgraph (penyimpanan) → LLM (semantic enrichment) → Dgraph (update) → RAG (query).  
 
-Gambar \ref{image:komponen-sistem} dan gambar \ref{image:layer-arsitektur} menunjukkan gambaran umum alur kerja sistem. Sistem ini akan melakukan ekstraksi data dari Ethereum Archive Node menggunakan \textit{eth2dgraph} dan menyimpannya dalam Dgraph. Setelah itu, sistem akan melakukan \textit{semantic enrichment} menggunakan LLM untuk memperkaya deskripsi dan metadata Smart Contract, lalu memperbarui data di Dgraph. Sebelum data dapat dilakukan query menggunakan RAG, akan dilakukan indexing data menjadi bentuk vectorstore. Terakhir, sistem akan menggunakan RAG untuk melakukan pencarian berdasarkan kebutuhan pengguna.
+Gambar \ref{image:komponen-sistem} dan gambar \ref{image:layer-arsitektur} menunjukkan gambaran umum alur kerja sistem. Sistem ini akan melakukan ekstraksi data dari Ethereum Archive Node menggunakan \textit{eth2dgraph} dan menyimpannya dalam Dgraph. Setelah itu, sistem akan melakukan \textit{semantic enrichment} menggunakan LLM untuk memperkaya deskripsi dan metadata Smart Contract, lalu memperbarui data di Dgraph. Sebelum data dapat dilakukan query, akan dilakukan indexing data menjadi bentuk vector embeddings dan disimpan di dalam Vector Database. Terakhir, sistem akan menggunakan RAG untuk melakukan pencarian berdasarkan kebutuhan pengguna.
 
 \subsubsection{Proses Semantic Enrichment}
 
@@ -50,13 +50,11 @@ Proses ini akan dilakukan secara berulang-ulang hingga semua data yang ada di Dg
 
 \subsubsection{Skema Enriched Data}
 
-Skema data yang akan digunakan untuk menyimpan data hasil \textit{enrichment} dapat dilihat pada lampiran .... Skema ini akan digunakan sebagai \textit{template} dan diterapkan pada DgraphDB untuk melakukan \textit{enrichment} data Smart Contract yang ada di Dgraph. Skema ini akan digunakan untuk menyimpan data hasil \textit{enrichment} yang dilakukan oleh LLM.
+Skema data yang akan digunakan untuk menyimpan data hasil \textit{enrichment} dapat dilihat pada lampiran \ref{appendix:skema-data}. Skema ini akan digunakan sebagai \textit{template} dan diterapkan pada DgraphDB untuk melakukan \textit{enrichment} data Smart Contract yang ada di Dgraph. Skema ini akan digunakan untuk menyimpan data hasil \textit{enrichment} yang dilakukan oleh LLM.
 
 \subsubsection{Komponen Semantic Enricher}
 
-Komponen ini bertanggung jawab untuk melakukan \textit{enrichment} data Smart Contract yang telah diekstraksi dari Ethereum Archive Node dan disimpan dalam Dgraph. Proses \textit{enrichment} ini dilakukan dengan menggunakan Agents yang dibagi menjadi berbagai \textit{workflow} yang berbeda untuk setiap aspek dari data Smart Contract yang akan di-\textit{enrich}.
-% Cerita tentang agent flow, dan aspek apa aja yang di plan (nanti cuma diimplementasikan beberapa)
-% Jadi ada complete aspects & plan, ada yang diimplementasikan ada yang tidak
+Komponen ini bertanggung jawab untuk melakukan \textit{enrichment} data Smart Contract yang telah diekstraksi dari Ethereum Archive Node dan disimpan dalam Dgraph. Proses \textit{enrichment} ini dilakukan dengan melakukan \textit{preprocessing} terhadap source code Smart Contract, lalu melakukan inferensi menggunakan LLM untuk menghasilkan data yang sesuai dengan skema. Hasil dari proses ini akan disimpan kembali ke dalam Dgraph sebagai data yang telah diperkaya.
 
 \subsubsection{Karakteristik Pengguna}
 
@@ -122,7 +120,7 @@ Selain kebutuhan fungsional dari perspektif pengguna, sistem juga memiliki kebut
 			F-SYS02     & Sistem dapat mengimpor, menyimpan, dan mengelola data       \\ & Smart Contracts yang telah diekstraksi dan diperkaya  \\ \hline
 			F-SYS03     & Sistem harus menyediakan fungsionalitas untuk melihat dan   \\ & mendapatkan data Smart Contracts yang sudah disimpan  \\ \hline
 			F-SYS04     & Sistem dapat mengklasifikasikan Smart Contracts berdasarkan \\ & fungsionalitas dan semantik \\ \hline
-			F-SYS05     & Sistem harus menyediakan API yang memungkinkan pengguna     \\ & untuk berinteraksi dengan sistem sesuai fungsionalitas \\ \hline
+			% F-SYS05     & Sistem harus menyediakan API yang memungkinkan pengguna     \\ & untuk berinteraksi dengan sistem sesuai fungsionalitas \\ \hline
 			% F08 -> memfasilitasi pengguna dalam menggunakan kembali Smart Contracts yang ditemukan dengan menyediakan informasi yang dapat ditindaklanjuti.
 		\end{tabular}
 	\end{center}

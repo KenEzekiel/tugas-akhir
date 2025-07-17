@@ -1,0 +1,25 @@
+\chapter{Skema Data}
+\label{appendix:skema-data}
+
+\begin{lstlisting}[language=bash]
+    <ContractDeployment.block>: uid @reverse .
+    <ContractDeployment.contract>: uid @reverse .
+    <ContractDeployment.creation_bytecode>: string .
+    <ContractDeployment.creator>: uid @reverse .
+    <ContractDeployment.deployed_bytecode>: string .
+    <ContractDeployment.experimental>: bool .
+    <ContractDeployment.failed_deploy>: bool .
+    <ContractDeployment.solc_version>: string .
+    <ContractDeployment.storage_address>: string .
+    <ContractDeployment.storage_protocol>: string .
+    <ContractDeployment.tx_hash>: string @index(hash) .
+    <ContractDeployment.name>: string @index(trigram) .
+    <ContractDeployment.verified_source>: bool @index(bool) .
+    <ContractDeployment.verified_source_code>: string @index(term) .
+    <ContractDeployment.description>: string @index(fulltext) .
+    <ContractDeployment.functionality_classification>: string @index(fulltext) .
+    <ContractDeployment.application_domain>: string @index(fulltext) .
+    <ContractDeployment.security_risks_description>: string @index(fulltext) .
+    <ContractDeployment.embeddings>: float32vector @index(hnsw(metric:"euclidean")) .
+\end{lstlisting}
+
