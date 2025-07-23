@@ -1,8 +1,9 @@
-from src.core.data_access.vectordb_client import VectorDBManager
 from src.utils.file import write_file
 from src.utils.logger import logger
 from langchain.chat_models import init_chat_model
 from langchain_core.prompts import ChatPromptTemplate
+
+from src.core.data_access.dgraph_client import DgraphClient
 
 class LightweightRetriever:
   def __init__(self):
@@ -12,7 +13,7 @@ class LightweightRetriever:
     
     self.logger = logger.getChild("LightweightRetriever")
     try:
-      self.vector_store = VectorDBManager("config/vectordb.yaml")
+      self.vector_store = DgraphClient()
       self.llm = init_chat_model("gpt-3.5-turbo", model_provider="openai")
     except Exception as e:
       self.logger.error(f"Failed to initialize retriever: {e}")
@@ -26,7 +27,7 @@ class LightweightRetriever:
     self.logger.info(f"Preprocessing query {query}")
     preprocessed_query = self.preprocess_query(query)
     self.logger.info(f"Preprocessed query: {preprocessed_query}")
-    results = self.vector_store.search(preprocessed_query, k=k)
+    results = self.vector_store.vector_search(preprocessed_query, k=k)
     self.logger.info(f"Found {len(results)} results:")
     for i, result in enumerate(results):
       print(f"Result {i+1}:")
