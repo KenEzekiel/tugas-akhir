@@ -1,0 +1,8 @@
+\section{Embeddings}
+\label{sec:embeddings}
+
+Embeddings adalah representasi vektor dari kata, frasa, atau dokumen yang memungkinkan model untuk memahami makna dan konteks dalam teks. Dalam konteks LLMs, embeddings digunakan untuk mengubah input teks menjadi format numerik yang dapat diproses oleh model. Proses ini melibatkan pemetaan kata-kata ke dalam ruang vektor berdimensi tinggi, di mana kata-kata dengan makna yang mirip akan memiliki representasi vektor yang berdekatan.
+
+Salah satu metode populer untuk menghasilkan embeddings adalah Word2Vec, yang menggunakan teknik pembelajaran mendalam untuk mempelajari representasi kata berdasarkan konteksnya dalam teks. Metode lain yang sering digunakan adalah GloVe (Global Vectors for Word Representation), yang menggabungkan informasi statistik dari korpus teks dengan pembelajaran mendalam untuk menghasilkan embeddings yang lebih baik. Kedua metode ini menghasilkan \textit{static embeddings}, di mana setiap kata memiliki representasi tetap yang tidak berubah meskipun konteksnya berbeda.
+
+LLM modern seperti BERT (Bidirectional Encoder Representations from Transformers) dan GPT (Generative Pre-trained Transformer) menggunakan pendekatan yang lebih canggih dengan menghasilkan \textit{contextual embeddings}. Dalam pendekatan ini, representasi vektor untuk suatu kata dapat berubah tergantung pada konteks kalimat di mana kata tersebut muncul. Ini memungkinkan model untuk menangkap nuansa makna yang lebih dalam dan menghasilkan respons yang lebih relevan. Kontekstualisasi ini adalah hasil dari arsitektur Transformer yang memungkinkan model untuk mempertimbangkan hubungan antar kata dalam kalimat secara lebih efektif \parencite{vaswani2023attentionneed}.
