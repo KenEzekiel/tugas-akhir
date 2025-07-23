@@ -1,9 +1,9 @@
 \section{Lingkungan}
-Sistem terbagi menjadi 4 bagian utama, yaitu komponen eksternal sistem, komponen data store, komponen internal sistem, dan komponen user interface. Komponen eksternal sistem adalah komponen-komponen yang tidak termasuk ke dalam proses pengembangan sistem atau terletak di luar sistem. Komponen eksternal sistem terdiri dari Ethereum Archive Node yang menggunakan Archive-Node-As-A-Service dari Alchemy dan eth2dgraph yang dibangun menggunakan bahasa pemrograman Rust dengan framework Tokio untuk pemrosesan asinkron dan digunakan untuk mengekstrak data dari Archive Node ke dalam Dgraph. Komponen data store adalah komponen yang digunakan untuk menyimpan data yang diperlukan oleh sistem, yaitu Dgraph sebagai database utama dan ChromaDB sebagai VectorDB. Kedua komponen data store ini dapat berada pada komputer lokal atau cloud. Komponen internal sistem adalah komponen-komponen yang dikembangkan untuk mengimplementasikan solusi, yaitu API, Retriever, Enricher, Parallel Enricher, VectorDB Client, dan Dgraph Client. Terakhir, komponen user interface adalah komponen yang digunakan untuk berinteraksi dengan pengguna, yaitu GUI dalam bentuk web application.
+Sistem terbagi menjadi 4 bagian utama, yaitu komponen eksternal sistem, komponen data store, komponen internal sistem, dan komponen user interface. Komponen eksternal sistem adalah komponen-komponen yang tidak termasuk ke dalam proses pengembangan sistem atau terletak di luar sistem. Komponen eksternal sistem terdiri dari Ethereum Archive Node yang menggunakan Archive-Node-As-A-Service dari Alchemy dan eth2dgraph yang dibangun menggunakan bahasa pemrograman Rust dengan framework Tokio untuk pemrosesan asinkron dan digunakan untuk mengekstrak data dari Archive Node ke dalam Dgraph. eth2dgraph akan digunakan sebagai abstraksi. Komponen data store adalah komponen yang digunakan untuk menyimpan data yang diperlukan oleh sistem, yaitu Dgraph sebagai database utama untuk menyimpan data Smart Contracts sekaligus Vector Database. Komponen data store ini dapat berada pada komputer lokal atau cloud. Komponen internal sistem adalah komponen-komponen yang dikembangkan untuk mengimplementasikan solusi, yaitu API, Enricher, Parallel Enricher, dan Dgraph Client. Terakhir, komponen user interface adalah komponen yang digunakan untuk berinteraksi dengan pengguna, yaitu GUI dalam bentuk web application.
 
 Komponen internal sistem dan komponen user interface dikembangkan pada lingkungan komputer lokal. Penjelasan rinci dari lingkungan implementasi akan dibagi menjadi dua bagian, yaitu perangkat lunak dan perangkat keras.
 
-Komponen internal sistem dikembangkan dengan menggunakan bahasa pemrograman Python 3, dengan pustaka utama meliputi FastAPI untuk REST API, LangChain dengan LangGraph untuk orkestrasi agen dan integrasi LLM, Dgraph Python Client (pydgraph) untuk interaksi dengan graph database, ChromaDB untuk vector database, dan HuggingFace Transformers untuk model embedding. Sistem juga mengintegrasikan OpenAI API untuk layanan LLM dan menggunakan asyncio untuk pemrosesan paralel. Selain itu, sistem menggunakan Docker untuk mengelola kontainer Dgraph.
+Komponen internal sistem dikembangkan dengan menggunakan bahasa pemrograman Python 3, dengan pustaka utama meliputi FastAPI untuk REST API, LangChain dengan LangGraph untuk orkestrasi agen dan integrasi LLM, Dgraph Python Client (pydgraph) untuk interaksi dengan graph database, Dgraph untuk Graph Database dan Vector Database, dan HuggingFace Transformers untuk model embedding. Sistem juga mengintegrasikan OpenAI API untuk layanan LLM dan menggunakan asyncio untuk pemrosesan paralel. Selain itu, sistem menggunakan Docker untuk mengelola kontainer Dgraph.
 
 Komponen user interface dikembangkan menggunakan framework Next.js 15 dengan bahasa pemrograman TypeScript, dilengkapi dengan komponen UI berbasis Radix UI dan styling menggunakan Tailwind CSS untuk antarmuka yang responsif dan modern.
 
@@ -17,22 +17,25 @@ Secara perangkat, komponen internal sistem dan komponen user interface dikembang
 	\item \textbf{Perangkat Lunak}
 	      \begin{enumerate}
 		      \item Platform dan Sistem Operasi: Windows 11
-		      \item VectorDB: ChromaDB v0.6.3
-		      \item GraphDB: Dgraph v12
+		      \item VectorDB: Dgraph v24
+		      \item GraphDB: Dgraph v24
 		      \item Containerization: Docker v28.0.4
 		      \item Model LLM: OpenAI GPT-4o mini
 		      \item Model Embeddings: HuggingFace BAAI/bge-small-en-v1.5
+		      \item Data extraction: eth2dgraph
+		            \begin{enumerate}
+						\item Heimdall v0.8.7
+						\item Cargo v1.87.0
+					\end{enumerate}
 		      \item Framework dan Runtime:
 		            \begin{enumerate}
 			            \item Next.js 15.2.4
 			            \item Node.js v23.11.0
-			            \item Tokio (Rust async framework)
 		            \end{enumerate}
 		      \item Bahasa Pemrograman:
 		            \begin{enumerate}
-			            \item Python 3.1x
+			            \item Python 3.12
 			            \item TypeScript 5.8.3
-			            \item Rust 1.87.0
 		            \end{enumerate}
 		      \item Pustaka Utama:
 		            \begin{enumerate}
