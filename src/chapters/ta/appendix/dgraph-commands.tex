@@ -1,0 +1,27 @@
+\chapter{Perintah Dgraph}
+\label{appendix:dgraph-commands}
+
+\begin{enumerate}
+	\item \texttt{dgraph alpha}: Perintah ini digunakan untuk menjalankan Dgraph Alpha, yang merupakan komponen utama dari DgraphDB yang bertanggung jawab untuk menyimpan dan mengelola data. Perintah ini akan menghubungkan Dgraph Alpha dengan Dgraph Zero dan menyediakan antarmuka HTTP untuk berinteraksi dengan data.
+	\item \texttt{dgraph zero}: Perintah ini digunakan untuk menjalankan Dgraph Zero, yang merupakan komponen yang bertanggung jawab untuk Dgraph Cluster Management. Dgraph Zero akan mengelola metadata dari DgraphDB, termasuk informasi tentang shard dan replikasi data.
+	\item \texttt{dgraph bulk}: Perintah ini digunakan untuk melakukan impor data ke dalam DgraphDB. Perintah ini akan mengambil data dari file yang telah diekstrak dan memprosesnya untuk dimasukkan ke dalam database. Berikut merupakan parameter dari perintah \texttt{dgraph bulk} yang dapat digunakan:
+	      \begin{enumerate}
+		      \item \texttt{-f, --files <FILES>}: lokasi file \texttt{*.rdf(.gz)} atau \texttt{*.json(.gz)} yang akan di-\textit{load}
+		      \item \texttt{-s, --schema <SCHEMA>}: lokasi file skema
+		      \item \texttt{-g, --graphql-schema <GRAPHQL\textunderscore SCHEMA>}: lokasi file skema GraphQL
+		      \item \texttt{--out <OUT>}: lokasi untuk menyimpan direktori data dgraph final (default \texttt{./out})
+		      \item \texttt{--map-shards <MAP\textunderscore SHARDS>}: jumlah \textit{map output shards}. Harus lebih besar atau sama dengan jumlah \textit{reduce shards}. Peningkatan memungkinkan \textit{reduce shards} berukuran lebih merata, dengan mengorbankan peningkatan penggunaan memori (default 1)
+		      \item \texttt{--reduce-shards <REDUCE\textunderscore SHARDS>}: jumlah \textit{reduce shards}. Ini menentukan jumlah instans dgraph dalam kluster final. Peningkatan ini berpotensi mengurangi waktu eksekusi tahap \textit{reduce} dengan menggunakan lebih banyak paralelisme, tetapi meningkatkan penggunaan memori
+		      \item \texttt{-z, --zero <ZERO>}: alamat gRPC untuk Dgraph zero
+		      \item \texttt{--mapoutput-mb <MAPOUTPUT\textunderscore MB>}: perkiraan ukuran setiap output file \textit{map}. Peningkatan ini meningkatkan penggunaan memori (default 2048)
+		      \item \texttt{-j, --num-go-routines <NUM\textunderscore GO\textunderscore ROUTINES>}: jumlah \textit{worker threads} yang digunakan. Semakin banyak \textit{threads} akan menyebabkan penggunaan RAM yang lebih tinggi (default 1)
+		      \item \texttt{--tmp <TMP>}: direktori sementara yang digunakan untuk \textit{scratch space} pada disk. Memerlukan ruang kosong yang proporsional dengan ukuran file RDF dan jumlah pengindeksan yang digunakan (default \texttt{tmp})
+		      \item \texttt{--replace-out}: mengganti direktori \textit{out} dan isinya jika sudah ada
+		      \item \texttt{--cleanup-tmp}: membersihkan direktori \texttt{tmp} setelah \textit{loader} selesai. Mengatur ini menjadi \texttt{false} memungkinkan \textit{bulk loader} dapat dijalankan ulang sambil melewati fase \textit{map} (default \texttt{true})
+		      \item \texttt{--badger <BADGER>}: opsi Badger (default \texttt{compression=snappy; numgoroutines=8;})
+		            \begin{enumerate}
+			            \item \texttt{compression}: menentukan algoritma kompresi dan tingkat kompresi untuk direktori \textit{postings}. \texttt{none} akan menonaktifkan kompresi, sedangkan \texttt{zstd:1} akan mengatur kompresi zstd pada tingkat 1
+			            \item \texttt{numgoroutines}: jumlah \textit{goroutines} yang digunakan dalam \\\texttt{badger.Stream}
+		            \end{enumerate}
+	      \end{enumerate}
+\end{enumerate}

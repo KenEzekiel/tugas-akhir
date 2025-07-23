@@ -1,0 +1,17 @@
+\chapter{Dgraph Client}
+\label{appendix:dgraph-client}
+
+\begin{enumerate}
+	\item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
+	\item \texttt{attribute client\textunderscore stub}: Stub untuk melakukan koneksi ke DgraphDB.
+	\item \texttt{attribute client}: Wrapper dari Dgraph Stub dalam Python untuk abstraksi method Dgraph.
+	\item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas DgraphClient dan koneksi ke DgraphDB menggunakan endpoint yang diberikan. Koneksi ini akan digunakan untuk melakukan query dan mutasi pada DgraphDB.
+	\item \texttt{dgraph\textunderscore txn}: Metode Context Manager untuk melakukan transaksi atomik pada DgraphDB.
+	\item \texttt{alter\textunderscore schema}: Metode untuk mengubah skema DgraphDB. Metode ini akan menerima parameter skema dalam format string dan akan mengirimkan permintaan untuk mengubah skema DgraphDB.
+	\item \texttt{get\textunderscore contracts}: Metode wrapper untuk mengambil data Smart Contract dari DgraphDB. Metode ini akan menerima parameter \texttt{batch\textunderscore size} untuk menentukan jumlah data yang akan diambild dan \textit{enriched} untuk menentukan apakah data yang diambil sudah di-enrich atau belum. Metode ini akan mengembalikan daftar Smart Contract yang diambil dari DgraphDB.
+	\item \texttt{get\textunderscore contract\textunderscore by\textunderscore uid}: Metode untuk mengambil data Smart Contract berdasarkan \textit{unique identifier} (UID) dari Smart Contract tersebut. Metode ini akan mengembalikan data Smart Contract yang sesuai dengan UID yang diberikan.
+	\item \texttt{mutate}: Metode untuk melakukan mutasi pada DgraphDB. Metode ini akan menerima parameter \texttt{mutation\textunderscore data} yang berisi data yang akan dimutasi dan \texttt{commit\textunderscore now} untuk menentukan apakah mutasi akan dilakukan secara langsung atau tidak. Metode ini akan mengembalikan hasil dari mutasi yang dilakukan.
+	\item \texttt{close}: Metode untuk menutup koneksi ke DgraphDB. Metode ini akan dipanggil ketika kelas DgraphClient tidak lagi digunakan untuk membersihkan sumber daya yang digunakan oleh kelas ini.
+	\item \texttt{insert\textunderscore embeddings}: Metode untuk menyisipkan embeddings ke dalam DgraphDB. Metode ini akan menerima parameter string lalu akan mengubahnya menjadi format vector embeddings yang lalu disisipkan ke dalam DgraphDB.
+	\item \texttt{vector\textunderscore search}: Metode untuk melakukan pencarian berbasis vektor di DgraphDB. Metode ini akan menerima parameter query dalam bentuk bahasa alami yang lalu ditransformasi menjadi bentuk vector embeddings dan akan mengembalikan hasil pencarian yang relevan.
+\end{enumerate}

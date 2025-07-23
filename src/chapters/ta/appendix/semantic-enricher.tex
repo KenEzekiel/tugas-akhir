@@ -1,0 +1,12 @@
+\chapter{Semantic Enricher}
+\label{appendix:semantic-enricher}
+
+\begin{enumerate}
+	\item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
+	\item \texttt{attribute model}: LLM yang akan digunakan untuk melakukan Semantic Enrichment.
+	\item \texttt{attribute parser}: Parser yang akan digunakan untuk mem-parsing data yang dihasilkan LLM. Parser ini akan digunakan untuk mengubah data yang didapatkan menjadi format yang sesuai dengan skema yang akan digunakan.
+	\item \texttt{attribute prompt}: Prompt yang akan digunakan untuk melakukan Semantic Enrichment. Prompt ini akan berisi instruksi yang akan diberikan kepada LLM untuk melakukan Semantic Enrichment pada data.
+	\item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas SemanticEnricher dan memuat LLM yang akan digunakan.
+	\item \texttt{enrich}: Metode untuk melakukan Semantic Enrichment pada data. Metode ini akan menerima parameter \texttt{data} yang berisi data yang akan diperkaya dan akan mengembalikan data yang telah diperkaya. Proses ini akan memanfaatkan proses Chaining menggunakan LangChain untuk menghubungkan LLM dengan skema yang akan digunakan. Metode ini akan mengirimkan permintaan ke LLM dengan menggunakan prompt yang telah ditentukan dan akan mengembalikan hasil dari LLM lalu mengaplikasikan ke skema hasil yang diinginkan.
+	\item \texttt{preprocess}: Metode untuk melakukan data pre-processing sebelum dilakukan Semantic Enrichment. Metode ini akan menerima parameter \texttt{contract} yang berisi data Source Code dari Smart Contract yang akan diproses dan akan mengembalikan data yang telah diproses. Proses ini akan melakukan pengolahan data seperti menghapus spasi berlebih, menghapus komentar, dan mempersingkat pattern umum.
+\end{enumerate}

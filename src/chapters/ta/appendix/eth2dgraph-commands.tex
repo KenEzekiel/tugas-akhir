@@ -1,0 +1,52 @@
+\chapter{Perintah eth2dgraph}
+\label{appendix:eth2dgraph-commands}
+
+\begin{enumerate}
+	\item \texttt{extract}
+	      \begin{enumerate}
+		      \item \texttt{-e, --endpoint <ENDPOINT>}: RPC endpoint dari Archive Node
+		      \item \texttt{-o, --output <OUTPUT\textunderscore PATH>}: output path dari hasil ekstraksi
+		      \item \texttt{-f, --from-block <FROM\textunderscore BLOCK>}: nomor blok awal dari ekstraksi
+		      \item \texttt{-t, --to-block <TO\textunderscore BLOCK>}: nomor blok akhir dari ekstraksi
+		      \item \texttt{-n, --num-tasks <NUM\textunderscore TASKS>}: jumlah Tokio \textit{tasks} yang akan dijalankan secara paralel
+		      \item \texttt{--include-tx}: flag untuk menyertakan transaksi dalam ekstraksi
+		      \item \texttt{--include-transfers}: flag untuk menyertakan transfer dalam ekstraksi
+		      \item \texttt{--include-logs}: flag untuk menyertakan log dalam ekstraksi
+		      \item \texttt{-s, --scs-path <SCS\textunderscore PATH>}: path Smart Contract Sanctuary untuk disambungkan dengan data yang diekstrak
+		      \item \texttt{--size-output <SIZE\textunderscore OUTPUT>}: ukuran maksimal di dalam RAM untuk output files sebelum di-\textit{flush} dan dikompresi ke \textit{disk}, dalam KB
+		      \item \texttt{--compression-level <COMPRESSION\textunderscore LEVEL>}: tingkat kompresi \\hasil ekstraksi dari 0 (tanpa kompresi) hingga 9 (kompresi maksimal)
+		      \item \texttt{--decompiler-timeout <DECOMPILER\textunderscore TIMEOUT>}: waktu maksimal untuk dekompilasi Smart Contract, dalam milliseconds
+		      \item \texttt{--skip-decompilation}: flag untuk melewati proses ekstraksi ABI dengan heimdall
+	      \end{enumerate}
+	\item \texttt{stream}
+	      \begin{enumerate}
+		      \item \texttt{-e, --endpoint <ENDPOINT>}: endpoint Ethereum Archive Node \\yang akan dihubungkan dengan skema websocket
+		      \item \texttt{-d, --dgraph <DGRAPH>}: endpoint GRPC Dgraph
+		      \item \texttt{--include-tx}: flag untuk menyertakan transaksi dalam \textit{streaming}
+		      \item \texttt{--include-tokens}: flag untuk menyertakan transfer token dalam \textit{streaming}
+		      \item \texttt{--include-logs}: flag untuk menyertakan log dalam \textit{streaming}
+		      \item \texttt{--decompiler-timeout <DECOMPILER\textunderscore TIMEOUT>}: waktu maksimal untuk dekompilasi Smart Contract, dalam milliseconds
+		      \item \texttt{--no-sync}: flag untuk melewati sinkronisasi dari blok terakhir yang diindeks di Dgraph, hanya mengambil blok live
+		      \item \texttt{-n, --num-jobs <NUM\textunderscore JOBS>}: jumlah Tokio \textit{tasks} yang akan dijalankan secara paralel
+	      \end{enumerate}
+	\item \texttt{analyse}
+	      \begin{enumerate}
+		      \item \texttt{similarities}: analisis kesamaan antar Smart Contract
+		            \begin{enumerate}
+			            \item \texttt{-e, --endpoint <ENDPOINT>}: endpoint GRPC Dgraph
+			            \item \texttt{-o, --output-file <OUTPUT\textunderscore FILE>}: file output dari hasil analisis
+			            \item \texttt{-a, --address <ADDRESS>}: alamat Smart Contract untuk menghitung kesamaan
+			            \item \texttt{--interface-sim}: flag untuk menghitung kesamaan interface
+			            \item \texttt{--interface-threshold <INTERFACE\textunderscore THRESHOLD>}: ambang \\batas minimum kesamaan interface (0.0-1.0) di atas mana kesamaan akan disimpan
+			            \item \texttt{--cosine-sim}: flag untuk menghitung kesamaan cosine
+			            \item \texttt{--cosine-threshold <COSINE\textunderscore THRESHOLD>}: ambang batas minimum kesamaan cosine (0.0-1.0) di atas mana kesamaan akan disimpan
+			            \item \texttt{--ngram-length <NGRAM\textunderscore LENGTH>}: panjang N-gram yang digunakan untuk kesamaan cosine
+		            \end{enumerate}
+		      \item \texttt{lifetimes}: analisis lifetime Smart Contract
+		            \begin{enumerate}
+			            \item \texttt{-e, --endpoint <ENDPOINT>}: endpoint GRPC Dgraph
+			            \item \texttt{-o, --output-path <OUTPUT\textunderscore PATH>}: path output dari hasil analisis
+			            \item \texttt{-c, --cache-file <CACHE\textunderscore FILE>}: file cache yang akan digunakan
+		            \end{enumerate}
+	      \end{enumerate}
+\end{enumerate}

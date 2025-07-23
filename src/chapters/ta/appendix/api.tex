@@ -1,0 +1,34 @@
+\chapter{API}
+\label{appendix:api}
+
+\begin{enumerate}
+	\item \texttt{FastAPI Application}: Aplikasi utama FastAPI yang dikonfigurasi dengan CORS middleware untuk memungkinkan akses dari berbagai domain. Aplikasi ini juga memuat spesifikasi OpenAPI kustom dari file YAML.
+	\item \texttt{LightweightRetriever Instance}: Instance dari LightweightRetriever yang digunakan untuk melakukan pencarian Smart Contract menggunakan vector database.
+	\item \texttt{OpenAI Client}: Client OpenAI yang diinisialisasi menggunakan API key dari environment variables untuk melakukan query refinement menggunakan GPT model.
+	\item \texttt{Pydantic Models}: Model-model data yang didefinisikan menggunakan Pydantic untuk validasi input dan output API, termasuk:
+	      \begin{enumerate}
+		      \item \texttt{SearchRequest}: Model untuk request pencarian dengan field query, limit, dan data boolean.
+		      \item \texttt{ContractDeploymentResult}: Model untuk hasil pencarian Smart Contract dengan semua atribut yang relevan.
+		      \item \texttt{RefineRequest/RefineResponse}: Model untuk request dan response refinement query.
+		      \item Model-model entitas lainnya seperti \texttt{Account}, \texttt{Block}, \\\texttt{ParsedContractData}, dan \texttt{ContractAnalysis}.
+	      \end{enumerate}
+	\item \texttt{POST /search}: Endpoint utama untuk melakukan pencarian Smart Contract. Endpoint ini akan menerima SearchRequest dan mengembalikan daftar Smart Contract yang sesuai dengan query. Proses pencarian meliputi:
+	      \begin{enumerate}
+		      \item Validasi input request
+		      \item Pencarian menggunakan LightweightRetriever
+		      \item Pengambilan detail lengkap dari DgraphDB jika parameter data=True
+		      \item Parsing dan formatting hasil untuk dikembalikan ke client
+	      \end{enumerate}
+	\item \texttt{GET /}: Endpoint untuk dokumentasi API yang mengembalikan halaman HTML dengan informasi tentang penggunaan API.
+\end{enumerate}
+
+% Sistem Query Refinement menggunakan prompt sistem yang dirancang khusus untuk meningkatkan kualitas pencarian Smart Contract. Prompt ini akan:
+% \begin{enumerate}
+%     \item Mengidentifikasi terminologi teknis yang relevan dengan blockchain dan Smart Contract.
+%     \item Menambahkan deskripsi fungsionalitas yang spesifik.
+%     \item Menyertakan pola dan standar umum seperti ERC20, ERC721, protokol DeFi.
+%     \item Mempertimbangkan aspek keamanan yang relevan.
+%     \item Menambahkan detail use case dan logika bisnis.
+% \end{enumerate}
+
+% API juga menyediakan fallback enhancement berbasis aturan yang akan digunakan jika client OpenAI tidak tersedia, dengan pattern matching untuk kategori-kategori seperti token, NFT, DeFi, governance, dan security.

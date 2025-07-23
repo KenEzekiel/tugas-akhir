@@ -1,0 +1,7 @@
+\chapter{Parallel Enricher}
+\label{appendix:parallel-enricher}
+
+\begin{enumerate}
+	\item \texttt{attribute enricher}: Atribut yang berisi objek Semantic Enricher yang akan digunakan untuk melakukan Semantic Enrichment pada data.
+	\item \texttt{process\textunderscore contracts}: Metode untuk melakukan Semantic Enrichment pada data Smart Contract secara paralel. Metode ini akan menerima parameter \texttt{contracts} yang berisi daftar Smart Contract yang akan diproses. Metode ini akan menggunakan \textit{Asyncio} untuk menjalankan proses Semantic Enrichment pada setiap Smart Contract secara paralel. Hasil dari proses ini akan dikembalikan dalam bentuk daftar data Smart Contracts yang sudah di-enrich.
+\end{enumerate}
