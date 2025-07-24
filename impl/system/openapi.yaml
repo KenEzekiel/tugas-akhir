@@ -1,7 +1,7 @@
 openapi: 3.0.3
 info:
   title: Smart Contract Search API
-  description: API for searching smart contracts using semantic search and vector similarity search
+  description: API for searching smart contracts using semantic search
   version: 2.0.0
   contact:
     name: API Support
@@ -55,42 +55,6 @@ paths:
               schema:
                 $ref: "#/components/schemas/ErrorResponse"
 
-  /vector_search:
-    post:
-      summary: Vector similarity search for smart contracts
-      description: Perform vector similarity search on smart contracts using natural language queries
-      operationId: vectorSearchContracts
-      tags:
-        - contracts
-      requestBody:
-        required: true
-        content:
-          application/json:
-            schema:
-              $ref: "#/components/schemas/VectorSearchRequest"
-            examples:
-              vector_search:
-                summary: Vector similarity search
-                value:
-                  query: "token contract with minting functionality"
-                  limit: 5
-                  threshold: 0.7
-      responses:
-        "200":
-          description: Successful vector search results
-          content:
-            application/json:
-              schema:
-                type: array
-                items:
-                  $ref: "#/components/schemas/ContractResult"
-        "500":
-          description: Internal server error
-          content:
-            application/json:
-              schema:
-                $ref: "#/components/schemas/ErrorResponse"
-
 components:
   schemas:
     SearchRequest:
@@ -115,31 +79,6 @@ components:
           description: Whether to include detailed contract data
           default: false
           example: true
-
-    VectorSearchRequest:
-      type: object
-      required:
-        - query
-      properties:
-        query:
-          type: string
-          description: Natural language search query
-          example: "token contract with minting functionality"
-          minLength: 1
-        limit:
-          type: integer
-          description: Maximum number of results to return
-          example: 5
-          minimum: 1
-          maximum: 20
-          default: 5
-        threshold:
-          type: number
-          description: Similarity threshold for vector search
-          example: 0.7
-          minimum: 0.0
-          maximum: 1.0
-          default: 0.7
 
     ContractResult:
       type: object
@@ -236,13 +175,13 @@ components:
           nullable: true
           description: Application domain
           example: "finance"
-        security_risks:
+        security_risks_description:
           type: array
           items:
             type: string
           nullable: true
-          description: Identified security risks
-          example: ["reentrancy", "integer_overflow"]
+          description: Identified security risks description
+          example: "This contract has a reentrancy vulnerability"
         similarity_score:
           type: number
           nullable: true

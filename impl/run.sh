@@ -30,7 +30,7 @@ elif command -v x-terminal-emulator &> /dev/null; then
 else
   # Fallback: run in background
   npm run dev > ../logs/web.log 2>&1 &
-  echo "Web dev server started in background. See logs/web.log for output."
+  echo "Web dev server started in background. See web.log for output."
 fi
 
 echo "All services started."
