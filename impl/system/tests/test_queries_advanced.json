@@ -1,0 +1,654 @@
+{
+  "metadata": {
+    "version": "2.0",
+    "description": "Advanced test queries for smart contract discovery system using REAL contract data",
+    "total_queries": 36,
+    "api_endpoint": "http://localhost:8000/search",
+    "dataset_info": {
+      "total_contracts": 118,
+      "contract_types": {
+        "erc20": 65,
+        "erc721": 29,
+        "erc1155": 8,
+        "library": 9,
+        "proxy": 7
+      }
+    }
+  },
+  "queries": [
+    {
+      "id": "advanced_defi_protocol_building_blocks_1",
+      "query": "I need a battle-tested staking contract that supports multiple reward tokens and flexible reward rates for yield farming",
+      "category": "defi_protocol_building_blocks",
+      "description": "Building a multi-token yield farming platform",
+      "expected_results": {
+        "contract_uids": [
+          "0xcc788b",
+          "0x6c5721",
+          "0x90f634"
+        ],
+        "expected_count": 3,
+        "expected_count_range": [
+          1,
+          5
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:yield_farming/liquidity_mining"
+        ],
+        "expected_keywords": [
+          "staking mechanism",
+          "reward distribution",
+          "token farming"
+        ]
+      }
+    },
+    {
+      "id": "advanced_defi_protocol_building_blocks_2",
+      "query": "Looking for AMM router contracts with multi-hop swap capability and slippage protection for DEX integration",
+      "category": "defi_protocol_building_blocks",
+      "description": "Building a DEX aggregator with optimal routing",
+      "expected_results": {
+        "contract_uids": [
+          "0xdbbade",
+          "0xe1d596",
+          "0xd726c1"
+        ],
+        "expected_count": 3,
+        "expected_count_range": [
+          1,
+          5
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:decentralized_exchanges"
+        ],
+        "expected_keywords": [
+          "AMM functionality",
+          "swap routing",
+          "liquidity management"
+        ]
+      }
+    },
+    {
+      "id": "advanced_defi_protocol_building_blocks_3",
+      "query": "Need lending pool contracts with collateral management and liquidation mechanisms like Aave",
+      "category": "defi_protocol_building_blocks",
+      "description": "Creating a decentralized lending protocol",
+      "expected_results": {
+        "contract_uids": [
+          "0xc96b3b",
+          "0xd726d9",
+          "0xef90e0"
+        ],
+        "expected_count": 3,
+        "expected_count_range": [
+          1,
+          5
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:lending_borrowing"
+        ],
+        "expected_keywords": [
+          "lending functionality",
+          "collateral management",
+          "liquidation"
+        ]
+      }
+    },
+    {
+      "id": "advanced_defi_protocol_building_blocks_4",
+      "query": "Want ERC-20 tokens with built-in fee mechanisms for automatic liquidity provision",
+      "category": "defi_protocol_building_blocks",
+      "description": "Creating a deflationary token with auto-liquidity",
+      "expected_results": {
+        "contract_uids": [
+          "0xd4194c",
+          "0xf29e23",
+          "0xc96b46"
+        ],
+        "expected_count": 3,
+        "expected_count_range": [
+          1,
+          5
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi"
+        ],
+        "expected_keywords": [
+          "fee mechanism",
+          "liquidity provision",
+          "token economics"
+        ]
+      }
+    },
+    {
+      "id": "advanced_defi_protocol_building_blocks_5",
+      "query": "Flash loan contracts for arbitrage and liquidation bots",
+      "category": "defi_protocol_building_blocks",
+      "description": "Building MEV and arbitrage strategies",
+      "expected_results": {
+        "contract_uids": [
+          "0xcaf1ae"
+        ],
+        "expected_count": 1,
+        "expected_count_range": [
+          0,
+          3
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:lending_borrowing"
+        ],
+        "expected_keywords": [
+          "flash loans",
+          "arbitrage",
+          "liquidation"
+        ]
+      }
+    },
+    {
+      "id": "advanced_nft_gaming_ecosystems_6",
+      "query": "ERC-721 contracts with gaming mechanics like battles, upgrades, and item management",
+      "category": "nft_gaming_ecosystems",
+      "description": "Building a blockchain-based RPG game",
+      "expected_results": {
+        "contract_uids": [
+          "0x940313",
+          "0xec83c4"
+        ],
+        "expected_count": 2,
+        "expected_count_range": [
+          0,
+          4
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "gaming",
+          "nft_marketplaces/collectibles"
+        ],
+        "expected_keywords": [
+          "gaming mechanics",
+          "NFT upgrades",
+          "battle system"
+        ]
+      }
+    },
+    {
+      "id": "advanced_nft_gaming_ecosystems_7",
+      "query": "Multi-token ERC-1155 contracts for managing different asset types in gaming",
+      "category": "nft_gaming_ecosystems",
+      "description": "Creating a game with multiple asset types",
+      "expected_results": {
+        "contract_uids": [
+          "0xe6694c",
+          "0xf424de",
+          "0xd29332"
+        ],
+        "expected_count": 3,
+        "expected_count_range": [
+          1,
+          5
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "gaming",
+          "nft_marketplaces/collectibles"
+        ],
+        "expected_keywords": [
+          "multi-token standard",
+          "asset management",
+          "gaming assets"
+        ]
+      }
+    },
+    {
+      "id": "advanced_nft_gaming_ecosystems_8",
+      "query": "NFT minting contracts with Dutch auction and whitelist functionality",
+      "category": "nft_gaming_ecosystems",
+      "description": "Launching an NFT collection with fair pricing",
+      "expected_results": {
+        "contract_uids": [
+          "0xd419b9",
+          "0xd8ad03"
+        ],
+        "expected_count": 2,
+        "expected_count_range": [
+          0,
+          4
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "nft_marketplaces/collectibles"
+        ],
+        "expected_keywords": [
+          "Dutch auction",
+          "whitelist",
+          "fair launch"
+        ]
+      }
+    },
+    {
+      "id": "advanced_nft_gaming_ecosystems_9",
+      "query": "Royalty management contracts for NFT creators and marketplaces",
+      "category": "nft_gaming_ecosystems",
+      "description": "Building an NFT marketplace with creator royalties",
+      "expected_results": {
+        "contract_uids": [
+          "0xc96ada",
+          "0xcc77fa",
+          "0xcf8547"
+        ],
+        "expected_count": 3,
+        "expected_count_range": [
+          1,
+          5
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "nft_marketplaces/collectibles"
+        ],
+        "expected_keywords": [
+          "royalty management",
+          "creator fees",
+          "marketplace"
+        ]
+      }
+    },
+    {
+      "id": "advanced_governance_dao_infrastructure_10",
+      "query": "Voting contracts with different voting mechanisms and proposal management",
+      "category": "governance_dao_infrastructure",
+      "description": "Creating a DAO with advanced governance features",
+      "expected_results": {
+        "contract_uids": [
+          "0xe1d586",
+          "0xd8adad"
+        ],
+        "expected_count": 2,
+        "expected_count_range": [
+          0,
+          4
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "voting/governance"
+        ],
+        "expected_keywords": [
+          "voting mechanism",
+          "proposal management",
+          "governance"
+        ]
+      }
+    },
+    {
+      "id": "advanced_governance_dao_infrastructure_11",
+      "query": "Ownable contracts with multi-signature and role-based access control",
+      "category": "governance_dao_infrastructure",
+      "description": "Implementing secure contract ownership",
+      "expected_results": {
+        "contract_uids": [
+          "0xd72726",
+          "0xcdff90",
+          "0xda3458"
+        ],
+        "expected_count": 3,
+        "expected_count_range": [
+          1,
+          5
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi",
+          "identity_verification"
+        ],
+        "expected_keywords": [
+          "access control",
+          "multi-sig",
+          "role management"
+        ]
+      }
+    },
+    {
+      "id": "advanced_enterprise_solutions_12",
+      "query": "Identity verification contracts with ECDSA signature validation",
+      "category": "enterprise_solutions",
+      "description": "Building enterprise identity management",
+      "expected_results": {
+        "contract_uids": [
+          "0xcf85fc",
+          "0xf117e7",
+          "0xeafd4e"
+        ],
+        "expected_count": 3,
+        "expected_count_range": [
+          1,
+          5
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "identity_verification"
+        ],
+        "expected_keywords": [
+          "ECDSA signatures",
+          "identity validation",
+          "secure auth"
+        ]
+      }
+    },
+    {
+      "id": "advanced_enterprise_solutions_13",
+      "query": "Token vesting contracts for employee compensation and investor lockups",
+      "category": "enterprise_solutions",
+      "description": "Managing token distribution schedules",
+      "expected_results": {
+        "contract_uids": [
+          "0xeafd60"
+        ],
+        "expected_count": 1,
+        "expected_count_range": [
+          0,
+          3
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:yield_farming/liquidity_mining"
+        ],
+        "expected_keywords": [
+          "vesting schedule",
+          "token lockup",
+          "compensation"
+        ]
+      }
+    },
+    {
+      "id": "advanced_cross_chain_interoperability_14",
+      "query": "Cross-chain messaging contracts for multi-blockchain communication",
+      "category": "cross_chain_interoperability",
+      "description": "Building cross-chain DeFi protocols",
+      "expected_results": {
+        "contract_uids": [
+          "0xe4e2c3"
+        ],
+        "expected_count": 1,
+        "expected_count_range": [
+          0,
+          3
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:decentralized_exchanges"
+        ],
+        "expected_keywords": [
+          "cross-chain messaging",
+          "multi-blockchain",
+          "interoperability"
+        ]
+      }
+    },
+    {
+      "id": "advanced_cross_chain_interoperability_15",
+      "query": "Bridge contracts for token transfers between different blockchains",
+      "category": "cross_chain_interoperability",
+      "description": "Creating a multi-chain bridge protocol",
+      "expected_results": {
+        "contract_uids": [
+          "0xe4e2c3"
+        ],
+        "expected_count": 1,
+        "expected_count_range": [
+          0,
+          3
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:decentralized_exchanges"
+        ],
+        "expected_keywords": [
+          "token bridging",
+          "cross-chain transfers",
+          "blockchain interop"
+        ]
+      }
+    },
+    {
+      "id": "advanced_security_auditing_tools_16",
+      "query": "Proxy contracts with upgrade mechanisms and security controls",
+      "category": "security_auditing_tools",
+      "description": "Implementing upgradeable smart contracts",
+      "expected_results": {
+        "contract_uids": [
+          "0xe7effc",
+          "0xf1175e",
+          "0xcaf227"
+        ],
+        "expected_count": 3,
+        "expected_count_range": [
+          1,
+          5
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi",
+          "nft_marketplaces/collectibles"
+        ],
+        "expected_keywords": [
+          "proxy pattern",
+          "upgradeability",
+          "security"
+        ]
+      }
+    },
+    {
+      "id": "advanced_security_auditing_tools_17",
+      "query": "Reentrancy protection and safe math utility libraries",
+      "category": "security_auditing_tools",
+      "description": "Adding security layers to smart contracts",
+      "expected_results": {
+        "contract_uids": [
+          "0xcdff7b",
+          "0xeafd2a",
+          "0xd72726"
+        ],
+        "expected_count": 3,
+        "expected_count_range": [
+          1,
+          5
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi",
+          "library_contracts"
+        ],
+        "expected_keywords": [
+          "reentrancy protection",
+          "safe math",
+          "security utilities"
+        ]
+      }
+    },
+    {
+      "id": "advanced_real_world_integration_18",
+      "query": "Oracle contracts for real-world data integration and price feeds",
+      "category": "real_world_integration",
+      "description": "Integrating external data into DeFi protocols",
+      "expected_results": {
+        "contract_uids": [
+          "0xcc788b",
+          "0x6c5721"
+        ],
+        "expected_count": 2,
+        "expected_count_range": [
+          0,
+          4
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:yield_farming/liquidity_mining"
+        ],
+        "expected_keywords": [
+          "oracle integration",
+          "price feeds",
+          "external data"
+        ]
+      }
+    },
+    {
+      "id": "advanced_real_world_integration_19",
+      "query": "Presale contracts for token distribution and fundraising",
+      "category": "real_world_integration",
+      "description": "Launching token presales and fundraising",
+      "expected_results": {
+        "contract_uids": [
+          "0xcaf22e"
+        ],
+        "expected_count": 1,
+        "expected_count_range": [
+          0,
+          3
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:stablecoins"
+        ],
+        "expected_keywords": [
+          "presale mechanism",
+          "fundraising",
+          "token distribution"
+        ]
+      }
+    },
+    {
+      "id": "advanced_social_community_20",
+      "query": "Airdrop contracts for community rewards and token distribution",
+      "category": "social_community",
+      "description": "Distributing tokens to community members",
+      "expected_results": {
+        "contract_uids": [
+          "0xcaf236"
+        ],
+        "expected_count": 1,
+        "expected_count_range": [
+          0,
+          3
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:airdropping"
+        ],
+        "expected_keywords": [
+          "airdrop mechanism",
+          "community rewards",
+          "token distribution"
+        ]
+      }
+    },
+    {
+      "id": "advanced_social_community_21",
+      "query": "Bounty contracts for rewarding developers and contributors",
+      "category": "social_community",
+      "description": "Creating developer incentive programs",
+      "expected_results": {
+        "contract_uids": [
+          "0xe97681"
+        ],
+        "expected_count": 1,
+        "expected_count_range": [
+          0,
+          3
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:yield_farming/liquidity_mining"
+        ],
+        "expected_keywords": [
+          "bounty system",
+          "developer rewards",
+          "contribution tracking"
+        ]
+      }
+    },
+    {
+      "id": "advanced_development_tools_22",
+      "query": "Mathematical utility libraries for complex calculations",
+      "category": "development_tools",
+      "description": "Adding mathematical operations to smart contracts",
+      "expected_results": {
+        "contract_uids": [
+          "0xeafd2a",
+          "0xcdff7b"
+        ],
+        "expected_count": 2,
+        "expected_count_range": [
+          0,
+          4
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi",
+          "library_contracts"
+        ],
+        "expected_keywords": [
+          "math utilities",
+          "calculations",
+          "utility libraries"
+        ]
+      }
+    },
+    {
+      "id": "advanced_advanced_finance_23",
+      "query": "Stablecoin contracts with collateral backing and peg mechanisms",
+      "category": "advanced_finance",
+      "description": "Creating algorithmic stablecoins",
+      "expected_results": {
+        "contract_uids": [
+          "0xc96b58",
+          "0xd5a077",
+          "0xda3473"
+        ],
+        "expected_count": 3,
+        "expected_count_range": [
+          1,
+          5
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:stablecoins"
+        ],
+        "expected_keywords": [
+          "stablecoin mechanism",
+          "collateral backing",
+          "price stability"
+        ]
+      }
+    },
+    {
+      "id": "advanced_advanced_finance_24",
+      "query": "Token wrapping contracts for converting between different token standards",
+      "category": "advanced_finance",
+      "description": "Building token wrapping services",
+      "expected_results": {
+        "contract_uids": [
+          "0xee0a6c",
+          "0xf29e67"
+        ],
+        "expected_count": 2,
+        "expected_count_range": [
+          0,
+          4
+        ],
+        "expected_contract_types": [],
+        "expected_domains": [
+          "defi:stablecoins"
+        ],
+        "expected_keywords": [
+          "token wrapping",
+          "standard conversion",
+          "token bridging"
+        ]
+      }
+    }
+  ]
+}
