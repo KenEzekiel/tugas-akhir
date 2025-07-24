@@ -1,20 +1,19 @@
 \subsection{Analisis Kebutuhan Sistem}
 
 % bingung nulis apa lagi disini
-Pada bagian \ref{subsec:analisis-alternatif-solusi}, telah disimpulkan pilihan alternatif yang akan digunakan dalam membangun sistem. Alternatif-alternatif solusi yang digunakan akan menjadi komponen yang saling berinteraksi dalam sistem Smart Contract Discovery untuk menyediakan fungsionalitas yang terpadu. Pada bagian ini akan diuraikan lebih lanjut mengenai sistem yang akan dibangun sehingga dapat memberikan panduan dalam fase pengembangan sistem. Penjelasan ini mencakup deskripsi sistem, karakteristik pengguna, kebutuhan fungsional dan non-fungsional, serta model use case yang akan digunakan dalam sistem.
+Pada bagian \ref{subsec:analisis-alternatif-solusi}, telah disimpulkan pilihan alternatif yang akan digunakan dalam membangun sistem. Alternatif-alternatif solusi yang digunakan akan menjadi komponen yang saling berinteraksi dalam sistem Smart Contract Discovery untuk menyediakan fungsionalitas yang terpadu. Pada bagian ini akan diuraikan lebih lanjut mengenai sistem yang akan dibangun sehingga dapat memberikan panduan dalam fase pengembangan sistem. Penjelasan ini mencakup deskripsi sistem, karakteristik pengguna, kebutuhan fungsional, serta model use case yang akan digunakan dalam sistem.
 
 \subsubsection{Deskripsi Sistem}
 % penjelasan gambaran umum sistem, komponen utamanya apa aja
 % buat diagram UML gambaran umum
 % Jelaskan tujuan utama sistem (misalnya: "Membangun sistem pencarian smart contract berbasis semantik untuk meningkatkan efisiensi pengembangan dApps").
 
-Solusi yang akan dikembangkan adalah sebuah sistem Smart Contract Discovery yang bertujuan untuk menyediakan \textit{platform} pencarian Smart Contract dalam Blockchain Ethereum berbasis semantik memanfaatkan LLM dan RAG. Sistem akan dibagi menjadi beberapa komponen utama yang saling berinteraksi untuk menyediakan fungsionalitas yang terpadu. Komponen utama sistem dapat dibagi sebagai berikut:
+Solusi yang akan dikembangkan adalah sebuah sistem Smart Contract Discovery yang bertujuan untuk menjadi \textit{platform} pencarian Smart Contract dalam Blockchain Ethereum berbasis semantik. Sistem akan dibagi menjadi beberapa komponen utama yang saling berinteraksi untuk menyediakan fungsionalitas yang terpadu. Komponen utama sistem dapat dibagi sebagai berikut:
 
 \begin{enumerate}
 	\item Komponen Ekstraksi Data (Ethereum Archive Node dan eth2dgraph)
 	\item Komponen Penyimpanan Data (DgraphDB dan Vector Database)
 	\item Komponen \textit{Semantic Enrichment} (Smart Contract Enricher)
-	\item Komponen Pencarian (Query Enricher dan Data Retriever)
 	\item Komponen Antarmuka Pengguna
 \end{enumerate}
 
@@ -34,12 +33,12 @@ Solusi yang akan dikembangkan adalah sebuah sistem Smart Contract Discovery yang
 
 % Ethereum Archive Node → eth2dgraph (ekstraksi) → Dgraph (penyimpanan) → LLM (semantic enrichment) → Dgraph (update) → RAG (query).  
 
-Gambar \ref{image:komponen-sistem} dan gambar \ref{image:layer-arsitektur} menunjukkan gambaran umum alur kerja sistem. Sistem ini akan melakukan ekstraksi data dari Ethereum Archive Node menggunakan \textit{eth2dgraph} dan menyimpannya dalam Dgraph. Setelah itu, sistem akan melakukan \textit{semantic enrichment} menggunakan LLM untuk memperkaya deskripsi dan metadata Smart Contract, lalu memperbarui data di Dgraph. Sebelum data dapat dilakukan query, akan dilakukan indexing data menjadi bentuk vector embeddings dan disimpan di dalam Vector Database. Terakhir, sistem akan menggunakan RAG untuk melakukan pencarian berdasarkan kebutuhan pengguna.
+Gambar \ref{image:komponen-sistem} dan gambar \ref{image:layer-arsitektur} menunjukkan gambaran umum alur kerja sistem. Sistem ini akan melakukan ekstraksi data dari Ethereum Archive Node menggunakan \textit{eth2dgraph} dan menyimpannya dalam Dgraph. Setelah itu, sistem akan melakukan \textit{semantic enrichment} menggunakan LLM untuk memperkaya deskripsi dan metadata Smart Contract, lalu memperbarui data di Dgraph. Sebelum data dapat dilakukan query, akan dilakukan indexing data menjadi bentuk vector embeddings dan disimpan di dalam Vector Database. Terakhir, sistem akan menggunakan \textit{cosine similarity} atau disebut juga \textit{semantic similarity} untuk melakukan pencarian berdasarkan kebutuhan pengguna.
 
 \subsubsection{Proses Semantic Enrichment}
 
-Proses \textit{Semantic Enrichment} yang terdapat pada poin 1.3 pada gambar \ref{image:komponen-sistem} dapat dibagi menjadi empat bagian, yaitu proses penerapan skema sebagai \textit{template} \textit{enrichment} pada data sebelum data diproses, proses pengambilan data dari Dgraph, proses data \textit{enrichment}, yang dibagi menjadi beberapa subproses yang dilakukan oleh Agents, dan proses \textit{update} data ke dalam Dgraph.
-Proses ini akan dilakukan secara berulang-ulang hingga semua data yang ada di Dgraph terproses. Proses ini akan menghasilkan data yang mengandung unsur semantik sehingga dapat digunakan untuk melakukan pencarian berbasis semantik. Setelah proses \textit{enrichment} selesai, data akan disimpan kembali ke dalam Dgraph.
+Proses \textit{Semantic Enrichment} yang terdapat pada poin 1.3 pada gambar \ref{image:komponen-sistem} dapat dibagi menjadi empat bagian, yaitu proses penerapan skema sebagai \textit{template} \textit{enrichment} pada data sebelum data diproses, proses pengambilan data dari Dgraph, proses data \textit{enrichment} menggunakan LLM, dan proses \textit{update} data ke dalam Dgraph.
+Proses ini akan dilakukan secara berulang-ulang hingga semua data yang ada di Dgraph terproses. Proses ini akan menghasilkan deskripsi semantik dari data sehingga dapat digunakan untuk melakukan pencarian berbasis semantik. Setelah proses \textit{enrichment} selesai, data akan disimpan kembali ke dalam Dgraph.
 
 \begin{figure}[ht]
 	\centering
