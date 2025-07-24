@@ -104,7 +104,7 @@ export async function searchContracts(
 ): Promise<ContractResult[]> {
   const baseUrl = process.env.CONTRACT_SEARCH_API_URL || "http://0.0.0.0:8000";
 
-  const res = await fetch(`${baseUrl}/vector_search`, {
+  const res = await fetch(`${baseUrl}/search`, {
     method: "POST",
     cache: "no-store",
     headers: { "Content-Type": "application/json" },
@@ -116,7 +116,7 @@ export async function searchContracts(
   });
 
   console.log("Vector search request:", {
-    url: `${baseUrl}/vector_search`,
+    url: `${baseUrl}/search`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, limit, threshold }),

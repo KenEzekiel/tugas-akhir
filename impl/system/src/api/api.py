@@ -3,13 +3,10 @@ from fastapi.middleware.cors import CORSMiddleware
 from fastapi.responses import HTMLResponse, JSONResponse
 from pydantic import BaseModel, Field
 from typing import List, Optional
-from src.core.data_retrieval.lightweight_retriever import LightweightRetriever
 import uvicorn
 from src.core.data_access.dgraph_client import DgraphClient
 import yaml
 import os
-from openai import OpenAI
-
 
 # Load custom OpenAPI spec
 def load_openapi_spec():
@@ -32,8 +29,6 @@ if custom_openapi:
         return custom_openapi
 
     app.openapi = custom_openapi_func
-
-retriever = LightweightRetriever()
 
 # CORS configuration
 app.add_middleware(
@@ -152,66 +147,66 @@ class ContractResult(BaseModel):
 #         raise HTTPException(status_code=500, detail=str(e))
 
 
+# @app.post("/search")
+# async def search_contracts(request: SearchRequest):
+#     try:
+#         results = retriever.search(request.query, request.limit)
+#         formatted_results = []
+
+#         if request.data:
+#             client = DgraphClient()
+#             for result in results:
+#                 try:
+#                     contract_data = client.get_contract_by_uid(
+#                         result["metadata"]["dgraph_id"]
+#                     )
+#                     if not contract_data:
+#                         continue
+
+#                     contract = contract_data[0]
+
+#                     formatted_result = ContractResult(
+#                         id=contract.get("uid", ""),
+#                         name=contract.get("ContractDeployment.name", ""),
+#                         description=result.get("content", ""),
+#                         created=contract.get("ContractDeployment.created", ""),
+#                         verified=contract.get(
+#                             "ContractDeployment.verified_source", False
+#                         ),
+#                         tags=[contract.get("ContractDeployment.domain", "")],
+#                         storage_protocol=contract.get(
+#                             "ContractDeployment.storage_protocol"
+#                         ),
+#                         storage_address=contract.get(
+#                             "ContractDeployment.storage_address"
+#                         ),
+#                         experimental=contract.get("ContractDeployment.experimental"),
+#                         solc_version=contract.get("ContractDeployment.solc_version"),
+#                         verified_source=contract.get(
+#                             "ContractDeployment.verified_source"
+#                         ),
+#                         verified_source_code=contract.get(
+#                             "ContractDeployment.verified_source_code"
+#                         ),
+#                         functionality=contract.get("ContractDeployment.functionality"),
+#                         domain=contract.get("ContractDeployment.domain"),
+#                         security_risks=contract.get(
+#                             "ContractDeployment.security_risks", []
+#                         ),
+#                     )
+#                     print(formatted_result.id, formatted_result.description)
+#                     formatted_results.append(formatted_result.model_dump())
+#                 except Exception as e:
+#                     print(f"Error processing contract: {str(e)}")
+#                     continue
+#             client.close()
+
+#         return JSONResponse(content=formatted_results)
+#     except Exception as e:
+#         raise HTTPException(status_code=500, detail=str(e))
+
+
 @app.post("/search")
-async def search_contracts(request: SearchRequest):
-    try:
-        results = retriever.search(request.query, request.limit)
-        formatted_results = []
-
-        if request.data:
-            client = DgraphClient()
-            for result in results:
-                try:
-                    contract_data = client.get_contract_by_uid(
-                        result["metadata"]["dgraph_id"]
-                    )
-                    if not contract_data:
-                        continue
-
-                    contract = contract_data[0]
-
-                    formatted_result = ContractResult(
-                        id=contract.get("uid", ""),
-                        name=contract.get("ContractDeployment.name", ""),
-                        description=result.get("content", ""),
-                        created=contract.get("ContractDeployment.created", ""),
-                        verified=contract.get(
-                            "ContractDeployment.verified_source", False
-                        ),
-                        tags=[contract.get("ContractDeployment.domain", "")],
-                        storage_protocol=contract.get(
-                            "ContractDeployment.storage_protocol"
-                        ),
-                        storage_address=contract.get(
-                            "ContractDeployment.storage_address"
-                        ),
-                        experimental=contract.get("ContractDeployment.experimental"),
-                        solc_version=contract.get("ContractDeployment.solc_version"),
-                        verified_source=contract.get(
-                            "ContractDeployment.verified_source"
-                        ),
-                        verified_source_code=contract.get(
-                            "ContractDeployment.verified_source_code"
-                        ),
-                        functionality=contract.get("ContractDeployment.functionality"),
-                        domain=contract.get("ContractDeployment.domain"),
-                        security_risks=contract.get(
-                            "ContractDeployment.security_risks", []
-                        ),
-                    )
-                    print(formatted_result.id, formatted_result.description)
-                    formatted_results.append(formatted_result.model_dump())
-                except Exception as e:
-                    print(f"Error processing contract: {str(e)}")
-                    continue
-            client.close()
-
-        return JSONResponse(content=formatted_results)
-    except Exception as e:
-        raise HTTPException(status_code=500, detail=str(e))
-
-
-@app.post("/vector_search")
 async def vector_search_contracts(request: VectorSearchRequest):
     """
     Perform vector similarity search on smart contracts using Dgraph's vector search.

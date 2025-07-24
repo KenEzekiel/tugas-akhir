@@ -135,6 +135,7 @@ class DgraphClient:
       ContractDeployment.functionality_classification
       ContractDeployment.application_domain
       ContractDeployment.security_risks_description
+      ContractDeployment.embeddings
       }}
     }}
     """
@@ -261,6 +262,7 @@ class DgraphClient:
         try:
             # Convert query to embedding vector
             query_embedding = self.embedding_model.embed_query(query)
+            self.logger.info(f"Query embedding length: {len(query_embedding)}")
 
             # Format the vector for Dgraph query as a properly quoted JSON string
             vector_str = json.dumps(query_embedding)
@@ -284,6 +286,7 @@ class DgraphClient:
                     ContractDeployment.functionality_classification
                     ContractDeployment.application_domain
                     ContractDeployment.security_risks_description
+                    ContractDeployment.embeddings
                 }}
             }}
             """
