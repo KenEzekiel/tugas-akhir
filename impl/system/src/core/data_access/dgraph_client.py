@@ -5,6 +5,7 @@ from src.utils.logger import logger
 from src.utils.file import write_file
 from contextlib import contextmanager
 from langchain_huggingface import HuggingFaceEmbeddings
+import numpy as np
 
 
 class DgraphClient:
@@ -247,8 +248,7 @@ class DgraphClient:
                 self.logger.exception("Failed to get contracts count")
                 raise
 
-    def vector_search(
-        self, query: str, limit: int = 5) -> list[dict]:
+    def vector_search(self, query: str, limit: int = 5) -> list[dict]:
         """
         Performs vector similarity search on contracts using natural language query
 
@@ -257,7 +257,7 @@ class DgraphClient:
             limit: Maximum number of results to return
 
         Returns:
-            List of similar contracts with metadata
+            List of similar contracts with metadata, each including cosine similarity
         """
         try:
             # Convert query to embedding vector
@@ -271,7 +271,7 @@ class DgraphClient:
             # Syntax: similar_to(predicate, topK, "vector") - vector must be quoted
             dgraph_query = f"""
             {{
-                similar_contracts(func: similar_to(ContractDeployment.embeddings, {limit}, "{vector_str}")) @filter(has(ContractDeployment.embeddings)) {{
+                similar_contracts(func: similar_to(ContractDeployment.embeddings, {limit}, \"{vector_str}\")) @filter(has(ContractDeployment.embeddings)) {{
                     uid
                     ContractDeployment.contract
                     ContractDeployment.block
@@ -294,8 +294,46 @@ class DgraphClient:
             with self.dgraph_txn(read_only=True) as txn:
                 response = txn.query(dgraph_query).json
                 response = json.loads(response)
-
                 results = response.get("similar_contracts", [])
+
+                # Calculate cosine similarity for each result
+                for result in results:
+                    emb = result.get("ContractDeployment.embeddings")
+                    if emb is not None:
+                        try:
+                            # Handle both string and list types
+                            if isinstance(emb, str):
+                                emb_vec = np.array(json.loads(emb), dtype=np.float32)
+                            elif isinstance(emb, list):
+                                emb_vec = np.array(emb, dtype=np.float32)
+                            else:
+                                raise ValueError(
+                                    f"Unexpected type for embeddings: {type(emb)}"
+                                )
+                            query_vec = np.array(query_embedding, dtype=np.float32)
+                            # Compute cosine similarity
+                            if (
+                                np.linalg.norm(emb_vec) > 0
+                                and np.linalg.norm(query_vec) > 0
+                            ):
+                                cosine_sim = float(
+                                    np.dot(emb_vec, query_vec)
+                                    / (
+                                        np.linalg.norm(emb_vec)
+                                        * np.linalg.norm(query_vec)
+                                    )
+                                )
+                            else:
+                                cosine_sim = 0.0
+                        except Exception as e:
+                            self.logger.warning(
+                                f"Failed to parse or compute cosine similarity: {e}"
+                            )
+                            cosine_sim = None
+                    else:
+                        cosine_sim = None
+                    result["cosine_similarity"] = cosine_sim
+
                 self.logger.info(
                     f"Vector search found {len(results)} similar contracts for query: {query}"
                 )

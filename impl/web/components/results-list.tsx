@@ -19,6 +19,21 @@ import type { ContractResult } from "@/lib/types";
 import { Copy, ExternalLink, FileCode, Tag } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
+// Helper function to get relevance level and color
+function getRelevanceInfo(score?: number) {
+  if (score === undefined || score === null) {
+    return { level: "Unknown", color: "bg-gray-500", textColor: "text-white" };
+  }
+
+  if (score > 0.6) {
+    return { level: "High", color: "bg-green-500", textColor: "text-white" };
+  } else if (score >= 0.3) {
+    return { level: "Medium", color: "bg-yellow-500", textColor: "text-black" };
+  } else {
+    return { level: "Low", color: "bg-red-500", textColor: "text-white" };
+  }
+}
+
 export function ResultsList() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q");
@@ -149,125 +164,162 @@ export function ResultsList() {
         </div>
       ) : (
         <div className="space-y-4">
-          {results.map((contract) => (
-            <Card
-              key={`${contract.id}-${contract.name}`}
-              className="overflow-hidden hover:shadow-md transition-shadow"
-            >
-              <CardHeader className="pb-2">
-                <div className="flex justify-between items-start">
-                  <div>
-                    <CardTitle className="text-lg">
-                      {contract.name || "Unnamed Contract"}
-                    </CardTitle>
-                    <CardDescription>
-                      {contract.description || "No description available"}
-                    </CardDescription>
-                  </div>
-                  <div className="flex gap-2">
-                    {contract.verified && (
-                      <Badge variant="default">Verified</Badge>
-                    )}
-                    {contract.solc_version && (
-                      <Badge variant="outline">
-                        Solidity {contract.solc_version}
-                      </Badge>
-                    )}
-                  </div>
-                </div>
-              </CardHeader>
-              <CardContent>
-                <div className="flex flex-wrap gap-2 mb-3">
-                  {contract.tags?.map((tag, i) => (
-                    <Badge
-                      key={`${tag}-${i}`}
-                      variant="secondary"
-                      className="flex items-center gap-1"
-                    >
-                      <Tag className="h-3 w-3" />
-                      {tag}
-                    </Badge>
-                  ))}
-                  {contract.domain && (
-                    <Badge
-                      variant="secondary"
-                      className="flex items-center gap-1"
-                    >
-                      <Tag className="h-3 w-3" />
-                      {contract.domain}
-                    </Badge>
-                  )}
-                </div>
-                {contract.functionality && (
-                  <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                    <p className="font-medium">Functionality:</p>
-                    <p>{contract.functionality}</p>
-                  </div>
-                )}
-                {contract.security_risks &&
-                  contract.security_risks.length > 0 && (
-                    <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                      <p className="font-medium">Security Considerations: </p>
-                      <p>{contract.security_risks}</p>
-                    </div>
-                  )}
-              </CardContent>
-              <CardFooter className="flex flex-wrap gap-2">
-                <Button
-                  variant="default"
-                  onClick={() => handleViewDetails(contract.id)}
-                  disabled={loadingDetails && selectedContract === contract.id}
+          {results
+            .slice() // copy to avoid mutating state
+            .sort((a, b) => {
+              // Sort descending by similarity_score, undefined/null last
+              if (a.similarity_score == null && b.similarity_score == null)
+                return 0;
+              if (a.similarity_score == null) return 1;
+              if (b.similarity_score == null) return -1;
+              return b.similarity_score - a.similarity_score;
+            })
+            .map((contract) => {
+              const relevanceInfo = getRelevanceInfo(contract.similarity_score);
+
+              return (
+                <Card
+                  key={`${contract.id}-${contract.name}`}
+                  className="overflow-hidden hover:shadow-md transition-shadow"
                 >
-                  {loadingDetails && selectedContract === contract.id ? (
-                    <span className="flex items-center gap-2">
-                      <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
-                      Loading...
-                    </span>
-                  ) : (
-                    <span className="flex items-center gap-2">
-                      View Details
-                    </span>
-                  )}
-                </Button>
+                  <CardHeader className="pb-2">
+                    <div className="flex justify-between items-start">
+                      <div className="flex-1">
+                        <CardTitle className="text-lg">
+                          {contract.name || "Unnamed Contract"}
+                        </CardTitle>
+                        <CardDescription>
+                          {contract.description || "No description available"}
+                        </CardDescription>
+                      </div>
+                      <div className="flex flex-col gap-2 items-end">
+                        {/* Similarity Score Badge */}
+                        <div className="flex items-center gap-2">
+                          <span
+                            className={`px-2 py-1 rounded-full text-xs font-medium ${relevanceInfo.color} ${relevanceInfo.textColor}`}
+                          >
+                            {relevanceInfo.level} Relevance
+                          </span>
+                          <span className="text-xs text-gray-500 dark:text-gray-400">
+                            {contract.similarity_score !== undefined
+                              ? `${(contract.similarity_score * 100).toFixed(
+                                  1
+                                )}%`
+                              : "N/A"}
+                          </span>
+                        </div>
 
-                {contract.address && (
-                  <Button
-                    variant="outline"
-                    size="sm"
-                    onClick={() => {
-                      navigator.clipboard.writeText(contract.address!);
-                      toast({
-                        title: "Address copied",
-                        description: "Contract address copied to clipboard",
-                      });
-                    }}
-                    className="flex items-center gap-1"
-                  >
-                    <Copy className="h-3.5 w-3.5" />
-                    Copy Address
-                  </Button>
-                )}
-
-                {contract.externalUrl && (
-                  <Button
-                    variant="outline"
-                    size="icon"
-                    asChild
-                    className="ml-auto"
-                  >
-                    <a
-                      href={contract.externalUrl}
-                      target="_blank"
-                      rel="noopener noreferrer"
+                        {/* Other badges */}
+                        <div className="flex gap-2">
+                          {contract.verified && (
+                            <Badge variant="default">Verified</Badge>
+                          )}
+                          {contract.solc_version && (
+                            <Badge variant="outline">
+                              Solidity {contract.solc_version}
+                            </Badge>
+                          )}
+                        </div>
+                      </div>
+                    </div>
+                  </CardHeader>
+                  <CardContent>
+                    <div className="flex flex-wrap gap-2 mb-3">
+                      {contract.tags?.map((tag, i) => (
+                        <Badge
+                          key={`${tag}-${i}`}
+                          variant="secondary"
+                          className="flex items-center gap-1"
+                        >
+                          <Tag className="h-3 w-3" />
+                          {tag}
+                        </Badge>
+                      ))}
+                      {contract.domain && (
+                        <Badge
+                          variant="secondary"
+                          className="flex items-center gap-1"
+                        >
+                          <Tag className="h-3 w-3" />
+                          {contract.domain}
+                        </Badge>
+                      )}
+                    </div>
+                    {contract.functionality && (
+                      <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                        <p className="font-medium">Functionality:</p>
+                        <p>{contract.functionality}</p>
+                      </div>
+                    )}
+                    {contract.security_risks &&
+                      contract.security_risks.length > 0 && (
+                        <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
+                          <p className="font-medium">
+                            Security Considerations:{" "}
+                          </p>
+                          <p>{contract.security_risks}</p>
+                        </div>
+                      )}
+                  </CardContent>
+                  <CardFooter className="flex flex-wrap gap-2">
+                    <Button
+                      variant="default"
+                      onClick={() => handleViewDetails(contract.id)}
+                      disabled={
+                        loadingDetails && selectedContract === contract.id
+                      }
                     >
-                      <ExternalLink className="h-4 w-4" />
-                      <span className="sr-only">External link</span>
-                    </a>
-                  </Button>
-                )}
-              </CardFooter>
-            </Card>
-          ))}
+                      {loadingDetails && selectedContract === contract.id ? (
+                        <span className="flex items-center gap-2">
+                          <div className="h-4 w-4 animate-spin rounded-full border-2 border-current border-t-transparent" />
+                          Loading...
+                        </span>
+                      ) : (
+                        <span className="flex items-center gap-2">
+                          View Details
+                        </span>
+                      )}
+                    </Button>
+
+                    {contract.address && (
+                      <Button
+                        variant="outline"
+                        size="sm"
+                        onClick={() => {
+                          navigator.clipboard.writeText(contract.address!);
+                          toast({
+                            title: "Address copied",
+                            description: "Contract address copied to clipboard",
+                          });
+                        }}
+                        className="flex items-center gap-1"
+                      >
+                        <Copy className="h-3.5 w-3.5" />
+                        Copy Address
+                      </Button>
+                    )}
+
+                    {contract.externalUrl && (
+                      <Button
+                        variant="outline"
+                        size="icon"
+                        asChild
+                        className="ml-auto"
+                      >
+                        <a
+                          href={contract.externalUrl}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                        >
+                          <ExternalLink className="h-4 w-4" />
+                          <span className="sr-only">External link</span>
+                        </a>
+                      </Button>
+                    )}
+                  </CardFooter>
+                </Card>
+              );
+            })}
         </div>
       )}
     </div>

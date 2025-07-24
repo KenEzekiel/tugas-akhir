@@ -204,7 +204,7 @@ class ContractResult(BaseModel):
 #         return JSONResponse(content=formatted_results)
 #     except Exception as e:
 #         raise HTTPException(status_code=500, detail=str(e))
-
+client = DgraphClient()
 
 @app.post("/search")
 async def vector_search_contracts(request: VectorSearchRequest):
@@ -213,7 +213,6 @@ async def vector_search_contracts(request: VectorSearchRequest):
     Converts natural language queries to embeddings and finds similar contracts.
     """
     try:
-        client = DgraphClient()
         results = client.vector_search(request.query, request.limit)
         formatted_results = []
 
@@ -243,6 +242,7 @@ async def vector_search_contracts(request: VectorSearchRequest):
                     ).split(", ")
                     if result.get("ContractDeployment.security_risks_description")
                     else [],
+                    similarity_score=result.get("cosine_similarity"),
                 )
                 print(
                     f"Vector search result: {formatted_result.id}, {formatted_result.name}"
@@ -253,7 +253,6 @@ async def vector_search_contracts(request: VectorSearchRequest):
                 print(f"Result data: {result}")
                 continue
 
-        client.close()
         return JSONResponse(content=formatted_results)
     except Exception as e:
         print(f"Vector search error: {str(e)}")

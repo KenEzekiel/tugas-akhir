@@ -18,5 +18,6 @@ export interface ContractResult {
   functionality?: string
   domain?: string
   security_risks?: string[]
+  similarity_score?: number
   // last_updated?: string
 }
