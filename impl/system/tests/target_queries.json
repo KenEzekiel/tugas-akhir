@@ -1,0 +1,538 @@
+{
+  "queries": [
+    {
+      "id": "library_contracts",
+      "query": "library contracts",
+      "description": "library contracts",
+      "expected_results": {
+        "contract_uids": [
+          "0x19bfddc",
+          "0x198f094",
+          "0x1acc6a4",
+          "0x1b15a19",
+          "0x1a6ac24",
+          "0x1afd403",
+          "0x1b467d4",
+          "0x1ae4d45",
+          "0x19a771d",
+          "0x1a5258b",
+          "0x1a5258f",
+          "0x1ab4021",
+          "0x1c09ce8"
+        ]
+      }
+    },
+    {
+      "id": "proxy_contracts",
+      "query": "proxy contracts",
+      "description": "proxy contracts",
+      "expected_results": {
+        "contract_uids": [
+          "0x1a6ac23",
+          "0x1ba824d",
+          "0x19bfdca",
+          "0x1a524b1",
+          "0x192d5c5"
+        ]
+      }
+    },
+    {
+      "id": "token_contracts:erc-1155",
+      "query": "token contracts erc-1155",
+      "description": "token contracts erc-1155",
+      "expected_results": {
+        "contract_uids": [
+          "0x1a2182e",
+          "0x1b15a33",
+          "0x1b2e136",
+          "0x1b8fbd1",
+          "0x19f0af3",
+          "0x1a2182f",
+          "0x1a6ac28",
+          "0x1c2234f"
+        ]
+      }
+    },
+    {
+      "id": "token_contracts:erc-20",
+      "query": "token contracts erc-20",
+      "description": "token contracts erc-20",
+      "expected_results": {
+        "contract_uids": [
+          "0x1945c4a",
+          "0x195e313",
+          "0x195e358",
+          "0x19769de",
+          "0x1a217ff",
+          "0x1a5257b",
+          "0x1ae4d47",
+          "0x1ba8219",
+          "0x1bc090c",
+          "0x1c22363",
+          "0x192d5ee",
+          "0x19a7658",
+          "0x19bfd16",
+          "0x1a21768",
+          "0x1a52594",
+          "0x1ab401e",
+          "0x1ae4cde",
+          "0x1ae4d24",
+          "0x1b2e13b",
+          "0x1b5edd3",
+          "0x1b77502",
+          "0x1b8fb09",
+          "0x1b8fb3b",
+          "0x1ba8246",
+          "0x1c09cce",
+          "0x1c09ce5",
+          "0x1a0913b",
+          "0x1a83258",
+          "0x1ab3f75",
+          "0x1b2e11f",
+          "0x1ba81f6",
+          "0x192d5e4",
+          "0x195e342",
+          "0x19769e1",
+          "0x19bfd53",
+          "0x19f0a6a",
+          "0x19f0ac1",
+          "0x1a09192",
+          "0x1a21826",
+          "0x1a39e13",
+          "0x1a83243",
+          "0x1a9b897",
+          "0x1ab4006",
+          "0x1acc683",
+          "0x1ae4cf1",
+          "0x1b159fe",
+          "0x1b2e0c9",
+          "0x1b5ee4e",
+          "0x1b77429",
+          "0x1b8fbc8",
+          "0x1bc0914",
+          "0x1bd8f8f",
+          "0x1c09cf1",
+          "0x1c22313",
+          "0x1a6ab6b",
+          "0x1a8325c",
+          "0x1a8327f",
+          "0x1a83299",
+          "0x1ae4d1f",
+          "0x1b4672a",
+          "0x1b4679e",
+          "0x1c09ca1",
+          "0x1c09cc1"
+        ]
+      }
+    },
+    {
+      "id": "token_contracts:erc-721",
+      "query": "token contracts erc-721",
+      "description": "token contracts erc-721",
+      "expected_results": {
+        "contract_uids": [
+          "0x1b15a5c",
+          "0x192d5d5",
+          "0x1945bf9",
+          "0x1945c70",
+          "0x19d83fe",
+          "0x19f0a36",
+          "0x1a21853",
+          "0x1a39ee7",
+          "0x1a6ab53",
+          "0x1a6abf1",
+          "0x1a8329a",
+          "0x1ab3fef",
+          "0x1ab4019",
+          "0x1acc621",
+          "0x1acc65c",
+          "0x1ae4d6d",
+          "0x1b15a4e",
+          "0x1b5edc6",
+          "0x1b5ede4",
+          "0x1b5ee28",
+          "0x1b5ee41",
+          "0x1b7747e",
+          "0x1b8fbad",
+          "0x1bc085e",
+          "0x1bd8f5f",
+          "0x1bd8f64",
+          "0x1bd8f7d",
+          "0x1bf15fb",
+          "0x1bf1614"
+        ]
+      }
+    },
+    {
+      "id": "defi",
+      "query": "defi",
+      "description": "defi",
+      "expected_results": {
+        "contract_uids": [
+          "0x198f094",
+          "0x1acc6a4",
+          "0x1a6ac23",
+          "0x1945c4a",
+          "0x195e313",
+          "0x195e358",
+          "0x19769de",
+          "0x1a217ff",
+          "0x1a5257b",
+          "0x1ae4d47",
+          "0x1ba8219",
+          "0x1bc090c",
+          "0x1c22363"
+        ]
+      }
+    },
+    {
+      "id": "identity_verification",
+      "query": "identity verification",
+      "description": "identity verification",
+      "expected_results": {
+        "contract_uids": [
+          "0x1a6ac24",
+          "0x1afd403",
+          "0x1b467d4"
+        ]
+      }
+    },
+    {
+      "id": "defi:decentralized_exchanges",
+      "query": "defi decentralized exchanges",
+      "description": "defi decentralized exchanges",
+      "expected_results": {
+        "contract_uids": [
+          "0x1ba824d",
+          "0x192d5ee",
+          "0x19a7658",
+          "0x19bfd16",
+          "0x1a21768",
+          "0x1a52594",
+          "0x1ab401e",
+          "0x1ae4cde",
+          "0x1ae4d24",
+          "0x1b2e13b",
+          "0x1b5edd3",
+          "0x1b77502",
+          "0x1b8fb09",
+          "0x1b8fb3b",
+          "0x1ba8246",
+          "0x1c09cce",
+          "0x1c09ce5"
+        ]
+      }
+    },
+    {
+      "id": "nft_marketplaces/collectibles",
+      "query": "nft marketplaces collectibles",
+      "description": "nft marketplaces collectibles",
+      "expected_results": {
+        "contract_uids": [
+          "0x1ae4d45",
+          "0x19bfdca",
+          "0x1a524b1",
+          "0x19f0af3",
+          "0x1a2182f",
+          "0x1a6ac28",
+          "0x1c2234f",
+          "0x192d5d5",
+          "0x1945bf9",
+          "0x1945c70",
+          "0x19d83fe",
+          "0x19f0a36",
+          "0x1a21853",
+          "0x1a39ee7",
+          "0x1a6ab53",
+          "0x1a6abf1",
+          "0x1a8329a",
+          "0x1ab3fef",
+          "0x1ab4019",
+          "0x1acc621",
+          "0x1acc65c",
+          "0x1ae4d6d",
+          "0x1b15a4e",
+          "0x1b5edc6",
+          "0x1b5ede4",
+          "0x1b5ee28",
+          "0x1b5ee41",
+          "0x1b7747e",
+          "0x1b8fbad",
+          "0x1bc085e",
+          "0x1bd8f5f",
+          "0x1bd8f64",
+          "0x1bd8f7d",
+          "0x1bf15fb",
+          "0x1bf1614"
+        ]
+      }
+    },
+    {
+      "id": "gaming",
+      "query": "gaming",
+      "description": "gaming",
+      "expected_results": {
+        "contract_uids": [
+          "0x1a2182e",
+          "0x1b15a33",
+          "0x1b2e136",
+          "0x1b8fbd1",
+          "0x1b15a5c"
+        ]
+      }
+    },
+    {
+      "id": "defi:lending_borrowing",
+      "query": "defi lending borrowing",
+      "description": "defi lending borrowing",
+      "expected_results": {
+        "contract_uids": [
+          "0x1b15a19",
+          "0x1a0913b",
+          "0x1a83258",
+          "0x1ab3f75",
+          "0x1b2e11f",
+          "0x1ba81f6"
+        ]
+      }
+    },
+    {
+      "id": "defi:stablecoins",
+      "query": "defi stablecoins",
+      "description": "defi stablecoins",
+      "expected_results": {
+        "contract_uids": [
+          "0x192d5e4",
+          "0x195e342",
+          "0x19769e1",
+          "0x19bfd53",
+          "0x19f0a6a",
+          "0x19f0ac1",
+          "0x1a09192",
+          "0x1a21826",
+          "0x1a39e13",
+          "0x1a83243",
+          "0x1a9b897",
+          "0x1ab4006",
+          "0x1acc683",
+          "0x1ae4cf1",
+          "0x1b159fe",
+          "0x1b2e0c9",
+          "0x1b5ee4e",
+          "0x1b77429",
+          "0x1b8fbc8",
+          "0x1bc0914",
+          "0x1bd8f8f",
+          "0x1c09cf1",
+          "0x1c22313"
+        ]
+      }
+    },
+    {
+      "id": "defi:yield_farming/liquidity_mining",
+      "query": "defi yield farming liquidity mining",
+      "description": "defi yield farming liquidity mining",
+      "expected_results": {
+        "contract_uids": [
+          "0x1a6ab6b",
+          "0x1a8325c",
+          "0x1a8327f",
+          "0x1a83299",
+          "0x1ae4d1f",
+          "0x1b4672a",
+          "0x1b4679e",
+          "0x1c09ca1",
+          "0x1c09cc1"
+        ]
+      }
+    },
+    {
+      "id": "decentralized_infrastructure",
+      "query": "decentralized infrastructure",
+      "description": "decentralized infrastructure",
+      "expected_results": {
+        "contract_uids": [
+          "0x19bfddc"
+        ]
+      }
+    },
+    {
+      "id": "social",
+      "query": "social",
+      "description": "social",
+      "expected_results": {
+        "contract_uids": [
+          "0x19a771d",
+          "0x1a5258b",
+          "0x1a5258f",
+          "0x1ab4021",
+          "0x1c09ce8"
+        ]
+      }
+    },
+    {
+      "id": "smart_wallets",
+      "query": "smart wallets",
+      "description": "smart wallets",
+      "expected_results": {
+        "contract_uids": [
+          "0x192d5c5"
+        ]
+      }
+    },
+    {
+      "id": "Find smart contracts related to: users, amount, ether, lending, deposit, facilitates, aave, asset, eth, withdrawal",
+      "query": "Find smart contracts related to  users, amount, ether, lending, deposit, facilitates, aave, asset, eth, withdrawal",
+      "description": "Find smart contracts related to  users, amount, ether, lending, deposit, facilitates, aave, asset, eth, withdrawal",
+      "expected_results": {
+        "contract_uids": [
+          "0x1a6ac23",
+          "0x1a217ff",
+          "0x1ae4d47",
+          "0x1b8fb3b",
+          "0x1a0913b",
+          "0x1a83258",
+          "0x1ab3f75",
+          "0x1ba81f6",
+          "0x1b2e0c9",
+          "0x1bd8f8f",
+          "0x1c22313",
+          "0x1a8325c",
+          "0x1a83299",
+          "0x1c09ca1"
+        ]
+      }
+    },
+    {
+      "id": "Find smart contracts related to: liquidity, trading, token, transaction, fees, features, uniswap, erc, limits, tax",
+      "query": "Find smart contracts related to  liquidity, trading, token, transaction, fees, features, uniswap, erc, limits, tax",
+      "description": "Find smart contracts related to  liquidity, trading, token, transaction, fees, features, uniswap, erc, limits, tax",
+      "expected_results": {
+        "contract_uids": [
+          "0x1945c4a",
+          "0x195e313",
+          "0x195e358",
+          "0x1a5257b",
+          "0x1ba8219",
+          "0x1bc090c",
+          "0x1c22363",
+          "0x192d5ee",
+          "0x19a7658",
+          "0x19bfd16",
+          "0x1a21768",
+          "0x1a52594",
+          "0x1ab401e",
+          "0x1ae4d24",
+          "0x1b2e13b",
+          "0x1b5edd3",
+          "0x1b77502",
+          "0x1b8fb09",
+          "0x1ba8246",
+          "0x1c09cce",
+          "0x1c09ce5",
+          "0x192d5e4",
+          "0x19769e1",
+          "0x19bfd53",
+          "0x19f0a6a",
+          "0x1a83243",
+          "0x1a9b897",
+          "0x1ae4cf1",
+          "0x1b5ee4e",
+          "0x1b77429",
+          "0x1b8fbc8",
+          "0x1bc0914",
+          "0x1a6ab6b",
+          "0x1a8327f",
+          "0x1ae4d1f",
+          "0x1b4672a",
+          "0x1b4679e",
+          "0x1c09cc1"
+        ]
+      }
+    },
+    {
+      "id": "Find smart contracts related to: tokens, contract, nonfungible, token, proxy, digital, implementation, nfts, unique, creation",
+      "query": "Find smart contracts related to  tokens, contract, nonfungible, token, proxy, digital, implementation, nfts, unique, creation",
+      "description": "Find smart contracts related to  tokens, contract, nonfungible, token, proxy, digital, implementation, nfts, unique, creation",
+      "expected_results": {
+        "contract_uids": [
+          "0x19bfdca",
+          "0x1a524b1",
+          "0x192d5c5",
+          "0x1a2182e",
+          "0x1b15a33",
+          "0x1b2e136",
+          "0x1b8fbd1",
+          "0x19f0af3",
+          "0x1a2182f",
+          "0x1a6ac28",
+          "0x1c2234f",
+          "0x19f0ac1",
+          "0x1a09192",
+          "0x1a21826",
+          "0x1a39e13",
+          "0x1ab4006",
+          "0x1acc683",
+          "0x1b159fe",
+          "0x1c09cf1",
+          "0x1b15a5c",
+          "0x192d5d5",
+          "0x1945bf9",
+          "0x1945c70",
+          "0x19d83fe",
+          "0x19f0a36",
+          "0x1a21853",
+          "0x1a39ee7",
+          "0x1a6ab53",
+          "0x1a6abf1",
+          "0x1a8329a",
+          "0x1ab3fef",
+          "0x1ab4019",
+          "0x1acc621",
+          "0x1acc65c",
+          "0x1ae4d6d",
+          "0x1b15a4e",
+          "0x1b5edc6",
+          "0x1b5ede4",
+          "0x1b5ee28",
+          "0x1b5ee41",
+          "0x1b7747e",
+          "0x1b8fbad",
+          "0x1bc085e",
+          "0x1bd8f5f",
+          "0x1bd8f64",
+          "0x1bd8f7d",
+          "0x1bf15fb",
+          "0x1bf1614"
+        ]
+      }
+    },
+    {
+      "id": "Find smart contracts related to: ownership, contracts, signature, smart, secure, library, contract, operations, functions, ensuring",
+      "query": "Find smart contracts related to  ownership, contracts, signature, smart, secure, library, contract, operations, functions, ensuring",
+      "description": "Find smart contracts related to  ownership, contracts, signature, smart, secure, library, contract, operations, functions, ensuring",
+      "expected_results": {
+        "contract_uids": [
+          "0x19bfddc",
+          "0x198f094",
+          "0x1acc6a4",
+          "0x1b15a19",
+          "0x1a6ac24",
+          "0x1afd403",
+          "0x1b467d4",
+          "0x1ae4d45",
+          "0x19a771d",
+          "0x1a5258b",
+          "0x1a5258f",
+          "0x1ab4021",
+          "0x1c09ce8",
+          "0x1ba824d",
+          "0x19769de",
+          "0x1ae4cde",
+          "0x1b2e11f",
+          "0x195e342"
+        ]
+      }
+    }
+  ]
+}
