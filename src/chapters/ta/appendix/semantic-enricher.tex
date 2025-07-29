@@ -2,11 +2,14 @@
 \label{appendix:semantic-enricher}
 
 \begin{enumerate}
-	\item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
-	\item \texttt{attribute model}: LLM yang akan digunakan untuk melakukan Semantic Enrichment.
-	\item \texttt{attribute parser}: Parser yang akan digunakan untuk mem-parsing data yang dihasilkan LLM. Parser ini akan digunakan untuk mengubah data yang didapatkan menjadi format yang sesuai dengan skema yang akan digunakan.
-	\item \texttt{attribute prompt}: Prompt yang akan digunakan untuk melakukan Semantic Enrichment. Prompt ini akan berisi instruksi yang akan diberikan kepada LLM untuk melakukan Semantic Enrichment pada data.
-	\item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas SemanticEnricher dan memuat LLM yang akan digunakan.
-	\item \texttt{enrich}: Metode untuk melakukan Semantic Enrichment pada data. Metode ini akan menerima parameter \texttt{data} yang berisi data yang akan diperkaya dan akan mengembalikan data yang telah diperkaya. Proses ini akan memanfaatkan proses Chaining menggunakan LangChain untuk menghubungkan LLM dengan skema yang akan digunakan. Metode ini akan mengirimkan permintaan ke LLM dengan menggunakan prompt yang telah ditentukan dan akan mengembalikan hasil dari LLM lalu mengaplikasikan ke skema hasil yang diinginkan.
-	\item \texttt{preprocess}: Metode untuk melakukan data pre-processing sebelum dilakukan Semantic Enrichment. Metode ini akan menerima parameter \texttt{contract} yang berisi data Source Code dari Smart Contract yang akan diproses dan akan mengembalikan data yang telah diproses. Proses ini akan melakukan pengolahan data seperti menghapus spasi berlebih, menghapus komentar, dan mempersingkat pattern umum.
+    \item \texttt{logger}: Objek logger untuk mencatat informasi, peringatan, dan kesalahan selama proses enrichment.
+    \item \texttt{llm}: Model LLM utama yang digunakan untuk menghasilkan keluaran JSON terstruktur sesuai skema semantic.
+    \item \texttt{analysis\textunderscore llm}: Model LLM sekunder yang digunakan untuk menganalisis dan merangkum kode Solidity sebelum dikirim ke LLM utama.
+    \item \texttt{parser}: JsonOutputParser untuk mem-parse output dari LLM menjadi objek Python (dict) sesuai format yang diinginkan.
+    \item \texttt{analyzer\textunderscore prompt}: ChatPromptTemplate yang berisi instruksi untuk analisis kode Solidity dan pembuatan ringkasan teks awal.
+    \item \texttt{prompt}: ChatPromptTemplate yang berisi instruksi untuk menghasilkan JSON minified dengan kunci seperti description, functionality\textunderscore classification, application\textunderscore domain, dan security\textunderscore risks\textunderscore description.
+    \item \texttt{\textunderscore init\textunderscore }: Konstruktor yang menginisialisasi logger, llm, analysis\textunderscore llm, parser, analyzer\textunderscore prompt, dan prompt templates.
+    \item \texttt{enrich}: Metode async yang menerima data kontrak, melakukan praproses dengan \texttt{preprocess\textunderscore llm}, membangun chain \texttt{prompt | llm | parser}, serta menambahkan prefix \texttt{ContractDeployment.} pada setiap kunci dan field \texttt{uid}, kemudian mengembalikan dict hasil enrich.
+    \item \texttt{preprocess}: Metode sinkron untuk membersihkan kode Solidity (menghapus komentar, header, boilerplate, dan pengurangan token count) serta menerapkan batasan maksimal 4000 token.
+    \item \texttt{preprocess\textunderscore llm}: Metode async yang menggunakan analyzer\textunderscore prompt dan analysis\textunderscore llm untuk menghasilkan ringkasan teks kontrak, mengupdate field \texttt{ContractDeployment.verified\textunderscore source\textunderscore code} dengan ringkasan tersebut, dan mengembalikan dict kontrak yang diperbarui.
 \end{enumerate}

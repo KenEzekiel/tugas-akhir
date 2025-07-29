@@ -2,24 +2,15 @@
 \label{appendix:api}
 
 \begin{enumerate}
-	\item \texttt{FastAPI Application}: Aplikasi utama FastAPI yang dikonfigurasi dengan CORS middleware untuk memungkinkan akses dari berbagai domain. Aplikasi ini juga memuat spesifikasi OpenAPI kustom dari file YAML.
-	\item \texttt{LightweightRetriever Instance}: Instance dari LightweightRetriever yang digunakan untuk melakukan pencarian Smart Contract menggunakan vector database.
-	\item \texttt{OpenAI Client}: Client OpenAI yang diinisialisasi menggunakan API key dari environment variables untuk melakukan query refinement menggunakan GPT model.
-	\item \texttt{Pydantic Models}: Model-model data yang didefinisikan menggunakan Pydantic untuk validasi input dan output API, termasuk:
-	      \begin{enumerate}
-		      \item \texttt{SearchRequest}: Model untuk request pencarian dengan field query, limit, dan data boolean.
-		      \item \texttt{ContractDeploymentResult}: Model untuk hasil pencarian Smart Contract dengan semua atribut yang relevan.
-		      \item \texttt{RefineRequest/RefineResponse}: Model untuk request dan response refinement query.
-		      \item Model-model entitas lainnya seperti \texttt{Account}, \texttt{Block}, \\\texttt{ParsedContractData}, dan \texttt{ContractAnalysis}.
-	      \end{enumerate}
-	\item \texttt{POST /search}: Endpoint utama untuk melakukan pencarian Smart Contract. Endpoint ini akan menerima SearchRequest dan mengembalikan daftar Smart Contract yang sesuai dengan query. Proses pencarian meliputi:
-	      \begin{enumerate}
-		      \item Validasi input request
-		      \item Pencarian menggunakan LightweightRetriever
-		      \item Pengambilan detail lengkap dari DgraphDB jika parameter data=True
-		      \item Parsing dan formatting hasil untuk dikembalikan ke client
-	      \end{enumerate}
-	\item \texttt{GET /}: Endpoint untuk dokumentasi API yang mengembalikan halaman HTML dengan informasi tentang penggunaan API.
+	\item \texttt{FastAPI Application}: Aplikasi utama FastAPI dengan CORS middleware dan custom OpenAPI spec yang dimuat dari `openapi.yaml`.
+	\item \texttt{Pydantic Models}: Model request dan response yang digunakan untuk validasi dan serialisasi, khususnya:
+	      \begin{itemize}
+		      \item \texttt{VectorSearchRequest}: Mendefinisikan `query`, `limit`, dan `threshold` untuk pencarian similarity.
+		      \item \texttt{ContractResult}: Hasil pencarian yang berisi field seperti `id`, `name`, `description`, `created`, `verified`, `tags`, `storage\textunderscore protocol`, `storage\textunderscore address`, `experimental`, `solc\textunderscore version`, `verified\textunderscore source`, `verified\textunderscore source\textunderscore code`, `functionality`, `domain`, `security\textunderscore risks`, dan `similarity\textunderscore score`.
+	      \end{itemize}
+	\item \texttt{DgraphClient}: Klien Dgraph tunggal yang digunakan untuk melakukan operasi vector similarity search melalui method `vector\textunderscore search`.
+	\item \texttt{POST /search}: Endpoint yang menerima `VectorSearchRequest`, memanggil `DgraphClient.vector\textunderscore search`, memetakan setiap hasil ke model `ContractResult`, dan mengembalikan JSONResponse dengan daftar hasil.
+	\item \texttt{GET /}: Root endpoint yang mengembalikan halaman HTML statis sebagai landing page dokumentasi dan link ke Swagger UI, ReDoc, dan spesifikasi OpenAPI.
 \end{enumerate}
 
 % Sistem Query Refinement menggunakan prompt sistem yang dirancang khusus untuk meningkatkan kualitas pencarian Smart Contract. Prompt ini akan:

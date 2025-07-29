@@ -2,6 +2,7 @@
 \label{appendix:skema-data}
 
 \begin{lstlisting}[language=bash]
+    <ContractDeployment.id>: string @index(trigram) .
     <ContractDeployment.block>: uid @reverse .
     <ContractDeployment.contract>: uid @reverse .
     <ContractDeployment.creation_bytecode>: string .
