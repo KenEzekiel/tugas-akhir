@@ -12,7 +12,7 @@ from src.utils.logger import logger
 class EmbeddingConfig:
     """Configuration for embedding update process."""
 
-    batch_size: int = 50
+    batch_size: int = 10
     embedding_model_name: str = "BAAI/bge-small-en-v1.5"
     device: str = "cpu"
     normalize_embeddings: bool = True
@@ -84,18 +84,17 @@ class EmbeddingUpdater:
             successful_updates = 0
             for contract, embedding in zip(contracts, embeddings):
                 try:
-                    uid = contract.get("uid")
                     contract_id = contract.get("ContractDeployment.id")
 
-                    if uid and contract_id:
-                        self.dgraph.insert_embeddings(uid, embedding)
+                    if contract_id:
+                        self.dgraph.insert_embeddings(contract_id, embedding)
                         logger.debug(
-                            f"Stored embeddings for contract ID {contract_id} (UID: {uid})"
+                            f"Stored embeddings for contract ID {contract_id}"
                         )
                         successful_updates += 1
                     else:
                         logger.warning(
-                            f"Missing UID or contract ID for contract: {contract.get('ContractDeployment.contract', 'unknown')}"
+                            f"Missing contract ID for contract: {contract.get('ContractDeployment.contract', 'unknown')}"
                         )
 
                 except Exception as e:
@@ -216,7 +215,7 @@ class EmbeddingUpdater:
 
 
 async def update_embeddings(
-    batch_size: int = 50, contract_ids: Optional[List[str]] = None
+    batch_size: int = 10, contract_ids: Optional[List[str]] = None
 ) -> int:
     """
     Main function to update embeddings for smart contracts.
@@ -265,7 +264,7 @@ async def get_contracts_stats() -> Dict[str, int]:
         # Count contracts with embeddings
         contracts_with_embeddings = 0
         offset = 0
-        batch_size = 100
+        batch_size = 10
 
         while True:
             contracts = dgraph.get_contracts(
@@ -320,7 +319,7 @@ if __name__ == "__main__":
         description="Update embeddings for smart contracts"
     )
     parser.add_argument(
-        "--batch-size", type=int, default=50, help="Batch size for processing"
+        "--batch-size", type=int, default=10, help="Batch size for processing"
     )
     parser.add_argument(
         "--contract-ids", nargs="+", help="Specific contract IDs to update (optional)"

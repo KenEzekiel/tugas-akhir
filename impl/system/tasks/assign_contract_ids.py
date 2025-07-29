@@ -11,7 +11,7 @@ from src.core.data_access.dgraph_client import DgraphClient
 from src.utils.logger import logger
 
 
-async def assign_ids_to_contracts(batch_size: int = 50) -> int:
+async def assign_ids_to_contracts(batch_size: int = 10) -> int:
     """
     Assigns reproducible IDs to all contracts that don't have them.
 
@@ -236,7 +236,7 @@ async def main():
         description="Assign reproducible IDs to ContractDeployment records"
     )
     parser.add_argument(
-        "--batch-size", type=int, default=50, help="Batch size for processing"
+        "--batch-size", type=int, default=10, help="Batch size for processing"
     )
     parser.add_argument(
         "--verify-only",
