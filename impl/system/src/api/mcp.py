@@ -4,11 +4,8 @@ from typing import Any, Dict, List, Optional, Union
 from dataclasses import dataclass, asdict
 from enum import Enum
 
-from fastapi import FastAPI, Request, HTTPException
-from fastapi.responses import JSONResponse
-from pydantic import BaseModel, Field
+from fastapi import FastAPI, Request
 
-from src.core.data_access.vectordb_client import VectorDBManager
 from src.core.data_access.dgraph_client import DgraphClient
 
 # Configure logging
@@ -81,7 +78,7 @@ class Prompt:
 
 class MCPServer:
     def __init__(self):
-        self.vector_db = VectorDBManager("config/vectordb.yaml")
+        self.vector_db = DgraphClient()
         self.initialized = False
         self.client_info = None
 
@@ -308,7 +305,7 @@ class MCPServer:
         if not query:
             raise ValueError("Query parameter is required")
 
-        results = self.vector_db.search(query, k=k)
+        results = self.vector_db.vector_search(query, limit=k)
 
         return {
             "content": [
@@ -355,7 +352,7 @@ class MCPServer:
                 "content": [
                     {
                         "type": "text",
-                        "text": f"Found {len(results)} contracts similar to '{query}' (threshold: {threshold}):\n\n"
+                        "text": f"Found {len(results)} contracts similar to '{query}'):\n\n"
                         + "\n".join(formatted_results)
                         if formatted_results
                         else "No similar contracts found.",
