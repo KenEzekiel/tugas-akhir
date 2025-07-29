@@ -9,12 +9,12 @@ OUTPUT_PATH = os.path.join(os.path.dirname(__file__), "../data/exported.csv")
 
 FIELDS = [
     "uid",
+    "ContractDeployment.id",
     "ContractDeployment.storage_protocol",
     "ContractDeployment.storage_address",
     "ContractDeployment.experimental",
     "ContractDeployment.solc_version",
     "ContractDeployment.verified_source",
-    "ContractDeployment.verified_source_code",
     "ContractDeployment.name",
     "ContractDeployment.description",
     "ContractDeployment.functionality_classification",

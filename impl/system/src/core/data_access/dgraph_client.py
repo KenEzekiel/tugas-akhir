@@ -1,6 +1,6 @@
-import os
 import json
 import pydgraph
+import hashlib
 from src.utils.logger import logger
 from src.utils.file import write_file
 from contextlib import contextmanager
@@ -24,6 +24,73 @@ class DgraphClient:
             model_kwargs={"device": "cpu"},
             encode_kwargs={"normalize_embeddings": True},
         )
+
+    def generate_contract_id(self, contract_data: dict) -> str:
+        """
+        Generates a reproducible ID for a ContractDeployment based on its unique characteristics.
+
+        The ID is generated from:
+        - Contract address
+        - Block number
+        - Storage protocol
+        - Storage address
+        - Experimental flag
+        - Solc version
+        - Verified source flag
+        - Verified source code hash
+
+        Args:
+            contract_data: Dictionary containing contract deployment data
+
+        Returns:
+            A reproducible string ID
+        """
+        try:
+            # Extract the key fields that make a contract deployment unique
+            contract_address = contract_data.get("ContractDeployment.contract", "")
+            block_number = contract_data.get("ContractDeployment.block", "")
+            storage_protocol = contract_data.get(
+                "ContractDeployment.storage_protocol", ""
+            )
+            storage_address = contract_data.get(
+                "ContractDeployment.storage_address", ""
+            )
+            experimental = str(
+                contract_data.get("ContractDeployment.experimental", False)
+            )
+            solc_version = contract_data.get("ContractDeployment.solc_version", "")
+            verified_source = str(
+                contract_data.get("ContractDeployment.verified_source", False)
+            )
+
+            # For verified source code, use a hash to keep ID manageable
+            verified_source_code = contract_data.get(
+                "ContractDeployment.verified_source_code", ""
+            )
+            source_code_hash = (
+                hashlib.sha256(verified_source_code.encode()).hexdigest()[:16]
+                if verified_source_code
+                else ""
+            )
+
+            # Create a deterministic string representation
+            id_string = f"{contract_address}|{block_number}|{storage_protocol}|{storage_address}|{experimental}|{solc_version}|{verified_source}|{source_code_hash}"
+
+            # Generate SHA-256 hash and take first 16 characters for readability
+            contract_id = hashlib.sha256(id_string.encode()).hexdigest()[:16]
+
+            self.logger.debug(
+                f"Generated contract ID: {contract_id} from data: {id_string[:100]}..."
+            )
+            return contract_id
+
+        except Exception as e:
+            self.logger.error(f"Failed to generate contract ID: {str(e)}")
+            # Fallback: use contract address if available
+            contract_address = contract_data.get(
+                "ContractDeployment.contract", "unknown"
+            )
+            return hashlib.sha256(contract_address.encode()).hexdigest()[:16]
 
     @contextmanager
     def dgraph_txn(self, read_only: bool = False):
@@ -65,7 +132,7 @@ class DgraphClient:
         self, batch_size: int = 5, offset: int = 0, enriched: bool = False
     ) -> dict[str, str]:
         """
-        Retrieves unenriched contracts without a semantic description
+        Retrieves contracts
 
         Args:
           batch_size: Maximum number of results to return
@@ -80,6 +147,7 @@ class DgraphClient:
       {"" if enriched else "NOT"} has(ContractDeployment.description)) 
       {{
         uid
+        ContractDeployment.id
         ContractDeployment.contract
         ContractDeployment.block
         ContractDeployment.storage_protocol
@@ -109,6 +177,54 @@ class DgraphClient:
                 self.logger.exception("Dgraph query failed")
                 raise
 
+    def get_contract_by_id(self, contract_id: str) -> dict:
+        """
+        Retrieves a contract by its reproducible ID.
+
+        Args:
+            contract_id: The reproducible ID of the contract to retrieve.
+
+        Returns:
+            The Dgraph query response as a dict.
+        """
+        query = f"""
+        {{
+          contract(func: eq(ContractDeployment.id, "{contract_id}")) {{
+            uid
+            ContractDeployment.id
+            ContractDeployment.contract
+            ContractDeployment.block
+            ContractDeployment.storage_protocol
+            ContractDeployment.storage_address
+            ContractDeployment.experimental
+            ContractDeployment.solc_version
+            ContractDeployment.verified_source
+            ContractDeployment.verified_source_code
+            ContractDeployment.name
+            ContractDeployment.description
+            ContractDeployment.functionality_classification
+            ContractDeployment.application_domain
+            ContractDeployment.security_risks_description
+            ContractDeployment.embeddings
+          }}
+        }}
+        """
+        with self.dgraph_txn(read_only=True) as txn:
+            try:
+                response = txn.query(query).json
+                response = json.loads(response)["contract"]
+                if response:
+                    self.logger.info(f"Retrieved contract with ID {contract_id}")
+                    return response[0]  # Return first match
+                else:
+                    self.logger.warning(f"No contract found with ID {contract_id}")
+                    return {}
+            except Exception as e:
+                self.logger.exception(
+                    f"Failed to retrieve contract with ID {contract_id}: {e}"
+                )
+                raise
+
     def get_contract_by_uid(self, uid: str) -> dict:
         """
         Retrieves a contract by its UID.
@@ -123,6 +239,7 @@ class DgraphClient:
     {{
       contract(func: uid("{uid}")) {{
       uid
+      ContractDeployment.id
       ContractDeployment.contract
       ContractDeployment.block
       ContractDeployment.storage_protocol
@@ -172,12 +289,12 @@ class DgraphClient:
                 self.logger.exception("Mutation failed")
                 raise
 
-    def insert_embeddings(self, uid: str, embeddings: list[float]) -> None:
+    def insert_embeddings(self, contract_id: str, embeddings: list[float]) -> None:
         """
         Inserts embeddings for a contract into Dgraph
 
         Args:
-            uid: The UID of the contract to update
+            contract_id: The ID of the contract to update
             embeddings: List of embedding values to store
         """
         try:
@@ -188,18 +305,18 @@ class DgraphClient:
             embeddings_str = json.dumps(embeddings_float32)
 
             mutation_data = {
-                "uid": uid,
+                "ContractDeployment.id": contract_id,
                 "ContractDeployment.embeddings": embeddings_str,
             }
 
             with self.dgraph_txn() as txn:
                 mutation = txn.create_mutation(set_obj=mutation_data)
                 response = txn.mutate(mutation=mutation, commit_now=False)
-                self.logger.info(f"Successfully inserted embeddings for contract {uid}")
+                self.logger.info(f"Successfully inserted embeddings for contract {contract_id}")
                 return response
         except Exception as e:
             self.logger.exception(
-                f"Failed to insert embeddings for contract {uid}: {str(e)}"
+                f"Failed to insert embeddings for contract {contract_id}: {str(e)}"
             )
             raise
 
@@ -273,6 +390,7 @@ class DgraphClient:
             {{
                 similar_contracts(func: similar_to(ContractDeployment.embeddings, {limit}, \"{vector_str}\")) @filter(has(ContractDeployment.embeddings)) {{
                     uid
+                    ContractDeployment.id
                     ContractDeployment.contract
                     ContractDeployment.block
                     ContractDeployment.storage_protocol
