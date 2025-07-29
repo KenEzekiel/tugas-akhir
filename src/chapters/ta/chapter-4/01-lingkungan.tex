@@ -11,16 +11,16 @@ Secara perangkat, komponen internal sistem dan komponen user interface dikembang
 \begin{enumerate}
 	\item \textbf{Perangkat Keras}
 	      \begin{enumerate}
-		      \item CPU: Intel Core i5
-		      \item RAM: 48 GB
+		      \item CPU: Apple M1 Chip
+		      \item RAM: 8 GB
 	      \end{enumerate}
 	\item \textbf{Perangkat Lunak}
 	      \begin{enumerate}
-		      \item Platform dan Sistem Operasi: Windows 11
+		      \item Platform dan Sistem Operasi: Darwin Arm 64, Mac OS Sequoia 15.5
 		      \item VectorDB: Dgraph v24
 		      \item GraphDB: Dgraph v24
 		      \item Containerization: Docker v28.0.4
-		      \item Model LLM: OpenAI GPT-4o mini
+		      \item Model LLM: OpenAI GPT-4o mini, Gemini 2.5 Flash Lite
 		      \item Model Embeddings: HuggingFace BAAI/bge-small-en-v1.5
 		      \item Data extraction: eth2dgraph
 		            \begin{enumerate}
@@ -40,7 +40,7 @@ Secara perangkat, komponen internal sistem dan komponen user interface dikembang
 		      \item Pustaka Utama:
 		            \begin{enumerate}
 			            \item FastAPI (Python web framework)
-			            \item LangChain dengan LangGraph (LLM orchestration)
+			            \item LangChain dengan LangSmith untuk
 			            \item Radix UI + Tailwind CSS (UI components)
 			            \item pydgraph (Dgraph Python client)
 		            \end{enumerate}
