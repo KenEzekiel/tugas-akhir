@@ -34,13 +34,13 @@ class EmbeddingUpdater:
     def _create_contract_text(self, contract: Dict[str, Any]) -> str:
         """Create a text representation of contract for embedding."""
         description = contract.get("ContractDeployment.description", "")
-        functionality = contract.get(
-            "ContractDeployment.functionality_classification", ""
-        )
+        functionality = contract.get("ContractDeployment.functionalities", "")
+        standards = contract.get("ContractDeployment.standards", "")
+        patterns = contract.get("ContractDeployment.patterns", "")
         domain = contract.get("ContractDeployment.application_domain", "")
         security = contract.get("ContractDeployment.security_risks_description", "")
 
-        return f"description {description} functionality_classification {functionality} application_domain {domain} security_risks_description {security}"
+        return f"description {description} functionalities {','.join(functionality)} standards {','.join(standards)} patterns {','.join(patterns)} application_domain {domain} security_risks_description {security}"
 
     def _prepare_embedding_data(
         self, contracts: List[Dict[str, Any]]

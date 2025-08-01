@@ -344,7 +344,9 @@ class MCPServer:
                     f"Name: {result.get('ContractDeployment.name', 'N/A')}\n"
                     f"Description: {result.get('ContractDeployment.description', 'N/A')[:200]}...\n"
                     f"Domain: {result.get('ContractDeployment.application_domain', 'N/A')}\n"
-                    f"Functionality: {result.get('ContractDeployment.functionality_classification', 'N/A')}\n"
+                    f"Functionality: {result.get('ContractDeployment.functionalities', 'N/A')}\n"
+                    f"Standards: {result.get('ContractDeployment.standards', 'N/A')}\n"
+                    f"Patterns: {result.get('ContractDeployment.patterns', 'N/A')}\n"
                     f"Verified: {result.get('ContractDeployment.verified_source', False)}\n"
                 )
 

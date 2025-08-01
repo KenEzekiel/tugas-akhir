@@ -23,6 +23,13 @@ FIELDS = [
 ]
 
 
+def format_value(value):
+    """Convert list values to semicolon-separated strings for CSV compatibility."""
+    if isinstance(value, list):
+        return "; ".join(str(item) for item in value)
+    return value
+
+
 def main():
     with open(INPUT_PATH, "r", encoding="utf-8") as f:
         data = json.load(f)
@@ -31,7 +38,7 @@ def main():
         writer = csv.DictWriter(csvfile, fieldnames=FIELDS)
         writer.writeheader()
         for item in data:
-            row = {field: item.get(field, "") for field in FIELDS}
+            row = {field: format_value(item.get(field, "")) for field in FIELDS}
             writer.writerow(row)
     print(f"Exported {len(data)} contracts to {OUTPUT_PATH}")
 

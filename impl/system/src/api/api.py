@@ -8,6 +8,7 @@ from src.core.data_access.dgraph_client import DgraphClient
 import yaml
 import os
 
+
 # Load custom OpenAPI spec
 def load_openapi_spec():
     try:
@@ -37,15 +38,18 @@ app.add_middleware(
     allow_methods=["GET", "POST"],
 )
 
+
 class SearchRequest(BaseModel):
     query: str
     limit: int
     data: bool = False
 
+
 class VectorSearchRequest(BaseModel):
     query: str = Field(..., min_length=1, description="Natural language search query")
     limit: int = Field(5, ge=1, le=20, description="Maximum number of results")
     threshold: float = Field(0.7, ge=0.0, le=1.0, description="Similarity threshold")
+
 
 class ContractResult(BaseModel):
     id: str
@@ -64,7 +68,9 @@ class ContractResult(BaseModel):
     solc_version: Optional[str] = None
     verified_source: Optional[bool] = None
     verified_source_code: Optional[str] = None
-    functionality: Optional[str] = None
+    functionalities: Optional[List[str]] = None
+    standards: Optional[List[str]] = None
+    patterns: Optional[List[str]] = None
     domain: Optional[str] = None
     security_risks: Optional[List[str]] = None
     similarity_score: Optional[float] = None  # For vector search results
@@ -206,6 +212,7 @@ class ContractResult(BaseModel):
 #         raise HTTPException(status_code=500, detail=str(e))
 client = DgraphClient()
 
+
 @app.post("/search")
 async def vector_search_contracts(request: VectorSearchRequest):
     """
@@ -233,9 +240,9 @@ async def vector_search_contracts(request: VectorSearchRequest):
                     verified_source_code=result.get(
                         "ContractDeployment.verified_source_code"
                     ),
-                    functionality=result.get(
-                        "ContractDeployment.functionality_classification"
-                    ),
+                    functionalities=result.get("ContractDeployment.functionalities"),
+                    standards=result.get("ContractDeployment.standards"),
+                    patterns=result.get("ContractDeployment.patterns"),
                     domain=result.get("ContractDeployment.application_domain"),
                     security_risks=result.get(
                         "ContractDeployment.security_risks_description", ""
@@ -250,12 +257,120 @@ async def vector_search_contracts(request: VectorSearchRequest):
                 formatted_results.append(formatted_result.model_dump())
             except Exception as e:
                 print(f"Error processing vector search result: {str(e)}")
-                print(f"Result data: {result}")
+                print(f"Result data: {result['ContractDeployment.id']}")
                 continue
 
         return JSONResponse(content=formatted_results)
     except Exception as e:
         print(f"Vector search error: {str(e)}")
+        import traceback
+
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/search_text_source_code")
+async def search_text_source_code_contracts(request: SearchRequest):
+    """
+    Perform text search on smart contracts focusing on name and source code.
+    Uses literal string matching for more precise results.
+    """
+    try:
+        results = client.search_by_text_source_code(request.query, request.limit)
+        formatted_results = []
+
+        for result in results:
+            try:
+                formatted_result = ContractResult(
+                    id=result.get("uid", ""),
+                    name=result.get("ContractDeployment.name", ""),
+                    description=result.get("ContractDeployment.description", ""),
+                    created=result.get("ContractDeployment.created", ""),
+                    verified=result.get("ContractDeployment.verified_source", False),
+                    tags=[result.get("ContractDeployment.application_domain", "")],
+                    storage_protocol=result.get("ContractDeployment.storage_protocol"),
+                    storage_address=result.get("ContractDeployment.storage_address"),
+                    experimental=result.get("ContractDeployment.experimental"),
+                    solc_version=result.get("ContractDeployment.solc_version"),
+                    verified_source=result.get("ContractDeployment.verified_source"),
+                    verified_source_code=result.get(
+                        "ContractDeployment.verified_source_code"
+                    ),
+                    functionalities=result.get("ContractDeployment.functionalities"),
+                    standards=result.get("ContractDeployment.standards"),
+                    patterns=result.get("ContractDeployment.patterns"),
+                    domain=result.get("ContractDeployment.application_domain"),
+                    security_risks=result.get(
+                        "ContractDeployment.security_risks_description", ""
+                    ).split(", ")
+                    if result.get("ContractDeployment.security_risks_description")
+                    else [],
+                )
+                print(
+                    f"Text source code search result: {formatted_result.id}, {formatted_result.name}"
+                )
+                formatted_results.append(formatted_result.model_dump())
+            except Exception as e:
+                print(f"Error processing text source code search result: {str(e)}")
+                continue
+
+        return JSONResponse(content=formatted_results)
+    except Exception as e:
+        print(f"Text source code search error: {str(e)}")
+        import traceback
+
+        traceback.print_exc()
+        raise HTTPException(status_code=500, detail=str(e))
+
+
+@app.post("/search_text")
+async def search_text_contracts(request: SearchRequest):
+    """
+    Perform comprehensive text search on smart contracts across all metadata fields.
+    Uses literal string matching for finding contracts by various criteria.
+    """
+    try:
+        results = client.search_by_text(request.query, request.limit)
+        formatted_results = []
+
+        for result in results:
+            try:
+                formatted_result = ContractResult(
+                    id=result.get("uid", ""),
+                    name=result.get("ContractDeployment.name", ""),
+                    description=result.get("ContractDeployment.description", ""),
+                    created=result.get("ContractDeployment.created", ""),
+                    verified=result.get("ContractDeployment.verified_source", False),
+                    tags=[result.get("ContractDeployment.application_domain", "")],
+                    storage_protocol=result.get("ContractDeployment.storage_protocol"),
+                    storage_address=result.get("ContractDeployment.storage_address"),
+                    experimental=result.get("ContractDeployment.experimental"),
+                    solc_version=result.get("ContractDeployment.solc_version"),
+                    verified_source=result.get("ContractDeployment.verified_source"),
+                    verified_source_code=result.get(
+                        "ContractDeployment.verified_source_code"
+                    ),
+                    functionalities=result.get("ContractDeployment.functionalities"),
+                    standards=result.get("ContractDeployment.standards"),
+                    patterns=result.get("ContractDeployment.patterns"),
+                    domain=result.get("ContractDeployment.application_domain"),
+                    security_risks=result.get(
+                        "ContractDeployment.security_risks_description", ""
+                    ).split(", ")
+                    if result.get("ContractDeployment.security_risks_description")
+                    else [],
+                )
+                print(
+                    f"Text search result: {formatted_result.id}, {formatted_result.name}"
+                )
+                formatted_results.append(formatted_result.model_dump())
+            except Exception as e:
+                print(f"Error processing text search result: {str(e)}")
+                continue
+
+        return JSONResponse(content=formatted_results)
+    except Exception as e:
+        print(f"Text search error: {str(e)}")
         import traceback
 
         traceback.print_exc()
@@ -415,11 +530,6 @@ async def root():
                         <span class="url">/search</span>
                     </div>
                     
-                    <div class="endpoint">
-                        <span class="method">POST</span>
-                        <span class="url">/vector_search</span>
-                    </div>
-                    
                     <p style="margin-top: 16px; margin-bottom: 0; color: #666; font-size: 14px;">
                         💡 <strong>Tip:</strong> Check the Swagger UI above to test both endpoints interactively.
                     </p>
@@ -428,6 +538,7 @@ async def root():
         </body>
     </html>
     """
+
 
 if __name__ == "__main__":
     uvicorn.run(

@@ -15,15 +15,15 @@ def main():
     with open(input_csv, newline="") as csvfile:
         reader = csv.DictReader(csvfile)
         for row in reader:
-            jenis = row["Jenis"]
-            contracts = ast.literal_eval(row["Contracts"])
-            cleaned = clean_text(jenis)
+            query = row["query"]
+            contracts = ast.literal_eval(row["contract_ids"])
+            cleaned = clean_text(query)
             queries.append(
                 {
-                    "id": jenis,
+                    "id": query,
                     "query": cleaned,
                     "description": cleaned,
-                    "expected_results": {"contract_uids": contracts},
+                    "expected_results": {"contract_ids": contracts},
                 }
             )
     with open(output_json, "w") as f:

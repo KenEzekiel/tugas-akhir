@@ -158,10 +158,12 @@ class DgraphClient:
         ContractDeployment.verified_source_code
         ContractDeployment.name
         ContractDeployment.description
-        ContractDeployment.description_embedding
-        ContractDeployment.functionality_classification
+        ContractDeployment.standards
+        ContractDeployment.patterns
+        ContractDeployment.functionalities
         ContractDeployment.application_domain
         ContractDeployment.security_risks_description
+        ContractDeployment.embeddings
       }}
     }}
     """
@@ -202,7 +204,9 @@ class DgraphClient:
             ContractDeployment.verified_source_code
             ContractDeployment.name
             ContractDeployment.description
-            ContractDeployment.functionality_classification
+            ContractDeployment.standards
+            ContractDeployment.patterns
+            ContractDeployment.functionalities
             ContractDeployment.application_domain
             ContractDeployment.security_risks_description
             ContractDeployment.embeddings
@@ -250,7 +254,9 @@ class DgraphClient:
       ContractDeployment.verified_source_code
       ContractDeployment.name
       ContractDeployment.description
-      ContractDeployment.functionality_classification
+      ContractDeployment.standards
+      ContractDeployment.patterns
+      ContractDeployment.functionalities
       ContractDeployment.application_domain
       ContractDeployment.security_risks_description
       ContractDeployment.embeddings
@@ -312,7 +318,9 @@ class DgraphClient:
             with self.dgraph_txn() as txn:
                 mutation = txn.create_mutation(set_obj=mutation_data)
                 response = txn.mutate(mutation=mutation, commit_now=False)
-                self.logger.info(f"Successfully inserted embeddings for contract {contract_id}")
+                self.logger.info(
+                    f"Successfully inserted embeddings for contract {contract_id}"
+                )
                 return response
         except Exception as e:
             self.logger.exception(
@@ -401,7 +409,9 @@ class DgraphClient:
                     ContractDeployment.verified_source_code
                     ContractDeployment.name
                     ContractDeployment.description
-                    ContractDeployment.functionality_classification
+                    ContractDeployment.standards
+                    ContractDeployment.patterns
+                    ContractDeployment.functionalities
                     ContractDeployment.application_domain
                     ContractDeployment.security_risks_description
                     ContractDeployment.embeddings
@@ -459,6 +469,124 @@ class DgraphClient:
 
         except Exception as e:
             self.logger.error(f"Vector search failed for query '{query}': {e}")
+            raise
+
+    def search_by_text_source_code(self, query: str, limit: int = 5) -> list[dict]:
+        """
+        Performs text search on contracts using literal text search
+
+        Args:
+            query: Text string to search for in contract fields
+            limit: Maximum number of results to return
+
+        Returns:
+            List of contracts that match the text query
+        """
+        try:
+            # Construct Dgraph query with text search
+            # Use match for name (trigram index) and anyofterms for source code (term index)
+            dgraph_query = f"""
+            {{
+                text_search(func: type(ContractDeployment), first: {limit}) 
+                @filter(eq(ContractDeployment.verified_source, true) AND 
+                (anyofterms(ContractDeployment.verified_source_code, "{query}"))) {{
+                    uid
+                    ContractDeployment.id
+                    ContractDeployment.contract
+                    ContractDeployment.block
+                    ContractDeployment.storage_protocol
+                    ContractDeployment.storage_address
+                    ContractDeployment.experimental
+                    ContractDeployment.solc_version
+                    ContractDeployment.verified_source
+                    ContractDeployment.verified_source_code
+                    ContractDeployment.name
+                    ContractDeployment.description
+                    ContractDeployment.standards
+                    ContractDeployment.patterns
+                    ContractDeployment.functionalities
+                    ContractDeployment.application_domain
+                    ContractDeployment.security_risks_description
+                    ContractDeployment.embeddings
+                }}
+            }}
+            """
+
+            with self.dgraph_txn(read_only=True) as txn:
+                response = txn.query(dgraph_query).json
+                response = json.loads(response)
+                results = response.get("text_search", [])
+
+                self.logger.info(
+                    f"Text source code search found {len(results)} contracts for query: '{query}'"
+                )
+                return results
+
+        except Exception as e:
+            self.logger.error(
+                f"Text source code search failed for query '{query}': {e}"
+            )
+            raise
+
+    def search_by_text(self, query: str, limit: int = 5) -> list[dict]:
+        """
+        Performs text search on contracts using literal text search
+
+        Args:
+            query: Text string to search for in contract fields
+            limit: Maximum number of results to return
+
+        Returns:
+            List of contracts that match the text query
+        """
+        try:
+            # Construct Dgraph query with text search
+            # Use anyofterms for name and source code (more flexible matching)
+            # Use allofterms for other fields (more precise matching)
+            dgraph_query = f"""
+            {{
+                text_search(func: type(ContractDeployment), first: {limit}) 
+                @filter(eq(ContractDeployment.verified_source, true) AND 
+                (anyoftext(ContractDeployment.description, "{query}") OR
+                 anyofterms(ContractDeployment.standards, "{query}") OR
+                 anyofterms(ContractDeployment.patterns, "{query}") OR
+                 anyofterms(ContractDeployment.functionalities, "{query}") OR
+                 anyoftext(ContractDeployment.application_domain, "{query}") OR
+                 anyoftext(ContractDeployment.security_risks_description, "{query}"))) {{
+                    uid
+                    ContractDeployment.id
+                    ContractDeployment.contract
+                    ContractDeployment.block
+                    ContractDeployment.storage_protocol
+                    ContractDeployment.storage_address
+                    ContractDeployment.experimental
+                    ContractDeployment.solc_version
+                    ContractDeployment.verified_source
+                    ContractDeployment.verified_source_code
+                    ContractDeployment.name
+                    ContractDeployment.description
+                    ContractDeployment.standards
+                    ContractDeployment.patterns
+                    ContractDeployment.functionalities
+                    ContractDeployment.application_domain
+                    ContractDeployment.security_risks_description
+                    ContractDeployment.embeddings
+                }}
+            }}
+            """
+
+            with self.dgraph_txn(read_only=True) as txn:
+                response = txn.query(dgraph_query).json
+                response = json.loads(response)
+                results = response.get("text_search", [])
+
+                self.logger.info(
+                    f"Text search found {len(results)} contracts for query: '{query}'"
+                )
+                return results
+
+        except Exception as e:
+            self.logger.error(f"Text search failed for query '{query}': {e}")
             raise
 
     def close(self) -> None:
