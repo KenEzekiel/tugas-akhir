@@ -10,7 +10,17 @@ import {
   CardTitle,
 } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { ArrowLeft, Copy, Check, Code } from "lucide-react";
+import {
+  ArrowLeft,
+  Copy,
+  Check,
+  Code,
+  Shield,
+  Zap,
+  Layers,
+  Target,
+  Tag,
+} from "lucide-react";
 import { ImportContract } from "@/components/import-contract";
 import { AddressBadge } from "@/components/address-badge";
 import { ContractResult } from "@/lib/types";
@@ -18,6 +28,42 @@ import { ContractResult } from "@/lib/types";
 interface ContractDetailsProps {
   contract: ContractResult;
   onBack: () => void;
+}
+
+// Helper function to render attribute badges with icons
+function AttributeBadges({
+  items,
+  icon: Icon,
+  variant = "secondary" as const,
+  maxItems = 5,
+}: {
+  items?: string[];
+  icon: any;
+  variant?: "default" | "secondary" | "destructive" | "outline";
+  maxItems?: number;
+}) {
+  if (!items || items.length === 0) return null;
+
+  const displayItems = items.slice(0, maxItems);
+  const remainingCount = items.length - maxItems;
+
+  return (
+    <div className="flex flex-wrap gap-2">
+      {displayItems.map((item, i) => (
+        <Badge
+          key={`${item}-${i}`}
+          variant={variant}
+          className="flex items-center gap-1"
+        >
+          <Icon className="h-3 w-3" />
+          {item}
+        </Badge>
+      ))}
+      {remainingCount > 0 && (
+        <Badge variant="outline">+{remainingCount} more</Badge>
+      )}
+    </div>
+  );
 }
 
 export function ContractDetails({ contract, onBack }: ContractDetailsProps) {
@@ -38,6 +84,7 @@ export function ContractDetails({ contract, onBack }: ContractDetailsProps) {
         </Button>
         <h2 className="text-2xl font-bold">{contract.name}</h2>
         {contract.verified && <Badge variant="default">Verified</Badge>}
+        {contract.experimental && <Badge variant="outline">Experimental</Badge>}
         <div className="ml-auto flex gap-2">
           <Button
             variant="outline"
@@ -80,8 +127,9 @@ export function ContractDetails({ contract, onBack }: ContractDetailsProps) {
           <CardTitle>Contract Details</CardTitle>
           <CardDescription>{contract.description}</CardDescription>
         </CardHeader>
-        <CardContent>
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+        <CardContent className="space-y-6">
+          {/* Basic Information */}
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
             <div>
               <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">
                 License
@@ -94,54 +142,105 @@ export function ContractDetails({ contract, onBack }: ContractDetailsProps) {
               </h4>
               <p>{contract.created || "May 15, 2023"}</p>
             </div>
+            {contract.solc_version && (
+              <div>
+                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Solidity Version
+                </h4>
+                <p>{contract.solc_version}</p>
+              </div>
+            )}
+            {contract.storage_protocol && (
+              <div>
+                <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400">
+                  Storage Protocol
+                </h4>
+                <p>{contract.storage_protocol}</p>
+              </div>
+            )}
           </div>
 
-          <div className="mb-4">
-            <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-              Tags
-            </h4>
-            <div className="flex flex-wrap gap-2">
-              {contract.tags.map((tag: string, i: number) => (
-                <Badge key={i} variant="secondary">
-                  {tag}
-                </Badge>
-              ))}
-            </div>
-          </div>
-
-          {contract.functionality && (
-            <div className="mb-4">
-              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                Functionality
+          {/* Tags */}
+          {contract.tags && contract.tags.length > 0 && (
+            <div>
+              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1">
+                <Tag className="h-4 w-4" />
+                Tags
               </h4>
-              <p className="text-sm">{contract.functionality}</p>
+              <div className="flex flex-wrap gap-2">
+                {contract.tags.map((tag: string, i: number) => (
+                  <Badge key={i} variant="secondary">
+                    {tag}
+                  </Badge>
+                ))}
+              </div>
             </div>
           )}
 
+          {/* Domain */}
           {contract.domain && (
-            <div className="mb-4">
-              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                Domain
+            <div>
+              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1">
+                <Target className="h-4 w-4" />
+                Application Domain
               </h4>
               <p className="text-sm">{contract.domain}</p>
             </div>
           )}
 
-          {contract.security_risks && contract.security_risks.length > 0 && (
-            <div className="mb-4">
-              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                Security Considerations
+          {/* Standards */}
+          {contract.standards && contract.standards.length > 0 && (
+            <div>
+              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1">
+                <Layers className="h-4 w-4" />
+                Standards
               </h4>
-              <p className="text-sm">{contract.security_risks}</p>
+              <AttributeBadges
+                items={contract.standards}
+                icon={Layers}
+                variant="default"
+              />
             </div>
           )}
 
-          {contract.solc_version && (
-            <div className="mb-4">
-              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2">
-                Solidity Version
+          {/* Patterns */}
+          {contract.patterns && contract.patterns.length > 0 && (
+            <div>
+              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1">
+                <Zap className="h-4 w-4" />
+                Design Patterns
               </h4>
-              <p className="text-sm">{contract.solc_version}</p>
+              <AttributeBadges
+                items={contract.patterns}
+                icon={Zap}
+                variant="secondary"
+              />
+            </div>
+          )}
+
+          {/* Functionalities */}
+          {contract.functionalities && contract.functionalities.length > 0 && (
+            <div>
+              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1">
+                <Zap className="h-4 w-4" />
+                Functionalities
+              </h4>
+              <AttributeBadges
+                items={contract.functionalities}
+                icon={Zap}
+                variant="secondary"
+              />
+            </div>
+          )}
+
+          {/* Security Risks */}
+          {contract.security_risks && contract.security_risks.length > 0 && (
+            <div>
+              <h4 className="text-sm font-medium text-gray-500 dark:text-gray-400 mb-2 flex items-center gap-1">
+                <Shield className="h-4 w-4" />
+                Security Considerations
+              </h4>
+              <p className="text-sm">{contract.security_risks}</p>
             </div>
           )}
         </CardContent>

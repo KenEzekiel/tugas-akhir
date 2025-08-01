@@ -1,6 +1,6 @@
 "use server";
 
-import type { ContractResult } from "@/lib/types";
+import type { ContractResult, SearchType } from "@/lib/types";
 
 // Mock data for demonstration purposes
 const mockContracts: ContractResult[] = [
@@ -100,26 +100,59 @@ const mockContracts: ContractResult[] = [
 export async function searchContracts(
   query: string,
   limit: number = 10,
-  threshold: number = 0.7
+  threshold: number = 0.7,
+  searchType: SearchType = "vector"
 ): Promise<ContractResult[]> {
   const baseUrl = process.env.CONTRACT_SEARCH_API_URL || "http://0.0.0.0:8000";
 
-  const res = await fetch(`${baseUrl}/search`, {
+  // Determine the endpoint based on search type
+  let endpoint: string;
+  let requestBody: any;
+
+  switch (searchType) {
+    case "vector":
+      endpoint = "/search";
+      requestBody = {
+        query: query,
+        limit: limit,
+        threshold: threshold,
+      };
+      break;
+    case "text":
+      endpoint = "/search_text";
+      requestBody = {
+        query: query,
+        limit: limit,
+      };
+      break;
+    case "source_code":
+      endpoint = "/search_text_source_code";
+      requestBody = {
+        query: query,
+        limit: limit,
+      };
+      break;
+    default:
+      endpoint = "/search";
+      requestBody = {
+        query: query,
+        limit: limit,
+        threshold: threshold,
+      };
+  }
+
+  const res = await fetch(`${baseUrl}${endpoint}`, {
     method: "POST",
     cache: "no-store",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({
-      query: query,
-      limit: limit,
-      threshold: threshold,
-    }),
+    body: JSON.stringify(requestBody),
   });
 
-  console.log("Vector search request:", {
-    url: `${baseUrl}/search`,
+  console.log(`${searchType} search request:`, {
+    url: `${baseUrl}${endpoint}`,
     method: "POST",
     headers: { "Content-Type": "application/json" },
-    body: JSON.stringify({ query, limit, threshold }),
+    body: JSON.stringify(requestBody),
   });
 
   if (!res.ok) {
@@ -129,7 +162,7 @@ export async function searchContracts(
   }
 
   const responseText = await res.text();
-  console.log("Vector search response:", {
+  console.log(`${searchType} search response:`, {
     status: res.status,
     statusText: res.statusText,
     headers: Object.fromEntries(res.headers.entries()),

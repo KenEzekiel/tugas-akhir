@@ -4,7 +4,14 @@ import type React from "react";
 
 import { useState } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { SearchIcon, WandSparklesIcon, SlidersHorizontal } from "lucide-react";
+import {
+  SearchIcon,
+  WandSparklesIcon,
+  SlidersHorizontal,
+  Code,
+  FileText,
+  Brain,
+} from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -15,6 +22,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { useToast } from "@/hooks/use-toast";
+import type { SearchType } from "@/lib/types";
 
 interface RefineResponse {
   original_query: string;
@@ -22,13 +30,43 @@ interface RefineResponse {
   reasoning?: string;
 }
 
+const searchTypeConfig = {
+  vector: {
+    label: "Vector Search",
+    description: "Semantic similarity using AI embeddings",
+    icon: Brain,
+    placeholder: "Find contracts by natural language...",
+    examples:
+      "Try: 'Find Ethereum NFT contracts with royalty features' or 'Show me DeFi lending protocols'",
+  },
+  text: {
+    label: "Text Search",
+    description: "Search across all contract metadata",
+    icon: FileText,
+    placeholder: "Search contract names, descriptions, standards...",
+    examples: "Try: 'ERC20' or 'DeFi lending' or 'NFT marketplace'",
+  },
+  source_code: {
+    label: "Source Code Search",
+    description: "Search in contract names and source code",
+    icon: Code,
+    placeholder: "Search function names, variables, code patterns...",
+    examples: "Try: 'transfer' or 'mint' or 'approve' or 'balanceOf'",
+  },
+};
+
 export function Search() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const { toast } = useToast();
   const [query, setQuery] = useState(searchParams.get("q") || "");
+  const [searchType, setSearchType] = useState<SearchType>(
+    (searchParams.get("type") as SearchType) || "vector"
+  );
   const [isSearching, setIsSearching] = useState(false);
   const [isRefining, setIsRefining] = useState(false);
+
+  const currentConfig = searchTypeConfig[searchType];
 
   const handleSearch = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -45,9 +83,10 @@ export function Search() {
     setIsSearching(true);
 
     try {
-      // Update URL with search query and threshold
+      // Update URL with search query and search type
       const params = new URLSearchParams(searchParams);
       params.set("q", query);
+      params.set("type", searchType);
       router.push(`/?${params.toString()}`);
     } catch (error) {
       toast({
@@ -108,7 +147,7 @@ export function Search() {
       setTimeout(() => {
         const params = new URLSearchParams(searchParams);
         params.set("q", refineResult.refined_query);
-        params.set("threshold", threshold[0].toString());
+        params.set("type", searchType);
         router.push(`/?${params.toString()}`);
       }, 500); // Small delay to show the refined query in the input
     } catch (error) {
@@ -126,12 +165,32 @@ export function Search() {
 
   return (
     <div className="w-full max-w-3xl mx-auto space-y-4">
+      {/* Search Type Selector */}
+      <div className="flex gap-2 justify-center">
+        {Object.entries(searchTypeConfig).map(([type, config]) => {
+          const Icon = config.icon;
+          const isActive = searchType === type;
+          return (
+            <Button
+              key={type}
+              variant={isActive ? "default" : "outline"}
+              size="sm"
+              onClick={() => setSearchType(type as SearchType)}
+              className="flex items-center gap-2 px-4 py-2"
+            >
+              <Icon className="h-4 w-4" />
+              {config.label}
+            </Button>
+          );
+        })}
+      </div>
+
       <form onSubmit={handleSearch}>
         <div className="flex gap-2">
           <div className="relative flex-1">
             <Input
               type="text"
-              placeholder="Search smart contracts..."
+              placeholder={currentConfig.placeholder}
               value={query}
               onChange={(e) => setQuery(e.target.value)}
               className="w-full pl-4 pr-10 py-6 text-base rounded-lg border border-gray-300 dark:border-gray-700 focus:ring-2 focus:ring-primary"
@@ -158,11 +217,9 @@ export function Search() {
       </form>
 
       <p className="text-xs text-gray-500 dark:text-gray-400">
-        <strong>🔍 Search:</strong> Uses embeddings to find semantically similar
-        contracts
+        <strong>🔍 {currentConfig.label}:</strong> {currentConfig.description}
         <br />
-        Try: "Find Ethereum NFT contracts with royalty features" or "Show me
-        DeFi lending protocols"
+        {currentConfig.examples}
       </p>
     </div>
   );

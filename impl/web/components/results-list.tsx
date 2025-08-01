@@ -15,8 +15,17 @@ import {
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Skeleton } from "@/components/ui/skeleton";
-import type { ContractResult } from "@/lib/types";
-import { Copy, ExternalLink, FileCode, Tag } from "lucide-react";
+import type { ContractResult, SearchType } from "@/lib/types";
+import {
+  Copy,
+  ExternalLink,
+  FileCode,
+  Tag,
+  Shield,
+  Zap,
+  Layers,
+  Target,
+} from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
 
 // Helper function to get relevance level and color
@@ -34,10 +43,49 @@ function getRelevanceInfo(score?: number) {
   }
 }
 
+// Helper function to render attribute badges with icons
+function AttributeBadges({
+  items,
+  icon: Icon,
+  variant = "secondary" as const,
+  maxItems = 3,
+}: {
+  items?: string[];
+  icon: any;
+  variant?: "default" | "secondary" | "destructive" | "outline";
+  maxItems?: number;
+}) {
+  if (!items || items.length === 0) return null;
+
+  const displayItems = items.slice(0, maxItems);
+  const remainingCount = items.length - maxItems;
+
+  return (
+    <div className="flex flex-wrap gap-1">
+      {displayItems.map((item, i) => (
+        <Badge
+          key={`${item}-${i}`}
+          variant={variant}
+          className="flex items-center gap-1 text-xs"
+        >
+          <Icon className="h-3 w-3" />
+          {item}
+        </Badge>
+      ))}
+      {remainingCount > 0 && (
+        <Badge variant="outline" className="text-xs">
+          +{remainingCount} more
+        </Badge>
+      )}
+    </div>
+  );
+}
+
 export function ResultsList() {
   const searchParams = useSearchParams();
   const query = searchParams.get("q");
   const threshold = parseFloat(searchParams.get("threshold") || "0.7");
+  const searchType = (searchParams.get("type") as SearchType) || "vector";
   const { toast } = useToast();
 
   const [results, setResults] = useState<ContractResult[]>([]);
@@ -54,8 +102,8 @@ export function ResultsList() {
 
       setLoading(true);
       try {
-        const data = await searchContracts(query, 10, threshold);
-        console.log(data, "vector search data");
+        const data = await searchContracts(query, 10, threshold, searchType);
+        console.log(data, `${searchType} search data`);
         setResults(data);
       } catch (error) {
         console.error("Error fetching results:", error);
@@ -70,7 +118,7 @@ export function ResultsList() {
     }
 
     fetchResults();
-  }, [query, threshold, toast]);
+  }, [query, threshold, searchType, toast]);
 
   const handleViewDetails = async (contractId: string) => {
     setSelectedContract(contractId);
@@ -174,7 +222,7 @@ export function ResultsList() {
               if (b.similarity_score == null) return -1;
               return b.similarity_score - a.similarity_score;
             })
-            .map((contract) => {
+            .map((contract, index) => {
               const relevanceInfo = getRelevanceInfo(contract.similarity_score);
 
               return (
@@ -185,7 +233,10 @@ export function ResultsList() {
                   <CardHeader className="pb-2">
                     <div className="flex justify-between items-start">
                       <div className="flex-1">
-                        <CardTitle className="text-lg">
+                        <CardTitle className="text-lg flex items-center gap-2">
+                          <span className="text-sm font-medium text-gray-500 dark:text-gray-400 bg-gray-100 dark:bg-gray-700 px-2 py-1 rounded-full">
+                            #{index + 1}
+                          </span>
                           {contract.name || "Unnamed Contract"}
                         </CardTitle>
                         <CardDescription>
@@ -209,10 +260,13 @@ export function ResultsList() {
                           </span>
                         </div>
 
-                        {/* Other badges */}
+                        {/* Status badges */}
                         <div className="flex gap-2">
                           {contract.verified && (
                             <Badge variant="default">Verified</Badge>
+                          )}
+                          {contract.experimental && (
+                            <Badge variant="outline">Experimental</Badge>
                           )}
                           {contract.solc_version && (
                             <Badge variant="outline">
@@ -223,8 +277,9 @@ export function ResultsList() {
                       </div>
                     </div>
                   </CardHeader>
-                  <CardContent>
-                    <div className="flex flex-wrap gap-2 mb-3">
+                  <CardContent className="space-y-3">
+                    {/* Tags and Domain */}
+                    <div className="flex flex-wrap gap-2">
                       {contract.tags?.map((tag, i) => (
                         <Badge
                           key={`${tag}-${i}`}
@@ -240,17 +295,59 @@ export function ResultsList() {
                           variant="secondary"
                           className="flex items-center gap-1"
                         >
-                          <Tag className="h-3 w-3" />
+                          <Target className="h-3 w-3" />
                           {contract.domain}
                         </Badge>
                       )}
                     </div>
-                    {contract.functionality && (
-                      <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
-                        <p className="font-medium">Functionality:</p>
-                        <p>{contract.functionality}</p>
+
+                    {/* Standards */}
+                    {contract.standards && contract.standards.length > 0 && (
+                      <div className="space-y-1">
+                        <p className="text-xs font-medium text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                          <Layers className="h-3 w-3" />
+                          Standards:
+                        </p>
+                        <AttributeBadges
+                          items={contract.standards}
+                          icon={Layers}
+                          variant="default"
+                        />
                       </div>
                     )}
+
+                    {/* Patterns */}
+                    {contract.patterns && contract.patterns.length > 0 && (
+                      <div className="space-y-1">
+                        <p className="text-xs font-medium text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                          <Zap className="h-3 w-3" />
+                          Patterns:
+                        </p>
+                        <AttributeBadges
+                          items={contract.patterns}
+                          icon={Zap}
+                          variant="secondary"
+                        />
+                      </div>
+                    )}
+
+                    {/* Functionalities */}
+                    {contract.functionalities &&
+                      contract.functionalities.length > 0 && (
+                        <div className="space-y-1">
+                          <p className="text-xs font-medium text-gray-600 dark:text-gray-400 flex items-center gap-1">
+                            <Zap className="h-3 w-3" />
+                            Functionalities:
+                          </p>
+                          <AttributeBadges
+                            items={contract.functionalities}
+                            icon={Zap}
+                            variant="secondary"
+                          />
+                        </div>
+                      )}
+
+                    {/* Security Risks */}
                     {contract.security_risks &&
                       contract.security_risks.length > 0 && (
                         <div className="text-sm text-gray-500 dark:text-gray-400 mt-2">
