@@ -1,0 +1,27 @@
+\chapter{Skema Data Dgraph Setelah Iterasi Perbaikan}
+\label{appendix:skema-dgraph-iterasi-perbaikan}
+
+\begin{lstlisting}[language=bash]
+    <ContractDeployment.id>: string @index(trigram) .
+    <ContractDeployment.block>: uid @reverse .
+    <ContractDeployment.contract>: uid @reverse .
+    <ContractDeployment.creation_bytecode>: string .
+    <ContractDeployment.creator>: uid @reverse .
+    <ContractDeployment.deployed_bytecode>: string .
+    <ContractDeployment.experimental>: bool .
+    <ContractDeployment.failed_deploy>: bool .
+    <ContractDeployment.solc_version>: string .
+    <ContractDeployment.storage_address>: string .
+    <ContractDeployment.storage_protocol>: string .
+    <ContractDeployment.tx_hash>: string @index(hash) .
+    <ContractDeployment.name>: string @index(trigram) .
+    <ContractDeployment.verified_source>: bool @index(bool) .
+    <ContractDeployment.verified_source_code>: string @index(term) .
+    <ContractDeployment.description>: string @index(fulltext) .
+    <ContractDeployment.<ContractDeployment.standards>: [string] @index(term) .
+    <ContractDeployment.patterns>: [string] @index(term) .
+    <ContractDeployment.functionalities>: [string] @index(term) .
+    <ContractDeployment.application_domain>: string @index(fulltext) .
+    <ContractDeployment.security_risks_description>: string @index(fulltext) .
+    <ContractDeployment.embeddings>: float32vector @index(hnsw(metric:"euclidean")) .
+\end{lstlisting}

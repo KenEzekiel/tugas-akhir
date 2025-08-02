@@ -10,6 +10,8 @@
 	      \end{itemize}
 	\item \texttt{DgraphClient}: Klien Dgraph tunggal yang digunakan untuk melakukan operasi vector similarity search melalui method `vector\textunderscore search`.
 	\item \texttt{POST /search}: Endpoint yang menerima `VectorSearchRequest`, memanggil `DgraphClient.vector\textunderscore search`, memetakan setiap hasil ke model `ContractResult`, dan mengembalikan JSONResponse dengan daftar hasil.
+	\item \texttt{POST /search\textunderscore text\textunderscore source\textunderscore code}: Endpoint yang menerima teks pencarian, memanggil `DgraphClient.search\textunderscore by\textunderscore text\textunderscore source\textunderscore code`, memetakan hasil ke model `ContractResult`, dan mengembalikan JSONResponse dengan daftar hasil.
+	\item \texttt{POST /search\textunderscore text}: Endpoint yang menerima teks pencarian, memanggil `DgraphClient.search\textunderscore by\textunderscore text`, memetakan hasil ke model `ContractResult`, dan mengembalikan JSONResponse dengan daftar hasil.
 	\item \texttt{GET /}: Root endpoint yang mengembalikan halaman HTML statis sebagai landing page dokumentasi dan link ke Swagger UI, ReDoc, dan spesifikasi OpenAPI.
 \end{enumerate}
 

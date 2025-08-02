@@ -4,12 +4,9 @@
 \begin{enumerate}
     \item \texttt{logger}: Objek logger untuk mencatat informasi, peringatan, dan kesalahan selama proses enrichment.
     \item \texttt{llm}: Model LLM utama yang digunakan untuk menghasilkan keluaran JSON terstruktur sesuai skema semantic.
-    \item \texttt{analysis\textunderscore llm}: Model LLM sekunder yang digunakan untuk menganalisis dan merangkum kode Solidity sebelum dikirim ke LLM utama.
     \item \texttt{parser}: JsonOutputParser untuk mem-parse output dari LLM menjadi objek Python (dict) sesuai format yang diinginkan.
-    \item \texttt{analyzer\textunderscore prompt}: ChatPromptTemplate yang berisi instruksi untuk analisis kode Solidity dan pembuatan ringkasan teks awal.
     \item \texttt{prompt}: ChatPromptTemplate yang berisi instruksi untuk menghasilkan JSON minified dengan kunci seperti description, functionality\textunderscore classification, application\textunderscore domain, dan security\textunderscore risks\textunderscore description.
-    \item \texttt{\textunderscore init\textunderscore }: Konstruktor yang menginisialisasi logger, llm, analysis\textunderscore llm, parser, analyzer\textunderscore prompt, dan prompt templates.
+    \item \texttt{\textunderscore init\textunderscore }: Konstruktor yang menginisialisasi logger, llm, parser, dan prompt templates.
     \item \texttt{enrich}: Metode async yang menerima data kontrak, melakukan praproses dengan \texttt{preprocess\textunderscore llm}, membangun chain \texttt{prompt | llm | parser}, serta menambahkan prefix \texttt{ContractDeployment.} pada setiap kunci dan field \texttt{uid}, kemudian mengembalikan dict hasil enrich.
-    \item \texttt{preprocess}: Metode sinkron untuk membersihkan kode Solidity (menghapus komentar, header, boilerplate, dan pengurangan token count) serta menerapkan batasan maksimal 4000 token.
-    \item \texttt{preprocess\textunderscore llm}: Metode async yang menggunakan analyzer\textunderscore prompt dan analysis\textunderscore llm untuk menghasilkan ringkasan teks kontrak, mengupdate field \texttt{ContractDeployment.verified\textunderscore source\textunderscore code} dengan ringkasan tersebut, dan mengembalikan dict kontrak yang diperbarui.
+    \item \texttt{preprocess}: Metode sinkron untuk membersihkan kode Solidity (menghapus komentar, header, boilerplate, dan pengurangan token count) serta menerapkan batasan maksimal 4000 token. Metode ini \textit{deprecated} setelah iterasi perbaikan sistem.
 \end{enumerate}

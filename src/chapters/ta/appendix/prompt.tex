@@ -1,0 +1,174 @@
+\chapter{Prompt Enrichment}
+\label{appendix:prompt-enrichment}
+
+Prompt sebelum iterasi perbaikan yang digunakan untuk melakukan enrichment pada data smart contract adalah sebagai berikut:
+
+\begin{lstlisting}
+    Analyze this smart contract and return JSON with:
+    - description: 2-3 sentence description of the contract
+    - functionality_classification: (Pick one, only write the picked key)
+    - token_contracts:
+        - token_contracts:erc-20: {{description: "Standard for fungible tokens, meaning each token is identical and interchangeable (e.g., cryptocurrencies like USDC or UNI)."}}
+        - token_contracts:erc-721: {{description: "Standard for non-fungible tokens, meaning each token is unique and not interchangeable (e.g., digital art, collectibles like CryptoPunks)."}}
+        - token_contracts:erc-1155: {{description: "A multi-token standard that allows for both fungible and non-fungible tokens within a single contract, offering greater efficiency."}}
+    - library_contracts: {{description: "Reusable code modules that other smart contracts can call upon, promoting code efficiency and reducing redundancy."}}
+    - proxy_contracts: {{description: "Contracts that delegate calls to an underlying implementation contract, enabling upgradeability of smart contracts without changing the contract address."}}
+    - multisignature_wallets: {{description: "Contracts that require multiple pre-approved signatures to authorize a transaction, enhancing security for shared funds or critical operations."}}
+    - name_services: {{description: "Smart contracts that map human-readable names (e.g., 'example.eth') to machine-readable blockchain addresses, simplifying interactions and enabling decentralized websites. Example: Ethereum Name Service (ENS)."}}
+    - smart_wallets: {{description: "Wallets built as smart contracts, offering advanced features like social recovery, batch transactions, and multi-signature capabilities beyond basic external accounts."}}
+    - application_domain: (Pick one, only write the picked key)
+    - defi:
+        - defi:lending_borrowing: {{description: "Protocols allowing users to lend out their crypto assets to earn interest, or borrow crypto by providing collateral. Examples include Aave and Compound."}}
+        - defi:decentralized_exchanges: {{description: "Platforms for peer-to-peer cryptocurrency trading without the need for a central intermediary. Examples include Uniswap and SushiSwap."}}
+        - defi:stablecoins: {{description: "Contracts that manage digital assets designed to maintain a stable value, often pegged to fiat currencies like USD. Examples include MakerDAO's DAI and Tether's USDT."}}
+        - defi:yield_farming/liquidity_mining: {{description: "Protocols that incentivize users to provide liquidity to DeFi platforms by rewarding them with additional tokens."}}
+        - defi:insurance: {{description: "Decentralized protocols offering coverage against various risks in the crypto space, such as smart contract hacks or stablecoin de-pegging."}}
+    - gaming: {{description: "Smart contracts used for in-game assets (NFTs), game logic, virtual economies, and player interactions within blockchain-based games."}}
+    - nft_marketplaces/collectibles: {{description: "Platforms that enable the creation, buying, selling, and management of Non-Fungible Tokens (NFTs), which represent unique digital or physical assets. Examples include OpenSea and Rarible."}}
+    - gambling: {{description: "Decentralized applications for betting, lotteries, and other forms of gambling where outcomes are determined by smart contracts."}}
+    - social: {{description: "Smart contracts that power decentralized social media platforms, identity management systems, and reputation protocols."}}
+    - supply_chain: {{description: "Contracts used to track and verify goods, automate payments, and ensure transparency and traceability in supply chain processes."}}
+    - voting/governance: {{description: "Smart contracts that enable decentralized autonomous organizations (DAOs) to make collective decisions, manage treasuries, and implement proposals."}}
+    - identity_verification: {{description: "Protocols and contracts for secure, self-sovereign digital identity management and verification."}}
+    - security_risks_description: 2-3 sentence description of the security risks of the contract, if any.
+
+    
+    the smart contract given has some keywords truncated with this dictionary:
+    - func: function
+    - ret: return
+    - rets: returns
+    Data: {contract_data}
+\end{lstlisting}
+
+Prompt setelah iterasi perbaikan yang digunakan untuk melakukan enrichment pada data smart contract adalah sebagai berikut:
+
+\begin{lstlisting}
+    Your primary task is to analyze the provided smart contract source code and generate a single, minified JSON object as your response. Your analysis must be precise, objective, and strictly inferred from the provided code.
+
+    ## Instructions:
+
+    Analyze the smart contract code provided in `contract_data` and generate a single, valid, minified JSON object with the following schema. For keys requiring a list (`standards`, `patterns`, `functionalities`), only include the deductions that are clearly evident in the contract's code through inheritance, function signatures, or explicit implementation. Only pick options in the options provided, not actual code.
+    
+    The source code is a flattened source code file, so imports are already inserted into the source code. You should analyze the code of the main contract, usually after the imported contracts.
+
+    ### JSON Schema:
+
+    -   `description`: (String) A 3-4 sentence high-level summary. Clearly state the contract's identity, its main purpose and role in the system, what it does, and how it interacts with users or other contracts.
+    -   `standards`: (List of Strings) A list of all ERC/EIP standards the contract adheres to. Only pick standards in the options provided.
+    -   `patterns`: (List of Strings) A list of all high-level design patterns used to build the contract. Only pick patterns in the options provided.
+    -   `functionalities`: (List of Strings) A list of granular tags for specific jobs the contract performs. Only pick functionalities in the options provided.
+    -   `application_domain`: (String) The single most evident application domain for the contract.
+    -   `security_risks_description`: (String) A 2-3 sentence description of potential security risks specific to the contract's design or function, avoiding generic warnings.
+
+    ---
+
+    ### Key Definitions and Options:
+
+    #### **Standards** (`standards`)
+
+    *Pick all that apply. Infer from interface IDs, inheritance, or function signatures.*
+
+    **Token Standards:**
+    -   `erc-20`: The standard for fungible tokens, representing interchangeable assets. Requires functions like `transfer`, `approve`, and `balanceOf`.
+    -   `erc-721`: The standard for non-fungible tokens (NFTs), representing unique assets. Requires functions like `ownerOf` and `safeTransferFrom`.
+    -   `erc-721a`: An optimized version of ERC-721 for significantly cheaper gas costs when minting multiple NFTs in a single transaction.
+    -   `erc-1155`: A multi-token standard that can manage fungible, non-fungible, and semi-fungible tokens in a single contract.
+    -   `erc-4626`: The "Tokenized Vault" standard. Provides a standard API for yield-bearing vaults that use a single underlying ERC-20 token.
+
+    **NFT-Related Standards:**
+    -   `erc-2981`: The "NFT Royalty Standard." Provides a universal way to retrieve royalty payment information for an NFT.
+    -   `erc-6551`: The "Token Bound Accounts" standard. Allows every NFT to own its own smart contract wallet, enabling it to hold assets and interact with dApps.
+
+    **Utility & Architecture Standards:**
+    -   `eip-712`: The standard for hashing and signing typed structured data, allowing for human-readable messages in wallets.
+    -   `erc-165`: The "Standard Interface Detection." Allows contracts to publish the interfaces they support (e.g., `supportsInterface(0x80ac58cd)` for ERC-721).
+    -   `eip-1967`: The "Standard Proxy Storage Slots." Defines specific storage slots to store the logic address and admin address for transparent and UUPS proxies.
+    -   `eip-1822`: The "Universal Upgradeable Proxy Standard (UUPS)." The standard that defines the UUPS upgradeable proxy pattern.
+    -   `eip-2535`: The "Diamond Standard." A modular smart contract system where a proxy delegates calls to multiple implementation contracts ("facets").
+    -   `eip-2771`: The "Secure Gasless Transactions" standard. A system for accepting transactions where a third-party forwarder pays for gas on behalf of the user.
+    -   `erc-4337`: The "Account Abstraction" standard. Allows for smart contract wallets with advanced features, executed via a decentralized mempool of `UserOperations`.
+
+    #### **Design Patterns** (`patterns`)
+
+    *Pick all that apply. Identify from contract structure, inheritance, or logic.*
+
+    **Upgradability Patterns:**
+    -   `proxy_transparent`: An upgradeable proxy pattern where logic for admins and users is separated into the proxy contract to avoid function selector clashes.
+    -   `proxy_uups`: An upgradeable proxy pattern (EIP-1822) where the upgrade logic resides in the implementation contract itself, saving deployment gas.
+    -   `diamond`: A modular contract composed of a proxy delegating calls to multiple "facet" implementation contracts, allowing for granular upgrades.
+
+    **Creational Patterns:**
+    -   `factory`: A contract whose primary purpose is to deploy other "clone" contracts, often using `create` or `create2`.
+    -   `singleton`: A single, unique instance of a contract that serves as a shared resource or registry for an entire protocol (e.g., the ERC-4337 EntryPoint).
+
+    **Security & Control Patterns:**
+    -   `access_control_ownable`: A simple permission model where a single "owner" address has special privileges, typically via `onlyOwner` modifiers.
+    -   `access_control_role_based`: A complex permission model where different addresses are assigned specific roles (e.g., `MINTER_ROLE`, `PAUSER_ROLE`) with different rights.
+    -   `reentrancy_guard`: A mechanism, typically a modifier (`nonReentrant`), to prevent a contract from being called again before its initial function call is complete.
+    -   `checks_effects_interactions`: A code-structuring pattern where state variable checks are performed first, followed by updates to state (effects), and finally calls to external contracts (interactions).
+    -   `pull_over_push_withdrawal`: A pattern for handling withdrawals where users must call a `withdraw` function to pull funds, rather than the contract pushing funds to them, to mitigate certain security risks.
+    -   `timelock`: A mechanism that enforces a mandatory delay between when an action is proposed and when it can be executed.
+
+    **State & Data Patterns:**
+    -   `library`: A stateless contract containing reusable code that is called via `DELEGATECALL` by other contracts to save gas and avoid code duplication.
+    -   `commit_reveal`: A two-step process to prevent front-running where a user first submits a hash of their action (commit) and later submits the action itself (reveal).
+
+    #### **Functionalities** (`functionalities`)
+
+    *Pick all options that apply. This is about *what* the contract does.*
+
+    **Token Actions:**
+    -   `token_transfer`: Performs core token actions like managing balances and handling transfers.
+    -   `token_minting`: Contains logic for creating new tokens.
+    -   `token_burning`: Contains logic for destroying existing tokens.
+
+    **Security & Control:**
+    -   `pausable`: Contains logic to pause and unpause contract functions, halting activity.
+    -   `upgradable`: Contains logic to change the contract's implementation code, typically via a proxy.
+    -   `signature_verification`: Verifies user signatures to authorize actions, often for gasless transactions (e.g., `permit`).
+
+    **Financial Mechanisms:**
+    -   `staking`: Allows users to lock up assets to earn rewards.
+    -   `vesting`: Locks assets for a period and releases them incrementally over time.
+    -   `escrow`: Holds and locks assets, releasing them only when specific, predefined conditions are met.
+    -   `payment_splitter`: Distributes incoming funds among a predefined set of payees according to specific shares.
+    -   `financial_calculations_amm`: Performs calculations for an Automated Market Maker (e.g., swap prices).
+    -   `financial_calculations_interest_rate`: Contains logic for calculating interest rates for lending/borrowing.
+
+    **Governance & Data:**
+    -   `onchain_voting`: Contains logic for proposal submission, vote counting, and determining quorum.
+    -   `data_registry`: Functions as an on-chain key-value store or directory.
+    -   `offchain_data_bridge`: Interacts with an oracle or cross-chain bridge to use external data.
+    -   `randomness`: Consumes a source of on-chain or off-chain randomness (e.g., Chainlink VRF).
+
+    #### **Application Domain** (`application_domain`)
+
+    *Pick only the ONE most evident domain.*
+
+    -   `defi_lending`: Protocols for lending and borrowing crypto assets (e.g., Aave, Compound).
+    -   `defi_dex`: Protocols for peer-to-peer asset trading, typically using an AMM (e.g., Uniswap, Curve).
+    -   `defi_stablecoin`: Contracts that issue and manage a token pegged to a stable value (e.g., MakerDAO, Frax).
+    -   `defi_derivatives`: Protocols for creating and trading synthetic assets, options, or futures.
+    -   `defi_yield_aggregator`: Protocols that automatically move user funds to maximize yield (e.g., Yearn Finance).
+    -   `defi_liquid_staking`: Protocols that issue a liquid staking token (LST) for staked assets (e.g., Lido).
+    -   `nft_collection`: The core contract for an NFT project, managing minting, ownership, and metadata.
+    -   `nft_marketplace`: A platform for listing, bidding on, and trading various NFTs (e.g., OpenSea Seaport).
+    -   `nft_infrastructure`: A protocol or tool that provides services for the NFT ecosystem.
+    -   `governance_dao`: The core logic for a Decentralized Autonomous Organization, handling proposals and voting.
+    -   `governance_treasury`: A contract for managing a community's funds, often a multi-sig wallet (e.g., Gnosis Safe).
+    -   `gaming_metaverse_game_logic`: Contains the core rules, state, and interactions for an on-chain game.
+    -   `gaming_metaverse_virtual_assets`: Manages in-game items, currency, or virtual land.
+    -   `identity_social_decentralized_id`: Manages decentralized identifiers (DIDs) and credentials.
+    -   `identity_social_social_graph`: Creates a decentralized graph of user profiles and connections (e.g., Lens Protocol).
+    -   `infrastructure_oracle`: Provides external, real-world data (like asset prices) to the blockchain.
+    -   `infrastructure_bridge`: Facilitates the transfer of assets or data between different blockchain networks.
+    -   `infrastructure_naming_service`: Maps human-readable names to Ethereum addresses (e.g., ENS).
+    -   `infrastructure_storage`: Interacts with decentralized storage networks (e.g., Arweave, Filecoin).
+    -   `depin`: A protocol for Decentralized Physical Infrastructure Networks, which use token incentives to coordinate real-world services (e.g., Helium, Hivemapper).
+    -   `rwa_asset_tokenization`: Contracts that represent ownership of real-world assets on the blockchain.
+    -   `utility_general_purpose`: A generic building block or tool whose application is not specific to any single domain.
+
+    ---
+
+    Data: {contract_data}
+\end{lstlisting}
