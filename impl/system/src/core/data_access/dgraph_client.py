@@ -6,6 +6,7 @@ from src.utils.file import write_file
 from contextlib import contextmanager
 from langchain_huggingface import HuggingFaceEmbeddings
 import numpy as np
+import time
 
 
 class DgraphClient:
@@ -386,8 +387,13 @@ class DgraphClient:
         """
         try:
             # Convert query to embedding vector
+            embedding_start_time = time.time()
             query_embedding = self.embedding_model.embed_query(query)
-            self.logger.info(f"Query embedding length: {len(query_embedding)}")
+            embedding_end_time = time.time()
+            embedding_latency_ms = (embedding_end_time - embedding_start_time) * 1000
+            self.logger.info(
+                f"Query embedding length: {len(query_embedding)} - Processing time: {embedding_latency_ms:.2f}ms"
+            )
 
             # Format the vector for Dgraph query as a properly quoted JSON string
             vector_str = json.dumps(query_embedding)
@@ -420,7 +426,19 @@ class DgraphClient:
             """
 
             with self.dgraph_txn(read_only=True) as txn:
+                # Log query start and measure latency
+                start_time = time.time()
+                self.logger.info(f"Vector search query started for: '{query[:50]}...'")
+
                 response = txn.query(dgraph_query).json
+
+                # Calculate and log query latency
+                end_time = time.time()
+                latency_ms = (end_time - start_time) * 1000
+                self.logger.info(
+                    f"Vector search query completed - Latency: {latency_ms:.2f}ms - Query: '{query[:50]}...'"
+                )
+
                 response = json.loads(response)
                 results = response.get("similar_contracts", [])
 
@@ -513,7 +531,21 @@ class DgraphClient:
             """
 
             with self.dgraph_txn(read_only=True) as txn:
+                # Log query start and measure latency
+                start_time = time.time()
+                self.logger.info(
+                    f"Text source code search query started for: '{query[:50]}...'"
+                )
+
                 response = txn.query(dgraph_query).json
+
+                # Calculate and log query latency
+                end_time = time.time()
+                latency_ms = (end_time - start_time) * 1000
+                self.logger.info(
+                    f"Text source code search query completed - Latency: {latency_ms:.2f}ms - Query: '{query[:50]}...'"
+                )
+
                 response = json.loads(response)
                 results = response.get("text_search", [])
 
@@ -576,7 +608,19 @@ class DgraphClient:
             """
 
             with self.dgraph_txn(read_only=True) as txn:
+                # Log query start and measure latency
+                start_time = time.time()
+                self.logger.info(f"Text search query started for: '{query[:50]}...'")
+
                 response = txn.query(dgraph_query).json
+
+                # Calculate and log query latency
+                end_time = time.time()
+                latency_ms = (end_time - start_time) * 1000
+                self.logger.info(
+                    f"Text search query completed - Latency: {latency_ms:.2f}ms - Query: '{query[:50]}...'"
+                )
+
                 response = json.loads(response)
                 results = response.get("text_search", [])
 
