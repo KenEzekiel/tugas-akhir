@@ -6,3 +6,23 @@ Embeddings adalah representasi vektor dari kata, frasa, atau dokumen yang memung
 Salah satu metode populer untuk menghasilkan embeddings adalah Word2Vec, yang menggunakan teknik pembelajaran mendalam untuk mempelajari representasi kata berdasarkan konteksnya dalam teks. Metode lain yang sering digunakan adalah GloVe (Global Vectors for Word Representation), yang menggabungkan informasi statistik dari korpus teks dengan pembelajaran mendalam untuk menghasilkan embeddings yang lebih baik. Kedua metode ini menghasilkan \textit{static embeddings}, di mana setiap kata memiliki representasi tetap yang tidak berubah meskipun konteksnya berbeda.
 
 LLM modern seperti BERT (Bidirectional Encoder Representations from Transformers) dan GPT (Generative Pre-trained Transformer) menggunakan pendekatan yang lebih canggih dengan menghasilkan \textit{contextual embeddings}. Dalam pendekatan ini, representasi vektor untuk suatu kata dapat berubah tergantung pada konteks kalimat di mana kata tersebut muncul. Ini memungkinkan model untuk menangkap nuansa makna yang lebih dalam dan menghasilkan respons yang lebih relevan. Kontekstualisasi ini adalah hasil dari arsitektur Transformer yang memungkinkan model untuk mempertimbangkan hubungan antar kata dalam kalimat secara lebih efektif \parencite{vaswani2023attentionneed}.
+
+\subsection{Cosine Similarity}
+\label{sec:cosine_similarity}
+
+Setelah teks diubah menjadi embeddings, diperlukan sebuah metode untuk mengukur seberapa mirip dua representasi vektor tersebut. Salah satu metrik yang paling umum digunakan untuk tujuan ini adalah \textit{Cosine Similarity}. \textit{Cosine Similarity} adalah metrik yang mengukur kesamaan antara dua vektor non-zero dalam sebuah ruang produk dalam \textit{inner product space}. Alih-alih mengukur jarak spasial seperti Jarak Euclidean, metrik ini mengukur \textit{cosine} dari sudut di antara kedua vektor tersebut. Hal ini menjadikannya sangat efektif untuk menentukan orientasi atau arah dari vektor, terlepas dari magnitudonya.
+
+Secara matematis, \textit{Cosine Similarity} antara dua vektor $\mathbf{A}$ dan $\mathbf{B}$ dihitung menggunakan rumus berikut:
+$$\text{similarity} = \cos(\theta) = \frac{\mathbf{A} \cdot \mathbf{B}}{\|\mathbf{A}\| \|\mathbf{B}\|} = \frac{\sum_{i=1}^{n} A_i B_i}{\sqrt{\sum_{i=1}^{n} A_i^2} \sqrt{\sum_{i=1}^{n} B_i^2}}$$
+di mana $\mathbf{A} \cdot \mathbf{B}$ adalah \textit{dot product} dari vektor $\mathbf{A}$ dan $\mathbf{B}$, dan $\|\mathbf{A}\|$ serta $\|\mathbf{B}\|$ adalah magnitudo dari masing-masing vektor.
+
+Penggunaan \textit{Cosine Similarity} sangat relevan dalam konteks \textit{word embeddings} karena didasarkan pada prinsip bahwa makna semantik terkandung dalam arah vektor, bukan pada magnitudonya. Model-model seperti Word2Vec dan GloVe dilatih berdasarkan \textit{distributional hypothesis}, yang menyatakan bahwa kata-kata yang muncul dalam konteks yang serupa cenderung memiliki makna yang serupa \parencite{firth1957synopsis}. Akibatnya, model-model ini menempatkan vektor kata-kata yang mirip secara semantik ke arah yang berdekatan dalam ruang vektor. Magnitudo sebuah vektor dapat dipengaruhi oleh faktor-faktor seperti frekuensi kemunculan kata dalam korpus pelatihan, yang tidak selalu berkorelasi langsung dengan makna. Dengan mengabaikan magnitudo dan hanya berfokus pada sudut, \textit{Cosine Similarity} secara efektif menormalisasi panjang vektor dan memberikan ukuran \textit{semantic similarity} yang lebih murni.
+
+Nilai dari \textit{Cosine Similarity} berkisar antara -1 hingga 1, yang dapat diinterpretasikan sebagai berikut:
+\begin{itemize}
+    \item \textbf{1}: Menunjukkan bahwa kedua vektor memiliki orientasi yang sama persis (sudut $0^\circ$), yang mengimplikasikan kesamaan semantik yang sangat tinggi.
+    \item \textbf{0}: Menunjukkan bahwa kedua vektor ortogonal (sudut $90^\circ$), yang berarti tidak ada kesamaan atau hubungan semantik yang terdeteksi di antara keduanya.
+    \item \textbf{-1}: Menunjukkan bahwa kedua vektor menunjuk ke arah yang berlawanan (sudut $180^\circ$), yang sering diartikan sebagai antonim atau makna yang berkebalikan.
+\end{itemize}
+
+Penggunaan metrik ini telah divalidasi secara empiris dalam studi-studi dasar yang memperkenalkan model-model embedding. Misalnya, evaluasi pada model Word2Vec seringkali melibatkan tugas analogi kata. Contohnya adalah kata "king" - "man" + "woman" $\approx$ "queen", yang secara inheren bergantung pada hubungan arah antar vektor \parencite{mikolov2013efficient}. Demikian pula, model GloVe, yang secara eksplisit dilatih pada statistik \textit{co-occurence} kata secara global, menggunakan \textit{dot product} sebagai inti dari fungsi tujuannya, menjadikannya metrik yang alami untuk evaluasi \parencite{pennington2014glove}.
