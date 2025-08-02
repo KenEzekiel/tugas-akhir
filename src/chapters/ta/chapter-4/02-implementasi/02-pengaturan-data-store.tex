@@ -1,0 +1,41 @@
+\subsection{Pengaturan Komponen Data Store}
+
+\subsubsection{DgraphDB}
+% masukin juga terkait mounting D untuk temp
+
+Pengaturan DgraphDB dilakukan menggunakan Docker Compose yang disediakan di dalam eth2dgraph. Pengaturan ini akan melakukan \textit{pull image} Dgraph dan menjalankan Dgraph Zero, Dgraph Alpha, dan Dgraph Ratel sebagai antarmuka pengguna untuk mengelola DgraphDB. Pengaturan ini juga akan melakukan mounting direktori \texttt{dgraph-data} ke dalam container Dgraph untuk menyimpan data yang dihasilkan oleh DgraphDB. File \texttt{docker-compose.yml} yang digunakan dapat dilihat pada lampiran \ref{appendix:docker-compose-dgraph}.
+
+Pengaturan tersebut akan menjalankan Dgraph Zero pada port 5081 untuk gRPC dan 6081 untuk HTTP, Dgraph Alpha pada port 8081 untuk HTTP dan port 9081 untuk gRPC, dan Dgraph Ratel pada port 8001. Setelah pengaturan selesai, DgraphDB dapat diakses melalui antarmuka Ratel pada \texttt{http://localhost:8001}.
+
+Dgraph memiliki perintah-perintah yang dapat digunakan, yang dapat dilihat pada lampiran \ref{appendix:dgraph-commands}. Perintah-perintah ini dapat digunakan untuk mengelola DgraphDB, seperti mengubah skema, melakukan query, dan melakukan mutasi pada data yang ada di dalam DgraphDB. Perintah-perintah ini juga dapat digunakan untuk melakukan impor data dari file yang telah diekstrak sebelumnya.
+
+% \subsubsection{ChromaDB}
+
+% Pengaturan ChromaDB dilakukan pada komponen VectorDB Client, yang akan menginisialisasi koneksi ke ChromaDB dan membuat sebuah Data Store Folder jika belum ada. ChromaDB akan digunakan untuk menyimpan vektor dari data Smart Contract yang telah di-enrich. Pengaturan ini dilakukan dengan menginstal ChromaDB menggunakan pip dan menginisialisasi koneksi ke ChromaDB pada komponen VectorDB Client. Berikut adalah contoh kode untuk menginisialisasi koneksi ke ChromaDB:
+
+% \begin{lstlisting}[language=python]
+%   def init_chroma(self, config: dict[str, Any]) -> None:
+%     """Initialize Chroma vector database"""
+%     persist_directory = config.get("persist_directory")
+%     if not persist_directory:
+%       raise ValueError("Missing persist_directory")
+
+%     try:
+%       # Initialize the Chroma client
+%       self.chroma_client = chromadb.PersistentClient(path=persist_directory)
+%       # Get or create the collection
+%       self.chroma_collection = self.chroma_client.get_or_create_collection(
+%         name=self.collection_name
+%       )
+      
+%       # Then initialize the LangChain Chroma wrapper as a separate step
+%       self.vectorstore = Chroma(
+%         persist_directory=persist_directory,
+%         collection_name=self.collection_name,
+%         embedding_function=self.embedding_model
+%       )
+%       self.logger.info(f"Chroma initialized successfully with collection: {self.collection_name}")
+%     except Exception as e:
+%       self.logger.error(f"Chroma init failed: {str(e)}")
+%       raise
+% \end{lstlisting}

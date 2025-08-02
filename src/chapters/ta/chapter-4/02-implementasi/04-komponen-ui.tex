@@ -1,0 +1,100 @@
+\subsection{Implementasi Komponen User Interface}
+
+Komponen User Interface diimplementasikan menggunakan framework Next.js versi 15 dengan App Router yang menyediakan kemampuan untuk membuat aplikasi web modern dengan React dan bahasa pemrograman TypeScript. Aplikasi web menggunakan arsitektur berbasis komponen dengan sistem desain yang konsisten menggunakan Tailwind CSS dan Radix UI untuk komponen dasar. Sistem ini terdiri dari berbagai halaman dan komponen yang saling terintegrasi untuk memberikan pengalaman pengguna yang optimal.
+
+Teknologi dan library yang digunakan dalam implementasi User Interface:
+\begin{enumerate}
+	\item \texttt{Next.js 15}: Framework React dengan App Router untuk server-side rendering dan static site generation
+	\item \texttt{TypeScript}: Bahasa pemrograman dengan type safety untuk pengembangan yang lebih robust
+	\item \texttt{Tailwind CSS}: Framework CSS utility-first untuk styling yang konsisten dan responsif
+	\item \texttt{Radix UI}: Library komponen headless yang accessible dan customizable
+	\item \texttt{Lucide React}: Library ikon yang modern dan konsisten
+	\item \texttt{React Hook Form}: Library untuk form management dengan validasi
+	\item \texttt{Next Themes}: Library untuk theme switching antara light dan dark mode
+\end{enumerate}
+
+\subsubsection{Implementasi Main Search Page}
+
+Main Search Page diimplementasikan pada file \texttt{app/page.tsx} dengan route \texttt{/} sebagai halaman utama aplikasi. Halaman ini menyediakan antarmuka pencarian Smart Contract yang terdiri dari beberapa komponen utama:
+
+\begin{enumerate}
+	\item \texttt{Search Component}: Komponen pencarian yang diimplementasikan pada \texttt{components/search.tsx} berupa form dengan input field untuk query pencarian. Komponen ini memiliki fitur:
+	      \begin{enumerate}
+		      \item Input validation untuk memastikan query tidak kosong
+		      \item Loading state indicator selama proses pencarian
+		      \item Pemilihan kategori pencarian (vector search, text search pada source code, atau text search pada deskripsi semantik)
+	      \end{enumerate}
+	\item \texttt{Results List Component}: Komponen yang menampilkan hasil pencarian dalam bentuk card grid yang diimplementasikan pada \\\texttt{components/results-list.tsx}. Komponen ini memiliki fitur:
+	      \begin{enumerate}
+		      \item Skeleton loading states selama fetch data
+		      \item Card-based layout untuk setiap Smart Contract
+		      \item Detail untuk atribut-atribut data yang dimunculkan
+		      \item Sorting hasil pencarian berdasarkan relevansi
+		      \item Skor relevansi yang ditampilkan pada setiap hasil
+	      \end{enumerate}
+	\item \texttt{Theme Provider}: Komponen untuk manajemen theme dark/light mode yang diimplementasikan pada \texttt{components/theme-provider.tsx}
+\end{enumerate}
+
+\subsubsection{Implementasi Smart Contract Detail Page}
+
+Smart Contract Detail Page diimplementasikan sebagai modal atau overlay component pada \texttt{components/contract-details.tsx} yang dapat diakses dari hasil pencarian. Halaman detail ini menyediakan informasi lengkap tentang Smart Contract yang dipilih:
+
+\begin{enumerate}
+	\item \texttt{Contract Header}: Menampilkan nama contract, status verifikasi, dan action buttons:
+	      \begin{enumerate}
+		      \item Tombol back untuk kembali ke hasil pencarian
+		      \item Badge verified/unverified status
+		      \item Copy address button untuk menyalin alamat contract
+		      \item Import contract button untuk mengimpor ke wallet atau IDE
+	      \end{enumerate}
+	\item \texttt{Contract Information Card}: Menampilkan metadata contract seperti:
+	      \begin{enumerate}
+		      \item Deskripsi contract dari hasil semantic enrichment
+		      \item Tags dan data yang relevan
+	      \end{enumerate}
+	\item \texttt{Source Code Information}: Menampilkan source code contract yang diambil
+	\item \texttt{Import Contract Component}: Modal dialog pada \texttt{components/\\import-contract.tsx} yang memungkinkan pengguna mengimpor contract ke berbagai tools seperti Hardhat, Truffle atau Foundry
+\end{enumerate}
+
+\subsubsection{Implementasi Komponen UI Reusable}
+
+Aplikasi menggunakan sistem komponen yang modular dan reusable yang diimplementasikan pada folder \texttt{components/ui/}:
+
+\begin{enumerate}
+	\item \texttt{Button Components}: Berbagai varian button dengan styling konsisten
+	\item \texttt{Card Components}: Layout container dengan header, content, dan footer
+	\item \texttt{Badge Components}: Label untuk status, kategori, dan tags
+	\item \texttt{Input Components}: Form input dengan validation dan error handling
+	\item \texttt{Skeleton Components}: Loading placeholders untuk better UX
+	\item \texttt{Toast Components}: Notification system untuk feedback
+	\item \texttt{Tabs Components}: Navigasi tab untuk mengorganisasi konten
+	\item \texttt{Dialog/Modal Components}: Overlay untuk detail views dan actions
+\end{enumerate}
+
+\subsubsection{Implementasi Layout dan Navigation}
+
+Layout aplikasi diimplementasikan pada \texttt{app/layout.tsx} dengan struktur sebagai berikut:
+
+\begin{enumerate}
+	\item \texttt{HTML Structure}: Setup dasar HTML dengan metadata dan SEO optimization
+	\item \texttt{Theme Provider Integration}: Wrapper untuk dark/light mode functionality
+	\item \texttt{Global Styles}: Import styling global melalui \texttt{globals.css}
+	\item \texttt{Font Configuration}: Setup typography menggunakan system fonts
+	\item \texttt{Hydration Suppression}: Handling SSR hydration untuk theme switching
+\end{enumerate}
+
+\subsubsection{Implementasi State Management dan Data Fetching}
+
+State management dan data fetching diimplementasikan menggunakan:
+
+\begin{enumerate}
+	\item \texttt{React useState/useEffect}: Local state management untuk komponen
+	\item \texttt{URL Search Params}: State persistence melalui URL untuk sharing dan bookmarking
+	\item \texttt{Custom Hooks}: Abstraksi logic yang reusable pada folder \texttt{hooks/}
+	\item \texttt{Server Actions}: API calls ke backend menggunakan Next.js server actions pada \texttt{lib/actions}
+	\item \texttt{Type Definitions}: TypeScript interfaces untuk data contracts pada \texttt{lib/\\types}
+\end{enumerate}
+
+Implementasi User Interface ini memberikan pengalaman pengguna yang modern, responsive, dan accessible dengan performa yang optimal melalui server-side rendering dan optimizations yang disediakan oleh framework Next.js.
+
+Hasil implementasi sistem ini dapat dilihat pada lampiran \ref{appendix:hasil-implementasi}. Hasil iterasi perbaikan sistem dapat dilihat pada lampiran \ref{appendix:iterasi-perbaikan-sistem}.

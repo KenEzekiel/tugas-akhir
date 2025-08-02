@@ -1,0 +1,57 @@
+\subsection{Pengaturan Komponen Eksternal Sistem}
+
+Pengaturan komponen eksternal sistem dimulai dari pengaturan ke Ethereum Archive Node sebagai antarmuka utama untuk mengakses data dari Blockchain Ethereum, dilanjutkan dengan pengaturan eth2dgraph yang akan digunakan untuk mengekstrak data dari Archive Node ke dalam DgraphDB, dan terakhir adalah ekstraksi data Smart Contracts yang akan dilakukan oleh eth2dgraph.
+
+\subsubsection{Pengaturan Ethereum Archive Node}
+
+Pengaturan Ethereum Archive Node dilakukan pada platform Alchemy dengan pembuatan akun dan juga pendaftaran layanan Archive Node. Setelah itu, pengguna akan mendapatkan URL endpoint yang akan digunakan untuk mengakses Archive Node tersebut. Endpoint ini akan digunakan oleh komponen eth2dgraph untuk melakukan ekstraksi data dari Archive Node. Endpoint yang diberikan dapat diakses menggunakan HTTP request dengan metode pada path yang berbeda. Pada Alchemy, endpoint untuk mendapatkan data Smart Contracts adalah metode \texttt{trace\textunderscore block}, yang hanya dapat diakses oleh akun yang berada di atas free tier. Sehingga, dibutuhkan \textit{upgrade} tingkat akun terlebih dahulu ke tingkat \textit{pay-as-you-go} untuk dapat mengakses endpoint ini.
+
+\subsubsection{Pengaturan eth2dgraph}
+
+Pengaturan eth2dgraph dimulai dengan melakukan instalasi untuk semua dependensi yang dibutuhkan, yaitu Rust, Cargo, dan Heimdall. Setelah itu, eth2dgraph dapat di-\textit{build} dan di-\textit{run} menggunakan perintah yang telah disediakan oleh eth2dgraph. Perintah-perintah beserta konfigurasi yang dapat dijalankan dapat dilihat pada lampiran \ref{appendix:eth2dgraph-commands}.
+
+\subsubsection{Ekstraksi Data Smart Contracts}
+
+Setelah pengaturan Ethereum Archive Node dan eth2dgraph selesai, langkah selanjutnya adalah melakukan ekstraksi data Smart Contracts dari Archive Node menggunakan eth2dgraph. Proses ekstraksi ini akan mengambil data dari blok yang telah ditentukan dan menyimpannya ke dalam DgraphDB. Langkah pertama dalam proses ekstraksi adalah menjalankan perintah \texttt{extract} pada eth2dgraph dengan parameter yang sesuai. Berikut adalah contoh perintah yang dapat digunakan untuk melakukan ekstraksi data Smart Contracts:
+
+\begin{lstlisting}[language=bash]
+    eth2dgraph extract 
+    -e https://eth-mainnet.g.alchemy.com/v2/{url}
+    -o extracted 
+    -f 16075682 
+    -t 16076782 
+    -n 10 
+    -s smart-contract-sanctuary-ethereum
+\end{lstlisting}
+
+Perintah di atas akan mengekstrak data dari blok 16075682 hingga 16076782 dengan jumlah \textit{task} paralel yang dijalankan sebanyak 10. Hasil ekstraksi akan disimpan pada direktori \texttt{extracted} dan akan menghubungkan data yang diekstrak dengan Smart Contract Sanctuary yang telah diunduh sebelumnya. Hasil ekstraksi akan berupa hasil kompresi dari proses ekstraksi yang dilakukan oleh eth2dgraph.
+
+Setelah proses ekstraksi selesai, akan dilakukan proses impor data ke dalam DgraphDB. Proses impor memerlukan pengaturan DgraphDB telah dilakukan sebelumnya, seperti yang akan dijelaskan pada bagian selanjutnya. Proses import dapat dilakukan dengan menjalankan perintah \texttt{dgraph bulk} dengan parameter yang sesuai. Berikut adalah contoh perintah yang dapat digunakan untuk melakukan impor data ke dalam DgraphDB:
+
+\begin{lstlisting}[language=bash]
+    sudo dgraph bulk -f extracted \
+    -s ./dgraph/modified.schema \
+    -g ./dgraph/modified.graphql \
+    --out ./dgraph-data/out \
+    --map_shards=2 \
+    --reduce_shards=1 \
+    --zero=localhost:5081 \
+    --mapoutput_mb=1024 \
+    --num_go_routines=32 \
+    --tmp /mnt/d/dgraph-bulk/temp \
+    --replace_out
+\end{lstlisting}
+
+Setelah proses impor selesai, data Smart Contracts akan tersedia di dalam DgraphDB dan siap untuk digunakan oleh komponen internal sistem. Proses impor ini akan mengubah data yang telah diekstrak menggunakan skema yang sesuai dengan skema DgraphDB yang telah ditentukan pada parameter \texttt{-s} dan \texttt{-g}. Skema pada parameter \texttt{-s} akan digunakan untuk skema Dgraph menggunakan format \texttt{.schema} dan skema pada parameter \texttt{-g} akan digunakan untuk skema GraphQL yang akan digunakan oleh DgraphDB. Kedua skema ini dapat diubah menggunakan User Interface Dgraph Ratel untuk \texttt{.schema} dan menggunakan HTTP Request ke endpoint \texttt{admin/schema} pada \textit{deployment} Dgraph Alpha untuk skema GraphQL.
+
+Berikut merupakan perintah yang digunakan untuk mengubah skema GraphQL:
+
+\begin{lstlisting}[language=bash]
+    curl -X POST -H "Content-Type: application/graphql" --data-binary '@dgraph/simple.graphql' http://localhost:8081/admin/schema
+\end{lstlisting}
+
+Selain itu, skema yang sudah diterapkan dapat dilihat menggunakan perintah berikut:
+
+\begin{lstlisting}[language=bash]
+    curl -X POST http://localhost:8081/admin/schema -H "Content-Type: application/json" -d '{"query": "{ getGQLSchema { schema } }"}'
+\end{lstlisting}

@@ -1,0 +1,67 @@
+\subsection{Implementasi Komponen Internal Sistem}
+
+\subsubsection{Implementasi Dgraph Client}
+
+Implementasi Dgraph Client dilakukan dengan membuat sebuah kelas Python yang akan digunakan untuk berinteraksi dengan DgraphDB. Kelas ini akan menyediakan metode untuk melakukan query, mutasi, dan operasi lainnya pada DgraphDB. Penjelasan terkait implementasi kelas Dgraph Client dapat dilihat pada lampiran \ref{appendix:dgraph-client}. Pada bagian \ref{subsubsec:iterasi-perbaikan-sistem}, dilakukan iterasi perbaikan untuk komponen Dgraph Client dengan menambahkan fitur ID \textit{assignment} pada data yang \textit{stable} menggunakan hashing SHA-256. Hal ini dilakukan untuk memfasilitasi pengujian yang membutuhkan \textit{identifier} yang \textit{stable} dan konsisten untuk setiap data yang ada. Selain itu, terdapat penambahan fitur untuk melakukan pencarian teks pada Source Code dan deskripsi semantik yang dihasilkan oleh proses enrichment. Fitur ini akan digunakan untuk memfasilitasi pengujian sistem yang dilakukan.
+
+\subsubsection{Skema Data Dgraph}
+
+Skema data Dgraph yang digunakan untuk memfasilitasi proses enrichment dan query Smart Contract dapat dilihat pada lampiran \ref{appendix:skema-data}. Skema ini akan digunakan untuk menentukan struktur data yang akan disimpan di dalam DgraphDB. Pada bagian \ref{subsubsec:iterasi-perbaikan-sistem}, dilakukan iterasi perbaikan untuk skema Dgraph dengan mengubah dan menambahkan beberapa atribut pada skema yang ada. Hal ini dilakukan untuk memfasilitasi proses enrichment dan query Smart Contract yang lebih baik. Skema dari hasil iterasi perbaikan dapat dilihat pada lampiran \ref{appendix:skema-dgraph-iterasi-perbaikan}.
+
+\subsubsection{Implementasi Semantic Enricher}
+
+Implementasi Semantic Enricher dilakukan dengan membuat sebuah kelas Python yang akan digunakan untuk melakukan pengayaan semantik pada data. Kelas ini akan menyediakan metode untuk melakukan pengayaan semantik menggunakan Large Language Model. Penjelasan terkait implementasi kelas Semantic Enricher dapat dilihat pada lampiran \ref{appendix:semantic-enricher}. Pada awalnya, kelas ini akan melakukan \textit{preprocessing} terhadap Source Code yang dimasukkan sebagai konteks enrichment, tetapi karena proses ini menghilangkan banyak konteks yang relevan, dan jumlah token Source Code yang tidak terlalu besar, maka proses \textit{preprocessing} ini dihilangkan pada iterasi perbaikan yang dijelaskan pada bagian \ref{subsubsec:iterasi-perbaikan-sistem}. 
+
+\subsubsection{Implementasi Parallel Enricher}
+
+Implementasi Parallel Enricher dilakukan dengan membuat sebuah kelas Python yang akan digunakan untuk melakukan Semantic Enrichment pada data secara paralel. Kelas ini akan menyediakan sebuah wrapper method untuk melakukan Semantic Enrichment pada data secara paralel. Penjelasan terkait implementasi kelas Parallel Enricher dapat dilihat pada lampiran \ref{appendix:parallel-enricher}.
+
+\subsubsection{Implementasi Prompt Enrichment}
+
+Komponen Semantic Enricher akan menggunakan sebuah prompt yang telah dirancang khusus untuk memberikan konteks yang cukup untuk LLM melakukan enrichment. Pada bagian \ref{subsubsec:iterasi-perbaikan-sistem}, dilakukan iterasi perbaikan yang menghasilkan prompt yang lebih baik. Prompt sebelum iterasi perbaikan dan setelah iterasi perbaikan dapat dilihat pada lampiran \ref{appendix:prompt-enrichment}.
+
+% \subsubsection{Implementasi VectorDB Client}
+
+% Implementasi VectorDB Client dilakukan dengan membuat sebuah kelas Python yang akan digunakan untuk berinteraksi dengan ChromaDB. Kelas ini akan menyediakan metode untuk melakukan penyimpanan dan pengambilan data dari ChromaDB. Berikut merupakan penjelasan terkait implementasi kelas VectorDB Client:
+
+% \begin{enumerate}
+% 	\item \texttt{attribute config}: Atribut yang berisi konfigurasi yang dimuat dari file YAML untuk pengaturan ChromaDB.
+% 	\item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
+% 	\item \texttt{attribute embedding\textunderscore model}: Model embedding dari HuggingFace yang digunakan untuk mengubah teks menjadi vektor. Model yang digunakan adalah \texttt{BAAI/bge-small-en-v1.5} dengan normalisasi embedding.
+% 	\item \texttt{attribute collection\textunderscore name}: Nama koleksi yang akan digunakan dalam ChromaDB untuk menyimpan data embedding.
+% 	\item \texttt{attribute chroma\textunderscore client}: Client ChromaDB untuk berinteraksi dengan database vektor.
+% 	\item \texttt{attribute chroma\textunderscore collection}: Koleksi ChromaDB yang digunakan untuk menyimpan dan mengakses data vektor.
+% 	\item \texttt{attribute vectorstore}: Wrapper LangChain Chroma yang menyediakan abstraksi tingkat tinggi untuk operasi vektor.
+% 	\item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas VectorDBManager dengan memuat konfigurasi dari file YAML, menginisialisasi model embedding, dan membuat koneksi ke ChromaDB.
+% 	\item \texttt{load\textunderscore config}: Metode statis untuk memuat konfigurasi YAML dari path yang diberikan. Metode ini akan melakukan validasi terhadap format file dan menangani error jika file tidak ditemukan atau format tidak valid.
+% 	\item \texttt{init\textunderscore chroma}: Metode untuk menginisialisasi koneksi ke ChromaDB menggunakan konfigurasi yang telah dimuat. Metode ini akan membuat client persistent ChromaDB dan koleksi yang diperlukan.
+% 	\item \texttt{add\textunderscore embeddings}: Metode untuk menambahkan embedding ke dalam ChromaDB. Metode ini akan menerima parameter \texttt{contracts} yang berisi daftar Smart Contract yang telah di-enrich dan akan mengubahnya menjadi embedding menggunakan model HuggingFace. Data yang digunakan untuk embedding meliputi domain, functionality, dan security risks dari Smart Contract.
+% 	\item \texttt{get\textunderscore retriever}: Metode untuk mendapatkan retriever dari vector store yang dapat digunakan untuk pencarian semantik. Metode ini akan mengembalikan objek retriever dengan parameter pencarian yang dapat dikustomisasi.
+% 	\item \texttt{search}: Metode untuk melakukan pencarian semantik pada ChromaDB. Metode ini akan menerima parameter \texttt{query} dan \texttt{k} untuk menentukan jumlah hasil yang akan dikembalikan. Metode ini akan mengubah query menjadi embedding dan melakukan pencarian pada koleksi ChromaDB.
+% \end{enumerate}
+
+% \subsubsection{Implementasi Retriever}
+
+% Implementasi Retriever dilakukan dengan membuat sebuah kelas Python yang akan digunakan untuk melakukan pencarian dan pengambilan data Smart Contract dari vector database. Kelas ini akan mengintegrasikan VectorDB Client dengan Large Language Model untuk melakukan query preprocessing. Berikut merupakan penjelasan terkait implementasi kelas LightweightRetriever:
+
+% \begin{enumerate}
+% 	\item \texttt{attribute logger}: Atribut untuk melakukan \textit{logging} informasi menggunakan \textit{object} logger.
+% 	\item \texttt{attribute vector\textunderscore store}: Objek VectorDBManager yang digunakan untuk berinteraksi dengan ChromaDB dan melakukan operasi pencarian vektor.
+% 	\item \texttt{attribute llm}: Large Language Model yang digunakan untuk melakukan preprocessing query. Model yang digunakan adalah \texttt{gpt-3.5-turbo} dari OpenAI.
+% 	\item \texttt{\textunderscore\textunderscore init\textunderscore\textunderscore}: Metode ini akan menginisialisasi kelas LightweightRetriever dengan membuat koneksi ke VectorDBManager dan menginisialisasi LLM yang akan digunakan untuk query preprocessing.
+% 	\item \texttt{search}: Metode utama untuk melakukan pencarian Smart Contract. Metode ini akan menerima parameter \texttt{query} dan \texttt{k} untuk menentukan jumlah hasil yang akan dikembalikan. Proses pencarian meliputi preprocessing query menggunakan LLM, pencarian semantik pada vector database, dan mengembalikan hasil pencarian.
+% 	\item \texttt{preprocess\textunderscore query}: Metode untuk melakukan preprocessing pada query pencarian menggunakan LLM. Metode ini akan memperluas query dengan istilah-istilah teknis yang relevan, standar Smart Contract (ERC-20, ERC-721, ERC-1155), dan konsep keamanan. Proses ini menggunakan ChatPromptTemplate yang berisi instruksi sistem untuk mengidentifikasi komponen kunci dan menambahkan sinonim teknis yang relevan tanpa mengubah maksud asli query.
+% \end{enumerate}
+
+% Proses preprocessing query menggunakan prompt sistem yang dirancang khusus untuk Smart Contract dengan aturan sebagai berikut:
+% \begin{enumerate}
+% 	\item Mengidentifikasi komponen kunci seperti jenis token (ERC-20/ERC-721), fungsi (mint/burn), standar (ERC-1155), dan istilah keamanan.
+% 	\item Menambahkan sinonim umum dan ekuivalen teknis yang relevan.
+% 	\item Menjaga penambahan tetap ringkas dan dipisahkan koma.
+% 	\item Tidak memberikan penjelasan, hanya menghasilkan query yang diperluas.
+% \end{enumerate}
+
+\subsubsection{Implementasi API}
+
+Implementasi API dilakukan dengan membuat sebuah REST API menggunakan FastAPI framework yang akan menyediakan endpoint untuk berinteraksi dengan sistem. API ini akan menyediakan layanan pencarian Smart Contract dan refinement query. Penjelasan terkait implementasi API dapat dilihat pada lampiran \ref{appendix:api}. Pada bagian \ref{subsubsec:iterasi-perbaikan-sistem}, dilakukan iterasi perbaikan untuk API dengan menambahkan endpoint untuk pencarian teks pada Source Code dan deskripsi semantik yang dihasilkan oleh proses enrichment. Endpoint ini akan digunakan untuk memfasilitasi pengujian sistem yang dilakukan.
+
