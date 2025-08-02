@@ -1,0 +1,10 @@
+\subsection{Metodologi Pengujian}
+
+Pengujian akan dilakukan dengan menggunakan sistem pencarian yang telah diimplementasikan dengan query-query yang telah disiapkan. Untuk seluruh hasil pencarian, akan dilakukan evaluasi oleh ahli domain untuk memastikan relevansi hasil pencarian terhadap query yang diberikan. Untuk setiap hasil pencarian yang relevan, akan dihitung sebagai \textit{True Positive}, sedangkan hasil pencarian yang tidak relevan akan dihitung sebagai \textit{False Positive}. Pengujian ini akan dilakukan menggunakan tiga jenis pencarian sebagai pembanding, yaitu pencarian berbasis semantik, pencarian berbasis teks pada \textit{source code}, dan pencarian berbasis teks pada deskripsi semantik. Setiap ukuran keberhasilan dapat diukur dengan metode berikut:
+
+\begin{enumerate}
+	\item \textbf{Relevansi Hasil Pencarian Smart Contract (UK1)}: Melihat hasil pengujian dari pencarian berbasis semantik yang telah diimplementasikan. 
+	\item \textbf{Perbandingan Hasil dengan Sistem Pencarian Berbasis Kata Kunci (UK2)}: Melihat perbandingan hasil pencarian antara pencarian berbasis semantik dengan menggunakan deskripsi kebutuhan dan kata kunci, dengan pencarian berbasis teks pada \textit{source code} Smart Contract dan deskripsi semantik yang dihasilkan.
+\end{enumerate}
+
+Selain itu, akan dilakukan analisis terkait skalabilitas sistem, terutama dalam aspek biaya, waktu, penyimpanan, latensi, dan aspek teknis. Analisis ini akan memberikan gambaran terkait kemampuan sistem dalam menangani skala data yang lebih besar. Analisis ini akan dilakukan saat proses produksi data untuk pengujian, dimulai dari proses pengambilan data, enrichment, hingga pencarian data.

@@ -2,40 +2,17 @@
 
 Tujuan pengujian adalah untuk memastikan bahwa sistem yang telah diimplementasikan memenuhi seluruh kebutuhan fungsional baik dari perspektif pengguna maupun sistem. Hasil dari pengujian ini akan memberikan gambaran terkait ketercapaian sistem dalam memenuhi kebutuhan utamanya, yaitu untuk memberikan hasil pencarian Smart Contracts yang relevan berdasarkan query dalam bahasa alami.
 
-\subsection{Metodologi Pengujian}
+\input{chapters/ta/chapter-4/03-pengujian/01-metodologi}
 
-Pengujian akan dilakukan dengan menggunakan beberapa metode. Metode-metode yang akan digunakan dalam pengujian ini disesuaikan dengan tujuan sistem dan ukuran keberhasilan yang telah ditetapkan. Metode yang akan digunakan dalam pengujian ini adalah:
+\input{chapters/ta/chapter-4/03-pengujian/02-batasan-pengujian}
 
-\begin{enumerate}
-	\item \textbf{Relevansi Hasil Pencarian Smart Contract (UK1)}: Pengujian ini akan dilakukan dengan membandingkan hasil pencarian sistem terhadap hasil yang diharapkan. Data yang dimiliki adalah data tanpa \textit{ground truth}, sehingga akan digunakan perhitungan \textit{True Positives} dan \textit{False Positives} untuk menghitung relevansi pencarian. Data uji mencakup Smart Contracts yang telah diperkaya dan dilabelkan, serta berbagai skenario query dari sederhana hingga kompleks. Pengujian akan memberikan gambaran presisi sistem dan kinerja dalam menangani berbagai jenis query bahasa alami.
-	\item \textbf{Kualitas Semantik Data Smart Contract (UK2)}: Mengevaluasi efektivitas semantic enrichment dalam memberikan deskripsi yang lebih kaya dan relevan. Menggunakan metrik \textit{Semantic Expressiveness Score} untuk mengukur kemampuan data diperkaya dalam mendeskripsikan Smart Contracts secara semantik, dibandingkan dengan data aslinya.
-	\item \textbf{Kemiripan Hasil Pencarian (UK3)}: Mengukur tingkat kemiripan semantik antara hasil pencarian dengan query yang diberikan menggunakan metrik \textit{Semantic Similarity Score}. Pengujian ini memastikan hasil pencarian memiliki relevansi semantik yang tinggi dengan query pengguna.
-	\item \textbf{Konsistensi Hasil Pencarian (UK4)}: Mengevaluasi konsistensi sistem dalam memberikan hasil untuk query yang serupa. Menggunakan metrik \textit{Jaccard Index} pada K hasil teratas untuk membandingkan konsistensi hasil pencarian antar query yang memiliki kesamaan semantik.
-\end{enumerate}
+\input{chapters/ta/chapter-4/03-pengujian/03-data}
 
-\subsection{Batasan Pengujian}
+\input{chapters/ta/chapter-4/03-pengujian/04-metrik}
 
-Berikut adalah batasan-batasan yang diterapkan dalam pengujian sistem:
-\begin{enumerate}
-	\item Jumlah data Smart Contracts yang digunakan dalam pengujian adalah 100 Smart Contracts yang sudah diperkaya dan sudah dilabelkan dengan benar.
-	\item Jumlah Dgraph Zero yang digunakan dalam pengujian adalah 1 buah, dengan asumsi bahwa skalabilitas dari sistem ini bergantung pada skalabilitas underlying dari DgraphDB.
-	\item Jumlah query yang digunakan dalam pengujian adalah 20 query yang mencakup berbagai skenario dari sederhana hingga kompleks.
-\end{enumerate}
+\input{chapters/ta/chapter-4/03-pengujian/05-rencana-pengujian}
 
-% ini buat datanya apa aja, labelnya apa aja, dan query nya apa aja, ditaro di lampiran
+\input{chapters/ta/chapter-4/03-pengujian/06-hasil}
 
-\subsection{Data Pengujian}
+\input{chapters/ta/chapter-4/03-pengujian/07-analisis}
 
-Pengujian akan membutuhkan dua jenis data, yaitu data Smart Contracts yang telah diperkaya dengan deskripsi semantik dan data query yang akan digunakan untuk menguji sistem.
-
-\subsubsection{Data Smart Contracts}
-
-Pengujian akan menggunakan data Smart Contracts yang telah diperkaya dengan deskripsi semantik. Data ini diambil dari rentang Blockchain Ethereum Mainnet yang ditentukan secara acak. Data yang diambil kemudian akan dilakukan proses \textit{manual labeling} untuk memastikan bahwa data tersebut sudah sesuai dengan label yang diharapkan. Data yang digunakan dalam pengujian ini disertakan dalam lampiran.
-
-\subsubsection{Data Query}
-
-Selain data Smart Contracts, pengujian juga akan menggunakan data query yang akan digunakan untuk menguji sistem. Data query ini mencakup berbagai klasifikasi yang disambungkan dengan data yang sudah dilabelkan dan juga berbagai kompleksitas mulai dari sederhana sampai query kompleks. Data query ini juga disertakan dalam lampiran.
-
-% \subsection{Hasil Pengujian}
-
-% \subsubsection{}
