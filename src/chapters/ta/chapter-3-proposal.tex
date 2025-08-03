@@ -126,7 +126,7 @@ Beberapa riset yang dilakukan peninjauan untuk digunakan sebagai basis adalah ri
 
 \subsubsection{Semantic Indexing with Linked Data \parencite{third2017linked}}
 
-Riset ini menerapkan indeks semantik pada data Blockchain menggunakan Linked Data dengan keunggulan penggunaan ontology BLONDiE dan MSM untuk mendeskripsikan semantik Smart Contracts dan fokus pada aspek \textit{discoverability}. Secara aksesibilitas, konsep riset ini \textit{public}, namun tanpa implementasi \textit{open source}. Implementasinya kompleks karena memerlukan pemetaan ontology ekstensif dan RDF triple generation, tanpa dukungan \textit{tools} atau \textit{framework}. Skalabilitas riset ini terbatas karena bergantung pada RDF-based Linked Data, yang kurang cocok untuk data Blockchain besar.
+Riset ini menerapkan indeks semantik pada data Blockchain menggunakan Linked Data dengan keunggulan penggunaan ontologi BLONDiE dan MSM untuk mendeskripsikan semantik Smart Contracts dan fokus pada aspek \textit{discoverability}. Secara aksesibilitas, konsep riset ini \textit{public}, namun tanpa implementasi \textit{open source}. Implementasinya kompleks karena memerlukan pemetaan ontologi ekstensif dan RDF triple generation, tanpa dukungan \textit{tools} atau \textit{framework}. Skalabilitas riset ini terbatas karena bergantung pada RDF-based Linked Data, yang kurang cocok untuk data Blockchain besar.
 
 \subsubsection{eth2dgraph \parencite{aimar2023extraction}}
 
@@ -138,7 +138,7 @@ Riset ini berfokus pada ekstraksi, \textit{indexing}, dan penyimpanan data Ether
 
 % \subsubsection{Ontological Modeling of Smart Contracts in Solidity \parencite{cano2021toward}}
 
-% Riset ini berfokus pada pemodelan ontology dari elemen-elemen dalam bahasa pemrograman Solidity untuk mendeskripsikan Smart Contracts. Keunggulannya adalah formalitas tinggi dalam mendefinisikan komponen Smart Contracts, seperti fungsi, modifiers, dan events, dalam sebuah ontology terstruktur. Secara aksesibilitas, riset ini \textit{public}, namun implementasinya lebih kompleks karena memerlukan pembuatan dan penyelarasan ontology. Kompleksitasnya tinggi karena melibatkan pemodelan detail setiap elemen Solidity. Secara skalabilitas, riset ini dapat menjadi kurang efisien untuk aplikasi besar, mengingat sumber daya yang diperlukan untuk pemrosesan ontology yang sangat rinci.
+% Riset ini berfokus pada pemodelan ontologi dari elemen-elemen dalam bahasa pemrograman Solidity untuk mendeskripsikan Smart Contracts. Keunggulannya adalah formalitas tinggi dalam mendefinisikan komponen Smart Contracts, seperti fungsi, modifiers, dan events, dalam sebuah ontologi terstruktur. Secara aksesibilitas, riset ini \textit{public}, namun implementasinya lebih kompleks karena memerlukan pembuatan dan penyelarasan ontologi. Kompleksitasnya tinggi karena melibatkan pemodelan detail setiap elemen Solidity. Secara skalabilitas, riset ini dapat menjadi kurang efisien untuk aplikasi besar, mengingat sumber daya yang diperlukan untuk pemrosesan ontologi yang sangat rinci.
 
 \subsubsection{Alternatif Lainnya}
 
@@ -164,7 +164,7 @@ Kedua riset alternatif lainnya oleh \cite{baqa2019semantic} dan \cite{cano2021to
 
 \subsubsection{Hasil Analisis}
 
-Setelah melakukan analisis dari alternatif yang ada, diputuskan untuk menggunakan riset oleh \cite{aimar2023extraction}, karena memiliki implementasi yang \textit{open source}, yang mempermudah ekstraksi dan \textit{indexing} data menjadi Graph Database, sehingga tidak perlu membuat RDF Triples ada model ontology dari awal. Distributed Graph Database juga memiliki skalabilitas yang baik untuk data yang banyak pada Blockchain Ethereum. eth2dgraph juga memiliki kemampuan ekstensibilitas yang baik dalam \textit{domain} yang lebih umum, sehingga lebih mudah diimplementasikan sebagai fondasi dari sistem keseluruhan.
+Setelah melakukan analisis dari alternatif yang ada, diputuskan untuk menggunakan riset oleh \cite{aimar2023extraction}, karena memiliki implementasi yang \textit{open source}, yang mempermudah ekstraksi dan \textit{indexing} data menjadi Graph Database, sehingga tidak perlu membuat RDF Triples ada model ontologi dari awal. Distributed Graph Database juga memiliki skalabilitas yang baik untuk data yang banyak pada Blockchain Ethereum. eth2dgraph juga memiliki kemampuan ekstensibilitas yang baik dalam \textit{domain} yang lebih umum, sehingga lebih mudah diimplementasikan sebagai fondasi dari sistem keseluruhan.
 
 \subsubsection{Rancangan Solusi}
 
@@ -172,7 +172,7 @@ Dengan penggunaan eth2dgraph sebagai fondasi dari sistem pencarian Smart Contrac
 
 \begin{enumerate}
 	\item Layer 1: Blockchain Data Extraction (eth2dgraph) \newline Ekstraksi data Blockchain Ethereum menjadi Dgraph
-	\item Layer 2: Semantic Indexing and Enrichment \newline \textit{Mapping} data hasil ekstraksi kepada sebuah ontology seperti BLONDiE atau EthOn, pelabelan fungsional Smart Contracts, dan Version Control
+	\item Layer 2: Semantic Indexing and Enrichment \newline \textit{Mapping} data hasil ekstraksi kepada sebuah ontologi seperti BLONDiE atau EthOn, pelabelan fungsional Smart Contracts, dan Version Control
 	\item Layer 3: Query and Discovery System \newline Sebuah Search Engine menggunakan GraphQL Queries diatas Dgraph Database yang memperkenalkan pencarian berbasis semantik
 	\item Layer 4: User Interaction Layer \newline Sebuah \textit{dashboard} atau API untuk pengembang melakukan pencarian Smart Contracts berdasarkan fungsionalitas, metadata, atau relasi, membandingkan Smart Contracts yang serupa, dan melakukan \textit{export} atau \textit{reuse} dari Smart Contract
 \end{enumerate}
