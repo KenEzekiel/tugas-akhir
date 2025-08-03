@@ -26,7 +26,7 @@ Bab ini akan berisikan deskripsi detail terkait persoalan, rencana penyelesaian 
 Bagian ini akan menjelaskan terkait rancangan sistem yang akan dibangun. Rancangan akan mencakup rancangan struktural, rancangan behavioral, dan rancangan detail dari setiap komponen. Sistem Smart Contract Discovery ini, seperti pada gambar \ref{image:komponen-sistem}, terdiri dari 5 komponen utama yang saling berinteraksi satu sama lain. Komponen-komponen tersebut adalah:
 
 \begin{enumerate}
-	\item Ethereum Archive Node: Node Ethereum yang digunakan untuk melakukan ekstraksi data dari blockchain Ethereum. Berada pada eksternal sistem.
+	\item Ethereum Archive Node: \textit{Node} Ethereum yang digunakan untuk melakukan ekstraksi data dari blockchain Ethereum. Berada pada eksternal sistem.
 	\item eth2dgraph: Komponen yang digunakan untuk melakukan ekstraksi data dari Ethereum Archive Node dan menyimpannya ke dalam DgraphDB. Berada pada eksternal sistem.
 	\item DgraphDB: Komponen yang digunakan untuk menyimpan data Smart Contracts yang sudah diekstraksi dari Ethereum Archive Node sekaligus data vector embeddings dari Smart Contracts yang telah diperkaya. Diperlukan modul data access untuk mengakses data dari DgraphDB dan mentransformasi data ke dalam bentuk vector embeddings.
 	\item Smart Contract Enricher: Komponen yang digunakan untuk melakukan klasifikasi dan \textit{enrichment} data Smart Contracts.
