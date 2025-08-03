@@ -1,19 +1,19 @@
 \subsection{Off-Chain}
 \label{subsec:offchain}
 
-Off-chain adalah sebuah proses atau transaksi yang dilakukan di luar jaringan Blockchain utama. Dalam konteks Lightning Network, transaksi off-chain dilakukan di dalam sebuah \textit{payment channel}, di mana beberapa transaksi dapat berlangsung antara dua atau lebih pihak tanpa harus langsung direkam pada Blockchain. Proses ini memungkinkan para pihak untuk saling bertransaksi secara cepat dan dengan biaya yang jauh lebih rendah karena tidak memerlukan konfirmasi untuk setiap transaksi di jaringan utama.
+Off-chain adalah sebuah proses atau transaksi yang dilakukan di luar jaringan blockchain utama. Dalam konteks Lightning Network, transaksi off-chain dilakukan di dalam sebuah \textit{payment channel}, di mana beberapa transaksi dapat berlangsung antara dua atau lebih pihak tanpa harus langsung direkam pada blockchain. Proses ini memungkinkan para pihak untuk saling bertransaksi secara cepat dan dengan biaya yang jauh lebih rendah karena tidak memerlukan konfirmasi untuk setiap transaksi di jaringan utama.
 
-Hanya saat \textit{payment channel} ditutup, transaksi-transaksi off-chain tersebut akan diselesaikan secara \textit{final} dengan melakukan \textit{settling} pada Blockchain. Mekanisme ini memastikan bahwa keamanan dan integritas data tetap terjaga karena hasil akhir dari semua transaksi off-chain dicatat secara permanen di Blockchain melalui proses konsensus. Selain itu, transaksi off-chain umumnya dilakukan menggunakan protokol Layer 2, seperti Payment Channels, Sidechains, dan Rollups \parencite{sguanci2021layer}. Pendekatan ini tidak hanya mengurangi beban jaringan utama, tetapi juga memungkinkan terjadinya \textit{micropayments} dan peningkatan \textit{throughput} jaringan secara signifikan.
+Hanya saat \textit{payment channel} ditutup, transaksi-transaksi off-chain tersebut akan diselesaikan secara \textit{final} dengan melakukan \textit{settling} pada blockchain. Mekanisme ini memastikan bahwa keamanan dan integritas data tetap terjaga karena hasil akhir dari semua transaksi off-chain dicatat secara permanen di blockchain melalui proses konsensus. Selain itu, transaksi off-chain umumnya dilakukan menggunakan protokol Layer 2, seperti Payment Channels, Sidechains, dan Rollups \parencite{sguanci2021layer}. Pendekatan ini tidak hanya mengurangi beban jaringan utama, tetapi juga memungkinkan terjadinya \textit{micropayments} dan peningkatan \textit{throughput} jaringan secara signifikan.
 
 Berikut merupakan beberapa keuntungan dari transaksi off-chain:
 
 \begin{enumerate}
 	\item \textbf{Efisiensi dan Skalabilitas} \newline
-	      Transaksi off-chain memungkinkan jaringan Blockchain untuk menangani lebih banyak transaksi tanpa mengorbankan kecepatan dan efisiensi Blockchain.
+	      Transaksi off-chain memungkinkan jaringan blockchain untuk menangani lebih banyak transaksi tanpa mengorbankan kecepatan dan efisiensi blockchain.
 	\item \textbf{Privasi} \newline
-	      Transaksi off-chain tidak langsung tercatat di Blockchain, sehingga memungkinkan para pengguna untuk menjaga privasi mereka.
+	      Transaksi off-chain tidak langsung tercatat di blockchain, sehingga memungkinkan para pengguna untuk menjaga privasi mereka.
 	\item \textbf{Pengurangan Biaya} \newline
 	      Transaksi off-chain biasanya memiliki biaya yang lebih rendah dibandingkan dengan transaksi on-chain karena hanya perlu transaksi untuk pembukaan dan penutupan \textit{channel}.
 	\item \textbf{Interoperabilitas} \newline
-	      Protokol Layer 2 memungkinkan jaringan Blockchain yang berbeda untuk berinteraksi satu sama lain, sehingga memperluas kemungkinan penggunaan dan penerapan teknologi Blockchain.
+	      Protokol Layer 2 memungkinkan jaringan blockchain yang berbeda untuk berinteraksi satu sama lain, sehingga memperluas kemungkinan penggunaan dan penerapan teknologi blockchain.
 \end{enumerate}

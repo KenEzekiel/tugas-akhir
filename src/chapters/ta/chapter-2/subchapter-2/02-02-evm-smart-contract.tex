@@ -24,9 +24,9 @@ Smart Contracts adalah program yang ditulis untuk berjalan di atas Blockchain Et
 	\item \textbf{Pembuatan dan Validasi Block} \newline
 	      Transaksi yang terpilih akan disusun ke dalam sebuah blok yang kemudian divalidasi melalui mekanisme konsensus.
 	\item \textbf{Eksekusi di EVM} \newline
-	      Blok yang telah divalidasi akan ditambahkan ke dalam Blockchain, dan setiap transaksi di dalam blok tersebut akan dieksekusi oleh EVM. Proses eksekusinya dimulai dari kompilasi Smart Contract dalam Solidity menjadi Bytecode, lalu instruksi Bytecode akan dijalankan sesuai dengan biaya \textit{gas} yang dialokasikan, dan hasilnya akan disimpan secara permanan di dalam Blockchain.
+	      Blok yang telah divalidasi akan ditambahkan ke dalam blockchain, dan setiap transaksi di dalam blok tersebut akan dieksekusi oleh EVM. Proses eksekusinya dimulai dari kompilasi Smart Contract dalam Solidity menjadi Bytecode, lalu instruksi Bytecode akan dijalankan sesuai dengan biaya \textit{gas} yang dialokasikan, dan hasilnya akan disimpan secara permanan di dalam blockchain.
 	\item \textbf{Finalisasi dan Pencatatan di Blockchain} \newline
-	      Hasil dari eksekusi Smart Contract akan dicatat di dalam Blockchain dan menjadi \textit{state} baru pada Blockchain.
+	      Hasil dari eksekusi Smart Contract akan dicatat di dalam blockchain dan menjadi \textit{state} baru pada blockchain.
 \end{enumerate}
 
 % Ethereum Virtual Machine (EVM) adalah sebuah lingkungan eksekusi untuk Smart Contracts di Ethereum, yang memungkinkan kode berjalan di seluruh jaringan Ethereum secara terdistribusi. EVM adalah sebuah mesin \textit{Turing-complete}, yang berarti bahwa EVM dapat menjalankan kode apapun yang diberikan kepadanya, dengan batasan waktu dan biaya yang ditentukan oleh \textit{gas} \parencite{wood2014ethereum}. EVM menjalankan kode yang ditulis dalam bahasa pemrograman Solidity, yang kemudian dikompilasi menjadi EVM Bytecode, yang kemudian dijalankan di dalam EVM. EVM memiliki beberapa karakteristik, seperti \textit{state}, \textit{storage}, \textit{memory}, \textit{stack}, dan \textit{program counter} \parencite{wood2014ethereum}.
