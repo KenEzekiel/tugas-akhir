@@ -4,7 +4,7 @@
 
 Secara umum, hasil pengujian sistem menunjukkan bahwa sistem pencarian berbasis semantik memberikan hasil yang lebih relevan dibandingkan dengan sistem pencarian berbasis teks. Selain itu, sistem pencarian berbasis semantik juga dapat menghasilkan relevansi yang baik untuk masukan berupa query bahasa alami dan kata kunci. Sedangkan sistem pencarian berbasis teks hanya dapat menerima masukan berupa kata kunci untuk mendapatkan hasil pencarian yang relevan. Hal ini menunjukkan fleksibilitas sistem pencarian berbasis semantik untuk menghasilkan hasil yang relevan berdasarkan jenis masukan yang berbeda.
 
-Selain itu, hasil untuk sistem pencarian berbasis semantik pada iterasi perbaikan menunjukkan peningkatan presisi yang signifikan dibandingkan dengan iterasi awal. Hal ini menunjukkan bahwa proses iterasi perbaikan, yaitu perubahan prompt, format data, konteks Source Code yang lengkap, dan penambahan deskripsi semantik, memberikan dampak positif yang terlihat terhadap relevansi hasil pencarian.
+Selain itu, hasil untuk sistem pencarian berbasis semantik pada iterasi perbaikan menunjukkan peningkatan presisi yang signifikan dibandingkan dengan iterasi awal. Hal ini menunjukkan bahwa proses iterasi perbaikan, yaitu perubahan prompt, format data, konteks \textit{source code} yang lengkap, dan penambahan deskripsi semantik, memberikan dampak positif yang terlihat terhadap relevansi hasil pencarian.
 
 \subsubsection{Analisis Skalabilitas Sistem}
 
@@ -83,7 +83,7 @@ Perhitungan berikut menunjukkan bahwa dengan pemrosesan paralel, waktu yang dibu
 
 \subsubsubsection{Analisis Skalabilitas Penyimpanan}
 
-Data utama yang disimpan pada sistem ini adalah data Smart Contracts, terutama Source Code dari Verified Smart Contracts. Data yang digunakan oleh sistem, yaitu sebanyak 118 data Smart Contracts, memiliki ukuran total 2,8 MB. Referensi yang dapat digunakan untuk memperkirakan ukuran data Smart Contracts jika seluruh Verified Smart Contracts diproses adalah data dari Smart Contract Sanctuary Ethereum. Repositori ini berisikan 344.250 Smart Contracts dengan ukuran total 28 GB. Sehingga perkiraan ukuran data Smart Contracts jika seluruh Verified Smart Contracts diproses adalah sekitar 60 GB. Hal ini menunjukkan bahwa masih memungkinkan untuk sistem dapat mengakomodasi penyimpanan seluruh data Verified Smart Contracts.
+Data utama yang disimpan pada sistem ini adalah data Smart Contracts, terutama \textit{source code} dari Verified Smart Contracts. Data yang digunakan oleh sistem, yaitu sebanyak 118 data Smart Contracts, memiliki ukuran total 2,8 MB. Referensi yang dapat digunakan untuk memperkirakan ukuran data Smart Contracts jika seluruh Verified Smart Contracts diproses adalah data dari Smart Contract Sanctuary Ethereum. Repositori ini berisikan 344.250 Smart Contracts dengan ukuran total 28 GB. Sehingga perkiraan ukuran data Smart Contracts jika seluruh Verified Smart Contracts diproses adalah sekitar 60 GB. Hal ini menunjukkan bahwa masih memungkinkan untuk sistem dapat mengakomodasi penyimpanan seluruh data Verified Smart Contracts.
 
 \subsubsubsection{Analisis Latensi Pencarian}
 

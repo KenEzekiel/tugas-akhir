@@ -36,7 +36,7 @@ Komponen Enricher terbagi menjadi 2 subkomponen, yaitu:
 Proses yang dilakukan oleh komponen Enricher adalah sebagai berikut:
 \begin{enumerate}
 	\item Komponen Enricher akan mengambil data Smart Contracts yang disimpan pada DgraphDB.
-	\item Data Source Code dari Smart Contracts akan diambil dan dilakukan preprocessing sehingga dapat diproses dengan lebih efisien.
+	\item Data \textit{source code} dari Smart Contracts akan diambil dan dilakukan preprocessing sehingga dapat diproses dengan lebih efisien.
 	\item Data Smart Contracts akan diproses oleh subkomponen Semantic Enricher untuk melakukan data enrichment. Proses ini akan menghasilkan data yang lebih kaya dan relevan.
 	\item Setelah proses pengayaan selesai, data yang telah diperkaya akan disimpan kembali ke dalam DgraphDB. Proses penyimpanan ini akan menggunakan komponen Dgraph Client untuk memastikan bahwa data yang disimpan sesuai dengan skema yang telah ditentukan.
 \end{enumerate}
