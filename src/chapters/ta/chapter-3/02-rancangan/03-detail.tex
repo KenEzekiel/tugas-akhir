@@ -51,7 +51,7 @@ Komponen Parallel Enricher merupakan sebuah komponen \textit{wrapper} untuk komp
 
 \subsubsection{Rancangan Detail Komponen Dgraph Client}
 
-Komponen Dgraph Client akan bertanggung jawab untuk berkomunikasi dengan DgraphDB yang digunakan untuk menyimpan data Smart Contracts dan embeddings dari Smart Contracts. Komponen ini akan menyediakan fungsi untuk melakukan query, penyimpanan, mutasi skema, penambahan embeddings, pencarian berdasarkan embeddings dan pengambilan data dari DgraphDB. Komponen ini akan menjadi antarmuka utama bagi komponen lain untuk berinteraksi dengan DgraphDB.
+Komponen Dgraph Client akan bertanggung jawab untuk berkomunikasi dengan DgraphDB yang digunakan untuk menyimpan data Smart Contracts dan embeddings dari Smart Contracts. Komponen ini akan menyediakan fungsi untuk melakukan query, penyimpanan, mutasi skema, penambahan embeddings, pencarian berdasarkan embeddings dan pengambilan data dari DgraphDB. Komponen ini akan menjadi antarmuka utama bagi komponen lain untuk berinteraksi dengan DgraphDB. Pencarian berdasarkan embeddings ini akan dilakukan menggunakan cosine similarity, dengan abstraksi fungsi yang diberikan oleh Dgraph dengan query \texttt{similar\textunderscore to}. Cosine similarity dapat menentukan kedekatan semantik dari sebuah teks dengan teks lainnya berdasarkan arah dari vector embeddings-nya.
 
 % package diagram
 % sesuai domain, ada class diagramnya
