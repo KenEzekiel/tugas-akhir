@@ -10,6 +10,8 @@
 
 Penelitian yang dilakukan sebagai \textit{thesis} oleh \cite{aimar2023extraction} berfokus pada bagaimana mengambil data dari Blockchain Ethereum yang bersifat publik, mengekstrasi semantiknya, lalu mentransformasikannya ke sebuah bentuk yang mudah diakses oleh pengguna dengan cara mengindeksnya menggunakan Dgraph, sebuah \textit{open-source distributed graph database}. Hasil dari penelitian ini adalah sebuah perangkat lunak bernama eth2dgraph, yang ditulis dalam bahasa Rust yang melakukan mapping data Ethereum ke format Dgraph, dengan data model yang ditunjukkan pada gambar \ref{image:eth2dgraph-structure}. Perangkat lunak ini mengintegrasikan sebuah \textit{decompiler} untuk mengekstraksi dan mengindeks ABI dari Smart Contracts.
 
+Salah satu fitur yang dapat dimanfaatkan dari riset ini adalah kemampuannya untuk mengekstrak data Smart Contracts dari Archive Node dengan efisien dan mengimpor data ke dalam format Dgraph. Selain itu, terdapat proses untuk menyambungkan data Smart Contract dengan \textit{source code} yang sesuai untuk Verified Smart Contracts yang didapatkan dari Smart Contract Sanctuary. 
+
 Beberapa hal yang dapat diperhatikan dari perangkat lunak eth2dgraph adalah:
 
 \begin{enumerate}

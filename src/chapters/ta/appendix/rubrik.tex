@@ -1,0 +1,114 @@
+\chapter{Rubrik Penilaian}
+\label{appendix:rubrik-penilaian}
+
+Berikut adalah rubrik penilaian yang digunakan untuk menentukan \textit{True Positive} (TP) dan \textit{False Positive} (FP) secara objektif selama proses pengujian sistem. Setiap kueri dievaluasi berdasarkan bukti konkret yang dapat diverifikasi pada \textit{source code} Solidity.
+
+\section{Grup Kueri: Kontrol Akses}
+\begin{enumerate}
+    \item \textbf{Kueri:} \texttt{contracts that have only a single owner}, \\\texttt{access control ownable}
+    \begin{enumerate}
+        \item \textbf{Tag Semantik yang Diperlukan}: \texttt{access\textunderscore control\textunderscore ownable}
+        \item \textbf{Checklist Bukti Verifikasi pada Kode:}
+        \begin{itemize}
+            \item Kontrak mewarisi (\textit{inherit}) \texttt{Ownable.sol} dari pustaka standar seperti OpenZeppelin.
+            \item Terdapat \texttt{modifier} dengan nama \texttt{onlyOwner}.
+            \item Terdapat variabel \textit{state} untuk menyimpan satu alamat pemilik (misalnya, \texttt{\textunderscore owner}).
+            \item Terdapat fungsi publik atau eksternal bernama \\\texttt{transferOwnership(address)}.
+        \end{itemize}
+        \item \textbf{Dasar Pembenaran:} Kombinasi dari warisan kontrak, \textit{modifier}, dan fungsi-fungsi tersebut adalah implementasi kanonikal dari pola desain \textit{Ownable}. Kehadiran bukti-bukti ini secara definitif mengklasifikasikan kontrak sebagai kontrak dengan pemilik tunggal.
+    \end{enumerate}
+\end{enumerate}
+
+\section{Grup Kueri: Proksi dan Upgradeability}
+\begin{enumerate}
+    \setcounter{enumi}{1}
+    \item \textbf{Kueri:} \texttt{proxy\textunderscore contracts}, \texttt{contracts that can be upgraded in the future without requiring a new address}, \texttt{upgradeable \\implementation contracts}, \texttt{proxy contracts to upgrade \\implementation contracts}, \texttt{upgradeable contracts}
+    \begin{enumerate}
+        \item \textbf{Tag Semantik yang Diperlukan:} \texttt{proxy\textunderscore transparent}, \texttt{proxy\textunderscore uups}, \texttt{upgradable}
+        \item \textbf{Checklist Bukti Verifikasi pada Kode:}
+        \begin{itemize}
+            \item Kontrak menggunakan \textit{opcode} \texttt{DELEGATECALL} di dalam fungsi \texttt{fallback()} atau \texttt{receive()} untuk mendelegasikan panggilan ke alamat kontrak implementasi.
+            \item Kontrak mewarisi dari kontrak proksi standar (misalnya, \\\texttt{Proxy.sol}, \texttt{UUPSUpgradeable.sol}).
+            \item Terdapat penggunaan slot penyimpanan yang sesuai dengan standar EIP-1967 untuk menyimpan alamat kontrak logika.
+        \end{itemize}
+        \item \textbf{Dasar Pembenaran:} Penggunaan \texttt{DELEGATECALL} untuk menjalankan logika dari alamat kontrak lain adalah mekanisme teknis inti yang memungkinkan sebuah kontrak dapat ditingkatkan (\textit{upgradeable}). Ini adalah bukti yang paling fundamental dari sebuah pola proksi.
+    \end{enumerate}
+\end{enumerate}
+
+\section{Grup Kueri: Standar Token}
+\begin{enumerate}
+    \setcounter{enumi}{2}
+    \item \textbf{Kueri:} \texttt{token\textunderscore contracts:erc-1155}, \texttt{erc-1155}, \texttt{contracts that can manage both fungible and non-fungible tokens...}
+    \begin{enumerate}
+        \item \textbf{Tag Semantik yang Diperlukan:} \texttt{erc-1155}
+        \item \textbf{Checklist Bukti Verifikasi pada Kode:}
+        \begin{itemize}
+            \item Kontrak mengimplementasikan \textit{interface} ERC-1155, yang dapat diverifikasi melalui fungsi \texttt{supportsInterface(0xd9b67a26)}.
+            \item Terdapat fungsi-fungsi wajib standar EIP-1155 seperti \\\texttt{balanceOf(address, uint256)} dan \\\texttt{balanceOfBatch(address[], uint256[])}.
+        \end{itemize}
+        \item \textbf{Dasar Pembenaran:} Kepatuhan terhadap standar EIP-1155 adalah satu-satunya justifikasi teknis yang valid untuk kueri ini. Implementasi antarmuka dan fungsi-fungsi spesifiknya adalah bukti kepatuhan tersebut.
+    \end{enumerate}
+    \item \textbf{Kueri:} \texttt{token\textunderscore contracts:erc-20}, \texttt{erc-20}, \texttt{contracts that create a standard, interchangeable token...}
+    \begin{enumerate}
+        \item \textbf{Tag Semantik yang Diperlukan:} \texttt{erc-20}
+        \item \textbf{Checklist Bukti Verifikasi pada Kode:}
+        \begin{itemize}
+            \item Kontrak mengimplementasikan \textit{interface} ERC-20 \\(\texttt{supportsInterface(0x36372b07)}).
+            \item Terdapat fungsi-fungsi wajib standar EIP-20 seperti \\\texttt{transfer(address, uint256)}, \\\texttt{approve(address, uint256)}, dan \texttt{balanceOf(address)}.
+        \end{itemize}
+        \item \textbf{Dasar Pembenaran:} Kontrak yang memenuhi kriteria ini secara teknis adalah token ERC-20 sesuai standar EIP-20.
+    \end{enumerate}
+    \item \textbf{Kueri:} \texttt{token\textunderscore contracts:erc-721}
+    \begin{enumerate}
+        \item \textbf{Tag Semantik yang Diperlukan:} \texttt{erc-721}
+        \item \textbf{Checklist Bukti Verifikasi pada Kode:}
+        \begin{itemize}
+            \item Kontrak mengimplementasikan \textit{interface} ERC-721 \\(\texttt{supportsInterface(0x80ac58cd)}).
+            \item Terdapat fungsi-fungsi wajib standar EIP-721 seperti \\\texttt{ownerOf(uint256)} dan \texttt{safeTransferFrom(...)}.
+        \end{itemize}
+        \item \textbf{Dasar Pembenaran:} Kriteria ini memvalidasi kepatuhan terhadap standar EIP-721 untuk \textit{Non-Fungible Tokens}.
+    \end{enumerate}
+\end{enumerate}
+
+\section{Grup Kueri: Domain DeFi dan DEX}
+\begin{enumerate}
+    \setcounter{enumi}{5}
+    \item \textbf{Kueri:} \texttt{defi}, \texttt{defi, dex, defi dex}, \texttt{decentralized finance}, \\\texttt{decentralized exchange}, \texttt{tokens built for trading, swapping, \\and adding to liquidity pools}
+    \begin{enumerate}
+        \item \textbf{Tag Semantik yang Diperlukan:} \texttt{defi\textunderscore dex}, \\\texttt{financial\textunderscore calculations\textunderscore amm}
+        \item \textbf{Checklist Bukti Verifikasi pada Kode:}
+        \begin{itemize}
+            \item Kontrak harus berinteraksi dengan token standar (misalnya, ERC-20).
+            \item Terdapat fungsi-fungsi publik dengan nama yang jelas mengindikasikan pertukaran atau likuiditas, seperti \texttt{swap}, \texttt{addLiquidity}, \texttt{removeLiquidity}.
+            \item Logika internal mengandung perhitungan matematis untuk menentukan harga atau jumlah token berdasarkan cadangan (\textit{reserves}), yang merupakan ciri khas dari \textit{Automated Market Maker} (AMM).
+        \end{itemize}
+        \item \textbf{Dasar Pembenaran:} Kombinasi dari interaksi dengan token dan adanya fungsi serta logika untuk pertukaran dan penyediaan likuiditas adalah karakteristik fundamental dari sebuah \textit{Decentralized Exchange} (DEX) dalam ekosistem DeFi.
+    \end{enumerate}
+\end{enumerate}
+
+\section{Grup Kueri: Pustaka dan Kasus Penggunaan Spesifik}
+\begin{enumerate}
+    \setcounter{enumi}{6}
+    \item \textbf{Kueri:} \texttt{library\textunderscore contracts}
+    \begin{enumerate}
+        \item \textbf{Tag Semantik yang Diperlukan:} \texttt{library}
+        \item \textbf{Checklist Bukti Verifikasi pada Kode:}
+        \begin{itemize}
+            \item Dideklarasikan menggunakan kata kunci \texttt{library}.
+            \item Tidak memiliki variabel \textit{state} yang dapat diubah.
+            \item Semua fungsi bersifat \texttt{internal} atau \texttt{public}.
+        \end{itemize}
+        \item \textbf{Dasar Pembenaran:} Ini adalah definisi sintaksis yang ketat dari sebuah \textit{library} dalam Solidity. Tidak ada cara lain untuk mendefinisikan sebuah \textit{library}.
+    \end{enumerate}
+    \item \textbf{Kueri:} \texttt{giving tuesday}, \texttt{tokens that are designed to facilitate donations and support charitable movements}
+    \begin{enumerate}
+        \item \textbf{Tag Semantik yang Diperlukan:} \texttt{payment\textunderscore splitter}
+        \item \textbf{Checklist Bukti Verifikasi pada Kode:}
+        \begin{itemize}
+            \item Kontrak memiliki fungsi \texttt{payable} untuk menerima dana (misalnya, fungsi \texttt{donate()} atau \texttt{receive()}).
+            \item Terdapat logika untuk mendistribusikan atau melepaskan (\textit{release}) dana ke sekumpulan alamat penerima manfaat (\textit{beneficiaries}).
+            \item Kemungkinan besar mewarisi dari \texttt{PaymentSplitter.sol} atau memiliki implementasi logika pembagian dana yang serupa.
+        \end{itemize}
+        \item \textbf{Dasar Pembenaran:} Fungsionalitas inti dari kontrak donasi adalah mengumpulkan dan mendistribusikan dana. Pola \textit{Payment Splitter} adalah implementasi teknis yang paling umum untuk kasus penggunaan ini.
+    \end{enumerate}
+\end{enumerate}
