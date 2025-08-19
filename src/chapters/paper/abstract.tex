@@ -1,9 +1,7 @@
 \begin{abstract}
-	This document is a model and instructions for \LaTeX.
-	This and the IEEEtran.cls file define the components of your paper [title, text, heads, etc.]. *CRITICAL:\ Do Not Use Symbols, Special Characters, Footnotes,
-	or Math in Paper Title or Abstract.
+	With the widespread adoption of smart contracts, the need to interact with and reuse existing on-chain infrastructure has become critical. Current discovery mechanisms, however, remain largely lexical, relying on syntactic keyword matches that fail to capture a contract's functional intent. This semantic gap makes it difficult for developers to reliably find deployed instances of public infrastructure, such as DEX routers or stablecoin contracts. This paper presents a novel Smart Contract Discovery System that leverages Large Language Models (LLMs) for deep semantic analysis of source code. The system features an end-to-end pipeline that extracts verified contract data, performs semantic enrichment to generate structured metadata (including functionalities, design patterns, and application domains), and indexes the data in a distributed graph database (Dgraph). Retrieval is performed using cosine similarity on vector embeddings, allowing developers to query for contracts in natural language based on their purpose. The proposed system was evaluated against traditional text-based search methods. Experimental results show a significant improvement in search precision, with the semantic search achieving an average precision of 68.5\% compared to 38.5\% for keyword search. The findings demonstrate that this semantic, LLM-assisted approach is highly effective for discovering deployed smart contracts, thereby facilitating better integration and composability within the blockchain ecosystem.
 \end{abstract}
 
 \begin{IEEEkeywords}
-	component, formatting, style, styling, insert
+	Smart Contracts, Semantic Search, Large Language Models (LLM), Code Discovery, Vector Embeddings, Public Infrastructure, Blockchain
 \end{IEEEkeywords}
