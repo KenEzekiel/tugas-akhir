@@ -4,7 +4,6 @@ from dataclasses import dataclass
 
 from langchain_huggingface import HuggingFaceEmbeddings
 from src.core.data_access.dgraph_client import DgraphClient
-from src.core.data_access.vectordb_client import VectorDBManager
 from src.utils.logger import logger
 
 
@@ -24,7 +23,6 @@ class EmbeddingUpdater:
     def __init__(self, config: EmbeddingConfig):
         self.config = config
         self.dgraph = DgraphClient()
-        self.vector_db = VectorDBManager(dgraph_client=self.dgraph)
         self.embedding_model = HuggingFaceEmbeddings(
             model_name=config.embedding_model_name,
             model_kwargs={"device": config.device},

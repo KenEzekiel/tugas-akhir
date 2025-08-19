@@ -296,12 +296,12 @@ class DgraphClient:
                 self.logger.exception("Mutation failed")
                 raise
 
-    def insert_embeddings(self, contract_id: str, embeddings: list[float]) -> None:
+    def insert_embeddings(self, uid: str, embeddings: list[float]) -> None:
         """
         Inserts embeddings for a contract into Dgraph
 
         Args:
-            contract_id: The ID of the contract to update
+            uid: The UID of the contract to update
             embeddings: List of embedding values to store
         """
         try:
@@ -312,7 +312,7 @@ class DgraphClient:
             embeddings_str = json.dumps(embeddings_float32)
 
             mutation_data = {
-                "ContractDeployment.id": contract_id,
+                "uid": uid,
                 "ContractDeployment.embeddings": embeddings_str,
             }
 
@@ -320,12 +320,12 @@ class DgraphClient:
                 mutation = txn.create_mutation(set_obj=mutation_data)
                 response = txn.mutate(mutation=mutation, commit_now=False)
                 self.logger.info(
-                    f"Successfully inserted embeddings for contract {contract_id}"
+                    f"Successfully inserted embeddings for contract {uid}"
                 )
                 return response
         except Exception as e:
             self.logger.exception(
-                f"Failed to insert embeddings for contract {contract_id}: {str(e)}"
+                f"Failed to insert embeddings for contract {uid}: {str(e)}"
             )
             raise
 
@@ -402,7 +402,7 @@ class DgraphClient:
             # Syntax: similar_to(predicate, topK, "vector") - vector must be quoted
             dgraph_query = f"""
             {{
-                similar_contracts(func: similar_to(ContractDeployment.embeddings, {limit}, \"{vector_str}\")) @filter(has(ContractDeployment.embeddings)) {{
+                similar_contracts(func: similar_to(ContractDeployment.embeddings, {limit}, \"{vector_str}\")) @filter(has(ContractDeployment.embeddings) AND has(ContractDeployment.description)) {{
                     uid
                     ContractDeployment.id
                     ContractDeployment.contract

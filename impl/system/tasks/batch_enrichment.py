@@ -163,7 +163,7 @@ class BatchEnricher:
 
         for contract in contracts:
             # Use stable contract ID
-            contract_id = contract.get("ContractDeployment.id", "")
+            contract_id = contract.get("uid", "")
             # if contract_id is None or contract_id == "":
             #     logger.warning(f"Contract missing ID: {contract}")
             #     continue
@@ -198,12 +198,15 @@ class BatchEnricher:
             # Store embeddings in Dgraph
             for contract, embedding in zip(contracts, embeddings):
                 try:
-                    contract_id = contract.get("ContractDeployment.id")
+                    contract_id = contract.get("uid")
+
                     if contract_id:
                         self.dgraph.insert_embeddings(contract_id, embedding)
+                    else:
+                        logger.warning("Contract missing UID")
                 except Exception as e:
                     logger.error(
-                        f"Failed to insert embedding for contract ID {contract_id}: {str(e)}"
+                        f"Failed to insert embedding for contract UID {contract_id}: {str(e)}"
                     )
                     # Continue with other contracts even if one fails
 

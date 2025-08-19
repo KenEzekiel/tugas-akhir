@@ -27,13 +27,13 @@ async def assign_ids_to_contracts(batch_size: int = 10) -> int:
 
     try:
         # Get total count of contracts
-        total_contracts = dgraph.get_contracts_count(enriched=True)
+        total_contracts = dgraph.get_contracts_count(enriched=False)
         logger.info(f"Found {total_contracts} total contracts to check for IDs")
 
         while True:
             # Get batch of contracts
             contracts = dgraph.get_contracts(
-                batch_size=batch_size, offset=offset, enriched=True
+                batch_size=batch_size, offset=offset, enriched=False
             )
 
             if not contracts:
@@ -134,7 +134,7 @@ async def verify_contract_ids() -> Dict[str, int]:
     try:
         while True:
             contracts = dgraph.get_contracts(
-                batch_size=batch_size, offset=offset, enriched=True
+                batch_size=batch_size, offset=offset, enriched=False
             )
 
             if not contracts:
