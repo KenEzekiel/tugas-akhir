@@ -12,7 +12,7 @@ BIBFILES := $(shell find . -iname "*.bib")
 
 .PHONY: all format thesis yudisium paper clean
 
-all: format thesis yudisium paper
+all: format thesis paper
 
 thesis:
 	@mkdir -p output
