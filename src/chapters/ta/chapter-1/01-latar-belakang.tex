@@ -48,8 +48,6 @@
 
 % Pada tugas akhir ini, akan dieksplorasi dan dibangun sebuah prototipe sistem dengan pendekatan yang menggunakan LLM untuk melakukan \textit{semantic understanding}, terutama pada konteks Smart Contracts yang akan membantu \textit{data retrieval} berbasis semantik.
 
-
-
 % Latar belakang
 
 % Highlight kenapa source code search ini dibutuhkan
@@ -65,11 +63,11 @@
 
 % Sehingga di TA ini akan dibangun sebuah pipeline yang bisa digunakan dengan model LLM apapun untuk membangun sebuah semantic repository yang dapat dilakukan searching.
 
-Smart Contracts telah diadopsi secara luas dan dimanfaatkan dalam berbagai skenario. Di luar penerbitan aset baru, semakin banyak kasus penggunaan yang menuntut interaksi dengan Smart Contracts yang sudah ada. Misalnya, mengintegrasikan USDC ke dalam alur pembayaran, serta kontrak-kontrak yang berperan sebagai \textit{public infrastructure} yang dapat dipanggil oleh berbagai aplikasi.
+Smart Contracts telah diadopsi secara luas dan dimanfaatkan dalam berbagai skenario \parencite{alchemy_ethereum_statistics}. Di luar penerbitan aset baru, semakin banyak kasus penggunaan yang menuntut interaksi dengan Smart Contracts yang sudah ada. Misalnya, mengintegrasikan USDC ke dalam alur pembayaran, serta kontrak-kontrak yang berperan sebagai \textit{public infrastructure} yang dapat dipanggil oleh berbagai aplikasi \parencite{szabo1997formalizing}.
 
 Dalam praktik saat ini, ekosistem tersebut kerap masih membutuhkan Smart Contracts untuk "mendaftar" pada sebuah repositori utama. Pola ini menimbulkan \textit{bottleneck} pada proses \textit{discovery}: kontrak yang relevan sulit ditemukan dan sulit digunakan kembali. Akar persoalannya terletak pada lapisan \textit{information retrieval}. Mekanisme pencarian yang dominan masih bersifat leksikal, yang bertumpu pada kesesuaian sintaks atau kata kunci. Padahal, sintaks tidak selalu merepresentasikan fungsi dan maksud (\textit{intent}) yang dikandung oleh Smart Contract.
 
-Kesenjangan ini menuntut sistem pencarian yang memahami semantik kode, yakni "apa yang dikerjakan" oleh kontrak. Sejumlah pendekatan telah berupaya merepresentasikan semantik Smart Contract, namun kerap bergantung pada model khusus yang usang, sukar diakses, atau tidak mudah dioperasionalkan untuk mengindeks data dalam skala besar \parencite{zhang2021smart} \parencite{stan}. Alhasil, kontribusi ilmiahnya belum sepenuhnya terhubung dengan kebutuhan praktis penelusuran dan pemakaian ulang kontrak di dunia nyata.
+Kesenjangan ini menuntut sistem pencarian yang memahami semantik kode, yakni "apa yang dikerjakan" oleh kontrak. Sejumlah pendekatan telah berupaya merepresentasikan semantik Smart Contract, namun kerap bergantung pada model khusus yang usang, sukar diakses, atau tidak mudah dioperasionalkan untuk mengindeks data dalam skala besar \parencite{zhang2021smart} \parencite{stan} \parencite{zheng2020overview} \parencite{shi2021semantic}. Alhasil, kontribusi ilmiahnya belum sepenuhnya terhubung dengan kebutuhan praktis penelusuran dan pemakaian ulang kontrak di dunia nyata.
 
 Perkembangan \textit{Large Language Models} (LLM) menghadirkan peluang baru. LLM modern menunjukkan kemampuan menganalisis \textit{source code} dan mencari fungsionalitasnya, sehingga tetap mudah diakses oleh pengembang. Selain itu, infrastruktur LLM modern juga dapat dimanfaatkan untuk melakukan \textit{upgrade} atau pergantian model dengan mudah. Implikasi praktisnya adalah setiap pihak dapat membangun "repositori semantik" miliknya, mengindeks data blockchain secara mandiri dan terus memperbarui kualitas pemahaman semantik seiring hadirnya model-model yang lebih baru.
 

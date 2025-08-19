@@ -6,7 +6,6 @@
 % Kesulitan dalam menemukan Smart Contracts yang sesuai sering kali mendorong pengembang dApps untuk membuat Smart Contracts khusus untuk aplikasi yang dikembangkan, meskipun fungsionalitasnya serupa dengan yang sudah ada. Akibatnya, jumlah Smart Contracts di blockchain tumbuh secara eksponensial, memperbesar ukuran blockchain secara signifikan. Pertumbuhan yang tidak terkendali ini menyebabkan \textit{bloating}, yang berdampak pada inefisiensi penyimpanan dan masalah skalabilitas, sehingga memengaruhi kinerja sistem konsensus. Selain itu, biaya pengembangan dApps pun meningkat karena pengembang harus membuat dan mendeploy Smart Contracts baru untuk setiap aplikasi, meskipun solusi serupa sebenarnya sudah tersedia. Kurangnya dukungan terhadap mekanisme \textit{reusability} ini juga berdampak pada kualitas dari Smart Contracts secara umum karena pengembang cenderung menulis kode yang tidak terjamin secara kualitas.
 % terutama dari segi keamanan
 
-
 % Seringkali butuh untuk berinteraksi dengan kontrak yang udah ada untuk mengakses fungsionalitasnya, ataupun menggunakan sebuah infrastruktur publik
 % tapi dengan jumlah SC yang bertambah dan belum ada mekanisme pencarian yang baik, masih sulit untuk mendapatkan SC yang relevan
 % Terutama dalam klasifikasinya secara semantik, karena sistem sekarang belum ada, dan kalaupun ada, itu diinput oleh orang yang melakukan verifikasinya saja, yang belum tentu mendeskripsikan dengan sesuai. selain itu, walaupun ada klasifikasi pun, belum ada mekanisme buat menemukan SC yang sesuainya.
@@ -21,7 +20,6 @@ Kesulitan-kesulitan itu menghambat pengembangan sistem Smart Contracts, seperti 
 
 % Banyak penelitian yang udah mencoba menjawab permasalahan ini, untuk bridge the gap antar kebutuhan dengan semantik dari apa yang dikerjakan oleh kontrak secara nyata, dan salah satu approach nya adalah dengan menggunakan AI untuk mendeskripsikan semantik yaitu fungsi dan maksud dari sebuah Smart Contracts (insert citations), tapi masalahnya adalah riset ini tidak open source, tidak ada data pipeline untuk mengintegrasikan menjadi sistem yang dapat digunakan di industri, dan masih menggunakan model lama.
 Terdapat banyak penelitian yang sudah mencoba menjawab permasalahan ini, yaitu untuk menjembatani kesenjangan antar kebutuhan pengguna dengan semantik dari apa yang sebenarnya terjadi di dalam sebuah kontrak. Salah satu pendekatan untuk menyelesaikan permasalahan ini adalah menggunakan AI untuk mendeskripsikan semantik yaitu fungsi dan maksud dari sebuah Smart Contracts \parencite{zhang2021smart} \parencite{stan} \parencite{shi2021semantic} \parencite{shi2021semantic}. Permasalahan dari riset-riset ini adalah kesenjangan antar konsep yang ditawarkan dengan \textit{use case} dan posisi dengan industri karena sistem yang ditawarkan tidak bersifat terbuka dan tidak terdapat sebuah \textit{pipeline} yang dapat digunakan di industri yang mengintegrasikan data blockchains eara langsung. Selain itu, riset-riset ini juga belum mengeksplorasi kapabilitas model-model LLM modern untuk mengerti dan menganalisis semantik dari sebuah kode.
-
 
 \input{chapters/ta/chapter-3/01-analisis/01-01-dekomposisi}
 

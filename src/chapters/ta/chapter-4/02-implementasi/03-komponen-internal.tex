@@ -10,7 +10,7 @@ Skema data Dgraph yang digunakan untuk memfasilitasi proses enrichment dan query
 
 \subsubsection{Implementasi Semantic Enricher}
 
-Implementasi Semantic Enricher dilakukan dengan membuat sebuah kelas Python yang akan digunakan untuk melakukan pengayaan semantik pada data. Kelas ini akan menyediakan metode untuk melakukan pengayaan semantik menggunakan Large Language Model. Penjelasan terkait implementasi kelas Semantic Enricher dapat dilihat pada lampiran \ref{appendix:semantic-enricher}. Pada awalnya, kelas ini akan melakukan \textit{preprocessing} terhadap \textit{source code} yang dimasukkan sebagai konteks enrichment, tetapi karena proses ini menghilangkan banyak konteks yang relevan, dan jumlah token \textit{source code} yang tidak terlalu besar, maka proses \textit{preprocessing} ini dihilangkan pada iterasi perbaikan yang dijelaskan pada bagian \ref{subsubsec:iterasi-perbaikan-sistem}. 
+Implementasi Semantic Enricher dilakukan dengan membuat sebuah kelas Python yang akan digunakan untuk melakukan pengayaan semantik pada data. Kelas ini akan menyediakan metode untuk melakukan pengayaan semantik menggunakan Large Language Model. Penjelasan terkait implementasi kelas Semantic Enricher dapat dilihat pada lampiran \ref{appendix:semantic-enricher}. Pada awalnya, kelas ini akan melakukan \textit{preprocessing} terhadap \textit{source code} yang dimasukkan sebagai konteks enrichment, tetapi karena proses ini menghilangkan banyak konteks yang relevan, dan jumlah token \textit{source code} yang tidak terlalu besar, maka proses \textit{preprocessing} ini dihilangkan pada iterasi perbaikan yang dijelaskan pada bagian \ref{subsubsec:iterasi-perbaikan-sistem}.
 
 \subsubsection{Implementasi Parallel Enricher}
 

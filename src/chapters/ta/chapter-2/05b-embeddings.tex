@@ -20,9 +20,9 @@ Penggunaan \textit{Cosine Similarity} sangat relevan dalam konteks \textit{word 
 
 Nilai dari \textit{Cosine Similarity} berkisar antara -1 hingga 1, yang dapat diinterpretasikan sebagai berikut:
 \begin{itemize}
-    \item \textbf{1}: Menunjukkan bahwa kedua vektor memiliki orientasi yang sama persis (sudut $0^\circ$), yang mengimplikasikan kesamaan semantik yang sangat tinggi.
-    \item \textbf{0}: Menunjukkan bahwa kedua vektor ortogonal (sudut $90^\circ$), yang berarti tidak ada kesamaan atau hubungan semantik yang terdeteksi di antara keduanya.
-    \item \textbf{-1}: Menunjukkan bahwa kedua vektor menunjuk ke arah yang berlawanan (sudut $180^\circ$), yang sering diartikan sebagai antonim atau makna yang berkebalikan.
+	\item \textbf{1}: Menunjukkan bahwa kedua vektor memiliki orientasi yang sama persis (sudut $0^\circ$), yang mengimplikasikan kesamaan semantik yang sangat tinggi.
+	\item \textbf{0}: Menunjukkan bahwa kedua vektor ortogonal (sudut $90^\circ$), yang berarti tidak ada kesamaan atau hubungan semantik yang terdeteksi di antara keduanya.
+	\item \textbf{-1}: Menunjukkan bahwa kedua vektor menunjuk ke arah yang berlawanan (sudut $180^\circ$), yang sering diartikan sebagai antonim atau makna yang berkebalikan.
 \end{itemize}
 
 Penggunaan metrik ini telah divalidasi secara empiris dalam studi-studi dasar yang memperkenalkan model-model \textit{embeddings}. Misalnya, evaluasi pada model Word2Vec seringkali melibatkan tugas analogi kata. Contohnya adalah kata "king" - "man" + "woman" $\approx$ "queen", yang secara inheren bergantung pada hubungan arah antar vektor \parencite{mikolov2013efficient}. Demikian pula, model GloVe, yang secara eksplisit dilatih pada statistik \textit{co-occurence} kata secara global, menggunakan \textit{dot product} sebagai inti dari fungsi tujuannya, menjadikannya metrik yang alami untuk evaluasi \parencite{pennington2014glove}.

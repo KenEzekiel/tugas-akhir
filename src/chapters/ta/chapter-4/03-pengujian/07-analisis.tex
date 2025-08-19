@@ -20,15 +20,15 @@ Skalabilitas sistem dapat dilihat dari aspek teknis sistem pada bagian \ref{subs
 Berdasarkan data yang didapatkan saat melakukan proses enrichment, didapatkan \textit{baseline calculation}:
 
 \begin{align*}
-    \text{Biaya per Kontrak} &= \frac{\text{Total Biaya}}{\text{Kontrak Diproses}} \\
-    &= \frac{C_{\text{total}}}{N} \\
-    &= \frac{\$0,23}{118} \\
-    &\approx \$0,00195 \text{ per contract}
+	\text{Biaya per Kontrak} & = \frac{\text{Total Biaya}}{\text{Kontrak Diproses}} \\
+	                         & = \frac{C_{\text{total}}}{N}                         \\
+	                         & = \frac{\$0,23}{118}                                 \\
+	                         & \approx \$0,00195 \text{ per contract}
 \end{align*}
 
 Waktu rata-rata yang per kontrak dapat diaproksimasi menggunakan P50:
 \[
-\text{Waktu rata-rata per Kontrak} \approx T_{\text{P50}} = 5,56 \text{ detik}
+	\text{Waktu rata-rata per Kontrak} \approx T_{\text{P50}} = 5,56 \text{ detik}
 \]
 
 Menggunakan kedua unit tersebut, dapat ditinjau dua analisis utama, yaitu analisis skalabilitas berdasarkan biaya dan waktu.
@@ -38,9 +38,9 @@ Menggunakan kedua unit tersebut, dapat ditinjau dua analisis utama, yaitu analis
 Analisis akan menggunakan dua lingkup, yaitu lingkup Verified Smart Contracts, yang akan lebih mungkin untuk digunakan ulang dan semua Smart Contracts. Berikut merupakan perhitungan yang digunakan:
 
 \begin{align*}
-	C_{\text{estimated, verified}} &= N_{\text{verified}} \times C_{\text{unit}} \\
-	&= 790.354 \text{ contracts} \times \$0,00195/\text{contract} \\
-	&\approx \$1.541
+	C_{\text{estimated, verified}} & = N_{\text{verified}} \times C_{\text{unit}}                 \\
+	                               & = 790.354 \text{ contracts} \times \$0,00195/\text{contract} \\
+	                               & \approx \$1.541
 \end{align*}
 
 Biaya yang akan dikeluarkan untuk menganalisis seluruh Verified Smart Contracts sekitar \$1.500. Biaya ini dapat diterima secara skalabilitas karena hanya perlu dilakukan satu kali analisis dan hasil akan disimpan secara persisten sehingga tidak perlu melakukan analisis pada kontrak yang sama berulang kali.
@@ -48,9 +48,9 @@ Biaya yang akan dikeluarkan untuk menganalisis seluruh Verified Smart Contracts 
 Selanjutnya, untuk perhitungan dari biaya semua Smart Contracts:
 
 \begin{align*}
-	C_{\text{estimated, total}} &= N_{\text{total}} \times C_{\text{unit}} \\
-	&= 79.598.826 \text{ contracts} \times \$0,00195/\text{contract} \\
-	&\approx \$155.218
+	C_{\text{estimated, total}} & = N_{\text{total}} \times C_{\text{unit}}                       \\
+	                            & = 79.598.826 \text{ contracts} \times \$0,00195/\text{contract} \\
+	                            & \approx \$155.218
 \end{align*}
 
 Dibutuhkan biaya sebesar sekitar \$150.000 untuk menganalisis seluruh Smart Contracts yang ada pada blockchain. Hal ini menunjukkan bahwa percobaan memproses seluruh data Smart Contracts pada blockchain, termasuk jutaan kontrak kosong, simpel, atau duplikat, akan menjadi sangat mahal.
@@ -60,23 +60,23 @@ Dibutuhkan biaya sebesar sekitar \$150.000 untuk menganalisis seluruh Smart Cont
 Waktu yang dibutuhkan akan bergantung pada kapabilitas sistem untuk memproses data secara paralel. Untuk kepentingan analisis, akan dihitung dua skenario, yaitu sekuensial atau tidak paralel, dan paralel dengan 100 proses. Berikut merupakan perhitungan yang digunakan:
 
 \begin{align*}
-	T_{\text{sequential, total}} &= N_{\text{total}} \times T_{\text{avg}} \\
-	&= 79.598.826 \text{ contracts} \times 5,56 \text{ \text{s}/\text{contract}} \\
-	&= 442.569.471,56 \text{s} \\
-	T_{\text{sequential, verified}} &= N_{\text{verified}} \times T_{\text{avg}} \\
-	&= 790.354 \text{ contracts} \times 5,56 \text{ \text{s}/\text{contract}} \\
-	&= 4.394.368,24 \text{s}
+	T_{\text{sequential, total}}    & = N_{\text{total}} \times T_{\text{avg}}                                    \\
+	                                & = 79.598.826 \text{ contracts} \times 5,56 \text{ \text{s}/\text{contract}} \\
+	                                & = 442.569.471,56 \text{s}                                                   \\
+	T_{\text{sequential, verified}} & = N_{\text{verified}} \times T_{\text{avg}}                                 \\
+	                                & = 790.354 \text{ contracts} \times 5,56 \text{ \text{s}/\text{contract}}    \\
+	                                & = 4.394.368,24 \text{s}
 \end{align*}
 
 Waktu yang dibutuhkan untuk memproses seluruh kontrak adalah sekitar 14 tahun dan untuk seluruh Verified Smart Contracts adalah sekitar 51 hari. Hal ini menunjukkan bahwa pemrosesan sekuensial akan tidak \textit{scalable}. Tetapi, pemrosesan satu data dengan data yang lain merupakan proses yang \textit{mutually exclusive}, sehingga dapat diproses secara paralel dengan tidak terbatas. Secara teori, skalabilitas waktu dari sistem dapat terjaga dengan baik. Berikut merupakan perhitungan untuk pemrosesan paralel dengan 100 proses:
 
 \begin{align*}
-    T_{\text{parallel, total}} &= \frac{T_{\text{sequential, total}}}{P} \\
-    &= \frac{14 \text{ hari}}{100 \text{ proses}} \\
-	&\approx 51 \text{ hari} \\
-    T_{\text{parallel, verified}} &= \frac{T_{\text{sequential, verified}}}{P} \\
-    &= \frac{51 \text{ hari}}{100 \text{ proses}} \\
-	&\approx 12,2 \text{ jam}
+	T_{\text{parallel, total}}    & = \frac{T_{\text{sequential, total}}}{P}     \\
+	                              & = \frac{14 \text{ hari}}{100 \text{ proses}} \\
+	                              & \approx 51 \text{ hari}                      \\
+	T_{\text{parallel, verified}} & = \frac{T_{\text{sequential, verified}}}{P}  \\
+	                              & = \frac{51 \text{ hari}}{100 \text{ proses}} \\
+	                              & \approx 12,2 \text{ jam}
 \end{align*}
 
 Perhitungan berikut menunjukkan bahwa dengan pemrosesan paralel, waktu yang dibutuhkan untuk memproses seluruh kontrak dapat dikurangi secara signifikan. Hal yang harus diperhatikan adalah P99 sistem yaitu 9,41 detik, yang bernilai hampir dua kali dari P50, sehingga dapat membuat waktu pemrosesan lebih panjang dibandingkan perkiraan yang dihitung.

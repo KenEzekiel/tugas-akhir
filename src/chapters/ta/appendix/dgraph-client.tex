@@ -2,22 +2,22 @@
 \label{appendix:dgraph-client}
 
 \begin{enumerate}
-    \item \texttt{logger}: Objek logger yang mencatat informasi, peringatan, dan kesalahan pada operasi DgraphClient.
-    \item \texttt{client\textunderscore stub}: Stub koneksi ke server Dgraph, berfungsi sebagai endpoint komunikasi.
-    \item \texttt{client}: Klien tingkat tinggi yang membungkus stub untuk melakukan query dan mutasi.
-    \item \texttt{embedding\textunderscore model}: Model HuggingFaceEmbeddings untuk mengubah teks menjadi vektor numerik guna pencarian berbasis vektor.
-    \item \texttt{\textunderscore init\textunderscore }: Konstruktor yang menginisialisasi stub, klien, logger, dan model embedding.
-    \item \texttt{generate\textunderscore contract\textunderscore id}: Menghasilkan ID kontrak deterministik berdasarkan atribut unik kontrak, termasuk hashing kode sumber terverifikasi.
-    \item \texttt{dgraph\textunderscore txn}: Context manager untuk memulai transaksi Dgraph; melakukan commit pada transaksi tulis dan selalu melakukan discard di akhir.
-    \item \texttt{alter\textunderscore schema}: Mengirim operasi untuk memperbarui skema Dgraph berdasarkan string skema yang diberikan.
-    \item \texttt{get\textunderscore contracts}: Mengambil daftar kontrak dengan opsi paging (\texttt{batch\textunderscore \\size}, \texttt{offset}) dan filter \texttt{enriched} untuk memisahkan kontrak yang sudah berisi deskripsi.
-    \item \texttt{get\textunderscore contract\textunderscore by\textunderscore id}: Mengambil data kontrak berdasarkan ID deterministik yang dihasilkan oleh \texttt{generate\textunderscore contract\textunderscore id}.
-    \item \texttt{get\textunderscore contract\textunderscore by\textunderscore uid}: Mengambil data kontrak berdasarkan UID internal Dgraph.
-    \item \texttt{get\textunderscore contracts\textunderscore count}: Mengembalikan jumlah total kontrak dengan opsi menghitung semua, hanya enriched, atau hanya non-enriched.
-    \item \texttt{mutate}: Melakukan mutasi insert/update pada Dgraph sesuai data Python dan mengembalikan respons mutasi.
-    \item \texttt{insert\textunderscore embeddings}: Menyisipkan vektor embedding ke dalam field \\\texttt{ContractDeployment.embeddings}.
-    \item \texttt{vector\textunderscore search}: Melakukan pencarian mirip-vektor dengan query bahasa alami dan mengembalikan kontrak terdekat beserta skor kemiripan kosinus.
-    \item \texttt{search\textunderscore by\textunderscore text\textunderscore source\textunderscore code}: Melakukan pencarian kontrak berdasarkan teks \textit{source code} Solidity, mengembalikan kontrak yang sesuai teks pencarian.
-    \item \texttt{search\textunderscore by\textunderscore text}: Melakukan pencarian kontrak berdasarkan teks deskripsi semantik yang dihasilkan, mengembalikan kontrak yang sesuai teks pencarian.
-    \item \texttt{close}: Menutup stub koneksi ke Dgraph dan membersihkan sumber daya.
+	\item \texttt{logger}: Objek logger yang mencatat informasi, peringatan, dan kesalahan pada operasi DgraphClient.
+	\item \texttt{client\textunderscore stub}: Stub koneksi ke server Dgraph, berfungsi sebagai endpoint komunikasi.
+	\item \texttt{client}: Klien tingkat tinggi yang membungkus stub untuk melakukan query dan mutasi.
+	\item \texttt{embedding\textunderscore model}: Model HuggingFaceEmbeddings untuk mengubah teks menjadi vektor numerik guna pencarian berbasis vektor.
+	\item \texttt{\textunderscore init\textunderscore }: Konstruktor yang menginisialisasi stub, klien, logger, dan model embedding.
+	\item \texttt{generate\textunderscore contract\textunderscore id}: Menghasilkan ID kontrak deterministik berdasarkan atribut unik kontrak, termasuk hashing kode sumber terverifikasi.
+	\item \texttt{dgraph\textunderscore txn}: Context manager untuk memulai transaksi Dgraph; melakukan commit pada transaksi tulis dan selalu melakukan discard di akhir.
+	\item \texttt{alter\textunderscore schema}: Mengirim operasi untuk memperbarui skema Dgraph berdasarkan string skema yang diberikan.
+	\item \texttt{get\textunderscore contracts}: Mengambil daftar kontrak dengan opsi paging (\texttt{batch\textunderscore \\size}, \texttt{offset}) dan filter \texttt{enriched} untuk memisahkan kontrak yang sudah berisi deskripsi.
+	\item \texttt{get\textunderscore contract\textunderscore by\textunderscore id}: Mengambil data kontrak berdasarkan ID deterministik yang dihasilkan oleh \texttt{generate\textunderscore contract\textunderscore id}.
+	\item \texttt{get\textunderscore contract\textunderscore by\textunderscore uid}: Mengambil data kontrak berdasarkan UID internal Dgraph.
+	\item \texttt{get\textunderscore contracts\textunderscore count}: Mengembalikan jumlah total kontrak dengan opsi menghitung semua, hanya enriched, atau hanya non-enriched.
+	\item \texttt{mutate}: Melakukan mutasi insert/update pada Dgraph sesuai data Python dan mengembalikan respons mutasi.
+	\item \texttt{insert\textunderscore embeddings}: Menyisipkan vektor embedding ke dalam field \\\texttt{ContractDeployment.embeddings}.
+	\item \texttt{vector\textunderscore search}: Melakukan pencarian mirip-vektor dengan query bahasa alami dan mengembalikan kontrak terdekat beserta skor kemiripan kosinus.
+	\item \texttt{search\textunderscore by\textunderscore text\textunderscore source\textunderscore code}: Melakukan pencarian kontrak berdasarkan teks \textit{source code} Solidity, mengembalikan kontrak yang sesuai teks pencarian.
+	\item \texttt{search\textunderscore by\textunderscore text}: Melakukan pencarian kontrak berdasarkan teks deskripsi semantik yang dihasilkan, mengembalikan kontrak yang sesuai teks pencarian.
+	\item \texttt{close}: Menutup stub koneksi ke Dgraph dan membersihkan sumber daya.
 \end{enumerate}

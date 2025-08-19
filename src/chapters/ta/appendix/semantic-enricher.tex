@@ -2,11 +2,11 @@
 \label{appendix:semantic-enricher}
 
 \begin{enumerate}
-    \item \texttt{logger}: Objek logger untuk mencatat informasi, peringatan, dan kesalahan selama proses enrichment.
-    \item \texttt{llm}: Model LLM utama yang digunakan untuk menghasilkan keluaran JSON terstruktur sesuai skema semantic.
-    \item \texttt{parser}: JsonOutputParser untuk mem-parse output dari LLM menjadi objek Python (dict) sesuai format yang diinginkan.
-    \item \texttt{prompt}: ChatPromptTemplate yang berisi instruksi untuk menghasilkan JSON minified dengan kunci seperti description, functionality\textunderscore classification, application\textunderscore domain, dan security\textunderscore risks\textunderscore description.
-    \item \texttt{\textunderscore init\textunderscore }: Konstruktor yang menginisialisasi logger, llm, parser, dan prompt templates.
-    \item \texttt{enrich}: Metode async yang menerima data kontrak, melakukan praproses dengan \texttt{preprocess\textunderscore llm}, membangun chain \texttt{prompt | llm | parser}, serta menambahkan prefix \texttt{ContractDeployment.} pada setiap kunci dan field \texttt{uid}, kemudian mengembalikan dict hasil enrich.
-    \item \texttt{preprocess}: Metode sinkron untuk membersihkan kode Solidity (menghapus komentar, header, boilerplate, dan pengurangan token count) serta menerapkan batasan maksimal 4000 token. Metode ini \textit{deprecated} setelah iterasi perbaikan sistem.
+	\item \texttt{logger}: Objek logger untuk mencatat informasi, peringatan, dan kesalahan selama proses enrichment.
+	\item \texttt{llm}: Model LLM utama yang digunakan untuk menghasilkan keluaran JSON terstruktur sesuai skema semantic.
+	\item \texttt{parser}: JsonOutputParser untuk mem-parse output dari LLM menjadi objek Python (dict) sesuai format yang diinginkan.
+	\item \texttt{prompt}: ChatPromptTemplate yang berisi instruksi untuk menghasilkan JSON minified dengan kunci seperti description, functionality\textunderscore classification, application\textunderscore domain, dan security\textunderscore risks\textunderscore description.
+	\item \texttt{\textunderscore init\textunderscore }: Konstruktor yang menginisialisasi logger, llm, parser, dan prompt templates.
+	\item \texttt{enrich}: Metode async yang menerima data kontrak, melakukan praproses dengan \texttt{preprocess\textunderscore llm}, membangun chain \texttt{prompt | llm | parser}, serta menambahkan prefix \texttt{ContractDeployment.} pada setiap kunci dan field \texttt{uid}, kemudian mengembalikan dict hasil enrich.
+	\item \texttt{preprocess}: Metode sinkron untuk membersihkan kode Solidity (menghapus komentar, header, boilerplate, dan pengurangan token count) serta menerapkan batasan maksimal 4000 token. Metode ini \textit{deprecated} setelah iterasi perbaikan sistem.
 \end{enumerate}
