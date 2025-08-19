@@ -1,11 +1,12 @@
-\section{Ease of Use}
+\section{Related Work}\label{sec:related}
 
-\subsection{Maintaining the Integrity of the Specifications}
+\subsection{Smart Contract Indexing and Analysis}
+Several research efforts have focused on extracting and indexing blockchain data to improve accessibility. Third and Domingue~\cite{b4} proposed using Linked Data principles to create a semantic index for Ethereum, mapping blockchain entities to an ontology. The Graph Protocol~\cite{b5} offers a decentralized indexing solution where ``subgraphs'' can be defined to query specific on-chain data via a GraphQL API. While powerful for querying transactional data, these systems do not focus on the semantic content of the contract code itself.
 
-The IEEEtran class file is used to format your paper and style the text. All margins,
-column widths, line spaces, and text fonts are prescribed; please do not
-alter them. You may note peculiarities. For example, the head margin
-measures proportionately more than is customary. This measurement
-and others are deliberate, using specifications that anticipate your paper
-as one part of the entire proceedings, and not as an independent document.
-Please do not revise any of the current designations.
+For code analysis, tools have emerged to make sense of compiled bytecode. The STAN system~\cite{b6} aimed to describe the functionality of closed-source contracts by analyzing their bytecode. Similarly, the eth2dgraph tool~\cite{b7}, which we utilize in our work, can decompile bytecode to extract a contract's Application Binary Interface (ABI) using heimdall-rs. However, these approaches are limited by the information loss that occurs during compilation and do not capture the high-level design intent available in source code. Furthermore, there is no present research that has explored utilizing LLM's capability to analyze source code into analyzing smart contracts' source code.
+
+\subsection{Semantic Code Search}
+The application of Natural Language Processing (NLP) to code search has gained traction. Zhang~\cite{b8} developed a ``Solidity Summarizer'' using transformer models to generate natural language comments for Solidity code, aiming to improve readability. Shi et al.~\cite{b9} proposed MM-SCS, a multi-modal search model that combines textual features with structural information from a ``Contract Elements Dependency Graph'' to improve search accuracy. These methods show the promise of semantic understanding but often require complex model training and do not integrate into a complete, end-to-end discovery system.
+
+\subsection{Gap Analysis}
+Our work builds upon these foundations but addresses a critical gap. While previous systems focused on either indexing transactions or analyzing code structure, our approach leverages the advanced reasoning capabilities of modern LLMs to create a rich, structured semantic layer directly from source code. Furthermore, our work focuses on a real data pipeline, utilizing eth2dgraph capability to extract the full blockchain data into the database. By integrating this pipeline, complete with deep semantic enrichment into a scalable architecture featuring a graph database and vector search, we provide a full-fledged discovery system that allows developers to find contracts based on what they do, not just what words they contain.

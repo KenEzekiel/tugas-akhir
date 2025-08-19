@@ -1,179 +1,97 @@
-\section{Prepare Your Paper Before Styling}
-Before you begin to format your paper, first write and save the content as a
-separate text file. Complete all content and organizational editing before
-formatting. Please note sections\ \ref{AA}--\ref{SCM} below for more information on
-proofreading, spelling and grammar.
+\section{System Design and Architecture}\label{sec:system}
 
-Keep your text and graphic files separate until after the text has been
-formatted and styled. Do not number text heads---{\LaTeX} will do that
-for you.
+\subsection{Overall Architecture}
+The proposed system is a multi-layered pipeline that transforms raw blockchain data into a searchable semantic index. The architecture, shown in Fig.~\ref{fig:architecture}, consists of five primary layers: Data Access, Data Extraction, Data Modeling \& Storage, Semantic Enrichment, and Search \& Retrieval. Fig.~\ref{fig:process} shows the components and the process inside the system.
 
-\subsection{Abbreviations and Acronyms}\label{AA}
-Define abbreviations and acronyms the first time they are used in the text,
-even after they have been defined in the abstract. Abbreviations such as
-IEEE, SI, MKS, CGS, ac, dc, and rms do not have to be defined. Do not use
-abbreviations in the title or heads unless they are unavoidable.
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=0.48\textwidth]{resources/chapter-3/layer-arsitektur-new.png}}
+	\caption{High-level system architecture.}\label{fig:architecture}
+\end{figure}
 
-\subsection{Units}
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=0.48\textwidth]{resources/chapter-3/komponen-utama-new.png}}
+	\caption{High-level system process.}\label{fig:process}
+\end{figure}
+
+\subsection{Data Extraction and Modeling}
+The process begins with extracting data from an Ethereum Archive Node. We use the eth2dgraph tool~\cite{b7} for this task, as it efficiently extracts contract deployments and links them to verified source code from repositories like Smart Contract Sanctuary~\cite{b10}. The extracted data is loaded into Dgraph, a distributed graph database. Then, a schema that holds placeholders for semantic enrichment results are applied to the data.
+
+\subsection{The Semantic Enrichment Pipeline}
+This pipeline is the core of our contribution. For each contract with verified source code, we perform semantic enrichment using an LLM (OpenAI's GPT-4o mini). The process is as follows:
+\begin{enumerate}
+	\item \textbf{Input Preparation:} The flattened Solidity source code of a contract is fed into the LLM.
+	\item \textbf{Prompt Engineering:} A carefully designed prompt instructs the LLM to act as an expert smart contract auditor and return a single, minified JSON object based on a strict schema.
+	\item \textbf{Structured JSON Generation:} The LLM analyzes the code and generates a JSON object containing key fields such as:
+	      \begin{itemize}
+		      \item \texttt{description}: A high-level summary of the contract's purpose.
+		      \item \texttt{standards}: A list of implemented ERC/EIP standards (e.g., erc-20, eip-1967).
+		      \item \texttt{patterns}: A list of common design patterns (e.g., proxy\_uups, access\_control\_ownable).
+		      \item \texttt{functionalities}: Granular tags for specific actions (e.g., token\_minting, onchain\_voting).
+		      \item \texttt{application\_domain}: The single most evident domain (e.g., defi\_dex, nft\_collection).
+		      \item \texttt{security\_risks\_description}: \\A brief analysis of potential security risks.
+	      \end{itemize}
+\end{enumerate}
+
+This structured output is then saved back into the corresponding ContractDeployment node in Dgraph. The LLM used in the pipeline leverages LangChain's adaptor to quickly switch models based on configuration.
+
+\subsection{Semantic Retrieval Mechanism}
+To enable fast and accurate search, we use a vector-based retrieval mechanism:
+
 \begin{itemize}
-	\item Use either SI (MKS) or CGS as primary units. (SI units are encouraged.) English units may be used as secondary units (in parentheses). An exception would be the use of English units as identifiers in trade, such as ``3.5-inch disk drive''.
-	\item Avoid combining SI and CGS units, such as current in amperes and magnetic field in oersteds. This often leads to confusion because equations do not balance dimensionally. If you must use mixed units, clearly state the units for each quantity that you use in an equation.
-	\item Do not mix complete spellings and abbreviations of units: ``Wb/m\textsuperscript{2}'' or ``webers per square meter'', not ``webers/m\textsuperscript{2}''. Spell out units when they appear in text: ``$.\ .\ .\ $a few henries'', not ``$.\ .\ .\ $ a few H''.
-	\item Use a zero before decimal points: ``0.25'', not ``.25''. Use ``cm\textsuperscript{3}'', not ``cc''.
+	\item \textbf{Embedding Generation:} The enriched JSON object for each contract is serialized into a descriptive string. This string is then converted into a high-dimensional vector embedding using a sentence-transformer model (BAAI/bge-small-en-v1.5). These embeddings are stored and indexed in Dgraph.
+	\item \textbf{Query Processing:} A user's natural language query (e.g., ``upgradable contracts'') is converted into a vector embedding using the same model.
+	\item \textbf{Vector Search:} We use Dgraph's built-in HNSW (Hierarchical Navigable Small World) index to find the contract embeddings closest to the query embedding, measured by Cosine Similarity. The system returns a ranked list of the most relevant contracts.
 \end{itemize}
 
-\subsection{Equations}
-Number equations consecutively. To make your
-equations more compact, you may use the solidus (~/~), the exp function, or
-appropriate exponents. Italicize Roman symbols for quantities and variables,
-but not Greek symbols. Use a long dash rather than a hyphen for a minus
-sign. Punctuate equations with commas or periods when they are part of a
-sentence, as in:
-\begin{equation}
-	a+b=\gamma\label{eq}
-\end{equation}
+\section{Implementation and Evaluation}\label{sec:implementation}
 
-Be sure that the
-symbols in your equation have been defined before or immediately following
-the equation. Use ``\eqref{eq}'', not ``Eq.~\eqref{eq}'' or ``equation\ \eqref{eq}'', except at
-the beginning of a sentence: ``Equation\ \eqref{eq} is $.\ .\ .\ $'
+\subsection{Implementation Details}
+The system backend was built with Python using the FastAPI framework. Dgraph served as both the graph and vector database. The enrichment process was powered by the OpenAI API, and embeddings were generated using the HuggingFace Transformers library. A web-based UI was developed using Next.js.
 
-\subsection{\LaTeX-Specific Advice}
+\subsection{Experimental Setup}
+We conducted an experiment on a dataset of 118 verified smart contracts extracted from the Ethereum mainnet to validate our approach.
 
-Please use ``soft'' (e.g., \verb|\eqref{Eq}|) cross references instead
-of ``hard'' references (e.g., \verb|(1)|). That will make it possible
-to combine sections, add equations, or change the order of figures or
-citations without having to go through the file line by line.
+\textbf{Metric:} We used Precision@10 as the primary evaluation metric. Relevance was determined by manual evaluation against a pre-defined, objective rubric based on verifiable source code evidence (e.g., inheritance from Ownable.sol, use of DELEGATECALL).
 
-Please don't use the \verb|{eqnarray}| equation environment. Use
-\verb|{align}| or \verb|{IEEEeqnarray}| instead. The \verb|{eqnarray}|
-environment leaves unsightly spaces around relation symbols.
-
-Please note that the \verb|{subequations}| environment in {\LaTeX}
-will increment the main equation counter even when there are no
-equation numbers displayed. If you forget that, you might write an
-article in which the equation numbers skip from (17) to (20), causing
-the copy editors to wonder if you've discovered a new method of
-counting.
-
-	{\BibTeX} does not work by magic. It doesn't get the bibliographic
-data from thin air but from \texttt{.bib} files. If you use {\BibTeX} to produce a
-bibliography you must send the \texttt{.bib} files.
-
-	{\LaTeX} can't read your mind. If you assign the same label to a
-subsubsection and a table, you might find that Table I has been cross
-referenced as Table IV-B3.
-
-{\LaTeX} does not have precognitive abilities. If you put a
-\verb|\label| command before the command that updates the counter it's
-supposed to be using, the label will pick up the last counter to be
-cross referenced instead. In particular, a \verb|\label| command
-should not go before the caption of a figure or a table.
-
-Do not use \verb|\nonumber| inside the \verb|{array}| environment. It
-will not stop equation numbers inside \verb|{array}| (there won't be
-any anyway) and it might stop a wanted equation number in the
-surrounding equation.
-
-\subsection{Some Common Mistakes}\label{SCM}
+\textbf{Baselines:} We compared our method against two baselines:
 \begin{itemize}
-	\item The word ``data'' is plural, not singular.
-	\item The subscript for the permeability of vacuum $\mu_{0}$, and other common scientific constants, is zero with subscript formatting, not a lowercase letter ``o''.
-	\item In American English, commas, semicolons, periods, question and exclamation marks are located within quotation marks only when a complete thought or name is cited, such as a title or full quotation. When quotation marks are used, instead of a bold or italic typeface, to highlight a word or phrase, punctuation should appear outside of the quotation marks. A parenthetical phrase or statement at the end of a sentence is punctuated outside of the closing parenthesis (like this). (A parenthetical sentence is punctuated within the parentheses.)
-	\item A graph within a graph is an ``inset'', not an ``insert''. The word alternatively is preferred to the word ``alternately'' (unless you really mean something that alternates).
-	\item Do not use the word ``essentially'' to mean ``approximately'' or ``effectively''.
-	\item In your paper title, if the words ``that uses'' can accurately replace the word ``using'', capitalize the ``u''; if not, keep using lower-cased.
-	\item Be aware of the different meanings of the homophones ``affect'' and ``effect'', ``complement'' and ``compliment'', ``discreet'' and ``discrete'', ``principal'' and ``principle''.
-	\item Do not confuse ``imply'' and ``infer''.
-	\item The prefix ``non'' is not a word; it should be joined to the word it modifies, usually without a hyphen.
-	\item There is no period after the ``et'' in the Latin abbreviation ``\textnormal{et al.}''.
-	\item The abbreviation ``\textnormal{i.e.}'' means ``that is'', and the abbreviation ``\textnormal{e.g.}'' means ``for example''.
+	\item Baseline 1 (Keyword-Source): Full-text search on raw source code.
+	\item Baseline 2 (Keyword-Semantic): Full-text search on the LLM-generated descriptions.
+	\item Proposed Method (Vector Search): Our semantic search using vector embeddings.
 \end{itemize}
-An excellent style manual for science writers is\ \cite{b7}.
 
-\subsection{Authors and Affiliations}
-\textbf{The class file is designed for, but not limited to, six authors.} A
-minimum of one author is required for all conference articles. Author names
-should be listed starting from left to right and then moving down to the
-next line. This is the author sequence that will be used in future citations
-and by indexing services. Names should not be listed in columns nor group by
-affiliation. Please keep your affiliations as succinct as possible (for
-example, do not differentiate among departments of the same organization).
+\textbf{Queries:} A set of 20 queries was used, ranging from simple keywords (``erc-20'') to complex natural language descriptions (``contracts that can be upgraded...'').
 
-\subsection{Identify the Headings}
-Headings, or heads, are organizational devices that guide the reader through
-your paper. There are two types: component heads and text heads.
-
-Component heads identify the different components of your paper and are not
-topically subordinate to each other. Examples include Acknowledgments and
-References and, for these, the correct style to use is ``Heading 5''. Use
-``figure caption'' for your Figure captions, and ``table head'' for your
-table title. Run-in heads, such as ``Abstract'', will require you to apply a
-style (in this case, italic) in addition to the style provided by the drop
-down menu to differentiate the head from the text.
-
-Text heads organize the topics on a relational, hierarchical basis. For
-example, the paper title is the primary text head because all subsequent
-material relates and elaborates on this one topic. If there are two or more
-sub-topics, the next level head (uppercase Roman numerals) should be used
-and, conversely, if there are not at least two sub-topics, then no subheads
-should be introduced.
-
-\subsection{Figures and Tables}
-\paragraph{Positioning Figures and Tables} Place figures and tables at the top and
-bottom of columns. Avoid placing them in the middle of columns. Large
-figures and tables may span across both columns. Figure captions should be
-below the figures; table heads should appear above the tables. Insert
-figures and tables after they are cited in the text. Use the abbreviation
-``Fig.~\ref{fig}'', even at the beginning of a sentence.
+\subsection{Results and Analysis}
+The results of our evaluation, summarized in Table~\ref{tab:results}, demonstrate the clear superiority of our semantic search approach.
 
 \begin{table}[htbp]
-	\caption{Table Type Styles}\label{tab1}
+	\caption{Precision@10 Results}\label{tab:results}
 	\begin{center}
-		\begin{tabular}{c c c c}
+		\begin{tabular}{l l c}
 			\toprule
-			\textbf{Table} & \multicolumn{3}{|c|}{\textbf{Table Column Head}}                                                         \\
-			\cline{2-4}
-			\textbf{Head}  & \textbf{\textit{Table column subhead}}           & \textbf{\textit{Subhead}} & \textbf{\textit{Subhead}} \\
+			\textbf{Search Method}   & \textbf{Query Type} & \textbf{Average Precision} \\
 			\midrule
-			copy           & More table copy$^{\mathrm{a}}$                   &                           &                           \\
+			Keyword-Source           & Keyword             & 39.2\%                     \\
+			Keyword-Semantic         & Keyword             & 49.0\%                     \\
+			Keyword-Semantic         & Natural Language    & 27.5\%                     \\
+			Vector Search (Proposed) & Keyword             & 72.5\%                     \\
+			Vector Search (Proposed) & Natural Language    & 65.0\%                     \\
 			\bottomrule
-			\multicolumn{4}{l}{$^{\mathrm{a}}$Sample of a Table footnote.}
 		\end{tabular}
 	\end{center}
 \end{table}
 
-\begin{figure}[htbp]
-	\centerline{\includegraphics[width=0.3\textwidth]{resources/cover-ganesha.jpg}}
-	\caption{Example of a figure caption.}\label{fig}
-\end{figure}
+Our proposed vector search method significantly outperformed both baselines, achieving 72.5\% precision with keyword queries and 65.0\% with natural language queries. Keyword search on raw source code was the least effective (39.2\%), highlighting its inability to grasp context.
 
-Figure Labels: Use 8 point Times New Roman for Figure labels. Use words
-rather than symbols or abbreviations when writing Figure axis labels to
-avoid confusing the reader. As an example, write the quantity
-``Magnetization'', or ``Magnetization, M'', not just ``M''. If including
-units in the label, present them within parentheses. Do not label axes only
-with units. In the example, write ``Magnetization (A/m)'' or ``Magnetization
-\{A[m\@(1)]\}'', not just ``A/m''. Do not label axes with a ratio of
-quantities and units. For example, write ``Temperature (K)'', not
-``Temperature/K''.
+The analysis reveals that semantic search succeeds because it understands intent. For instance, for the query ``contracts that can be upgraded,'' a keyword search might find contracts containing the word ``upgrade'' but miss those implementing a proxy pattern without using that specific term. Our system, however, identifies the proxy\_uups or proxy\_transparent patterns during enrichment, allowing it to correctly retrieve these contracts. The LLM-generated descriptions serve as a powerful intermediate representation that bridges the semantic gap between a developer's needs and the contract's code.
 
-\subsection{References}
-Please number citations consecutively within brackets\ \cite{b1}. The
-sentence punctuation follows the bracket\ \cite{b2}. Refer simply to the reference
-number, as in\ \cite{b3}---do not use ``Ref.\ \cite{b3}'' or ``reference\ \cite{b3}'' except at
-the beginning of a sentence: ``Reference\ \cite{b3} was the first $\ldots$''
+The system also proved feasible for large-scale application. The average cost for enriching a single contract was approximately \$0.002, with a median processing time of 5.56 seconds. Query latency for vector search was consistently low, with a median of 76 ms.
 
-Number footnotes separately in superscripts. Place the actual footnote at
-the bottom of the column in which it was cited. Do not put footnotes in the
-abstract or reference list. Use letters for table footnotes.
+\section{Conclusion and Future Work}\label{sec:conclusion}
 
-Unless there are six authors or more give all authors' names; do not use
-``\textnormal{et al.}''. Papers that have not been published, even if they have been
-submitted for publication, should be cited as ``unpublished''\ \cite{b4}. Papers
-that have been accepted for publication should be cited as ``in press''\ \cite{b5}.
-Capitalize only the first word in a paper title, except for proper nouns and
-element symbols.
+\subsection{Conclusion}
+This paper presented a Smart Contract Discovery System that addresses the critical challenge of discovering deployed smart contracts and public on-chain infrastructure. By leveraging Large Language Models to create a deep semantic understanding of source code and making it searchable via natural language, our system provides a highly effective and precise method for finding functionally relevant contracts. The empirical results confirm that this approach can significantly improve developer workflow, promote better integration with existing on-chain infrastructure, and contribute to a more efficient and composable blockchain ecosystem.
 
-For papers published in translation journals, please give the English
-citation first, followed by the original foreign-language citation\ \cite{b6}.
+\subsection{Future Work}
+There are several promising directions for future research. First, the system could be extended to use another conversational AI layer to understand user's intent and craft a requirement query. Second, the retrieval mechanism could be enhanced by implementing a re-ranking stage that combines semantic similarity with on-chain metrics like transaction count or security audit history. Finally, the rich, structured data from our pipeline could be used to construct a comprehensive knowledge graph of the smart contract ecosystem, enabling deeper insights into the relationships and dependencies within the decentralized world.

@@ -1,4 +1,25 @@
 
 \section{Introduction}
-This document is a model and instructions for \LaTeX.
-Please observe the conference page limits.
+
+\subsection{Background and Motivation}
+Smart contracts have evolved beyond simple asset issuance to become foundational components of a complex, interconnected on-chain economy. A growing number of use cases now depend on interacting with contracts that are already deployed, such as integrating a stablecoin like USDC into a payment flow, or building applications on top of contracts that function as public infrastructure---shared, reusable resources like the Uniswap V3 Factory, the Ethereum Name Service (ENS) Registry, or various oracle and bridge protocols~\cite{b1}.
+
+This explosive growth, however, presents a significant challenge: discoverability. The vast number of contracts makes it difficult for developers to find and reuse existing, audited, and battle-tested code. Effective contract reuse is critical for improving development efficiency, enhancing security by leveraging proven components, and effectively connecting the on-chain development platform together. Recent advancement tried to tackle this problem by using a machine learning based approach, but none have succeeded in bridging the industry and capitalize on the opportunity that LLMs offer~\cite{b3}.
+
+\subsection{Problem Statement}
+Current mechanisms for discovering smart contracts, such as the search functionality on block explorers like Etherscan, are primarily based on keyword matching. These systems lack the ability to understand the semantic context or functional intent of the code. A developer searching for a contract with specific features (e.g. DeX Liquidity Pools, Bridges, or Stablecoin contracts) would find it nearly impossible to locate the relevant contract unless those contracts are registered in a repository and the exact keywords used to search it appear in the contract's name or code.
+
+This semantic gap leads to one core problem, that is the inability to find specific smart contracts that are relevant to user's requirements.
+
+\subsection{Proposed Solution and Contributions}
+To address these challenges, we propose a semantic-based Smart Contract Discovery System. Our system introduces a data pipeline that extracts smart contracts data from an Ethereum Network and employs Large Language Models (LLMs) to perform deep semantic analysis of Solidity source code, generating rich, structured metadata that captures a contract's purpose, design patterns, and functionalities. This enriched data is stored in a graph database and indexed for efficient, semantic-based retrieval.
+
+The key contributions of this work are:
+\begin{itemize}
+	\item A novel semantic enrichment pipeline that is directly used with real industry use cases and uses an LLM to analyze source code to generate structured metadata, including descriptions, standards adherence (e.g., ERC-20, ERC-721), design patterns (e.g., Proxy, Factory), and application domains (e.g., DeFi, NFT).
+	\item A comprehensive system architecture that integrates data extraction from an Ethereum Archive Node (eth2dgraph), graph-based data modeling (Dgraph), and vector-based retrieval for scalable and context-aware search.
+	\item An empirical evaluation demonstrating that the proposed semantic search system achieves significantly higher precision (68.5\%) compared to traditional keyword-based search on source code (39\%) and keyword search on semantic descriptions (49\%).
+\end{itemize}
+
+\subsection{Paper Structure}
+The remainder of this paper is organized as follows. Section~\ref{sec:related} reviews related work in smart contract analysis and semantic code search. Section~\ref{sec:system} details the system's architecture and methodology. Section~\ref{sec:implementation} presents the implementation, experimental setup, and results. Finally, Section~\ref{sec:conclusion} concludes the paper and discusses future work.
