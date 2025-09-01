@@ -14,13 +14,19 @@ The proposed system is a multi-layered pipeline that transforms raw blockchain d
 \end{figure}
 
 \subsection{Data Extraction and Modeling}
-The process begins with extracting data from an Ethereum Archive Node. We use the eth2dgraph tool~\cite{b7} for this task, as it efficiently extracts contract deployments and links them to verified source code from repositories like Smart Contract Sanctuary~\cite{b10}. The extracted data is loaded into Dgraph, a distributed graph database. Then, a schema that holds placeholders for semantic enrichment results are applied to the data.
+The process begins with extracting data from an Ethereum Archive Node. We use the eth2dgraph tool~\cite{b7} for this task, as it efficiently extracts contract deployments and links them to verified source code from repositories like Smart Contract Sanctuary~\cite{b10}. The extracted data is loaded into Dgraph, a distributed graph database. The main reason Dgraph is used here is for its practicality--included in the eth2dgraph and have a feature to store and search vector embeddings--and also its scalability, which can handle large amounts of data without compromising latency. Then, a schema that holds placeholders for semantic enrichment results are applied to the data. This schema will hold the semantic enrichment results, which will then be used to search the contracts. The applied schema can easily be tweaked, resulting in a flexible system that can accommodate dynamic improvements.
 
 \subsection{The Semantic Enrichment Pipeline}
-This pipeline is the core of our contribution. For each contract with verified source code, we perform semantic enrichment using an LLM (OpenAI's GPT-4o mini). The process is as follows:
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=0.48\textwidth]{resources/chapter-3/proses-semantik-enrichment.png}}
+	\caption{Semantic Enrichment Pipeline.}\label{fig:pipeline}
+\end{figure}
+
+Fig.~\ref{fig:pipeline} shows the pipeline process, which is the core of our contribution. For each contract with verified source code, we perform semantic enrichment using an LLM (OpenAI's GPT-4o mini). The process is as follows:
 \begin{enumerate}
 	\item \textbf{Input Preparation:} The flattened Solidity source code of a contract is fed into the LLM.
-	\item \textbf{Prompt Engineering:} A carefully designed prompt instructs the LLM to act as an expert smart contract auditor and return a single, minified JSON object based on a strict schema.
+	\item \textbf{Prompt Engineering:} A carefully designed prompt instructs the LLM to act as an expert smart contract auditor and return a single, minified JSON object based on a strict schema. This prompt also gives explanation of each values as a context for the LLM when inferring.
 	\item \textbf{Structured JSON Generation:} The LLM analyzes the code and generates a JSON object containing key fields such as:
 	      \begin{itemize}
 		      \item \texttt{description}: A high-level summary of the contract's purpose.
@@ -32,24 +38,29 @@ This pipeline is the core of our contribution. For each contract with verified s
 	      \end{itemize}
 \end{enumerate}
 
-This structured output is then saved back into the corresponding ContractDeployment node in Dgraph. The LLM used in the pipeline leverages LangChain's adaptor to quickly switch models based on configuration.
+This structured output is then saved back into the corresponding ContractDeployment node in Dgraph. The LLM used in the pipeline leverages LangChain's adaptor to quickly switch models based on configuration. Parallelization is also supported in the pipeline, as one data enrichment does not depend on another, so parallel speed up can be achieved with the pipeline.
 
 \subsection{Semantic Retrieval Mechanism}
 To enable fast and accurate search, we use a vector-based retrieval mechanism:
 
 \begin{itemize}
-	\item \textbf{Embedding Generation:} The enriched JSON object for each contract is serialized into a descriptive string. This string is then converted into a high-dimensional vector embedding using a sentence-transformer model (BAAI/bge-small-en-v1.5). These embeddings are stored and indexed in Dgraph.
-	\item \textbf{Query Processing:} A user's natural language query (e.g., ``upgradable contracts'') is converted into a vector embedding using the same model.
+	\item \textbf{Embedding Generation:} The enriched JSON object for each contract is serialized into a descriptive string. This string is then converted into a high-dimensional vector embedding using a sentence-transformer model (BAAI/bge-small-en-v1.5). These embeddings are stored and indexed in Dgraph. To improve the embeddings result, a dictionary that consists of string description of domain-specific keywords is applied to expand each keywords when the keyword appears. This mechanism ensures that abbreviations or domain-specific keywords can be understood without pre-training an LLM.
+	\item \textbf{Query Processing:} A user's natural language query (e.g., ``upgradable contracts'') is converted into a vector embedding using the same model. This mechanism can also include an expansion mechanism leveraging the same dictionary as used in the embeddings transformation process to expand domain-specific keywords.
 	\item \textbf{Vector Search:} We use Dgraph's built-in HNSW (Hierarchical Navigable Small World) index to find the contract embeddings closest to the query embedding, measured by Cosine Similarity. The system returns a ranked list of the most relevant contracts.
 \end{itemize}
 
 \section{Implementation and Evaluation}\label{sec:implementation}
 
 \subsection{Implementation Details}
-The system backend was built with Python using the FastAPI framework. Dgraph served as both the graph and vector database. The enrichment process was powered by the OpenAI API, and embeddings were generated using the HuggingFace Transformers library. A web-based UI was developed using Next.js.
+The system backend was built with Python using the FastAPI framework. Dgraph served as both the graph and vector database. The enrichment process was powered by the OpenAI API, and embeddings were generated using the HuggingFace Transformers library. A web-based UI was developed using Next.js. Fig.~\ref{fig:structure} shows the structural design of the system, which consists of 4 main components, each of which interacts with each other.
+
+\begin{figure}[htbp]
+	\centerline{\includegraphics[width=0.48\textwidth]{resources/chapter-3/struktural-eng.png}}
+	\caption{System structure design.}\label{fig:structure}
+\end{figure}
 
 \subsection{Experimental Setup}
-We conducted an experiment on a dataset of 118 verified smart contracts extracted from the Ethereum mainnet to validate our approach.
+We conducted an experiment on a dataset of 118 verified smart contracts extracted from the Ethereum mainnet to validate our approach. This dataset ensures randomness by using a random block range from the mainnet. This curated dataset's main objective is to prove that within the limited domain, the system can precisely retrieve contracts based on the search intent, with capabilities to be expanded to accommodate larger domains.
 
 \textbf{Metric:} We used Precision@10 as the primary evaluation metric. Relevance was determined by manual evaluation against a pre-defined, objective rubric based on verifiable source code evidence (e.g., inheritance from Ownable.sol, use of DELEGATECALL).
 
@@ -84,9 +95,9 @@ The results of our evaluation, summarized in Table~\ref{tab:results}, demonstrat
 
 Our proposed vector search method significantly outperformed both baselines, achieving 72.5\% precision with keyword queries and 65.0\% with natural language queries. Keyword search on raw source code was the least effective (39.2\%), highlighting its inability to grasp context.
 
-The analysis reveals that semantic search succeeds because it understands intent. For instance, for the query ``contracts that can be upgraded,'' a keyword search might find contracts containing the word ``upgrade'' but miss those implementing a proxy pattern without using that specific term. Our system, however, identifies the proxy\_uups or proxy\_transparent patterns during enrichment, allowing it to correctly retrieve these contracts. The LLM-generated descriptions serve as a powerful intermediate representation that bridges the semantic gap between a developer's needs and the contract's code.
+The analysis reveals that semantic search succeeds because it understands intent, both from user query and the smart contract data. For instance, for the query ``contracts that can be upgraded,'' a keyword search might find contracts containing the word ``upgrade'' but miss those implementing a proxy pattern without using that specific term. Our system, however, identifies the proxy\_uups or proxy\_transparent patterns from the source code during enrichment, allowing it to correctly retrieve these contracts. The LLM-generated descriptions serve as a powerful intermediate representation that bridges the semantic gap between a developer's needs and the contract's code.
 
-The system also proved feasible for large-scale application. The average cost for enriching a single contract was approximately \$0.002, with a median processing time of 5.56 seconds. Query latency for vector search was consistently low, with a median of 76 ms.
+The system also proved feasible for large-scale application. With high degree of parallelization, the system can effectively index all verified smart contracts. The average cost for enriching a single contract using OpenAI's GPT-4o mini was approximately \$0.002, with a median processing time of 5.56 seconds. Query latency for vector search was consistently low, with a median of 76 ms. Calculated for all of verified smart contracts in the current mainnet, totaling about 790,354 contracts, the total cost would take as much as \$1,541 and 12.2 hours with 100 process parallelization. For storage, using calculation from the mainnet sanctuary that consists of 344,250 contracts, it takes about 28 GB of memory, so because the linear nature of the storage, it will take about 60 GB for all verified smart contracts source code data.
 
 \section{Conclusion and Future Work}\label{sec:conclusion}
 
